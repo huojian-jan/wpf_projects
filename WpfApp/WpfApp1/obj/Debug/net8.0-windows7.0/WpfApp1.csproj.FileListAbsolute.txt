@@ -1,9 +1,0 @@
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\WpfApp1.csproj.AssemblyReference.cache
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\Views\AboutView.g.cs
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\Views\AddStudentInfoView.g.cs
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\Views\EditStudentView.g.cs
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\Views\StudentInfoView.g.cs
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\App.g.cs
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\GeneratedInternalTypeHelper.g.cs
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\WpfApp1_MarkupCompile.cache
-C:\Users\think\Desktop\open_source\wpf_projects\WpfApp\WpfApp1\obj\Debug\net8.0-windows7.0\WpfApp1_MarkupCompile.lref
