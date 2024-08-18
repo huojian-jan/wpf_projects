@@ -1,0 +1,12 @@
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.csproj.AssemblyReference.cache
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.AssemblyInfoInputs.cache
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.AssemblyInfo.cs
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.csproj.CoreCompileInputs.cache
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Common.deps.json
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Common.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Common.pdb
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\refint\Huojian.LibraryManagement.Common.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Common.pdb
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Common\obj\Debug\net6.0-windows\ref\Huojian.LibraryManagement.Common.dll

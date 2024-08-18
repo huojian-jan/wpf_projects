@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Huojian.LibraryManagement.Views.BookCategoryManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:local="clr-namespace:Huojian.LibraryManagement.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <Label Content="类型名称:" VerticalAlignment="Center" Padding="3"/>
+            <TextBox Padding="3" Width="233" Height="38" Margin="10,0,0,0"/>
+            <Button Width="50" 
+                    Margin="3,0,0,0"
+                    Height="38"
+                    Content="搜索"
+                    Foreground="White"
+                    Background="#00888a"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Width="50" Height="38"
+                    Content="添加"
+                    Foreground="White"
+                    Background="#1499ff"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="2">
+            <DataGrid 
+                  ItemsSource="{Binding Categories,Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="100" Header="类型Id" Binding="{Binding Id}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Height" Value="28"></Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="类型" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="描述" Width="*" Binding="{Binding Description}"/>
+                <DataGridTemplateColumn Width="100" Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Width="30" Height="18" Content="编辑" Background="#2197fa" Foreground="White"/>
+                                <Button Margin="4,0,0,0" Width="30" Height="18" Content="删除" Foreground="White" Background="#ff6723"></Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ContentControl Margin="0,10,0,0"
+                        cal:View.Model="{Binding PaginationViewModel}"></ContentControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,137 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Crontab\**" />
+    <Compile Remove="ErrorHandling\**" />
+    <Compile Remove="Net\**" />
+    <Compile Remove="Stats\**" />
+    <EmbeddedResource Remove="Crontab\**" />
+    <EmbeddedResource Remove="ErrorHandling\**" />
+    <EmbeddedResource Remove="Net\**" />
+    <EmbeddedResource Remove="Stats\**" />
+    <None Remove="Crontab\**" />
+    <None Remove="ErrorHandling\**" />
+    <None Remove="Net\**" />
+    <None Remove="Stats\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Archives\AesEncryption.cs" />
+    <Compile Remove="Archives\EncryptionFactory.cs" />
+    <Compile Remove="Archives\EncryptionKind.cs" />
+    <Compile Remove="Archives\IEncryption.cs" />
+    <Compile Remove="Archives\Pak.cs" />
+    <Compile Remove="Archives\XorEncryption.cs" />
+    <Compile Remove="Extensions\CommandLineExtension.cs" />
+    <Compile Remove="Extensions\DbDataReaderExtension.cs" />
+    <Compile Remove="Extensions\DbParameterCollectionExtension.cs" />
+    <Compile Remove="Extensions\EnumExtension.cs" />
+    <Compile Remove="IPC\BasePipe.cs" />
+    <Compile Remove="IPC\ClientPipe.cs" />
+    <Compile Remove="IPC\IPCActionFilter.cs" />
+    <Compile Remove="IPC\IPCActionInfo.cs" />
+    <Compile Remove="IPC\IPCActionInvoker.cs" />
+    <Compile Remove="IPC\IPCBaseService.cs" />
+    <Compile Remove="IPC\IPCClient.cs" />
+    <Compile Remove="IPC\IPCContext.cs" />
+    <Compile Remove="IPC\IPCException.cs" />
+    <Compile Remove="IPC\IPCExceptionContext.cs" />
+    <Compile Remove="IPC\IPCExceptionFilter.cs" />
+    <Compile Remove="IPC\IPCHandler.cs" />
+    <Compile Remove="IPC\IPCPipeException.cs" />
+    <Compile Remove="IPC\IPCRequest.cs" />
+    <Compile Remove="IPC\IPCResponse.cs" />
+    <Compile Remove="IPC\IPCResponseCode.cs" />
+    <Compile Remove="IPC\IPCResponseError.cs" />
+    <Compile Remove="IPC\IPCResult.cs" />
+    <Compile Remove="IPC\IPCServer.cs" />
+    <Compile Remove="IPC\IPCServiceInfo.cs" />
+    <Compile Remove="IPC\IServiceContainer.cs" />
+    <Compile Remove="IPC\ServerPipe.cs" />
+    <Compile Remove="LogWriter.cs" />
+    <Compile Remove="Utilities\AESHelper.cs" />
+    <Compile Remove="Utilities\AppMutex.cs" />
+    <Compile Remove="Utilities\AttributeUtils.cs" />
+    <Compile Remove="Utilities\Base64Helper.cs" />
+    <Compile Remove="Utilities\ChildSessionHelper.cs" />
+    <Compile Remove="Utilities\ClipboardHelper.cs" />
+    <Compile Remove="Utilities\CommandLine.cs" />
+    <Compile Remove="Utilities\CommonRegex.cs" />
+    <Compile Remove="Utilities\DateTimeHelper.cs" />
+    <Compile Remove="Utilities\DelayInvoker.cs" />
+    <Compile Remove="Utilities\DingTalkRobot.cs" />
+    <Compile Remove="Utilities\DirectoryHelper.cs" />
+    <Compile Remove="Utilities\DispatcherDelayInvoker.cs" />
+    <Compile Remove="Utilities\Downloader.cs" />
+    <Compile Remove="Utilities\EmailService.cs" />
+    <Compile Remove="Utilities\FeiShuRobot.cs" />
+    <Compile Remove="Utilities\FileIcon.cs" />
+    <Compile Remove="Utilities\FolderHook.cs" />
+    <Compile Remove="Utilities\HotKeyRegistry.cs" />
+    <Compile Remove="Utilities\ImageHelper.cs" />
+    <Compile Remove="Utilities\ImapHelper.cs" />
+    <Compile Remove="Utilities\JObjectHelper.cs" />
+    <Compile Remove="Utilities\KeyboardHelper.cs" />
+    <Compile Remove="Utilities\KeyboardHook.cs" />
+    <Compile Remove="Utilities\KnownFolders.cs" />
+    <Compile Remove="Utilities\MarshalEx.cs" />
+    <Compile Remove="Utilities\MathHelper.cs" />
+    <Compile Remove="Utilities\MD5Helper.cs" />
+    <Compile Remove="Utilities\MouseHook.cs" />
+    <Compile Remove="Utilities\NamedStopWatch.cs" />
+    <Compile Remove="Utilities\PathHelper.cs" />
+    <Compile Remove="Utilities\PinyinHelper.cs" />
+    <Compile Remove="Utilities\Policy.cs" />
+    <Compile Remove="Utilities\PriorityBlockingCollection.cs" />
+    <Compile Remove="Utilities\ProcessDump.cs" />
+    <Compile Remove="Utilities\ProcessHelper.cs" />
+    <Compile Remove="Utilities\ProcessJobHelper.cs" />
+    <Compile Remove="Utilities\ProgramHelper.cs" />
+    <Compile Remove="Utilities\PythonStandardLibrary.cs" />
+    <Compile Remove="Utilities\SenderMailBox.cs" />
+    <Compile Remove="Utilities\ShortId.cs" />
+    <Compile Remove="Utilities\SmtpHelper.cs" />
+    <Compile Remove="Utilities\SQLiteHelper.cs" />
+    <Compile Remove="Utilities\TimeoutWebClient.cs" />
+    <Compile Remove="Utilities\UIDispatcher.cs" />
+    <Compile Remove="Utilities\Unique.cs" />
+    <Compile Remove="Utilities\Utility.cs" />
+    <Compile Remove="Utilities\VariableHelper.cs" />
+    <Compile Remove="Utilities\WebUtility.cs" />
+    <Compile Remove="Utilities\WindowsJobObject.cs" />
+    <Compile Remove="Utilities\WineInterfaces.cs" />
+    <Compile Remove="Utilities\WpfHelper.cs" />
+    <Compile Remove="Utilities\WXWorkRobot.cs" />
+    <Compile Remove="Utilities\Zip.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="log4net" Version="3.0.0-preview.2" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MimeKit" Version="4.7.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RestSharp" Version="111.4.1" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Validation" Version="2.6.13-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Archives\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="IPC\" />
+  </ItemGroup>
+
+</Project>

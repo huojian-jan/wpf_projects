@@ -1,0 +1,374 @@
+﻿<Window x:Class="calculator.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:calculator"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:control="clr-namespace:calculator.Views"
+        xmlns:vm="clr-namespace:calculator.ViewModels"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+
+        Title="计算器" Width="375" Height="712" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <ControlTemplate x:Key="validationTemplate">
+            <DockPanel>
+                <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+
+        <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style x:Key="base_button" TargetType="Button">
+            <Setter Property="Background" Value="#4b5efc"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Black"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="72" Height="72" CornerRadius="15" Background="{TemplateBinding Background}">
+                            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+        <Style x:Key="grey_button" TargetType="Button" BasedOn="{StaticResource base_button}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="#d2d3da"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#ffffff"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="white_button" TargetType="Button" BasedOn="{StaticResource base_button}">
+            <Setter Property="Background" Value="#ffffff"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#d2d3da"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="blue_button" TargetType="Button" BasedOn="{StaticResource base_button}">
+            <Setter Property="Background" Value="#4b5efc"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Blue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="expressionValidate" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors)/ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <!--statusBar-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="16,0,0,0">
+                <StackPanel Width="54" Height="20">
+                    <TextBlock Text="{Binding CurrentTime}" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"></TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="16,0,0,0">
+
+            </Grid>
+
+            <Grid Grid.Column="2" Margin="0,0,16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="22"/>
+                    <ColumnDefinition Width="22"/>
+                    <ColumnDefinition Width="22"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="11.33"/>
+                    <RowDefinition Height="12"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">
+                    <!--<Rectangle Fill="Red"/>-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Border BorderThickness="1" Background="Black" VerticalAlignment="Bottom" Width="3" Height="4" CornerRadius="1"/>
+                        <Border BorderThickness="1" Background="Black" VerticalAlignment="Bottom"  Width="3" Height="5.2" CornerRadius="1"/>
+                        <Border BorderThickness="1" Background="Black" VerticalAlignment="Bottom" Width="3" Height="6.5" CornerRadius="1"/>
+                        <Border BorderThickness="1" Background="Black" VerticalAlignment="Bottom" Width="3" Height="7.7" CornerRadius="1"/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center">
+                    <StackPanel></StackPanel>
+                    <Path Height="7.7" Stretch="Uniform" VerticalAlignment="Bottom" Fill="Black" Data="M0 352.832l93.12 98.752c231.296-245.44 606.464-245.44 837.76 0L1024 352.832C741.44 53.056 283.008 53.056 0 352.832z m372.352 395.008L512 896l139.648-148.16c-76.8-81.92-202.048-81.92-279.296 0zM186.24 550.4l93.12 98.752c128.448-136.32 336.96-136.32 465.408 0L837.824 550.4c-179.648-190.592-471.488-190.592-651.648 0z"></Path>
+                </Grid>
+                <Grid Grid.Column="3" Grid.Row="1">
+                    <Border BorderThickness="1" Width="22" Height="11.33" CornerRadius="2" BorderBrush="#957b80" >
+                        <Border Width="18" Height="7.33" Background="Black" CornerRadius="1"></Border>
+                    </Border>
+                </Grid>
+            </Grid>
+            <!--<ContentControl>
+                <control:StatusBarView/>
+            </ContentControl>-->
+        </Grid>
+
+        <!--main panel-->
+        <Grid Background="#f1f2f3" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!---result show-->
+            <Grid Grid.Row="0">
+                <TextBlock Text="{Binding Result}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black" FontSize="30" FontStyle="Normal"/>
+            </Grid>
+
+            <!--input expression-->
+            <Grid Grid.Row="1" Name="input_grid">
+                <TextBox IsReadOnly="True"  Height="80" Validation.ErrorTemplate="{StaticResource validationTemplate}" Style="{StaticResource TextBoxInError}" Width="375" BorderThickness="0" Name="_input" Padding="5" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Light">
+                    <TextBox.Text>
+                        <Binding Path="Input" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <vm:ExpressionValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+            <!--buttons-->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Name="Clear" Grid.Row="0" Grid.Column="0" Style="{StaticResource grey_button}" Content="C"/>
+
+                <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource grey_button}" Content="+/-">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=InputAction, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Remainder" Grid.Row="0" Grid.Column="2" Style="{StaticResource grey_button}" Content="%">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Remainder, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                
+                <Button Name="Division" Grid.Row="0" Grid.Column="3" Style="{StaticResource blue_button}" Content="÷">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Division, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Seven" Grid.Row="1" Grid.Column="0" Style="{StaticResource white_button}" Content="7">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Seven, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                
+                <Button Name="Eight" Grid.Row="1" Grid.Column="1" Style="{StaticResource white_button}" Content="8">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Eight, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                
+                <Button Name="Nine" Grid.Row="1" Grid.Column="2" Style="{StaticResource white_button}" Content="9">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Nine, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+                
+                <Button Name="Multiply" Grid.Row="1" Grid.Column="3" Style="{StaticResource blue_button}" Content="x">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Multiply, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Four" Grid.Row="2" Grid.Column="0" Style="{StaticResource white_button}" Content="4">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Four, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Five" Grid.Row="2" Grid.Column="1" Style="{StaticResource white_button}" Content="5">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Five, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Six" Grid.Row="2" Grid.Column="2" Style="{StaticResource white_button}" Content="6">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Six, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Plus" Grid.Row="2" Grid.Column="3" Style="{StaticResource blue_button}" Content="+">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Plus, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="InputAction" Grid.Row="3" Grid.Column="0" Style="{StaticResource white_button}" Content="1">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=InputAction, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Two" Grid.Row="3" Grid.Column="1" Style="{StaticResource white_button}" Content="2">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Two, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Three" Grid.Row="3" Grid.Column="2" Style="{StaticResource white_button}" Content="3">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Three, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Subtract" Grid.Row="3" Grid.Column="3" Style="{StaticResource blue_button}" Content="-" FontSize="25">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Subtract, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Dot" Grid.Row="4" Grid.Column="0" Style="{StaticResource white_button}" Content="·">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Dot, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Zero" Grid.Row="4" Grid.Column="1" Style="{StaticResource white_button}" Content="0">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="InputAction">
+                                <cal:Parameter Value="{Binding ElementName=Zero, Path=Content}"></cal:Parameter>
+                            </cal:ActionMessage>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </Button>
+
+                <Button Name="Backward" Grid.Row="4" Grid.Column="2" Style="{StaticResource white_button}" Content="x"/>
+                <Button Name="Equal" Grid.Row="4" Grid.Column="3" Style="{StaticResource blue_button}" Content="="/>
+            </Grid>
+        </Grid>
+
+        <!--bottom line-->
+        <Grid Grid.Row="3">
+            <!--<TextBox Text="Bottom Line" FontSize="20"/>-->
+        </Grid>
+    </Grid>
+
+</Window>

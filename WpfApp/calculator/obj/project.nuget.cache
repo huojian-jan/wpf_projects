@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "PENC9tJh3GY=",
+  "success": true,
+  "projectFilePath": "D:\\github_projects\\wpf_projects\\WpfApp\\calculator\\calculator.csproj",
+  "expectedPackageFiles": [
+    "D:\\NUGET_PACKAGES\\caliburn.micro\\4.0.212\\caliburn.micro.4.0.212.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\caliburn.micro.core\\4.0.212\\caliburn.micro.core.4.0.212.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.xaml.behaviors.wpf\\1.1.37\\microsoft.xaml.behaviors.wpf.1.1.37.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.runtime.serialization.primitives\\4.3.0\\system.runtime.serialization.primitives.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}

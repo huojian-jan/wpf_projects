@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Huojian.LibraryManagement.Views.BorrowManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Huojian.LibraryManagement.Views"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="借书卡" 
+                       VerticalAlignment="Center" 
+                       Margin="3,0,0,0"/>
+                <TextBox Height="28" 
+                         Width="200"
+                         Text="{Binding ReaderId,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="图书名称" 
+                       Margin="3,0,0,0" 
+                       VerticalAlignment="Center"/>
+                <TextBox Width="200" 
+                         Height="28" 
+                         VerticalAlignment="Center"
+                         Text="{Binding BookName,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"
+                         Margin="3,0,0,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="图书类型" 
+                       Margin="3,0,0,0" 
+                       VerticalAlignment="Center"/>
+                <ComboBox Width="200"
+                          Height="28"
+                          VerticalAlignment="Center"
+                          ItemsSource="{Binding Categories}"
+                          DisplayMemberPath="Name">
+                </ComboBox>
+            </StackPanel>
+
+            <Button Width="60" 
+                    Height="38"
+                    Content="搜索"
+                    Background="#008789"
+                    Foreground="#FFFFFF"
+                    cal:Message.Attach="Search"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <DataGrid  ItemsSource="{Binding Records,Mode=TwoWay}"
+                       AutoGenerateColumns="False"
+                       CanUserAddRows="False"
+                       CanUserSortColumns="False">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="图书名称" 
+                                        Binding="{Binding BookName}"
+                                        Width="100"/>
+                    <DataGridTextColumn Header="借书卡" 
+                                        Binding="{Binding ReaderId}"
+                                        MaxWidth="200" 
+                                        MinWidth="100"/>
+                    <DataGridTextColumn Header="借阅人" 
+                                        Binding="{Binding ReaderName}"
+                                        Width="100"/>
+
+                    <DataGridTextColumn Header="借阅时间" 
+                                        Binding="{Binding BorrowTime}"
+                                        MinWidth="200"/>
+
+                    <DataGridTextColumn Header="还书时间"
+                                        Binding="{Binding ReturnTime}"
+                                        MinWidth="200"/>
+
+                    <DataGridTextColumn Header="书籍状态" 
+                                        Binding="{Binding BookStatus}"
+                                        Width="100"/>
+
+                    <DataGridTemplateColumn Header="操作">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Width="30" 
+                                        Height="18" 
+                                        Content="删除"
+                                        Background="#ff6725"
+                                        cal:Message.Attach="Delete($this)"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <ContentControl Margin="0,10,0,0"
+                            Visibility="Visible"
+                            cal:View.Model="{Binding PaginationViewModel}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

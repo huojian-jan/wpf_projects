@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="resources\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.2.0" />
+    <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Behaviors\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Huojian.LibraryManagement.Common\Huojian.LibraryManagement.Common.csproj" />
+    <ProjectReference Include="..\Huojian.LibraryManagement.Components.Protocol\Huojian.LibraryManagement.Components.Protocol.csproj" />
+    <ProjectReference Include="..\Huojian.LibraryManagement.Components\Huojian.LibraryManagement.Components.csproj" />
+  </ItemGroup>
+
+</Project>

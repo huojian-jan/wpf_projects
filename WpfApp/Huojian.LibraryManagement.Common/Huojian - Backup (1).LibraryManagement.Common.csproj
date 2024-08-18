@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Archives\" />
+    <Folder Include="Crontab\" />
+    <Folder Include="ErrorHandling\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="IPC\" />
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
+</Project>

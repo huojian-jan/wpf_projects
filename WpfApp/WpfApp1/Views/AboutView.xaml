@@ -1,0 +1,38 @@
+﻿<Window x:Class="WpfApp1.Views.AboutView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:conv="clr-namespace:WpfApp1.Converters"
+        Title="About"  MinHeight="800" MinWidth="800" WindowStyle="SingleBorderWindow">
+
+    <Window.Resources>
+        <conv:Color2SolidBrushConverter x:Key="colorConverter"/>
+
+        <DataTemplate x:Key="combItem" DataType="{x:Type ComboBoxItem}">
+            <StackPanel Orientation="Horizontal" Width="100"  Height="20">
+                <Rectangle Width="20" Height="20" Fill="{Binding Color,Converter={StaticResource colorConverter}}"/>
+                <TextBlock Text="{Binding Name}" Margin="5,0,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="600"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <ComboBox Name="cmb" ItemsSource="{Binding Colors}" SelectedItem="{Binding SelectedColor}" Width="100" Height="28" ItemTemplate="{StaticResource combItem}"
+                      cal:Message.Attach="[Event SelectionChanged] = [Action OnSelectedColorChanged($eventArgs)]"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Rectangle Fill="{Binding SelectedColor.Color,Converter={StaticResource colorConverter}}"/>
+        </Grid>
+
+    </Grid>
+</Window>

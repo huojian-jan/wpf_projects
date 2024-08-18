@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "ylc609EmzDQ=",
+  "success": true,
+  "projectFilePath": "D:\\github_projects\\wpf_projects\\WpfApp\\log4net_setup\\log4net_setup.csproj",
+  "expectedPackageFiles": [
+    "D:\\NUGET_PACKAGES\\log4net\\3.0.0-preview.1\\log4net.3.0.0-preview.1.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.configuration.configurationmanager\\4.5.0\\system.configuration.configurationmanager.4.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.security.accesscontrol\\4.5.0\\system.security.accesscontrol.4.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.security.cryptography.protecteddata\\4.5.0\\system.security.cryptography.protecteddata.4.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.security.permissions\\4.5.0\\system.security.permissions.4.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

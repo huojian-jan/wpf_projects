@@ -1,0 +1,26 @@
+﻿<Window x:Class="Huojian.LibraryManagement.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Huojian.LibraryManagement.Views"
+        xmlns:layout="clr-namespace:Huojian.LibraryManagement.controls.DockPanelSplitter"
+        xmlns:cal="http://www.caliburnproject.org"
+        Title="MainWindow" Height="400" Width="600">
+    <Grid>
+        <DockPanel LastChildFill="False">
+            <ContentControl cal:View.Model="{Binding TopViewModel}" DockPanel.Dock="Top"/>
+            <ContentControl  cal:View.Model="{Binding LeftViewModel}" DockPanel.Dock="Left"/>
+            <Border Width="10" Background="#f3f3f3"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Text="{Binding ActiveItem.DisplayName}"/>
+                <ContentControl Grid.Row="1" x:Name="ActiveItem"></ContentControl>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

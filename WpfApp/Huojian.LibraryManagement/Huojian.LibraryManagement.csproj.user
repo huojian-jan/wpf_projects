@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="controls\StudentInfoView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\AdminManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BookCategoryManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BookManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BorrowManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\DataAnalysisView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LeftDockView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LogInView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\NoticeManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PaginationViewModel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ReaderManagementView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\TopDockView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="controls\DockPanelSplitter\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="controls\StudentInfoView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AdminManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BookCategoryManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BookManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BorrowManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\DataAnalysisView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\LeftDockView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\LogInView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\NoticeManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\PaginationViewModel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ReaderManagementView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TopDockView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

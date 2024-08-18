@@ -1,0 +1,15 @@
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.deps.json
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.pdb
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Common.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\bin\Debug\net6.0-windows\Huojian.LibraryManagement.Common.pdb
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.csproj.AssemblyReference.cache
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.GeneratedMSBuildEditorConfig.editorconfig
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.AssemblyInfoInputs.cache
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.AssemblyInfo.cs
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.csproj.CoreCompileInputs.cache
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian..9EE44311.Up2Date
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\refint\Huojian.LibraryManagement.Components.Protocol.dll
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\Huojian.LibraryManagement.Components.Protocol.pdb
+D:\github_projects\wpf_projects\WpfApp\Huojian.LibraryManagement.Components.Protocol\obj\Debug\net6.0-windows\ref\Huojian.LibraryManagement.Components.Protocol.dll

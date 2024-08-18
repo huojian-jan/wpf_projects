@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "07gRubiGTGA=",
+  "success": true,
+  "projectFilePath": "D:\\github_projects\\wpf_projects\\WpfApp\\Huojian.LibraryManagement.Test\\Huojian.LibraryManagement.Test.csproj",
+  "expectedPackageFiles": [
+    "D:\\NUGET_PACKAGES\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.codecoverage\\17.5.0\\microsoft.codecoverage.17.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.net.test.sdk\\17.5.0\\microsoft.net.test.sdk.17.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.testplatform.objectmodel\\17.5.0\\microsoft.testplatform.objectmodel.17.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\microsoft.testplatform.testhost\\17.5.0\\microsoft.testplatform.testhost.17.5.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\netstandard.library\\2.0.0\\netstandard.library.2.0.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\nuget.frameworks\\5.11.0\\nuget.frameworks.5.11.0.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\nunit\\3.13.3\\nunit.3.13.3.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\nunit.analyzers\\3.6.1\\nunit.analyzers.3.6.1.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\nunit3testadapter\\4.4.2\\nunit3testadapter.4.4.2.nupkg.sha512",
+    "D:\\NUGET_PACKAGES\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
