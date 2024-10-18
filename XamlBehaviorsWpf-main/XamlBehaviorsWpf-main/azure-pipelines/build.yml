@@ -1,0 +1,149 @@
+# This Yaml Document has been converted by ESAI Yaml Pipeline Conversion Tool.
+name: $(Date:yyyyMMdd).$(Rev:r)
+parameters:
+- name: OfficialRelease
+  displayName: "Build and publish an official release"
+  type: boolean
+  default: false
+variables:
+- name: BuildParameters.vsVersion
+  value: 17.0
+- name: Build.OfficialRelease
+  value: ${{ parameters.OfficialRelease }}
+- name: Codeql.Enabled
+  value: true
+- name: Codeql.Language
+  value: csharp
+- name: SignType
+  ${{ if eq(parameters.OfficialRelease, true) }}:
+    value: real
+  ${{ else }}:
+    value: test
+- name: TeamName
+  value: vscx-tools-authoring
+- name: TimestampPackage
+  value: ${{ not (parameters.OfficialRelease) }}
+trigger:
+  branches:
+    include:
+    - refs/heads/main
+pr:
+  branches:
+    include:
+    - main
+resources:
+  repositories:
+  - repository: MicroBuildTemplate
+    type: git
+    name: 1ESPipelineTemplates/MicroBuildTemplate
+    ref: refs/tags/release
+extends:
+  template: azure-pipelines/MicroBuild.1ES.Official.yml@MicroBuildTemplate
+  parameters:
+    pool:
+      name: VSEngSS-MicroBuild2022-1ES
+    sdl:
+      sourceAnalysisPool:
+        name: AzurePipelines-EO
+        image: 1ESPT-Windows2022
+        os: windows
+    customBuildTags:
+    - ES365AIMigrationTooling
+    stages:
+    - stage: stage
+      jobs:
+      - job: Build
+        displayName: 'Build'
+        cancelTimeoutInMinutes: 1
+        pool:
+          name: VSEngSS-MicroBuild2022-1ES
+        templateContext:
+          mb:
+            signing:
+              enabled: true
+              signType: $(SignType)
+            sbom:
+              enabled: true
+          outputs:
+          - output: nuget
+            displayName: 'NuGet push to NuGet.org'
+            condition: and(succeeded(), eq(variables['Build.OfficialRelease'], 'true'))
+            packageParentPath: '$(Build.ArtifactStagingDirectory)\Packages'
+            packagesToPush: $(Build.ArtifactStagingDirectory)\Packages\*.nupkg;!$(Build.ArtifactStagingDirectory)\Packages\*.symbols.nupkg
+            nuGetFeedType: external
+            publishFeedCredentials: XamlBehaviors-NuGet.org
+        steps:
+        - checkout: self
+          clean: true
+          fetchTags: false
+          persistCredentials: True
+        - task: DeleteFiles@1
+          displayName: Delete output files from src
+          inputs:
+            SourceFolder: src
+            Contents: |-
+              **\bin\**\*
+              **\obj\**\*
+        - task: UseDotNet@2
+          displayName: Use .NET Core SDK
+          inputs:
+            version: 6.x
+            vsVersion: $(BuildParameters.vsVersion)
+            performMultiLevelLookup: true
+        - task: NuGetToolInstaller@1
+          displayName: Use NuGet 6.x
+          inputs:
+            versionSpec: 6.x
+        - task: NuGetCommand@2
+          displayName: NuGet restore
+        - task: VSBuild@1
+          displayName: Build solution src\BehaviorsSdk.sln
+          inputs:
+            vsVersion: $(BuildParameters.vsVersion)
+            solution: src\BehaviorsSdk.sln
+            msbuildArgs: /p:PublicRelease=$(Build.OfficialRelease) /p:SignType=$(SignType) /p:NoWarn=1591 /p:DebugType=full /v:diagnostic
+            configuration: Release
+            maximumCpuCount: true
+        - task: VSTest@2
+          displayName: Run Unit Tests
+          inputs:
+            testAssemblyVer2: |-
+              **\*UnitTests.dll
+              !**\*TestAdapter.dll
+              !**\obj\**
+            runInParallel: true
+        - task: MicroBuildSigningPlugin@4
+          inputs:
+            signType: '$(SignType)'
+            feedSource: 'https://devdiv.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json'
+          env:
+            TeamName: '$(TeamName)'
+        - task: VSBuild@1
+          displayName: Build NuGet package
+          inputs:
+            solution: src\Microsoft.Xaml.Behaviors\Microsoft.Xaml.Behaviors.csproj
+            msbuildArgs: /t:Pack /p:PublicRelease=$(Build.OfficialRelease) /p:SignType=$(SignType) /p:TimestampPackage=$(TimestampPackage) /p:NoWarn=1591 /p:DebugType=full /v:diagnostic
+            configuration: Release
+        - task: CopyFiles@2
+          displayName: 'Copy Symbols to: $(Pipeline.Workspace)\Symbols'
+          inputs:
+            SourceFolder: src\Microsoft.Xaml.Behaviors\bin\
+            Contents: '**\*.pdb'
+            TargetFolder: $(Pipeline.Workspace)\Symbols
+        - task: MicroBuildArchiveSymbols@5
+          displayName: Archive Symbols
+          condition: and(succeeded(), eq(variables['Build.OfficialRelease'], 'true'))
+          inputs:
+            SymbolsFeatureName: XamlBehaviorsWpf
+            SymbolsProject: VS
+            SymbolsAgentPath: $(Pipeline.Workspace)\Symbols
+            SubmitToInternet: false
+        - task: CopyFiles@2
+          displayName: 'Copy NuGet Packages to: $(Build.ArtifactStagingDirectory)\Packages'
+          inputs:
+            SourceFolder: src\Microsoft.Xaml.Behaviors\bin\
+            Contents: '**\*.nupkg'
+            TargetFolder: $(Build.ArtifactStagingDirectory)\Packages
+            OverWrite: true
+            flattenFolders: true
+          continueOnError: true

@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeProjectToProjectAssets</TargetsForTfmSpecificBuildOutput>
+    <OutputType>Library</OutputType>
+    <PackageId>Microsoft.Xaml.Behaviors.Wpf</PackageId>
+    <Title>Microsoft.Xaml.Behaviors.Wpf</Title>
+    <Authors>Microsoft</Authors>
+    <Description>Easily add interactivity to your apps using XAML Behaviors for WPF. Behaviors encapsulate reusable functionalities for elements that can be easily added to your XAML without the need for more imperative code.</Description>
+    <Company>Microsoft Corporation</Company>
+    <Product>Microsoft.Xaml.Behaviors</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://go.microsoft.com/fwlink/?linkid=2026353</PackageProjectUrl>
+    <PackageIconUrl>http://go.microsoft.com/fwlink/?LinkID=708511</PackageIconUrl>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <PackageTags>Behavior Action Behaviors Actions Blend Managed C# Interaction Interactivity Interactions</PackageTags>
+    <PackageProjectUrl>https://github.com/Microsoft/XamlBehaviorsWpf</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DefineConstants>WPF;$(DefineConstants)</DefineConstants>
+    <UseWPF>true</UseWPF>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);TimestampNugetPackage</GenerateNuspecDependsOn>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  
+  <Import Project="..\Microsoft.Xaml.Behaviors.Signing.targets" />
+
+  <ItemGroup>
+    <Compile Update="ExceptionStringTable.Designer.cs">
+      <SubType>Code</SubType>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionStringTable.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="ExceptionStringTable.resx">
+      <Public>True</Public>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionStringTable.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MicroBuild.Core" Version="0.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudioEng.MicroBuild.Core" Version="0.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Install.ps1 is for .NET Framework projects (not .NET Core).
+    The script removes the reference to the .Design.dll in the referencing project.
+    It is placed in the root of the project so that it is correctly picked up
+    and placed in the tools/ directory of the NuGet package. -->
+    <Content Include="Install.ps1">
+      <PackagePath>tools\</PackagePath>
+    </Content>
+  </ItemGroup>
+  
+  <Target Name="IncludeProjectToProjectAssets">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(ProjectDir)bin\$(Configuration)\net462\Design\Microsoft.Xaml.Behaviors.Design.dll" TargetPath="Design\Microsoft.Xaml.Behaviors.Design.dll" Condition="'$(TargetFramework)' == 'net462'" />
+      <BuildOutputInPackage Include="$(ProjectDir)bin\$(Configuration)\net462\Design\Microsoft.Xaml.Behaviors.DesignTools.dll" TargetPath="Design\Microsoft.Xaml.Behaviors.DesignTools.dll" />
+    </ItemGroup>
+  </Target>
+
+</Project>

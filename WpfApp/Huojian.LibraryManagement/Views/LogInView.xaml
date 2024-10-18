@@ -6,8 +6,15 @@
         xmlns:local="clr-namespace:Huojian.LibraryManagement.Views"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="LogInView" Height="450" Width="800">
+        Title="LogInView" Width="100" Height="100">
     <Grid>
-        <ContentControl cal:View.Model="{Binding StudentInfoViewModel}"/>
+        <RichTextBox AllowDrop="True">
+            <FlowDocument>
+                <Paragraph>
+                        <Run Text="{Binding Red}" Foreground="Red"/>
+                        <Run Text="{Binding Blue}" Foreground="Blue" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>

@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <Company>huojian</Company>
     <Authors>huojian</Authors>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

@@ -9,7 +9,7 @@
         Title="MainWindow" Height="400" Width="600">
     <Grid>
         <DockPanel LastChildFill="False">
-            <ContentControl cal:View.Model="{Binding TopViewModel}" DockPanel.Dock="Top"/>
+            <!--<ContentControl cal:View.Model="{Binding TopViewModel}" DockPanel.Dock="Top"/>-->
             <ContentControl  cal:View.Model="{Binding LeftViewModel}" DockPanel.Dock="Left"/>
             <Border Width="10" Background="#f3f3f3"/>
             <Grid>
@@ -17,7 +17,6 @@
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
                 <TextBox Text="{Binding ActiveItem.DisplayName}"/>
                 <ContentControl Grid.Row="1" x:Name="ActiveItem"></ContentControl>
             </Grid>

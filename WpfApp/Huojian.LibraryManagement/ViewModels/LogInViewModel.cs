@@ -18,6 +18,10 @@ namespace Huojian.LibraryManagement.ViewModels
             StudentInfoViewModel = _viewModelFactory.Create<StudentInfoViewModel.Factory>()();
         }
 
+        public string Red { get; set; } = "this is red" + Environment.NewLine;
+        public string Blue { get; set; } = "this is blue";
+
+
         public StudentInfoViewModel StudentInfoViewModel { get; set; }
     }
 }

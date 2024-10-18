@@ -26,7 +26,34 @@
     </UserControl.Resources>
 
 
-    <Grid Width="50"  Name="navigator" HorizontalAlignment="Left">
+    <Grid Width="60" Background="#f5f5f5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <ToggleButton VerticalAlignment="Top" Margin="0,20,0,0">
+                <ToggleButton.Content>
+                    <Grid>
+                        <Ellipse Width="24" Height="24"/>
+                        <Path Stroke="Red" Data="M6.432 7.967a.448.448 0 01-.318.133h-.228a.46.46 0 01-.318-.133L2.488 4.85a.305.305 0 010-.43l.427-.43a.293.293 0 01.42 0L6 6.687l2.665-2.699a.299.299 0 01.426 0l.42.431a.305.305 0 010 .43L6.432 7.967z">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="-90" CenterX="0" CenterY="0"/>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                </ToggleButton.Content>
+            </ToggleButton>
+        </Grid>
+
+        <Grid Grid.Column="1" Background="#f5f5f5">
+            <Rectangle Width="2" Fill="#e7e7e7" HorizontalAlignment="Center"/>
+        </Grid>
+
+    </Grid>
+
+    <!--<Grid Width="50"  Name="navigator" HorizontalAlignment="Left">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
@@ -90,5 +117,5 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Grid>
+        </Grid>-->
 </UserControl>

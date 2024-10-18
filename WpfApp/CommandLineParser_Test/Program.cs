@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Microsoft.Win32.SafeHandles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CommandLineParser_Test
 {
@@ -11,23 +13,48 @@ namespace CommandLineParser_Test
         static void Main(string[] args)
         {
 
-            if (!PInvoke.OpenClipboard(HWND.Null))
-            {
-                Console.WriteLine("failed to open clipboard");
-            }
+            //Test1();
+            JsonFormat();
 
-            SafeFileHandle handle = PInvoke.GetClipboardData_SafeHandle(1);
-           if(handle!= new SafeFileHandle(IntPtr.Zero,false))
-           {
-               unsafe
-               {
-              var textPtr= (char*)PInvoke.GlobalLock(handle);
-             var text= Marshal.PtrToStringAnsi((IntPtr)textPtr);
-             var a = 100;
-               }
-           }
+
             Console.ReadKey();
 
         }
+
+        static void JsonFormat()
+        {
+            //var obj = new
+            //{
+            //    hello = "hello",
+            //    world = "world",
+            //    info = new
+            //    {
+            //        name = "huojian",
+            //        age = 20
+            //    }
+            //};
+
+            var json = JsonConvert.SerializeObject(new List<string>() { "1", "2", "3" });
+            var obj = JToken.Parse(json);
+
+            var msg= obj.ToString(Formatting.Indented);
+
+            Console.WriteLine(msg);
+
+        }
+
+        static Task Test1()
+        {
+            Task.Run(() =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Console.WriteLine(i);
+                }
+            });
+
+            return Task.CompletedTask;
+        }
+
     }
 }

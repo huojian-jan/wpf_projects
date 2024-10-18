@@ -22,6 +22,12 @@ namespace Huojian.LibraryManagement.Views
         public LogInView()
         {
             InitializeComponent();
+            this.DataContext = new Context();
         }
+    }
+
+    public class Context
+    {
+
     }
 }
