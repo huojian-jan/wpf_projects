@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Huojian.LibraryManagement.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsBinding", "JsBinding\JsBinding.csproj", "{DFE9E603-4F79-4B19-9A13-928DF94C91EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSize", "FileSize\FileSize.csproj", "{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,14 @@ Global
 		{DFE9E603-4F79-4B19-9A13-928DF94C91EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DFE9E603-4F79-4B19-9A13-928DF94C91EE}.Release|x86.ActiveCfg = Release|x86
 		{DFE9E603-4F79-4B19-9A13-928DF94C91EE}.Release|x86.Build.0 = Release|x86
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Debug|x86.Build.0 = Debug|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Release|x86.ActiveCfg = Release|Any CPU
+		{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
