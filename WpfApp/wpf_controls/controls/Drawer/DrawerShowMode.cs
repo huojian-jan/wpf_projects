@@ -1,6 +1,8 @@
-﻿namespace wpf_controls.controls.Drawer;
+﻿namespace wpf_controls.controls;
 
-public class DrawerShowMode
+public enum DrawerShowMode
 {
-    
+    Conver,
+    Push,
+    Press
 }

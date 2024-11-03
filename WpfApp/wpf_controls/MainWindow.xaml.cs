@@ -16,31 +16,15 @@ namespace wpf_controls
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _expanded=true;
         public MainWindow()
         {
             InitializeComponent();
-
-            var textBox=new TextBox();
-
         }
 
-        private void LeftButton_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            
-            if (_expanded)
-            {
-                this.leftButton.Width = 100;
-                this.leftDock.Width = 100;
-                this.leftButton.Content = "Unexpanded";
-            }
-            else
-            {
-                this.leftButton.Width = 300;
-                this.leftDock.Width = 300;
-                this.leftButton.Content = "Expanded";
-            }
-            _expanded=!_expanded;
+            var oldValue = drawer.IsOpen;
+            drawer.IsOpen = !oldValue;
         }
     }
 }

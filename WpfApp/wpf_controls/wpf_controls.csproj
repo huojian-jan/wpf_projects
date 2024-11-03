@@ -9,4 +9,12 @@
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Assist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
 </Project>

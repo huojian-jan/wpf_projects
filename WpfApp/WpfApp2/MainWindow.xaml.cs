@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,14 +9,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace wpf_controls.customControls
+namespace WpfApp2
 {
     /// <summary>
-    /// border_control.xaml 的交互逻辑
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class border_control : UserControl
+    public partial class MainWindow : Window
     {
-        public border_control()
+        public MainWindow()
         {
             InitializeComponent();
         }

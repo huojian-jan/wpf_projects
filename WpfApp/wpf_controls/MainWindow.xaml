@@ -4,21 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpf_controls"
-        xmlns:ctl="clr-namespace:wpf_controls.customControls"
+        xmlns:controls="clr-namespace:wpf_controls.controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="100" MaxWidth="300"/>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
 
-        <Grid Name="leftDock" Grid.Row="0" Grid.Column="0" >
-            <Button Name="leftButton" Click="LeftButton_OnClick" Content="expanded" FontSize="30" FontWeight="Bold"/>
+        <Grid Grid.Column="0">
+            <Rectangle Fill="Blue"/>
+
+        </Grid>
+        <Grid Grid.Column="1">
+            <controls:DrawerContainer>
+            <controls:Drawer x:Name="drawer" ShowMode="Conver" IsOpen="True">
+                <StackPanel Orientation="Vertical">
+                    <Button  Content="OK" Width="76" Height="28"/>
+                    <Button  Content="OK" Width="76" Height="28"/>
+                </StackPanel>
+            </controls:Drawer>
+            </controls:DrawerContainer>
         </Grid>
 
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Rectangle Fill="Green"/>
+        <Grid Grid.Column="2">
+            <Button Content="Change" Width="100" Click="ButtonBase_OnClick" Height="38" Margin="10"></Button>
         </Grid>
+
     </Grid>
 </Window>

@@ -1,6 +1,16 @@
-﻿namespace wpf_controls.Commands;
+﻿using System.Windows.Input;
 
-public class ControlCommands
+namespace wpf_controls.Commands;
+
+public static class ControlCommands
 {
-    
+    /// <summary>
+    ///     关闭
+    /// </summary>
+    public static RoutedCommand Close { get; } = new(nameof(Close), typeof(ControlCommands));
+
+    /// <summary>
+    ///     清除
+    /// </summary>
+    public static RoutedCommand Clear { get; } = new(nameof(Clear), typeof(ControlCommands));
 }

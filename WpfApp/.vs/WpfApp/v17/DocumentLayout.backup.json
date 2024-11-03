@@ -3,19 +3,40 @@
   "WorkspaceRootPath": "D:\\github_projects\\wpf_projects\\WpfApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}|FileSize\\FileSize.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\filesize\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3B2D0A85-7834-4828-AC4B-1C40B9A2574C}|FileSize\\FileSize.csproj|solutionrelative:filesize\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A22E8778-0270-4022-9985-4388B21C3F05}|My_Todo\\My_Todo.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\my_todo\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{A22E8778-0270-4022-9985-4388B21C3F05}|My_Todo\\My_Todo.csproj|solutionrelative:my_todo\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\controls\\drawer\\drawercontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\controls\\drawer\\drawercontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A22E8778-0270-4022-9985-4388B21C3F05}|My_Todo\\My_Todo.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\my_todo\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A22E8778-0270-4022-9985-4388B21C3F05}|My_Todo\\My_Todo.csproj|solutionrelative:my_todo\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\utils\\utitlity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\utils\\utitlity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\33008\\AppData\\Local\\Temp\\.vsdbgsrc\\0d31b73dadd1537a9e5aa555c7151440151add3d48cd9c3d14c562bc067fa214\\UnsafeNativeMethods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\controls\\drawer\\drawer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\controls\\drawer\\drawer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\wpf_controls.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\wpf_controls.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\richwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\richwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\controls\\drawer\\drawershowmode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\controls\\drawer\\drawershowmode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|d:\\github_projects\\wpf_projects\\wpfapp\\wpf_controls\\controls\\drawer\\adornercontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D301D02E-6298-4BDC-B934-B51979BD9E87}|wpf_controls\\wpf_controls.csproj|solutionrelative:wpf_controls\\controls\\drawer\\adornercontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,63 +46,127 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Utitlity.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\Utils\\Utitlity.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\Utils\\Utitlity.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\Utils\\Utitlity.cs",
+              "RelativeToolTip": "wpf_controls\\Utils\\Utitlity.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAqwEIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T09:22:06.119Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\FileSize\\Program.cs",
-              "RelativeDocumentMoniker": "FileSize\\Program.cs",
-              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\FileSize\\Program.cs",
-              "RelativeToolTip": "FileSize\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABsAAAAuAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "RichWindow.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\RichWindow.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\RichWindow.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\RichWindow.cs",
+              "RelativeToolTip": "wpf_controls\\RichWindow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-25T03:30:52.476Z",
+              "WhenOpened": "2024-11-03T09:17:59.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DrawerShowMode.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\DrawerShowMode.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\controls\\Drawer\\DrawerShowMode.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\DrawerShowMode.cs",
+              "RelativeToolTip": "wpf_controls\\controls\\Drawer\\DrawerShowMode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T09:08:36.633Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\My_Todo\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "My_Todo\\MainWindow.xaml.cs",
-              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\My_Todo\\MainWindow.xaml.cs",
-              "RelativeToolTip": "My_Todo\\MainWindow.xaml.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAiwCAAAABCAAAAAAAAAA==",
+              "Title": "DrawerContainer.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\DrawerContainer.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\controls\\Drawer\\DrawerContainer.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\DrawerContainer.cs",
+              "RelativeToolTip": "wpf_controls\\controls\\Drawer\\DrawerContainer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T08:40:52.567Z",
+              "WhenOpened": "2024-11-03T09:08:32.922Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UnsafeNativeMethods.cs",
-              "DocumentMoniker": "C:\\Users\\33008\\AppData\\Local\\Temp\\.vsdbgsrc\\0d31b73dadd1537a9e5aa555c7151440151add3d48cd9c3d14c562bc067fa214\\UnsafeNativeMethods.cs",
-              "ToolTip": "C:\\Users\\33008\\AppData\\Local\\Temp\\.vsdbgsrc\\0d31b73dadd1537a9e5aa555c7151440151add3d48cd9c3d14c562bc067fa214\\UnsafeNativeMethods.cs [\u53EA\u8BFB]",
-              "ViewState": "AgIAAHMPAAAAAAAAAAAowJAPAAABAAAAAAAAAA==",
+              "Title": "Drawer.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\Drawer.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\controls\\Drawer\\Drawer.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\Drawer.cs",
+              "RelativeToolTip": "wpf_controls\\controls\\Drawer\\Drawer.cs",
+              "ViewState": "AgIAAHYBAAAAAAAAAAAcwI4BAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T08:32:35.265Z",
-              "EditorCaption": " [\u53EA\u8BFB]"
+              "WhenOpened": "2024-11-03T09:08:24.126Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
+              "Title": "AdornerContainer.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\AdornerContainer.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\controls\\Drawer\\AdornerContainer.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\controls\\Drawer\\AdornerContainer.cs",
+              "RelativeToolTip": "wpf_controls\\controls\\Drawer\\AdornerContainer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T09:08:21.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\My_Todo\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "My_Todo\\MainWindow.xaml",
-              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\My_Todo\\MainWindow.xaml",
-              "RelativeToolTip": "My_Todo\\MainWindow.xaml",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "wpf_controls\\MainWindow.xaml",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\MainWindow.xaml*",
+              "RelativeToolTip": "wpf_controls\\MainWindow.xaml*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-23T07:25:59.291Z"
+              "WhenOpened": "2024-11-03T09:07:47.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "wpf_controls\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\MainWindow.xaml.cs",
+              "RelativeToolTip": "wpf_controls\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T09:07:34.088Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "wpf_controls.csproj",
+              "DocumentMoniker": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\wpf_controls.csproj",
+              "RelativeDocumentMoniker": "wpf_controls\\wpf_controls.csproj",
+              "ToolTip": "D:\\github_projects\\wpf_projects\\WpfApp\\wpf_controls\\wpf_controls.csproj",
+              "RelativeToolTip": "wpf_controls\\wpf_controls.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-11-03T08:25:57.299Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -1,6 +1,8 @@
-﻿namespace wpf_controls.controls.Drawer;
+﻿using System.Windows.Documents;
 
-public class DrawerContainer
+namespace wpf_controls.controls;
+
+public class DrawerContainer : AdornerDecorator
 {
-    
+
 }
