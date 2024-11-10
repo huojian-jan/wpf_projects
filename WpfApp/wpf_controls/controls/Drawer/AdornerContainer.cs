@@ -2,8 +2,7 @@
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace wpf_controls.controls;
-
+namespace ControlToolKits.Controls;
 public class AdornerContainer : Adorner
 {
     private UIElement _child;

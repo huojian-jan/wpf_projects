@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace wpf_controls.Commands;
+namespace ControlToolKits.Commands;
 
 public static class ControlCommands
 {

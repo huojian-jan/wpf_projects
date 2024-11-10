@@ -4,10 +4,9 @@ using System.Security.AccessControl;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
-namespace wpf_controls.Utils;
+namespace ControlToolKits.Utils;
 
     public static class WpfHelper
     {

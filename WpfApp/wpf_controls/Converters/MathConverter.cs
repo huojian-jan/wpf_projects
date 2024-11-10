@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace wpf_controls.Converters;
+namespace ControlToolKits.Converters;
 
     // Does a math equation on the bound value.
     // Use @VALUE in your mathEquation as a substitute for bound value

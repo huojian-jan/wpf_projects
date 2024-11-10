@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using ControlToolKits.Commands;
+using ControlToolKits.Converters;
+using ControlToolKits.Utils;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -7,11 +10,8 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using wpf_controls.Commands;
-using wpf_controls.Converters;
-using wpf_controls.Utils;
 
-namespace wpf_controls.controls
+namespace ControlToolKits.Controls
 {
     [ContentProperty("Content")]
     public class Drawer : FrameworkElement

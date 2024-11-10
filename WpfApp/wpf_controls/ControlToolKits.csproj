@@ -10,7 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Assist\" />
+    <Compile Remove="Assist\**" />
+    <EmbeddedResource Remove="Assist\**" />
+    <None Remove="Assist\**" />
+    <Page Remove="Assist\**" />
   </ItemGroup>
 
   <ItemGroup>
