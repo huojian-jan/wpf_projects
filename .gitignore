@@ -33,6 +33,13 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+# VS files
+.vs/
+
+# Rider files
+.idea/
+
+
 *_i.c
 *_p.c
 *_i.h
