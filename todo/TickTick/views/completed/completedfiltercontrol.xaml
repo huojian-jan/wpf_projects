@@ -1,0 +1,80 @@
+<UserControl x:Class="ticktick_WPF.Views.Completed.CompletedFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:completed="clr-namespace:ticktick_WPF.Views.Completed"
+             xmlns:search="clr-namespace:ticktick_WPF.Views.Search"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf">
+  <FrameworkElement.Resources>
+    <search:SearchDateTextConverter x:Key="CompletedDateConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Width="auto" Margin="20,-10,0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <WrapPanel Grid.Row="1" Margin="-10,20,16,0">
+      <FrameworkElement.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+          <Setter Property="TextBlock.FontSize" Value="12"/>
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+          <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+          <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+        <Style TargetType="{x:Type wpf:EmjTextBlock}">
+          <Setter Property="TextBlock.FontSize" Value="12"/>
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+          <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+          <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+        <Style x:Key="StackPanelStyle" TargetType="{x:Type StackPanel}">
+          <Setter Property="StackPanel.Orientation" Value="Horizontal"/>
+          <Setter Property="Panel.Background" Value="Transparent"/>
+          <Setter Property="FrameworkElement.Height" Value="24"/>
+          <Setter Property="FrameworkElement.Margin" Value="6,0"/>
+          <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        </Style>
+      </FrameworkElement.Resources>
+      <misc:PopupPlacementBorder x:Name="DateFilterText" PreviewMouseLeftButtonUp="DateFilterClick"
+                                 IsDropDownOpen="{Binding ElementName=DateSelectPopup, Path=IsOpen}">
+        <StackPanel Style="{DynamicResource StackPanelStyle}">
+          <TextBlock>
+            <TextBlock.Text>
+              <MultiBinding Converter="{StaticResource CompletedDateConverter}">
+                <Binding Path="DateFilter"/>
+                <Binding Path="StartDate"/>
+                <Binding Path="EndDate"/>
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+          <Path Style="{DynamicResource ArrowPathStyle}"/>
+        </StackPanel>
+      </misc:PopupPlacementBorder>
+      <misc:EscPopup x:Name="DateSelectPopup" Width="auto" Height="auto" StaysOpen="false" HorizontalOffset="-5"
+                     VerticalOffset="-5" PlacementTarget="{Binding ElementName=DateFilterText}"/>
+      <misc:PopupPlacementBorder x:Name="ProjectOrGroupFilterText" PreviewMouseLeftButtonUp="ProjectOrGroupFilterClick"
+                                 Margin="8,0,0,0" IsDropDownOpen="{Binding ElementName=ProjectOrGroupFilterPopup, Path=IsOpen}">
+        <StackPanel Style="{DynamicResource StackPanelStyle}">
+          <wpf:EmjTextBlock MaxWidth="180" Height="16" TextWrapping="Wrap" ClipToBounds="true"
+                            Text="{Binding SelectedProjectDisplayText}"/>
+          <Path Style="{DynamicResource ArrowPathStyle}"/>
+        </StackPanel>
+      </misc:PopupPlacementBorder>
+      <misc:EscPopup x:Name="ProjectOrGroupFilterPopup" Width="auto" Height="auto" StaysOpen="false"
+                     HorizontalOffset="-5" VerticalOffset="-5"
+                     PlacementTarget="{Binding ElementName=ProjectOrGroupFilterText}"/>
+      <misc:PopupPlacementBorder x:Name="PersonalFilterText" PreviewMouseLeftButtonUp="PersonalOrAllFilterClick" Margin="8,0,0,0"
+                                 IsDropDownOpen="{Binding ElementName=ProjectOrGroupFilterPopup, Path=IsOpen}">
+        <StackPanel Style="{DynamicResource StackPanelStyle}">
+          <TextBlock MaxWidth="180" Height="16" TextWrapping="Wrap" ClipToBounds="true"
+                     Text="{Binding PersonalOrAllText}"/>
+          <Path Style="{DynamicResource ArrowPathStyle}"/>
+        </StackPanel>
+      </misc:PopupPlacementBorder>
+      <misc:EscPopup x:Name="PersonalFilterPopup" Width="auto" Height="auto" StaysOpen="false" HorizontalOffset="-5"
+                     VerticalOffset="-5" PlacementTarget="{Binding ElementName=PersonalFilterText}"/>
+    </WrapPanel>
+  </Grid>
+</UserControl>

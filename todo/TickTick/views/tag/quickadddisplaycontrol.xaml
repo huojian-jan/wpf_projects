@@ -1,0 +1,21 @@
+<UserControl x:Class="ticktick_WPF.Views.Tag.QuickAddDisplayControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+  <Border CornerRadius="2">
+    <FrameworkElement.Style>
+      <Style>
+        <Setter Property="Border.Background">
+          <Setter.Value>
+            <SolidColorBrush Color="{DynamicResource ColorPrimary}" Opacity="{DynamicResource TagBorderOpacity}"/>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </FrameworkElement.Style>
+    <Button Style="{StaticResource TransparentButtonStyle}">
+      <TextBlock Name="Text" Background="Transparent" Padding="4,2" VerticalAlignment="Center" FontSize="13"
+                 MaxWidth="90" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource PrimaryColor}"/>
+    </Button>
+  </Border>
+</UserControl>

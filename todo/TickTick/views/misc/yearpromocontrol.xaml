@@ -1,0 +1,24 @@
+<Border x:Class="ticktick_WPF.Views.Misc.YearPromoControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+        MouseLeftButtonUp="OnYearPromoClick" Name="YearPromoBorder" Margin="8" Height="52" CornerRadius="6"
+        Cursor="Hand">
+  <Border.Background>
+    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+      <GradientStop Color="#0093FD" Offset="0"/>
+      <GradientStop Color="#3BA6FA" Offset="1"/>
+    </LinearGradientBrush>
+  </Border.Background>
+  <Grid>
+    <Image Name="YearPromoImage" Width="202" Height="40" HorizontalAlignment="Center" Stretch="Uniform"/>
+    <Border MouseLeftButtonUp="OnCloseYearPromoClick" Width="18" Height="18" HorizontalAlignment="Right"
+            Margin="0,4,4,0" VerticalAlignment="Top" Cursor="Hand"
+            Style="{DynamicResource SmoothHoverBorderStyle40_60}">
+      <Path Stretch="Uniform" Fill="#FFFFFF" Width="16" Height="16" HorizontalAlignment="Center"
+            VerticalAlignment="Center" Data="{Binding Source={StaticResource IcCloseWithBorder}, Path=Data}"/>
+    </Border>
+  </Grid>
+</Border>

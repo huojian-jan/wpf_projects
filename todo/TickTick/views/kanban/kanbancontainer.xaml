@@ -1,0 +1,159 @@
+<UserControl x:Class="ticktick_WPF.Views.Kanban.KanbanContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Kanban"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:item="clr-namespace:ticktick_WPF.Views.Kanban.Item"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             PreviewMouseMove="OnContainerMouseMove" PreviewMouseLeftButtonUp="OnContainerMouseUp" x:Name="Root"
+             Background="{DynamicResource ShowAreaBackground}" Focusable="false">
+  <FrameworkElement.Resources>
+    <converter:ShareImageConverter x:Key="ShareImageConverter"/>
+  </FrameworkElement.Resources>
+  <Grid MouseLeftButtonDown="OnContainerMouseDown" Background="{DynamicResource KanbanContainerColor}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30"/>
+      <RowDefinition Height="20"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Width="1" Height="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <Popup x:Name="DragTaskPopup" Grid.Row="0" Grid.Column="0" AllowsTransparency="true"
+             Placement="RelativePoint" StaysOpen="false" PlacementTarget="{Binding ElementName=MenuPathGrid}">
+        <Grid Width="{DynamicResource KanbanColumnWidth}">
+          <item:KanbanItemPopupView x:Name="PopupTaskItem" Margin="10,0"/>
+          <Border Background="Transparent"/>
+        </Grid>
+      </Popup>
+    </Grid>
+    <Grid PreviewMouseLeftButtonUp="HideTemplateGuide" Name="TemplateGuidePopup" Row="2"
+          Background="Transparent" Visibility="Collapsed" ZIndex="100" HorizontalAlignment="Left"
+          VerticalAlignment="Top" Margin="205,80,0,0">
+      <Grid>
+        <ContentControl Style="{DynamicResource PopupContentStyle}">
+          <TextBlock Text="{DynamicResource TryAddFromTemplate}" Width="100" TextWrapping="Wrap"
+                     Style="{DynamicResource Body03}" Margin="10,5"/>
+        </ContentControl>
+        <Grid Margin="0,15,0,0" HorizontalAlignment="Center">
+          <Polygon Points="0,0 12,0 6,-10" Fill="{DynamicResource PopupBackground}" VerticalAlignment="Top"/>
+          <Polygon Points="0,0 12,0 6,-10" Fill="{DynamicResource BaseColorOpacity0_5}" VerticalAlignment="Top"/>
+          <Polyline Points="0,0 6,-10 12,0" Stroke="{DynamicResource BaseColorOpacity20}" StrokeThickness="1"/>
+        </Grid>
+      </Grid>
+    </Grid>
+    <Grid Row="0" RowSpan="3" VerticalAlignment="Top" Margin="20,36,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <Border MouseLeftButtonUp="MenuGrid_MouseLeftButtonUp" MouseEnter="OnMenuPathMouseEnter"
+              Name="MenuPathGrid" Visibility="Visible" Grid.Column="0" Cursor="Hand" HorizontalAlignment="Left"
+              VerticalAlignment="Top" Width="18" Style="{DynamicResource SmoothHoverBorderStyle60_100}">
+        <Image Name="FoldImage" Width="18" Height="18" Style="{DynamicResource Icon01}"
+               Source="{DynamicResource HideMenuDrawingImage}" Opacity="1"/>
+      </Border>
+      <StackPanel Name="OptionPanel" Grid.Column="2" Margin="0,-5,0,0" VerticalAlignment="Top"
+                  Orientation="Horizontal">
+        <Grid Margin="8,0,4,0" VerticalAlignment="Top">
+          <FrameworkElement.ToolTip>
+            <ToolTip Content="{StaticResource Sort}"/>
+          </FrameworkElement.ToolTip>
+          <Grid MouseLeftButtonUp="SelectOrderClick" Background="Transparent" Width="28" Height="28" Cursor="Hand">
+            <Image x:Name="SortIcon" Source="{DynamicResource SortDrawingImage}" Style="{DynamicResource Icon01}"
+                   Width="18" Height="18"/>
+            <Border Style="{DynamicResource SmoothHoverBorderStyle}" Cursor="Hand"/>
+          </Grid>
+          <misc:EscPopup x:Name="ChooseSortTypePopup" StaysOpen="false" Placement="Bottom" HorizontalOffset="-160"
+                         VerticalOffset="-5"/>
+        </Grid>
+        <Grid MouseLeftButtonUp="MoreGridClick" Name="MoreGrid" Width="28" Height="28" VerticalAlignment="Top"
+              Background="Transparent" Cursor="Hand" Margin="0,0,18,0">
+          <Image Source="{DynamicResource MoreDrawingImage}" Width="18" Height="18" Style="{DynamicResource Icon01}"/>
+          <Border Style="{DynamicResource SmoothHoverBorderStyle}" Cursor="Hand" CornerRadius="4"/>
+          <misc:EscPopup x:Name="MorePopup" Grid.Column="0" StaysOpen="false" VerticalOffset="-5" Placement="Bottom"
+                         HorizontalOffset="-124" PlacementTarget="{Binding ElementName=MoreGrid}"/>
+        </Grid>
+      </StackPanel>
+    </Grid>
+    <Grid Name="TitleGrid" Row="0" RowSpan="3" Margin="38,27,0,0" ZIndex="1000" HorizontalAlignment="Left"
+          VerticalAlignment="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <misc:EmojiTitleEditor x:Name="TitleEditor" TextChanged="OnTitleTextChanged"/>
+      <Grid MouseLeftButtonUp="OnShareClick" Name="ShareGrid" Width="28" Height="28" Background="Transparent"
+            Cursor="Hand" Column="1" Visibility="Collapsed">
+        <Image Name="ShareImage" Style="{DynamicResource Icon01}" Stretch="Uniform" Width="18" Height="18">
+          <Image.Source>
+            <MultiBinding Converter="{StaticResource ShareImageConverter}">
+              <Binding Path="."/>
+              <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+            </MultiBinding>
+          </Image.Source>
+        </Image>
+        <Border Style="{DynamicResource SmoothHoverBorderStyle}" Cursor="Hand" CornerRadius="4"/>
+      </Grid>
+    </Grid>
+    <ScrollViewer PreviewMouseWheel="OnMouseWheel" SizeChanged="OnKanbanScrollerSizeChanged"
+                  ScrollChanged="OnScrollChanged" Name="KanbanScroller" HorizontalScrollBarVisibility="Visible"
+                  Grid.Row="2" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Disabled"
+                  Style="{DynamicResource for_scrollviewer}">
+      <Grid MouseMove="OnDragMove" PreviewMouseLeftButtonDown="OnStartDrag"
+            PreviewMouseLeftButtonUp="OnStopDrag" Name="KanbanGrid" Background="Transparent" Margin="0,0,20,2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <misc:KanbanColumnCanvas x:Name="ColumnContainer" Focusable="false" Grid.Column="0" Margin="12,0,0,10"/>
+        <Grid MouseLeftButtonUp="OnAddColumnMouseUp" Name="AddColumnControlGrid" Column="1" Cursor="Hand"
+              Visibility="{Binding ShowAdd, Converter={StaticResource BoolVisibleConverter}}">
+          <Border Name="AddColumnControl" Width="{DynamicResource KanbanColumnWidth}" Height="40"
+                  VerticalAlignment="Top" Margin="0,18,10,25" Visibility="Collapsed" CornerRadius="6">
+            <FrameworkElement.Style>
+              <Style>
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                  <Trigger Property="UIElement.IsMouseOver" Value="false">
+                    <Setter Property="Border.Background" Value="Transparent"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+              <Grid Width="{DynamicResource Height18}" Height="{DynamicResource Height18}" Background="Transparent"
+                    Margin="10,0,4,0">
+                <Path Fill="{DynamicResource TextAccentColor}" Stretch="Uniform" Height="18" Width="18"
+                      Data="{Binding Source={StaticResource IcAdd}, Path=Data}"/>
+              </Grid>
+              <TextBlock Text="{DynamicResource NewColumn}" VerticalAlignment="Center" FontSize="{DynamicResource Font14}"
+                         Foreground="{DynamicResource TextAccentColor}"/>
+            </StackPanel>
+          </Border>
+          <Border Name="CloseAddButton" Background="Transparent" Width="18" Height="18" Margin="0,29,24,0"
+                  HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand"
+                  Visibility="{Binding ElementName=AddColumnControl, Path=Visibility}">
+            <Path Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity20}" Width="16" Height="16"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Data="{Binding Source={StaticResource IcCloseWithBorder}, Path=Data}"
+                  Visibility="{Binding ElementName=AddColumnControlGrid, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}"/>
+          </Border>
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+    <StackPanel Name="EmptyGrid" Grid.Row="2" Margin="0,-30,0,0" Visibility="Collapsed" VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+      <misc:EmptyImage x:Name="EmptyImage"/>
+      <TextBlock Name="EmptyText" Style="{DynamicResource Body01}" Margin="0,16,0,0" HorizontalAlignment="Center"/>
+      <TextBlock MouseLeftButtonUp="OnAddTaskClick" Name="EmptyAddText" Style="{DynamicResource Body01}"
+                 Foreground="{DynamicResource TextAccentColor}" Margin="0,8,0,0" HorizontalAlignment="Center"
+                 Cursor="Hand" Background="Transparent"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

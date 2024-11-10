@@ -1,0 +1,69 @@
+<Window x:Class="ticktick_WPF.Views.Filter.FilterPreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:taskList="clr-namespace:ticktick_WPF.Views.TaskList"
+        xmlns:views="clr-namespace:ticktick_WPF.Views"
+        xmlns:item1="clr-namespace:ticktick_WPF.Views.TaskList.Item"
+        Style="{DynamicResource OkCancelWindowsStyle}" Title="{StaticResource Preview}"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+  <FrameworkElement.Resources>
+    <taskList:TaskItemTemplateSelector x:Key="DisplayDataTemplateSelector"/>
+    <DataTemplate x:Key="SectionTemplate">
+      <taskList:SectionItemControl/>
+    </DataTemplate>
+    <DataTemplate x:Key="PreviewItem">
+      <item1:PreviewListItem/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <UIElement.InputBindings>
+    <KeyBinding Key="Escape" Command="{x:Static views:OkCancelWindowCommands.EscCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+  </UIElement.InputBindings>
+  <Grid Height="432" Width="665" Margin="0,50,0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="50"/>
+    </Grid.RowDefinitions>
+    <ListView Name="ListView" Style="{StaticResource ListViewStyle}"
+              ItemTemplateSelector="{StaticResource DisplayDataTemplateSelector}">
+      <ItemsControl.ItemContainerStyle>
+        <Style TargetType="{x:Type ListViewItem}">
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type ListViewItem}">
+                <ContentPresenter/>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </ListView>
+    <StackPanel Name="NoTaskGrid" Margin="0,70,0,0" Visibility="Collapsed" Grid.Row="0">
+      <Viewbox Width="160" Height="160">
+        <Grid Width="200" Height="200">
+          <Grid Background="Transparent">
+            <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity5}"/>
+            <Image Name="EmptyImage" Width="200" Height="200" Stretch="None"
+                   Source="{StaticResource EmptyCSLDrawingImage}"/>
+            <Path Name="EmptyPath" Width="200" Height="200" Stretch="None" Fill="{DynamicResource EmptyPathColor}"
+                  Data="{Binding Source={StaticResource IcEmptyFilter}, Path=Data}"/>
+          </Grid>
+        </Grid>
+      </Viewbox>
+      <TextBlock Text="{DynamicResource FilterA}" Margin="0,0,0,0" Foreground="{DynamicResource BaseColorOpacity60}"
+                 FontSize="16" HorizontalAlignment="Center"/>
+      <TextBlock Text="{DynamicResource FilterB1}" Margin="10,10,10,0"
+                 Foreground="{DynamicResource BaseColorOpacity40}" FontSize="13" HorizontalAlignment="Center"
+                 TextWrapping="Wrap"/>
+    </StackPanel>
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Click="SaveBtnClick" Name="SaveButton" Content="{StaticResource PublicSave}"
+              HorizontalAlignment="Right" Style="{StaticResource SaveButtonStyle}" Margin="0,0,8,0" Width="120"/>
+      <Button Click="CancelBtnClick" Content="{StaticResource Cancel}" HorizontalAlignment="Right"
+              Style="{StaticResource CancelButtonStyle}" Margin="0,0,14,0" Width="120"/>
+    </StackPanel>
+  </Grid>
+</Window>

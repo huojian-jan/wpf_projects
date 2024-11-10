@@ -1,0 +1,64 @@
+<Border x:Class="ticktick_WPF.Views.Eisenhower.QuadrantControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.Eisenhower"
+        xmlns:taskList="clr-namespace:ticktick_WPF.Views.TaskList"
+        xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+        xmlns:views="clr-namespace:ticktick_WPF.Views"
+        xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        xmlns:taskList1="clr-namespace:ticktick_WPF.Views.MainListView.TaskList"
+        Name="Root">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Border Name="BackBorder" Grid.RowSpan="2" Background="{DynamicResource QuadrantBackground}"
+            CornerRadius="6"/>
+    <Border Name="HoverBorder" Grid.Row="0" Grid.RowSpan="2" BorderBrush="{DynamicResource PrimaryColor}"
+            CornerRadius="6"/>
+    <Grid MouseLeftButtonDown="OnHeadMouseDown" MouseMove="OnHeadMouseMove" Row="0" Background="Transparent">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="36"/>
+        <ColumnDefinition/>
+        <ColumnDefinition x:Name="OptionColumn" Width="68"/>
+      </Grid.ColumnDefinitions>
+      <Grid Name="IconGrid" HorizontalAlignment="Left">
+        <Path Name="Icon" Stretch="Uniform" Width="16" Height="16" Margin="12,0,0,0"/>
+        <wpf:EmjTextBlock x:Name="Emoji" FontSize="16" Margin="10,-2,0,0" VerticalAlignment="Center"/>
+      </Grid>
+      <wpf:EmjTextBlock x:Name="Title" FontSize="13" VerticalAlignment="Center" Grid.Column="1" ClipToBounds="true"
+                        Height="18" FontWeight="{DynamicResource BoldToMedium}"/>
+      <misc:HoverIconButton x:Name="AddButton" MouseLeftButtonUp="OnAddTaskClick"
+                            ImageSource="{DynamicResource AddDrawingImage}" Margin="1" Opacity="1" HorizontalAlignment="Left"
+                            Column="2">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type misc:HoverIconButton}">
+            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=IsMouseOver}" Value="True">
+                <Setter Property="UIElement.Visibility" Value="Visible"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding ElementName=MorePopup, Path=IsOpen}" Value="True">
+                <Setter Property="UIElement.Visibility" Value="Visible"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </misc:HoverIconButton>
+      <misc:HoverIconButton x:Name="MoreButton" PreviewMouseLeftButtonUp="OnOMClick" PreviewMouseLeftButtonDown="OnOmMouseDown"
+                            ImageSource="{DynamicResource MoreDrawingImage}" Margin="1,1,9,1" Column="2"
+                            HorizontalAlignment="Right" Visibility="{Binding ElementName=AddButton, Path=Visibility}"/>
+      <misc:EscPopup x:Name="MorePopup" Closed="OnMorePopupClosed" Grid.Column="2" StaysOpen="false" Placement="Left"
+                     HorizontalOffset="38" VerticalOffset="20" PopupAnimation="Fade"
+                     PlacementTarget="{Binding ElementName=MoreButton}"/>
+    </Grid>
+    <taskList1:TaskListView x:Name="TaskList" ItemsCountChanged="OnTaskCountChanged" Row="1" Margin="0,0,0,14"
+                            QuadrantLevel="1"/>
+    <TextBlock Name="EmptyText" Text="{StaticResource NoTask}" Grid.RowSpan="2" Visibility="Collapsed" Width="240"
+               TextWrapping="Wrap" Style="{DynamicResource Body05}" HorizontalAlignment="Center"
+               VerticalAlignment="Center" TextAlignment="Center"/>
+  </Grid>
+</Border>

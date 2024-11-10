@@ -1,0 +1,27 @@
+<UserControl x:Class="ticktick_WPF.Views.Habit.HabitLogControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Habit"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             Name="Root">
+  <FrameworkElement.Resources>
+    <converter:HabitLogDateConverter x:Key="HabitLogDateConverter"/>
+  </FrameworkElement.Resources>
+  <StackPanel Orientation="Vertical">
+    <TextBlock Style="{StaticResource Title05}" Margin="0,20,0,20" FontWeight="{DynamicResource NormalToBold}"
+               Text="{Binding PivotDate, Converter={StaticResource HabitLogDateConverter}}"/>
+    <Grid>
+      <TextBlock x:Name="CheckInRecordHint" Text="{StaticResource NoCheckInRecordThisMonth}"
+                 Style="{DynamicResource Body02}" HorizontalAlignment="Center" Margin="10" TextWrapping="Wrap"/>
+      <ItemsControl Name="LogItems">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <local:CheckInLogControl/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Grid>
+  </StackPanel>
+</UserControl>

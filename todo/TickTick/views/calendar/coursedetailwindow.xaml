@@ -1,0 +1,53 @@
+<misc:EscPopup x:Class="ticktick_WPF.Views.Calendar.CourseDetailWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+               xmlns:views="clr-namespace:ticktick_WPF.Views"
+               xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+               x:Name="Root" Width="380" AllowsTransparency="true" StaysOpen="false">
+  <ContentControl Name="Control" Style="{DynamicResource WindowContentStyle}" Margin="0,0,0,8">
+    <ScrollViewer Style="{DynamicResource for_scrollviewer}" MaxHeight="400">
+      <Grid Margin="22,4,22,8">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="48"/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Ellipse Width="14" VerticalAlignment="Center" HorizontalAlignment="Left" Height="14" Stretch="Uniform"
+                 Grid.Row="0" Margin="2,0,0,0" Fill="{Binding Color}"/>
+        <TextBlock Grid.Row="0" FontSize="15" Margin="26,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold"
+                   TextTrimming="CharacterEllipsis" Foreground="{DynamicResource BaseColorOpacity100}"
+                   Text="{Binding Title}"/>
+        <ItemsControl Name="CourseItems" Grid.Row="1" ItemsSource="{Binding Items}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <StackPanel>
+                <Border Height="32" Visibility="{Binding ShowTimeTitle}">
+                  <TextBlock Style="{DynamicResource Tag01}" Margin="0,0,0,4" VerticalAlignment="Bottom"
+                             Foreground="{DynamicResource BaseColorOpacity80}" Text="{Binding TimeTitle}"/>
+                </Border>
+                <StackPanel Height="34" Orientation="Horizontal">
+                  <Image Source="{DynamicResource DateWeekDrawingImage}" Height="14" Style="{DynamicResource Icon01}"/>
+                  <TextBlock Style="{DynamicResource Tag02}" Margin="8,0,0,0" Text="{Binding WeekText}"/>
+                </StackPanel>
+                <StackPanel Height="34" Orientation="Horizontal">
+                  <Image Source="{DynamicResource DateTimeDrawingImage}" Height="14" Style="{DynamicResource Icon01}"/>
+                  <TextBlock Style="{DynamicResource Tag02}" Margin="8,0,0,0" Text="{Binding LessonText}"/>
+                </StackPanel>
+                <StackPanel Height="34" Orientation="Horizontal" Visibility="{Binding ShowRoom}">
+                  <Image Source="{DynamicResource locationDrawingImage}" Height="14" Style="{DynamicResource Icon01}"/>
+                  <TextBlock Style="{DynamicResource Tag02}" Margin="8,0,0,0" Text="{Binding Room}"/>
+                </StackPanel>
+                <StackPanel Height="34" Orientation="Horizontal" Visibility="{Binding ShowTeacher}">
+                  <Image Source="{DynamicResource PeopleDrawingImage}" Height="14" Style="{DynamicResource Icon01}"/>
+                  <TextBlock Style="{DynamicResource Tag02}" Margin="8,0,0,0" Text="{Binding Teacher}"/>
+                </StackPanel>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Grid>
+    </ScrollViewer>
+  </ContentControl>
+</misc:EscPopup>

@@ -1,0 +1,12 @@
+<Grid x:Class="ticktick_WPF.Views.Misc.CycleProgressBar"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      Name="Root">
+  <Path Name="UnderPath" Fill="{Binding ElementName=Root, Path=UnderColor}"
+        Width="{Binding ElementName=Root, Path=Width}" Height="{Binding ElementName=Root, Path=Height}"/>
+  <Ellipse Name="TopEll" Fill="{Binding ElementName=Root, Path=TopColor}"
+           Width="{Binding ElementName=Root, Path=Width}" Height="{Binding ElementName=Root, Path=Height}"
+           Clip="{Binding ElementName=TopPath, Path=Data}"/>
+</Grid>

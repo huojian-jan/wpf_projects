@@ -1,0 +1,92 @@
+<UserControl x:Class="ticktick_WPF.Views.Theme.FontFamilySetPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Theme"
+             xmlns:views="clr-namespace:ticktick_WPF.Views">
+  <StackPanel Margin="0,0,0,20">
+    <TextBlock Name="Text" Text="{StaticResource Font}" Style="{StaticResource SettingTitleStyle}"
+               Margin="10,0,0,6"/>
+    <ItemsControl Name="FontFamilyItems" Focusable="false" Margin="0,-3,0,0">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid Width="141" Height="72" HorizontalAlignment="Center" Margin="9,8">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="45"/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Stretch="Uniform" Width="141" Height="45" Source="{Binding FontImageUri}"
+                   Visibility="{Binding ShowText, Converter={StaticResource VisibleConverter}}"/>
+            <TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Foreground="{DynamicResource BaseSolidColorOpacity80}" Grid.Row="0" Text="{Binding Title}"
+                       Visibility="{Binding ShowText, Converter={StaticResource BoolVisibleConverter}}"
+                       FontFamily="{Binding Font}"/>
+            <Border Name="Bd" BorderThickness="1" Grid.Row="0" Cursor="Hand"
+                    BorderBrush="{DynamicResource BaseColorOpacity10}" CornerRadius="6">
+              <FrameworkElement.Style>
+                <Style>
+                  <Setter Property="Border.Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="UIElement.IsMouseOver" Value="true">
+                      <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity10_20}"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <Border VerticalAlignment="Top" HorizontalAlignment="Right" Width="22" Height="22"
+                      Style="{DynamicResource SmoothHoverBorderStyle40_100}">
+                <Path Width="12" Height="12" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity80}"
+                      VerticalAlignment="Center" HorizontalAlignment="Center"
+                      Data="{Binding Source={StaticResource IcNoteMessage}, Path=Data}"
+                      Visibility="{Binding Path=ShowCopyRight, Converter={StaticResource BoolVisibleConverter}}"/>
+              </Border>
+            </Border>
+            <Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                   Source="../../Assets/Theme/pro_theme_header.png" Width="20" Height="20" Grid.Row="0"
+                   IsHitTestVisible="false" Stretch="Fill"
+                   Visibility="{Binding NeedPro, Converter={StaticResource BoolVisibleConverter}}"/>
+            <views:LoadingIndicator SpeedRatio="1" IsActive="true" Grid.Row="0" Foreground="{DynamicResource BaseColorOpacity60}"
+                                    Style="{StaticResource LoadingIndicatorRingStyle}" Margin="6,0"
+                                    Visibility="{Binding Loading, Converter={StaticResource BoolVisibleConverter}}"/>
+            <Grid Width="19" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Row="0"
+                  Margin="0,0,-4,-4" Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}">
+              <Ellipse Width="19" Height="19" StrokeThickness="1.5" Stroke="{DynamicResource ThemeCheckBorderColor}"
+                       Fill="{DynamicResource PrimaryColor}"/>
+              <Path Width="19" Height="19" Fill="White" Stretch="Uniform"
+                    Data="{Binding Source={StaticResource IcThemeCheck}, Path=Data}"/>
+            </Grid>
+            <TextBlock Grid.Row="1" FontSize="12" Foreground="{DynamicResource BaseColorOpacity80}" Height="18"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="{Binding Title}"/>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Popup MouseLeave="OnCopyRightMouseLeave" Name="AuthPopup" AllowsTransparency="true" Placement="Left"
+           HorizontalOffset="30" VerticalOffset="-36">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <TextBlock Padding="8,0" HorizontalAlignment="Center">
+          <Run x:Name="AuthRun1" Foreground="{DynamicResource BaseColorOpacity80}"/>
+          <Run MouseLeftButtonUp="OnAuthClick" x:Name="AuthRun2" Cursor="Hand">
+            <FrameworkContentElement.Style>
+              <Style TargetType="{x:Type Run}">
+                <Setter Property="TextElement.Background" Value="Transparent"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource BaseColorOpacity80}"/>
+                <Style.Triggers>
+                  <Trigger Property="ContentElement.IsMouseOver" Value="true">
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkContentElement.Style>
+          </Run>
+        </TextBlock>
+      </ContentControl>
+    </Popup>
+  </StackPanel>
+</UserControl>

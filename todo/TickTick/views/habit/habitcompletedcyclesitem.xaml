@@ -1,0 +1,20 @@
+<UserControl x:Class="ticktick_WPF.Views.Habit.HabitCompletedCyclesItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Habit"
+             Background="Transparent">
+  <Grid>
+    <StackPanel Orientation="Horizontal"
+                Visibility="{Binding TargetDays, Converter={StaticResource IntVisibleConverter}}">
+      <TextBlock Style="{StaticResource Font28_100}" Text="{Binding CurrentTargetDays}"/>
+      <TextBlock Style="{StaticResource Font28_100}">/</TextBlock>
+      <TextBlock Style="{StaticResource Font28_100}" Text="{Binding TargetDays}"/>
+      <TextBlock Margin="12,0,0,0" Style="{StaticResource Font14_40}" Text="{Binding CurrentCyclesStartDate}"/>
+      <TextBlock Style="{StaticResource Font14_40}" Text="{Binding CurrentCyclesEndDate}"/>
+    </StackPanel>
+    <Image Name="RightImage" Height="63" Width="202" HorizontalAlignment="Right" Panel.ZIndex="-1"
+           Source="{Binding Icon}"/>
+  </Grid>
+</UserControl>

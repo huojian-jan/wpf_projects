@@ -1,0 +1,149 @@
+<UserControl x:Class="ticktick_WPF.Views.CheckList.ChecklistItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:taskList="clr-namespace:ticktick_WPF.Views.CheckList"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:detail="clr-namespace:ticktick_WPF.Views.Detail"
+             DataContextChanged="OnDataBind" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
+             Name="ItemControl" Visibility="{Binding IsValid, Converter={StaticResource BoolVisibleConverter}}"
+             Tag="{Binding Id}">
+  <UIElement.InputBindings>
+    <KeyBinding Command="{x:Static taskList:CheckItemCommands.ClearDateCommand}" Gesture="CTRL+0"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type taskList:ChecklistItemControl}}}"/>
+    <KeyBinding Command="{x:Static taskList:CheckItemCommands.SetTodayCommand}" Gesture="CTRL+1"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type taskList:ChecklistItemControl}}}"/>
+    <KeyBinding Command="{x:Static taskList:CheckItemCommands.SetTomorrowCommand}" Gesture="CTRL+2"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type taskList:ChecklistItemControl}}}"/>
+    <KeyBinding Command="{x:Static taskList:CheckItemCommands.SetNextWeekCommand}" Gesture="CTRL+3"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type taskList:ChecklistItemControl}}}"/>
+    <KeyBinding Command="{x:Static taskList:CheckItemCommands.SelectDateCommand}" Gesture="CTRL+D"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type taskList:ChecklistItemControl}}}"/>
+    <KeyBinding Command="{x:Static taskList:CheckItemCommands.CompleteCommand}" Gesture="CTRL+M"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type taskList:ChecklistItemControl}}}"/>
+  </UIElement.InputBindings>
+  <FrameworkElement.Resources>
+    <converter:TaskListCheckBoxConverter x:Key="TaskListCheckBoxConverter"/>
+    <converter:CheckItemReminderTextConverter x:Key="ReminderTextConverter"/>
+    <converter:CheckListDateColorConverter x:Key="CheckListDateColorConverter"/>
+    <converter:CheckListDateVisibleConverter x:Key="CheckListDateVisibleConverter"/>
+    <converter:CheckListIconVisibleConverter x:Key="CheckListIconVisibleConverter"/>
+    <Style x:Key="HorizontalLineStyle" TargetType="{x:Type Line}">
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity5_10}"/>
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="1"/>
+      <Setter Property="Shape.Stretch" Value="Fill"/>
+      <Setter Property="UIElement.Opacity" Value="1"/>
+      <Setter Property="Shape.StrokeThickness" Value="1"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid Name="Container" MinHeight="{DynamicResource Height40}" Background="Transparent">
+    <Grid VerticalAlignment="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <Grid Name="DragGrid" Width="20" HorizontalAlignment="Center">
+        <Grid MouseLeftButtonDown="OnHandleDown" Background="Transparent" VerticalAlignment="Top"
+              HorizontalAlignment="Left" Width="11" Margin="1,15,0,0" Cursor="SizeAll"
+              Visibility="{Binding ShowDragHandle, Converter={StaticResource BoolVisibleConverter}}">
+          <Path HorizontalAlignment="Left" Fill="{DynamicResource BaseColorOpacity40}"
+                Style="{StaticResource TaskPathStyle}" VerticalAlignment="Top" Stretch="Fill" Width="12"
+                Height="12" Data="{Binding Source={StaticResource DragBarIcon}, Path=Data}">
+            <UIElement.Visibility>
+              <MultiBinding Converter="{StaticResource MultipleBoolVisibleConverter}" ConverterParameter="true,true">
+                <Binding ElementName="ItemControl" Path="IsMouseOver"/>
+                <Binding Path="Enable"/>
+              </MultiBinding>
+            </UIElement.Visibility>
+          </Path>
+        </Grid>
+      </Grid>
+      <Grid Name="CheckGrid" Row="0" Column="1" VerticalAlignment="Top" Height="15"
+            Margin="{DynamicResource CheckItemCheckBoxMargin}">
+        <Grid MouseLeftButtonUp="CheckChckBoxEditable" ZIndex="2" Cursor="No" Background="Transparent"
+              Visibility="{Binding Path=Enable, Converter={StaticResource VisibleConverter}}"/>
+        <CheckBox PreviewMouseLeftButtonUp="CheckBoxClick" Checked="ItemChecked" Unchecked="ItemUnChecked"
+                  ScrollViewer.PanningMode="None" Cursor="Hand" Style="{StaticResource isCompleteCheckBoxStyle}"
+                  Width="14" Height="14"
+                  IsChecked="{Binding Status, Converter={StaticResource TaskListCheckBoxConverter}, Mode=OneWay}"/>
+      </Grid>
+      <TextBlock Name="HintText" Text="{StaticResource RightReturnToAdd}" Grid.Row="0" Grid.Column="2"
+                 Margin="9,12,0,0" Foreground="{DynamicResource BaseColorOpacity20}" VerticalAlignment="Top"
+                 Background="Transparent" FontSize="{Binding ElementName=TitleTextBox, Path=FontSize}"
+                 Visibility="{Binding HintVisible, Converter={StaticResource BoolVisibleConverter}}"/>
+      <detail:DetailTextBox x:Name="TitleTextBox" LinkTextChange="OnTitleChanged" TextGotFocus="OnGotFocus"
+                            TextLostFocus="OnLostFocus" SelectDate="SelectDate" PreviewMouseLeftButtonDown="CheckEditable"
+                            QuickItemSelected="OnItemSelected" RequestBringIntoView="EditorOnRequestBringIntoView"
+                            PopClosed="OnPopClosed" PopOpened="OnPopOpened" LinkPopClosed="OnLinkPopClosed"
+                            LinkPopOpened="OnLinkPopOpened" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top"
+                            ScrollViewer.PanningMode="None" MaxLength="512" Focusable="true" Padding="7,9.5,0,8"
+                            FontSize="{DynamicResource Font13}" BorderThickness="0" LineSpacing="3" Background="Transparent"
+                            ReadOnly="{Binding Enable, Converter={StaticResource BoolConverseConverter}}"
+                            TextStatus="{Binding Status}">
+      </detail:DetailTextBox>
+      <Grid PreviewMouseLeftButtonUp="SelectTimeClick" Name="Time" Row="0" Column="3" Background="Transparent"
+            ToolTip="{StaticResource date}" VerticalAlignment="Top">
+        <UIElement.Visibility>
+          <MultiBinding Converter="{StaticResource CheckListIconVisibleConverter}" TargetNullValue="Visibility.Collapsed">
+            <Binding Path="DisplayStartDate"/>
+            <Binding Path="IsAllDay"/>
+            <Binding Path="SnoozeReminderTime"/>
+            <Binding Path="Status"/>
+          </MultiBinding>
+        </UIElement.Visibility>
+        <Image Source="{DynamicResource reminderDrawingImage}" Style="{DynamicResource ListIcon}" Opacity="0.6"
+               Margin="{DynamicResource CheckItemCheckBoxMargin}" VerticalAlignment="Top" Width="14" Height="14"/>
+      </Grid>
+      <Border PreviewMouseLeftButtonUp="SelectTimeClick" Name="ReminderButton" Grid.Row="0" Grid.Column="4"
+              Background="Transparent" Cursor="Hand" Margin="{DynamicResource CheckItemCheckBoxMargin}"
+              VerticalAlignment="Top" BorderThickness="0" ToolTip="{StaticResource SetReminder}"
+              Visibility="Hidden">
+        <Image Source="{DynamicResource reminderDrawingImage}" Opacity="0.5" Width="14" Height="14"
+               Style="{DynamicResource ListIcon}" Cursor="Hand"/>
+      </Border>
+      <TextBlock PreviewMouseLeftButtonUp="SelectTimeClick" Name="TimeText" MaxWidth="120"
+                 TextTrimming="CharacterEllipsis" Grid.Row="0" Grid.Column="4" Background="Transparent"
+                 KeyboardNavigation.IsTabStop="false" VerticalAlignment="Top" AllowDrop="true"
+                 FontSize="{DynamicResource Font12}" Cursor="Hand" Margin="2,12,0,0"
+                 ToolTip="{Binding ElementName=TimeText, Path=Text}" Tag="{Binding Id, Mode=OneWay}"
+                 Visibility="{Binding DisplayStartDate, Converter={StaticResource CheckListDateVisibleConverter}}">
+        <TextBlock.Text>
+          <MultiBinding Converter="{StaticResource ReminderTextConverter}">
+            <Binding Path="DisplayStartDate"/>
+            <Binding Path="IsAllDay"/>
+            <Binding Path="SnoozeReminderTime"/>
+          </MultiBinding>
+        </TextBlock.Text>
+      </TextBlock>
+      <Image MouseLeftButtonUp="DeleteClick" x:Name="DeleteButton" Grid.Row="0" Grid.Column="5" Opacity="0.5"
+             Source="{DynamicResource DeleteDrawingLine}" Width="15" Height="15"
+             Style="{DynamicResource ListIcon}" Margin="{DynamicResource CheckItemCheckBoxMargin}" Cursor="Hand"
+             VerticalAlignment="Top" Visibility="Visible" ToolTip="{StaticResource Delete}"/>
+    </Grid>
+    <Grid Name="BottomLineGrid" Margin="45,0,2,0">
+      <Line Name="BottomLine" Style="{StaticResource HorizontalLineStyle}"/>
+      <Line Name="HighlightBottomLine" Style="{StaticResource HorizontalLineStyle}"
+            Stroke="{DynamicResource PrimaryColor}" Visibility="Collapsed"/>
+      <Line Style="{StaticResource HorizontalLineStyle}" Stroke="{DynamicResource PrimaryColor}"
+            Visibility="{Binding ShowBottomDropLine, Converter={StaticResource BoolVisibleConverter}}"/>
+      <Line Style="{StaticResource HorizontalLineStyle}" Stroke="{DynamicResource PrimaryColor}"
+            VerticalAlignment="Top"
+            Visibility="{Binding ShowTopDropLine, Converter={StaticResource BoolVisibleConverter}}"/>
+    </Grid>
+    <Grid Name="BlinkBackground"/>
+  </Grid>
+</UserControl>

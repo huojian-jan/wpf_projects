@@ -1,0 +1,12 @@
+<Window x:Class="ticktick_WPF.Views.Kanban.ProjectActivityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:activity="clr-namespace:ticktick_WPF.Views.Activity"
+        Width="608" Height="492" WindowStartupLocation="CenterOwner"
+        Title="{StaticResource ListActivitiesPro}" Style="{DynamicResource CustomWindowStyle}">
+  <Grid Margin="0,45,0,0" Height="492">
+    <activity:ProjectActivityControl x:Name="ProjectActivityControl" VerticalAlignment="Top"/>
+  </Grid>
+</Window>

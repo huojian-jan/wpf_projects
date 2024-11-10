@@ -1,0 +1,49 @@
+<UserControl x:Class="ticktick_WPF.Views.Activity.ProjectActivityItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:activity="clr-namespace:ticktick_WPF.Views.Activity"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc">
+  <Grid Margin="0,4">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="20"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Row="0" Column="0" VerticalAlignment="Top">
+      <Border Width="20" Height="20" CornerRadius="10" Background="{Binding Color}">
+        <Path Width="16" Height="16" Fill="White" HorizontalAlignment="Center" Stretch="Uniform"
+              VerticalAlignment="Center" Data="{Binding Icon}"/>
+      </Border>
+    </Grid>
+    <Grid Width="1" Background="{DynamicResource BaseColorOpacity5_10}" Row="0" RowSpan="3" Column="0"
+          Margin="0,26,0,-2"/>
+    <TextBlock Margin="14,0,12,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap"
+               Padding="0,0" FontSize="{DynamicResource Font14}">
+      <Run Foreground="{DynamicResource BaseColorOpacity100}" Text="{Binding User}"/>
+      <Run Text=""/>
+      <Run Foreground="{DynamicResource BaseColorOpacity60}" Text="{Binding Title}"/>
+      <Run Text=""/>
+      <Run x:Name="TaskTitle" Foreground="{DynamicResource PrimaryColor}" Cursor="Hand"
+           Text="{Binding TaskTitle}" Tag="{Binding TaskId}"/>
+    </TextBlock>
+    <misc:EscPopup x:Name="UnknownPopup" Placement="Relative" PopupAnimation="Fade" Grid.Column="1" Grid.Row="0"
+                   HorizontalOffset="0" VerticalOffset="5" StaysOpen="false"
+                   PlacementTarget="{Binding ElementName=TaskTitle}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <Grid Margin="5" MaxWidth="200">
+          <TextBlock Text="{StaticResource UnknownMessage}" TextWrapping="Wrap" LineHeight="18"
+                     Style="{DynamicResource Tag02}"/>
+        </Grid>
+      </ContentControl>
+    </misc:EscPopup>
+    <TextBlock Style="{DynamicResource Body05}" Margin="14,3,12,0" FontSize="{DynamicResource Font13}"
+               Grid.Row="1" Grid.Column="1" Text="{Binding When}"/>
+    <Grid Margin="12,0,12,16" Row="2" Column="1"/>
+  </Grid>
+</UserControl>

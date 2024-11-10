@@ -1,0 +1,51 @@
+<UserControl x:Class="ticktick_WPF.Views.Theme.FontSizeSetPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Theme">
+  <StackPanel Margin="0,0,0,20">
+    <TextBlock Text="{StaticResource FontSize}" Style="{StaticResource SettingTitleStyle}" Margin="10,0,0,6"/>
+    <ItemsControl Name="FontSizeItems" Focusable="false" Margin="0,-3,0,0">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid Width="141" Height="72" HorizontalAlignment="Center" Margin="9,8">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="45"/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Name="Bd" BorderThickness="1" Grid.Row="0" Cursor="Hand"
+                    BorderBrush="{DynamicResource BaseColorOpacity10}" CornerRadius="6">
+              <FrameworkElement.Style>
+                <Style>
+                  <Setter Property="Border.Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="UIElement.IsMouseOver" Value="true">
+                      <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity10_20}"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <TextBlock Text="{StaticResource FontSize}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                         Foreground="{DynamicResource BaseColorOpacity100}" FontSize="{Binding Size}"/>
+            </Border>
+            <Grid Width="19" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Row="0"
+                  Margin="0,0,-4,-4" Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}">
+              <Ellipse Width="19" Height="19" StrokeThickness="1.5" Stroke="{DynamicResource ThemeCheckBorderColor}"
+                       Fill="{DynamicResource PrimaryColor}"/>
+              <Path Width="19" Height="19" Fill="White" Stretch="Uniform"
+                    Data="{Binding Source={StaticResource IcThemeCheck}, Path=Data}"/>
+            </Grid>
+            <TextBlock Grid.Row="1" FontSize="12" Foreground="{DynamicResource BaseColorOpacity80}" Height="18"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="{Binding Title}"/>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

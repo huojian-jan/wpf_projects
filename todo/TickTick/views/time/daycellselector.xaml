@@ -1,0 +1,31 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.DayCellSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             Name="RootView" Width="27" Height="27">
+  <Grid MouseLeftButtonUp="OnCellClick" Cursor="Hand">
+    <Rectangle Name="HoverBackground" Fill="{DynamicResource BaseColorOpacity5}" RadiusX="13.5" RadiusY="13.5"
+               Width="27" Height="27"
+               Visibility="{Binding Path=IsMouseOver, ElementName=RootView, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Rectangle Name="SelectedBackground" Fill="{DynamicResource PrimaryColor}" RadiusX="13.5" RadiusY="13.5"
+               Width="27" Height="27"
+               Visibility="{Binding Path=ItemSelected, ElementName=RootView, Converter={StaticResource BoolVisibleConverter}}"/>
+    <TextBlock Name="Content" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center"
+               Text="{Binding Path=DayText, ElementName=RootView}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type TextBlock}">
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=RootView, Path=ItemSelected}" Value="True">
+              <Setter Property="TextBlock.Foreground" Value="White"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <Rectangle Name="TabSelectedRect" Stroke="{DynamicResource TabBorderColor}" StrokeThickness="1" RadiusX="4"
+               RadiusY="4" Width="27" Height="27" Visibility="Collapsed"/>
+  </Grid>
+</UserControl>

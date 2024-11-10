@@ -1,0 +1,103 @@
+<Window x:Class="ticktick_WPF.Views.Config.PreviewTemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+        xmlns:models="clr-namespace:ticktick_WPF.Models"
+        Topmost="false" WindowStartupLocation="CenterOwner" Style="{DynamicResource CustomWindowStyle}"
+        Title="{StaticResource PreviewTemplate}" Width="528" MaxHeight="600">
+  <FrameworkElement.Resources>
+    <converter:TaskLevelMarginConverter x:Key="TaskLevelMarginConverter"/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid Margin="25,45,15,0">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <ScrollViewer Grid.Row="0" Style="{DynamicResource for_scrollviewer}" Margin="0">
+        <Grid Margin="0,0,10,10">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Style="{DynamicResource Title04}" LineHeight="24" TextWrapping="Wrap"
+                     Margin="0,15,0,8" Text="{Binding Title}"/>
+          <TextBlock Grid.Row="1" Style="{DynamicResource Body01}" LineHeight="22" TextWrapping="Wrap" Margin="0,8"
+                     Text="{Binding Content}"
+                     Visibility="{Binding ShowContent, Converter={StaticResource BoolVisibleConverter}}"/>
+          <StackPanel Grid.Row="1" Visibility="{Binding IsList, Converter={StaticResource BoolVisibleConverter}}">
+            <TextBlock Style="{DynamicResource Body02}" LineHeight="22" TextWrapping="Wrap" Margin="0,8"
+                       Text="{Binding Desc}"
+                       Visibility="{Binding Desc, Converter={StaticResource StringToVisibleConverter}}"/>
+            <ItemsControl Margin="0,0,0,10" ItemsSource="{Binding Items}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid>
+                    <Border Height="14" Width="14" CornerRadius="2" BorderBrush="{DynamicResource BaseColorOpacity40}"
+                            BorderThickness="1" Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock Margin="24,6,0,6" Style="{DynamicResource Body01}" TextWrapping="Wrap" LineHeight="20"
+                               Text="{Binding .}"/>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+          <ItemsControl Grid.Row="2" Margin="0,0,0,6" ItemsSource="{Binding Tags}"
+                        Visibility="{Binding ShowTag, Converter={StaticResource BoolVisibleConverter}}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Border CornerRadius="2" Margin="0,0,6,4">
+                  <TextBlock Style="{DynamicResource Tag01}" Margin="4,2" Text="{Binding .}"/>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+          <Border Grid.Row="3" BorderBrush="{DynamicResource BaseColorOpacity5}" BorderThickness="0,1,0,0"
+                  Margin="0,10,0,8" Visibility="{Binding WithChild, Converter={StaticResource BoolVisibleConverter}}">
+            <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding Children}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="models:TemplateChildViewModel">
+                  <Border>
+                    <Grid>
+                      <FrameworkElement.Margin>
+                        <MultiBinding Converter="{StaticResource TaskLevelMarginConverter}" ConverterParameter="24">
+                          <Binding Path="Level"/>
+                          <Binding Path="{x:Null}"/>
+                        </MultiBinding>
+                      </FrameworkElement.Margin>
+                      <Border Height="14" Width="14" CornerRadius="2" BorderBrush="{DynamicResource BaseColorOpacity40}"
+                              BorderThickness="1" Margin="0,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                              Visibility="{Binding IsTextMode, Converter={StaticResource BoolVisibleConverter}}"/>
+                      <Image Source="{DynamicResource checklist02DrawingImage}" Width="14" Height="14"
+                             Style="{DynamicResource Icon01}" Margin="0,8,0,0" HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Visibility="{Binding IsTextMode, Converter={StaticResource VisibleConverter}}"/>
+                      <TextBlock Margin="24,6,0,6" Style="{DynamicResource Body01}" TextOptions.TextFormattingMode="Display"
+                                 TextWrapping="Wrap" LineHeight="20" Text="{Binding Title}"/>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </Border>
+        </Grid>
+      </ScrollViewer>
+      <Grid HorizontalAlignment="Right" Row="1" Height="56">
+        <TextBlock Text="{StaticResource HowToModifyTemplate}" FontSize="12" TextDecorations="UnderLine"
+                   Margin="0,0,150,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Foreground="{DynamicResource PrimaryColor}" Background="Transparent" Cursor="Hand"/>
+        <Button Content="{DynamicResource ApplyTemplate}" HorizontalAlignment="Right"
+                Style="{StaticResource SaveButtonStyle}" Margin="0,0,15,0" Width="120"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

@@ -1,0 +1,139 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.SetDateDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             MouseLeftButtonDown="OnMouseUp" Background="Transparent"
+             FontFamily="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=FontFamily}">
+  <FrameworkElement.Resources>
+    <Style TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="12"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+      <Setter Property="TextBlock.Padding" Value="3,0,3,0"/>
+    </Style>
+    <Style TargetType="{x:Type Line}">
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="234"/>
+      <Setter Property="Shape.StrokeThickness" Value="1"/>
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity5}"/>
+    </Style>
+    <Style TargetType="{x:Type Popup}">
+      <Setter Property="Popup.Placement" Value="Relative"/>
+      <Setter Property="Popup.AllowsTransparency" Value="true"/>
+      <Setter Property="Popup.VerticalOffset" Value="14"/>
+      <Setter Property="Popup.HorizontalOffset" Value="-62"/>
+      <Setter Property="Popup.StaysOpen" Value="true"/>
+    </Style>
+    <Style TargetType="{x:Type Button}">
+      <Setter Property="Control.Background" Value="White"/>
+      <Setter Property="FrameworkElement.Height" Value="33"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border Background="{TemplateBinding Control.Background}">
+              <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" TextBlock.FontSize="14"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsMouseOver" Value="true">
+          <Setter Property="Control.Background" Value="{StaticResource BaseColorOpacity5}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Resources>
+  <ContentControl PreviewMouseLeftButtonDown="TryFocusEmpty" Name="Container"
+                  Style="{DynamicResource PopupContentStyle}" Margin="0">
+    <Grid Width="260" Margin="0,8,0,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <TextBox Name="EmptyBox" Width="0" IsReadOnly="true" Height="0"/>
+      <Grid Name="SwitchTitle" Height="30" Margin="16,4,16,4" Row="0">
+        <misc:GroupTitle2 x:Name="DateOrDurationSwitch" SelectedTitleChanged="OnDateOrDurationSwitchChanged"
+                          Grid.ColumnSpan="2" Titles="date|Duration" HorizontalAlignment="Stretch" FontSize="12"/>
+        <TextBlock Name="Title" Text="{StaticResource DateAndReminder}" Visibility="Collapsed"
+                   Style="{DynamicResource Body03}" HorizontalAlignment="Center"/>
+      </Grid>
+      <Grid Name="QuickDatePanel" Row="1" HorizontalAlignment="Stretch" Height="38" Margin="5,16,5,10">
+        <FrameworkElement.Resources>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Panel.Background" Value="Transparent"/>
+            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+          </Style>
+        </FrameworkElement.Resources>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition x:Name="SkipGridColumn" Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Border MouseLeftButtonUp="OnGridClick" Name="Today" Tag="Today" VerticalAlignment="Top"
+                Style="{DynamicResource HoverBorderStyle}" BorderThickness="1" ToolTip="{StaticResource Today}"
+                HorizontalAlignment="Center" BorderBrush="Transparent">
+          <Image Source="{DynamicResource SelectTodayDrawingImage}" Style="{DynamicResource Icon01}" Width="24"
+                 Height="24"/>
+        </Border>
+        <Border MouseLeftButtonUp="OnGridClick" Name="Tomorrow" Tag="Tomorrow" VerticalAlignment="Top"
+                Style="{DynamicResource HoverBorderStyle}" BorderThickness="1" BorderBrush="Transparent"
+                ToolTip="{StaticResource Tomorrow}" Grid.Column="1" HorizontalAlignment="Center">
+          <Image Source="{DynamicResource selecttomorrowDrawingImage}" Style="{DynamicResource Icon01}" Width="24"
+                 Height="24"/>
+        </Border>
+        <Border MouseLeftButtonUp="OnGridClick" Name="NextWeek" Tag="NextWeek" VerticalAlignment="Top"
+                Style="{DynamicResource HoverBorderStyle}" BorderThickness="1" BorderBrush="Transparent"
+                ToolTip="{StaticResource NextWeek}" Grid.Column="2" HorizontalAlignment="Center">
+          <Image Source="{DynamicResource SelectNext7daysDrawingImage}" Style="{DynamicResource Icon01}" Width="24"
+                 Height="24"/>
+        </Border>
+        <Border MouseLeftButtonUp="OnGridClick" Name="NextMonth" Tag="NextMonth" VerticalAlignment="Top"
+                Style="{DynamicResource HoverBorderStyle}" BorderThickness="1" BorderBrush="Transparent"
+                ToolTip="{StaticResource NextMonth}" Grid.Column="3" HorizontalAlignment="Center">
+          <Image Source="{DynamicResource NextMonthDrawingImage}" Style="{DynamicResource Icon01}" Width="24"
+                 Height="24"/>
+        </Border>
+        <Border MouseLeftButtonUp="OnGridClick" Name="SkipGrid" VerticalAlignment="Top" Tag="SkipCurrentRecurrence"
+                Style="{DynamicResource HoverBorderStyle}" Grid.Column="4" HorizontalAlignment="Center"
+                BorderThickness="1" BorderBrush="Transparent" ToolTip="{StaticResource SkipTheRecurrence}">
+          <Image Source="{DynamicResource skipDrawingImage}" Style="{DynamicResource Icon01}" Width="24" Height="24"/>
+        </Border>
+      </Grid>
+      <Border Name="DateTimeBorder" Grid.Row="2"/>
+      <Border Name="DurationBorder" Grid.Row="2" Visibility="Collapsed"/>
+      <Button Click="BatchSetClick" Name="BatchEditButton" Style="{StaticResource SetDateButtonStyle}"
+              Margin="12,12,12,4" Content="{StaticResource BatchEditMore}" Grid.Row="3" Padding="8,0,0,0"/>
+      <Border Name="ReminderBorder" Grid.Row="3">
+        <local:SelectReminderOrRepeatControl x:Name="ReminderOrRepeatControl" Visibility="Collapsed"/>
+      </Border>
+      <Grid Name="LocalReminderTimeGrid" Visibility="Collapsed" Row="4">
+        <TextBlock Name="LocalReminderTime" Style="{DynamicResource Tag06}" Margin="15,5" Visibility="Collapsed"
+                   FontSize="11" TextWrapping="Wrap"/>
+      </Grid>
+      <Grid Height="48" Margin="16,8,16,4" Row="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Click="SaveClick" Name="SaveButton" Content="{DynamicResource OK}"
+                Style="{StaticResource SaveButtonStyle}" Width="110" BorderBrush="{DynamicResource TabBorderColor}"
+                Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Focusable="false"/>
+        <Button Click="CancelClick" Name="CancelButton" Content="{DynamicResource PublicClear}"
+                Style="{StaticResource CancelButtonStyle}" Width="110" Grid.Column="1" VerticalAlignment="Center"
+                HorizontalAlignment="Right" Focusable="false"/>
+      </Grid>
+    </Grid>
+  </ContentControl>
+</UserControl>

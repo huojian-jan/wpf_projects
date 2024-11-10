@@ -1,0 +1,19 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Calendar.LoadMoreWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:system="clr-namespace:System;assembly=mscorlib"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                Loaded="OnWindowLoaded" WindowStyle="None" AllowsTransparency="true" Background="Transparent"
+                SizeToContent="Height" Topmost="true" WindowStartupLocation="Manual" MinWidth="200">
+  <ContentControl Name="Container" Style="{DynamicResource PopupContentStyle}" Margin="0">
+    <StackPanel Orientation="Vertical">
+      <TextBlock Name="Title" HorizontalAlignment="Left" Margin="8,8,15,8" FontSize="13"
+                 Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+      <ScrollViewer Margin="4,0,4,10" MaxHeight="150" Style="{StaticResource for_scrollviewer}">
+        <StackPanel Name="TaskPanel" Orientation="Vertical"/>
+      </ScrollViewer>
+    </StackPanel>
+  </ContentControl>
+</views:MyWindow>

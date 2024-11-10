@@ -1,0 +1,172 @@
+<UserControl x:Class="ticktick_WPF.Views.QuickAdd.QuickAddView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:quickAdd="clr-namespace:ticktick_WPF.Views.QuickAdd"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             Loaded="OnViewLoaded" Unloaded="OnViewUnloaded" MouseLeftButtonUp="OnAddViewMouseLeftUp"
+             Name="RootView" Background="Transparent" MinHeight="{DynamicResource Height40}">
+  <FrameworkElement.Resources>
+    <Style x:Key="IconStyle" TargetType="{x:Type Path}">
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    </Style>
+    <converter:IconOverDueColorConverter x:Key="IconOverDueColorConverter"/>
+    <converter:TextEmptyVisibleConverter x:Key="TextEmptyVisibleConverter"/>
+    <quickAdd:DateTextVisibleConverter x:Key="DateTextVisibleConverter"/>
+    <converter:TextEmptyInVisibleConverter x:Key="TextEmptyInVisibleConverter"/>
+    <converter:CalendarIconColorConverter x:Key="CalendarIconColorConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Drop="OnFileDrop" Name="AddTaskGrid" Margin="20,0,20,8" Background="Transparent" AllowDrop="true">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <Border Name="InputBackground" CornerRadius="6" Background="{DynamicResource TextBoxBackground}"
+              Grid.ColumnSpan="2" Grid.Column="0" Grid.RowSpan="2"
+              Visibility="{Binding Path=Visibility, ElementName=OperationPanel, Converter={StaticResource InverseVisibleConverter}}"/>
+      <Border Name="InputBorder" Grid.ColumnSpan="2" Grid.Column="0" Grid.RowSpan="2">
+        <Border CornerRadius="6" BorderBrush="{DynamicResource PrimaryColor}" BorderThickness="1"
+                Visibility="{Binding Path=Visibility, ElementName=OperationPanel}"/>
+      </Border>
+      <StackPanel Name="HintPanel" Grid.Column="0" Orientation="Horizontal" IsHitTestVisible="false"
+                  Margin="12,2,0,0">
+        <Path Name="AddPath" Fill="{DynamicResource BaseSolidColorOpacity40}" Style="{StaticResource Path01}"
+              Width="{DynamicResource Font16}" Height="{DynamicResource Font16}"
+              Data="{Binding Source={StaticResource IcAdd}, Path=Data}"/>
+        <TextBlock Name="HintTextBlock" VerticalAlignment="Center" Margin="2,-1,0,0"
+                   Foreground="{DynamicResource BaseSolidColorOpacity40}" Text="{Binding Hint}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="TextBlock.FontSize" Value="{DynamicResource Font14}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=TitleText, Path=FontSize}" Value="16">
+                  <Setter Property="TextBlock.FontSize" Value="{DynamicResource Font16}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=TitleText, Path=FontSize}" Value="20">
+                  <Setter Property="TextBlock.FontSize" Value="{DynamicResource Font20}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </StackPanel>
+      <ScrollViewer Name="InputScrollViewer" HorizontalScrollBarVisibility="Hidden"
+                    VerticalScrollBarVisibility="Disabled" Grid.Column="0" Margin="12,0,8,0">
+        <quickAdd:QuickAddText x:Name="TitleText" RequestBringIntoView="TitleTextOnRequestBringIntoView"
+                               CaretHorizontalOffsetChanged="OnTextOffsetChanged" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" Width="1000" MaxHeight="80"
+                               Padding="0,8" MinHeight="{Binding ElementName=RootView, Path=MinHeight}"/>
+      </ScrollViewer>
+      <StackPanel Name="OperationPanel" Orientation="Horizontal" Grid.Column="1" Background="Transparent"
+                  Margin="0,0,10,0" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Right">
+        <Border Name="SetDateBorder" VerticalAlignment="Center" BorderThickness="1"
+                Style="{DynamicResource HoverBorderStyle}" Height="24" CornerRadius="4" Margin="4,0,0,0"
+                BorderBrush="Transparent">
+          <Grid MouseLeftButtonDown="OnMouseDown" PreviewMouseLeftButtonUp="SetDateClick" Height="22">
+            <Border Name="DateGrid" Width="24" Visibility="Collapsed" Background="Transparent" Cursor="Hand"
+                    ToolTip="{StaticResource ReminderInputHint}">
+              <Path Style="{DynamicResource Path01}" Width="18" Height="18" Data="{Binding DayTextIcon}">
+                <Shape.Fill>
+                  <MultiBinding Converter="{StaticResource IconOverDueColorConverter}">
+                    <Binding Path="StartDate"/>
+                    <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                  </MultiBinding>
+                </Shape.Fill>
+              </Path>
+            </Border>
+            <StackPanel Name="DetailDateGrid" Orientation="Horizontal" Background="Transparent" Cursor="Hand"
+                        Margin="4,0,4,0" Height="22" ToolTip="{StaticResource DateAndReminder}">
+              <Path Name="SetDatePath" Style="{DynamicResource Path01}"
+                    Data="{Binding Source={StaticResource IcCalendarThin}, Path=Data}">
+                <Shape.Fill>
+                  <MultiBinding Converter="{StaticResource IconOverDueColorConverter}">
+                    <Binding Path="StartDate"/>
+                    <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                  </MultiBinding>
+                </Shape.Fill>
+              </Path>
+              <Grid Visibility="{Binding ElementName=DateText, Path=MaxWidth, Converter={StaticResource DateTextVisibleConverter}}">
+                <TextBlock Name="DateText" FontSize="{DynamicResource Font12}" VerticalAlignment="Center" Margin="4,0,0,0"
+                           TextTrimming="CharacterEllipsis"
+                           Visibility="{Binding DetailDayText, Converter={StaticResource TextEmptyVisibleConverter}}"
+                           Text="{Binding DetailDayText}" Foreground="{Binding ElementName=SetDatePath, Path=Fill}"
+                           MaxWidth="{Binding ElementName=AddTaskGrid, Path=ActualWidth, Converter={StaticResource MathConverter}, ConverterParameter='@VALUE*0.4 - 60'}"/>
+              </Grid>
+              <Path Stretch="Fill" Height="12" Width="12" Margin="5,0,0,0" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Data="{Binding Source={StaticResource RepeatPath}, Path=Data}"
+                    Visibility="{Binding ShowRepeat, Converter={StaticResource BoolVisibleConverter}}"
+                    Fill="{Binding ElementName=SetDatePath, Path=Fill}"/>
+            </StackPanel>
+          </Grid>
+        </Border>
+        <Border Name="SetCalBorder" BorderThickness="1" CornerRadius="4" Height="24" Width="24"
+                Visibility="{Binding IsCalendar, Converter={StaticResource BoolVisibleConverter}}">
+          <Grid MouseLeftButtonUp="SetProjectClick" Background="Transparent" Margin="2,0"
+                ToolTip="{StaticResource CalendarInputHint}" Cursor="Hand">
+            <Image Source="{DynamicResource CalendarMoveDrawingImage}" Style="{DynamicResource Icon01}"/>
+          </Grid>
+        </Border>
+        <misc:EscPopup x:Name="SetCalendarPopup" Opened="PopupOpened" Closed="PopupClosed"
+                       MouseLeftButtonUp="OnPopupClick" StaysOpen="false" Placement="Bottom" HorizontalOffset="-5"
+                       VerticalOffset="-5" PlacementTarget="{Binding ElementName=SetCalBorder}"/>
+        <misc:EscPopup x:Name="SetProjectPopup" Closed="PopupClosed" StaysOpen="false" Placement="Bottom"
+                       HorizontalOffset="-120" VerticalOffset="-5"/>
+        <Border Name="MoreGrid" Width="24" Height="24" BorderThickness="1" CornerRadius="4"
+                Style="{DynamicResource HoverBorderStyle}" BorderBrush="Transparent">
+          <Grid MouseLeftButtonDown="OnMouseDown" PreviewMouseLeftButtonUp="OnMoreClick" Background="Transparent"
+                Cursor="Hand" ToolTip="{StaticResource More}">
+            <Border>
+              <Path Stretch="Fill" Width="16" Height="16" Fill="{DynamicResource BaseColorOpacity60}"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Data="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+            </Border>
+          </Grid>
+        </Border>
+      </StackPanel>
+      <Border Name="AttachmentBorder" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="8,0">
+        <ScrollViewer PreviewMouseWheel="OnFileScrollerMouseWheel" Name="FileScroller"
+                      Style="{DynamicResource for_scrollviewer}" HorizontalScrollBarVisibility="Hidden" Focusable="false"
+                      VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Left">
+          <ItemsControl ItemsSource="{Binding Files}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid Margin="0,0,0,8">
+                  <Border Height="48" Width="48" CornerRadius="4" Margin="4"
+                          BorderBrush="{DynamicResource BaseColorOpacity5}" BorderThickness="1">
+                    <Border.Background>
+                      <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Image}"/>
+                    </Border.Background>
+                  </Border>
+                  <Grid Width="12" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="Hand"
+                        ToolTip="{StaticResource Remove}">
+                    <Rectangle Width="12" Height="12" RadiusX="6" RadiusY="6" Fill="{DynamicResource BaseColorOpacity80}"
+                               StrokeThickness="1" Stroke="{DynamicResource PopupBackground}" VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                    <Path Width="8" Height="8" Fill="{DynamicResource PopupBackground}" Stretch="Uniform"
+                          VerticalAlignment="Center" HorizontalAlignment="Center"
+                          Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+                  </Grid>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,70 @@
+<UserControl x:Class="ticktick_WPF.Views.Project.ShareUserItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Project"
+             Loaded="OnLoaded">
+  <FrameworkElement.Resources>
+    <converter:PendingVisibilityConverter x:Key="PendingVisibilityConverter"/>
+    <Style x:Key="LineStyle" TargetType="{x:Type Line}">
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity5}"/>
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="10"/>
+      <Setter Property="Shape.StrokeThickness" Value="1"/>
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid Height="60">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="auto"/>
+    </Grid.ColumnDefinitions>
+    <Rectangle HorizontalAlignment="Center" Grid.Column="0" StrokeThickness="1" VerticalAlignment="Center"
+               RadiusX="36" RadiusY="36" Width="36" Height="36" Stroke="{DynamicResource BaseColorOpacity5}">
+      <Shape.Fill>
+        <ImageBrush Stretch="Fill" ImageSource="{Binding avatar}"/>
+      </Shape.Fill>
+    </Rectangle>
+    <Grid Margin="8,0" VerticalAlignment="Center" Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <TextBlock Name="DisplayName" Style="{DynamicResource Body01}"
+                   Foreground="{DynamicResource BaseColorOpacity80}" TextTrimming="WordEllipsis" MaxWidth="240"
+                   Text="{Binding displayName}"/>
+        <Border Background="#334772FA" CornerRadius="2" Margin="8,0,0,0"
+                Visibility="{Binding isFeishu, Converter={StaticResource BoolVisibleConverter}}">
+          <TextBlock Text="{StaticResource Feishu}" Foreground="{StaticResource ThemeBlue}" Padding="4,2"
+                     HorizontalAlignment="Left"/>
+        </Border>
+        <Border Background="#33FFB000" CornerRadius="2" Margin="8,0,0,0"
+                Visibility="{Binding visitor, Converter={StaticResource BoolVisibleConverter}}">
+          <TextBlock Text="{StaticResource Guest}" Foreground="{DynamicResource TickYellow}" Padding="4,2"
+                     HorizontalAlignment="Left"/>
+        </Border>
+      </StackPanel>
+      <TextBlock Name="UserName" Margin="0,2,0,0" FontSize="12" Grid.Row="1"
+                 Foreground="{DynamicResource BaseColorOpacity40}" Text="{Binding username}"
+                 Visibility="{Binding username, Converter={StaticResource StringToVisibleConverter}}"/>
+    </Grid>
+    <TextBlock Name="OwnerOrMyPermission" Text="{DynamicResource Owner}" VerticalAlignment="Center"
+               Style="{DynamicResource Tag01}" Foreground="{DynamicResource BaseColorOpacity60}" Padding="2,0"
+               HorizontalAlignment="Right" Grid.Column="2" Visibility="Collapsed" Margin=" 0,0,2,0"/>
+    <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Column="2"
+          Visibility="{Binding isAccept, Converter={StaticResource PendingVisibilityConverter}}">
+      <TextBlock Text="{DynamicResource Pending}" VerticalAlignment="Center" Style="{DynamicResource Tag01}"
+                 Foreground="{DynamicResource PrimaryColor}" Padding="4,0"/>
+    </Grid>
+    <local:ProjectPermissionSetControl x:Name="OptionControl" InUserItem="true" Margin="0,0,0,0" Grid.Column="3" Height="30" MinWidth="32"/>
+    <CheckBox Name="OpenCheckBox" Style="{StaticResource BlueSwitchCheckBoxStyle}" Margin="4,0,0,0"
+              VerticalAlignment="Center" Grid.Column="4" Visibility="Collapsed"/>
+  </Grid>
+</UserControl>

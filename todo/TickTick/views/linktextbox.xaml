@@ -1,0 +1,51 @@
+<UserControl x:Class="ticktick_WPF.Views.LinkTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             Name="Root">
+  <FrameworkElement.Resources>
+    <converter:LineHeightConverter x:Key="LineHeightConverter"/>
+    <Style TargetType="{x:Type Hyperlink}">
+      <Style.Triggers>
+        <Trigger Property="ContentElement.IsMouseOver" Value="true">
+          <Setter Property="TextElement.Foreground" Value="{DynamicResource TextAccentColor}"/>
+        </Trigger>
+      </Style.Triggers>
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource TextAccentColor}"/>
+      <Setter Property="TextBlock.TextDecorations" Value="{x:Null}"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid>
+    <TextBlock MouseLeftButtonUp="OnTextBlockClick" Name="TextBlock" Visibility="Collapsed" Margin="2,0,0,0"
+               VerticalAlignment="Top" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight">
+      <TextBlock.LineHeight>
+        <MultiBinding Converter="{StaticResource LineHeightConverter}">
+          <Binding Path="FontSize" ElementName="TextBlock"/>
+          <Binding Path="LineHeightScale" ElementName="Root"/>
+        </MultiBinding>
+      </TextBlock.LineHeight>
+    </TextBlock>
+    <TextBox GotFocus="OnTextBoxGotFocus" LostFocus="OnTextBoxLostFocus" KeyUp="OnKeyUp"
+             SelectionChanged="OnTextBoxSelectionChanged" PreviewMouseRightButtonDown="OnRightClick"
+             PreviewMouseLeftButtonDown="OnLeftClick" PreviewKeyDown="OnTextKeyDown" Name="TextBox"
+             Background="Transparent" KeyboardNavigation.IsTabStop="false"
+             Foreground="{DynamicResource BaseColorOpacity100_80}"
+             CaretBrush="{DynamicResource BaseColorOpacity100_80}" BorderThickness="0"
+             IsReadOnly="{DynamicResource TaskItemEditable}" VerticalAlignment="Top"
+             TextBlock.LineStackingStrategy="BlockLineHeight">
+      <TextBlock.LineHeight>
+        <MultiBinding Converter="{StaticResource LineHeightConverter}">
+          <Binding Path="FontSize" ElementName="TextBlock"/>
+          <Binding Path="LineHeightScale" ElementName="Root"/>
+        </MultiBinding>
+      </TextBlock.LineHeight>
+    </TextBox>
+    <Popup x:Name="SelectionPopup" StaysOpen="false" AllowsTransparency="true">
+      <ContentControl Style="{DynamicResource PopupContentStyle}" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Grid Name="ItemsContainer"/>
+      </ContentControl>
+    </Popup>
+  </Grid>
+</UserControl>

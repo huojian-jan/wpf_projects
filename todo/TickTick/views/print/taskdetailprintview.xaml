@@ -1,0 +1,186 @@
+<UserControl x:Class="ticktick_WPF.Views.Print.TaskDetailPrintView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Print"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+             Initialized="OnInitialized">
+  <FrameworkElement.Resources>
+    <converter:TaskDisplayIconConverter x:Key="TaskDisplayIconConverter"/>
+    <converter:TaskDetailPriorityIconConverter x:Key="TaskDetailPriorityIconConverter"/>
+    <converter:RepeatVisibleConverter x:Key="RepeatVisibleConverter"/>
+    <converter:TaskDetailDateConverter x:Key="TaskDetailDateConverter"/>
+    <converter:DetailPrintDateColorConverter x:Key="DetailPrintDateColorConverter"/>
+    <converter:DefaultRepeatDisplayTextConverter x:Key="DefaultRepeatDisplayTextConverter"/>
+    <SolidColorBrush x:Key="BaseColorOpacity100_80" Color="{DynamicResource black}"/>
+    <Style x:Key="HorizontalLineStyle" TargetType="{x:Type Line}">
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity5}"/>
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="1"/>
+      <Setter Property="Shape.Stretch" Value="Fill"/>
+      <Setter Property="UIElement.Opacity" Value="1"/>
+      <Setter Property="Shape.StrokeThickness" Value="1"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+    </Style>
+    <DrawingImage x:Key="RepeatDrawingImage">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,48 48,48 48,0 0,0 Z">
+          <GeometryDrawing Brush="#FF191919"
+                           Geometry="M 24,24 0,0 15.7071,7.8297548828125 L 17.8284,5.7084348828125 C 18.219,5.3179048828125 18.219,4.6847448828125 17.8284,4.2942148828125 L 15.7071,2.1728978828125 C 15.3166,1.7823738828125 14.6834,1.7823738828125 14.2929,2.1728978828125 13.9024,2.5634228828125 13.9024,3.1965848828125 14.2929,3.5871148828125 L 14.7058,4.0000048828125 9,4.0000048828125 C 4.58172,4.0000048828125 1,7.5817248828125 1,12.0000048828125 1,13.4952048828125 1.410167,14.8945048828125 2.12412,16.0917048828125 2.43227,16.6084048828125 3.1276,16.6298048828125 3.55302,16.2044048828125 3.91045,15.8470048828125 3.935,15.2789048828125 3.69335,14.8349048828125 Q 3,13.5611048828125 3,12.0000048828125 3,9.5147148828125 4.75736,7.7573548828125 6.51472,6.0000048828125 9,6.0000048828125 L 14.7084,6.0000048828125 14.2929,6.4155348828125 C 13.9024,6.8060648828125 13.9024,7.4392248828125 14.2929,7.8297548828125 14.6834,8.2202748828125 15.3166,8.2202748828125 15.7071,7.8297548828125 M 20.3067,9.1650948828125 C 20.065,8.7211148828125 20.0896,8.1530748828125 20.447,7.7956448828125 20.8724,7.3702148828125 21.5677,7.3916048828125 21.8759,7.9083348828125 22.5898,9.1055048828125 23,10.5048548828125 23,12.0000048828125 23,16.4183048828125 19.4183,20.0000048828125 15,20.0000048828125 L 9.29552,20.0000048828125 9.70843,20.4129048828125 C 10.09895,20.8034048828125 10.09895,21.4366048828125 9.70843,21.8271048828125 9.3179,22.2176048828125 8.68474,22.2176048828125 8.29421,21.8271048828125 L 6.17289,19.7058048828125 C 5.78237,19.3153048828125 5.78237,18.6821048828125 6.17289,18.2916048828125 L 8.29421,16.1702048828125 C 8.68474,15.7797048828125 9.3179,15.7797048828125 9.70843,16.1702048828125 10.09895,16.5608048828125 10.09895,17.1940048828125 9.70843,17.5845048828125 L 9.29291,18.0000048828125 15,18.0000048828125 Q 17.4853,18.0000048828125 19.2426,16.2426048828125 21,14.4853048828125 21,12.0000048828125 21,10.4389548828125 20.3067,9.1650948828125 Z"/>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+  </FrameworkElement.Resources>
+  <Grid>
+    <FlowDocumentPageViewer Name="PageViewer" VerticalAlignment="Top">
+      <FlowDocument x:Name="Doc" ColumnWidth="2000" PagePadding="30,50" LineHeight="10">
+        <BlockUIContainer x:Name="Head">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Name="CheckIcon" Grid.Row="0" Grid.Column="1" Background="Transparent" Orientation="Horizontal">
+              <Path HorizontalAlignment="Left" Width="16" Height="16" Margin="0,2,0,0" Stretch="Uniform"
+                    Fill="#5C191919">
+                <Path.Data>
+                  <MultiBinding Converter="{StaticResource TaskDisplayIconConverter}">
+                    <Binding Path="Status"/>
+                    <Binding Path="Kind"/>
+                    <Binding Path="AttendId"/>
+                    <Binding Source="{x:Null}"/>
+                  </MultiBinding>
+                </Path.Data>
+              </Path>
+              <Grid Width="1" Margin="10,1,6,0" Height="14" Background="{DynamicResource BaseColorOpacity10}"/>
+            </StackPanel>
+            <Grid Row="0" Column="2" Background="Transparent">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+              </Grid.ColumnDefinitions>
+              <Grid HorizontalAlignment="Left" Width="24">
+                <Path Width="18" Height="18" Stretch="Uniform" Margin="0,2,0,0" Fill="#5C191919"
+                      Visibility="{Binding ShowSetTime, Converter={StaticResource BoolVisibleConverter}}"
+                      Data="{Binding Source={StaticResource IcCalendar}, Path=Data}"/>
+                <Grid>
+                  <Path Height="24" Width="24" UseLayoutRounding="false" Margin="0,2,0,0" Stretch="Uniform"
+                        Visibility="{Binding ShowSetTime, Converter={StaticResource VisibleConverter}}"
+                        Data="{Binding Source={StaticResource IcCalendar}, Path=Data}">
+                    <Shape.Fill>
+                      <MultiBinding Converter="{StaticResource DetailPrintDateColorConverter}">
+                        <Binding Path="StartDate"/>
+                        <Binding Path="DueDate"/>
+                        <Binding Path="IsAllDay"/>
+                      </MultiBinding>
+                    </Shape.Fill>
+                  </Path>
+                </Grid>
+              </Grid>
+              <TextBlock Margin="12,0,10,0" Grid.Column="1" Style="{StaticResource Body06}" MaxWidth="450"
+                         Foreground="#191919">
+                <TextBlock.Text>
+                  <MultiBinding Converter="{StaticResource TaskDetailDateConverter}">
+                    <Binding Path="StartDate"/>
+                    <Binding Path="DueDate"/>
+                    <Binding Path="IsAllDay"/>
+                    <Binding Path="Mode"/>
+                    <Binding Path="Kind"/>
+                    <Binding Path="Status"/>
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+              <Grid Column="2">
+                <Image Source="{DynamicResource RepeatDrawingImage}" Style="{DynamicResource ListIcon}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource RepeatVisibleConverter}">
+                      <Binding Path="Status"/>
+                      <Binding Path="RepeatFlag"/>
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                  <FrameworkElement.ToolTip>
+                    <MultiBinding Converter="{StaticResource DefaultRepeatDisplayTextConverter}">
+                      <Binding Path="RepeatFrom"/>
+                      <Binding Path="RepeatFlag"/>
+                      <Binding Path="StartDate"/>
+                    </MultiBinding>
+                  </FrameworkElement.ToolTip>
+                </Image>
+              </Grid>
+            </Grid>
+            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
+              <Grid>
+                <Border Name="AvatarGrid" Width="22" Height="22" CornerRadius="11"
+                        BorderBrush="{DynamicResource BaseColorOpacity5}" Margin="0,3,10,3" BorderThickness="1"
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
+                  <Border Name="AvatarImage" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20"
+                          CornerRadius="10"/>
+                </Border>
+                <Image Name="AssignImage" Margin="0,0,10,0" Source="{DynamicResource AssigntoDrawingImage}"
+                       Style="{StaticResource Icon01}" Visibility="Collapsed" ToolTip="{StaticResource AssignTo}"/>
+              </Grid>
+              <Grid Name="PriorityGrid" Width="20" Background="Transparent" Tag="light">
+                <Image Style="{DynamicResource Icon01}" Opacity="1">
+                  <Image.Source>
+                    <MultiBinding Converter="{StaticResource TaskDetailPriorityIconConverter}" ConverterParameter="light">
+                      <Binding Path="Priority"/>
+                      <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                    </MultiBinding>
+                  </Image.Source>
+                </Image>
+              </Grid>
+            </StackPanel>
+            <Line Style="{StaticResource HorizontalLineStyle}" Grid.Column="0" Grid.Row="1" Margin="0,15,0,10"
+                  Grid.ColumnSpan="4"/>
+            <Grid Column="0" Row="1" Margin="0,15,0,0" VerticalAlignment="Top" ColumnSpan="4" Height="2">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="FColumn"/>
+                <ColumnDefinition x:Name="SColumn"/>
+              </Grid.ColumnDefinitions>
+              <Border Background="{StaticResource PrimaryColor}"/>
+            </Grid>
+          </Grid>
+        </BlockUIContainer>
+        <Paragraph x:Name="TitleText"/>
+        <Paragraph x:Name="DescText" FontSize="13"/>
+        <Table LineHeight="1">
+          <Table.Columns>
+            <TableColumn Width="25"/>
+            <TableColumn/>
+            <TableColumn Width="80"/>
+          </Table.Columns>
+          <TableRowGroup x:Name="ItemRowGroup"/>
+        </Table>
+        <BlockUIContainer x:Name="TagBlock">
+          <WrapPanel Name="TagContainer"/>
+        </BlockUIContainer>
+        <Table LineHeight="1" Margin="10, 0, 0, 0">
+          <Table.Columns>
+            <TableColumn Width="25"/>
+            <TableColumn/>
+            <TableColumn Width="80"/>
+          </Table.Columns>
+          <TableRowGroup x:Name="SubTaskGroup"/>
+        </Table>
+        <Table x:Name="CommentTable">
+          <Table.Columns>
+            <TableColumn Width="40"/>
+            <TableColumn/>
+          </Table.Columns>
+          <TableRowGroup x:Name="CommentRowGroup"/>
+        </Table>
+      </FlowDocument>
+    </FlowDocumentPageViewer>
+    <ScrollViewer Name="MarkDownViewer" Visibility="Hidden" Height="50"/>
+  </Grid>
+</UserControl>

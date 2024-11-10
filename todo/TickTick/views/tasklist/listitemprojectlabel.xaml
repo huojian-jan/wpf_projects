@@ -1,0 +1,34 @@
+<StackPanel x:Class="ticktick_WPF.Views.TaskList.ListItemProjectLabel"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:views="clr-namespace:ticktick_WPF.Views"
+            xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+            xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+            xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+            Name="ProjectName" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Center"
+            Orientation="Horizontal" ZIndex="1000" Margin="2,4,0,0" Cursor="Hand"
+            Visibility="{Binding ShowProject, Converter={StaticResource BoolVisibleConverter}}">
+  <Rectangle Height="8" Width="8" RadiusX="4" RadiusY="4" Margin="2,0,2,0" HorizontalAlignment="Center"
+             Cursor="Hand" Fill="{Binding Color}"
+             Visibility="{Binding ShowProjectColor, Converter={StaticResource BoolVisibleConverter}}"/>
+  <wpf:EmjTextBlock x:Name="ProjectTitle" FontSize="12" Foreground="{DynamicResource BaseColorOpacity60}"
+                    VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Height="16"
+                    ClipToBounds="true" Text="{Binding ProjectName}">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type wpf:EmjTextBlock}" BasedOn="{StaticResource HoverUnderlineStyle}">
+        <Setter Property="FrameworkElement.MaxWidth" Value="80"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ShowDetails}"
+                       Value="True">
+            <Setter Property="FrameworkElement.MaxWidth" Value="150"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding InMatrix}" Value="True">
+            <Setter Property="FrameworkElement.MaxWidth" Value="80"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </wpf:EmjTextBlock>
+</StackPanel>

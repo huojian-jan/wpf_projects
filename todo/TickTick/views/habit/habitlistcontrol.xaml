@@ -1,0 +1,166 @@
+<UserControl x:Class="ticktick_WPF.Views.Habit.HabitListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Habit"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             Name="Root">
+  <FrameworkElement.Resources>
+    <Storyboard x:Key="ShowRecordPopupAnim" Completed="OnRecordStoryCompleted" FillBehavior="HoldEnd">
+      <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" Storyboard.TargetName="RecordHintGrid"
+                       Storyboard.TargetProperty="Opacity" From="0" To="1">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.001" Storyboard.TargetName="RecordPopup"
+                       Storyboard.TargetProperty="VerticalOffset" From="-65" To="-35">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation BeginTime="0:0:0.8" Duration="0:0:0.8" Storyboard.TargetName="RecordHintGrid"
+                       Storyboard.TargetProperty="Opacity" FillBehavior="HoldEnd" From="1" To="0">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation BeginTime="0:0:0.8" Duration="0:0:1" Storyboard.TargetName="RecordPopup"
+                       Storyboard.TargetProperty="VerticalOffset" FillBehavior="HoldEnd" From="-35" To="-65">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+    </Storyboard>
+    <DataTemplate x:Key="HabitListItemTemplate">
+      <local:HabitListItem/>
+    </DataTemplate>
+    <DataTemplate x:Key="HabitListSectionTemplate">
+      <local:HabitListSectionItem/>
+    </DataTemplate>
+    <local:HabitListItemTemplateSelector x:Key="HabitListItemTemplateSelector"/>
+    <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
+      <Setter Property="ListBox.SelectionMode" Value="Extended"/>
+      <Setter Property="Control.Background" Value="Transparent"/>
+      <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+      <Setter Property="ScrollViewer.PanningMode" Value="VerticalOnly"/>
+      <Setter Property="VirtualizingPanel.IsVirtualizing" Value="true"/>
+      <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+      <Setter Property="Control.BorderThickness" Value="0"/>
+      <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type ListView}">
+            <Border x:Name="Bd" BorderBrush="{TemplateBinding Control.BorderBrush}"
+                    BorderThickness="{TemplateBinding Control.BorderThickness}"
+                    Background="{TemplateBinding Control.Background}">
+              <ScrollViewer Style="{StaticResource for_scrollviewer}" VirtualizingPanel.IsVirtualizing="true"
+                            Padding="{TemplateBinding Control.Padding}">
+                <ItemsPresenter/>
+              </ScrollViewer>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="76"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Height="60" VerticalAlignment="Bottom">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="188"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Style="{DynamicResource Title01}" FontSize="20" Text="{StaticResource Habit}" Grid.Column="0"
+                 Margin="22,0,0,0"/>
+      <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <misc:HoverIconButton MouseLeftButtonUp="OnAddHabitClick" ImageSource="{DynamicResource AddDrawingImage}"/>
+        <misc:HoverIconButton MouseLeftButtonUp="OnMoreClick" ImageSource="{DynamicResource MoreDrawingImage}" Margin="4,0,16,0"/>
+        <misc:EscPopup x:Name="MorePopup" Placement="Bottom" VerticalOffset="-5" StaysOpen="false" PopupAnimation="Fade"
+                       HorizontalOffset="-5"/>
+      </StackPanel>
+      <misc:GroupTitle SelectedTitleChanged="OnGroupTitleSelectedTitleChanged" Titles="Keeping|Archived"
+                       HorizontalAlignment="Center" Grid.Column="1" BorderHeight="30"/>
+    </Grid>
+    <Grid PreviewMouseLeftButtonUp="OnDrop" PreviewMouseLeftButtonDown="TryDragItem" MouseMove="OnDragMove"
+          Name="ItemsGrid" Row="1" Background="Transparent" VerticalAlignment="Stretch">
+      <ListView Name="HabitItems" Style="{DynamicResource ListViewStyle}" VerticalAlignment="Top"
+                ItemTemplateSelector="{StaticResource HabitListItemTemplateSelector}"
+                MaxHeight="{Binding ElementName=ItemsGrid, Path=ActualHeight}">
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="ListBoxItem.IsSelected"
+                    Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="Control.Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                  <ContentPresenter/>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+      </ListView>
+      <Popup Name="DragPopup" Placement="Relative" HorizontalAlignment="Stretch" AllowsTransparency="true"
+             Cursor="Hand" Width="{Binding ElementName=ItemsGrid, Path=ActualWidth}"
+             PlacementTarget="{Binding ElementName=ItemsGrid}">
+        <Border Background="{DynamicResource TaskDragPopupBackground}" Margin="8,0" CornerRadius="4"
+                BorderThickness="1" BorderBrush="{DynamicResource BaseColorOpacity5}">
+          <Grid>
+            <local:HabitListItem x:Name="PopupItem"/>
+            <local:HabitListSectionItem x:Name="PopupSection"/>
+          </Grid>
+        </Border>
+      </Popup>
+    </Grid>
+    <Grid Name="EmptyGrid" Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
+      <StackPanel Visibility="{Binding ElementName=Root, Path=IsArchive, Converter={StaticResource VisibleConverter}}">
+        <Grid Width="200" Height="200">
+          <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity5}"/>
+          <Path Width="200" Height="200" Fill="{DynamicResource EmptyPathColor}" Margin="7,6"
+                Data="{Binding Source={StaticResource IcHabitListEmpty}, Path=Data}"/>
+          <Image Width="200" Height="200" Stretch="None" Source="{DynamicResource HabitListEmptyDrawingImage}"/>
+        </Grid>
+        <TextBlock Text="{StaticResource HabitListEmptyText1}" Style="{DynamicResource Title05}"
+                   TextAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Text="{StaticResource HabitListEmptyText2}" Style="{DynamicResource Body02}" TextAlignment="Center"
+                   HorizontalAlignment="Center" Margin="0,10,0,0"/>
+      </StackPanel>
+      <StackPanel Visibility="{Binding ElementName=Root, Path=IsArchive, Converter={StaticResource BoolVisibleConverter}}">
+        <Grid Width="200" Height="200">
+          <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity5}"/>
+          <Image Width="200" Height="200" Stretch="None" Source="{DynamicResource HabitArchiveEmptyDrawingImage}"
+                 Margin="-6,1,0,0"/>
+          <Path Width="200" Height="200" Fill="{DynamicResource EmptyPathColor}" Margin="120,57,0,0"
+                Data="{Binding Source={StaticResource IcArchiveHabitEmpty}, Path=Data}"/>
+        </Grid>
+        <TextBlock Text="{StaticResource HabitArchiveListEmptyText1}" Style="{DynamicResource Title05}"
+                   TextAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Text="{StaticResource HabitArchiveListEmptyText2}" Style="{DynamicResource Body02}"
+                   TextAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+      </StackPanel>
+    </Grid>
+    <Popup Name="RecordPopup" Placement="Center" VerticalOffset="-35" StaysOpen="true" Grid.Row="1"
+           AllowsTransparency="true">
+      <Grid MaxWidth="150">
+        <StackPanel Name="RecordHintGrid" HorizontalAlignment="Center" Opacity="0">
+          <Border Height="30" CornerRadius="4" Background="{DynamicResource PrimaryColor}">
+            <TextBlock Name="CheckInAmountText" FontSize="13" Foreground="#D8FFFFFF" VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" Margin="8,0" HorizontalAlignment="Center"/>
+            <UIElement.Effect>
+              <DropShadowEffect BlurRadius="11" Direction="300" ShadowDepth="2" Color="#000000" Opacity="0.2"/>
+            </UIElement.Effect>
+          </Border>
+          <Path Margin="0,-2,0,0" Fill="{DynamicResource PrimaryColor}" Stretch="None" HorizontalAlignment="Center"
+                Data="{Binding Source={StaticResource IcHabitAddStep}, Path=Data}"/>
+        </StackPanel>
+      </Grid>
+    </Popup>
+  </Grid>
+</UserControl>

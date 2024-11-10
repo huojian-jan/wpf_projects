@@ -1,0 +1,49 @@
+<Window x:Class="ticktick_WPF.Views.Team.TeamExpiredRemindDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.Team"
+        Loaded="OnWindowLoaded" WindowStyle="None" WindowStartupLocation="CenterScreen" Height="364"
+        Width="590" Background="Transparent" ShowInTaskbar="false" ResizeMode="NoResize" Topmost="true"
+        AllowsTransparency="true">
+  <ContentControl Style="{DynamicResource WindowContentStyle}" Margin="0">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="264"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Grid VerticalAlignment="Top" Height="264">
+        <Border CornerRadius="4,4,0,0">
+          <Border.Background>
+            <ImageBrush ImageSource="pack://application:,,,/Assets/img_bg_updatebg.png"/>
+          </Border.Background>
+        </Border>
+        <Border Background="{DynamicResource PrimaryColor}" CornerRadius="4,4,0,0" Opacity="0.86"/>
+        <Grid Width="48" Height="48" Margin="28" HorizontalAlignment="Left" VerticalAlignment="Top">
+          <Path Fill="White" Stretch="Uniform" Data="{Binding Source={StaticResource IcLogoCircle}, Path=Data}"/>
+          <Path Width="32" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="8,4,0,0"
+                Fill="{StaticResource TickYellow}" Stretch="Uniform"
+                Data="{Binding Source={StaticResource IcLogoTick}, Path=Data}"/>
+        </Grid>
+        <TextBlock Name="TitleText" Foreground="White" FontSize="24" Margin="92,40,0,0" Height="28"
+                   VerticalAlignment="Top"/>
+        <TextBlock Name="RemindText" FontSize="16" Text="{DynamicResource TeamOutDateText}" Margin="24,108,24,0"
+                   VerticalAlignment="Top" LineStackingStrategy="BlockLineHeight" TextWrapping="Wrap" LineHeight="24"
+                   Foreground="White"/>
+        <Grid MouseLeftButtonDown="OnCloseClick" Margin="10" Width="24" Height="24" VerticalAlignment="Top"
+              HorizontalAlignment="Right" ToolTip="{StaticResource Close}" Cursor="Hand" Background="Transparent">
+          <Path Width="12" Fill="White" Stretch="Uniform"
+                Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
+        </Grid>
+      </Grid>
+      <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="56" Row="1">
+        <Button Click="OnUploadClick" Name="UploadButton" Content="{DynamicResource RenewNow}"
+                HorizontalAlignment="Right" Style="{StaticResource SaveButtonStyle}" Margin="0,0,14,0" Width="120"/>
+        <Button Click="OnCloseClick" Name="CloseButton" Content="{DynamicResource GotIt}"
+                HorizontalAlignment="Right" Style="{StaticResource SaveButtonStyle}" Margin="0,0,14,0"
+                Visibility="Collapsed" Width="120"/>
+      </Grid>
+    </Grid>
+  </ContentControl>
+</Window>

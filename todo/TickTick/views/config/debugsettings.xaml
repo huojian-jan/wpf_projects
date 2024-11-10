@@ -1,0 +1,19 @@
+<UserControl x:Class="ticktick_WPF.Views.Config.DebugSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+  <Grid Margin="28,60">
+    <StackPanel Orientation="Vertical">
+      <Button Click="ABTestClick" Content="ABTest" Width="80" Style="{StaticResource NormalButton}"
+              HorizontalAlignment="Left"/>
+      <Button Click="ConfigTestClick" Content="Config" Width="80" Style="{StaticResource NormalButton}"
+              HorizontalAlignment="Left"/>
+      <Button Click="CalendarClick" Content="Calendar" Width="80" Style="{StaticResource NormalButton}"
+              HorizontalAlignment="Left"/>
+      <Button Click="LeapClick" Content="Leap" Width="80" Style="{StaticResource NormalButton}"
+              HorizontalAlignment="Left"/>
+      <TextBlock Name="CalendarTest"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

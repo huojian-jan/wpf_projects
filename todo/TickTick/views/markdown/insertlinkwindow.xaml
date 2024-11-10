@@ -1,0 +1,38 @@
+<Window x:Class="ticktick_WPF.Views.MarkDown.InsertLinkWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.MarkDown"
+        WindowStartupLocation="Manual" IsTabStop="false" Topmost="true" SizeToContent="WidthAndHeight"
+        Background="{DynamicResource DialogBackground}" Title="   " BorderThickness="0"
+        Style="{DynamicResource CustomWindowStyle}">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Escape" Command="{x:Static local:InsertUrlCommands.ExitCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InsertLinkWindow}}}"/>
+  </UIElement.InputBindings>
+  <Grid Margin="24,0,24,0" Width="264">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="60"/>
+      <RowDefinition Height="48"/>
+      <RowDefinition Height="56"/>
+      <RowDefinition Height="46"/>
+    </Grid.RowDefinitions>
+    <TextBlock Name="TitleText" FontSize="16" Foreground="{DynamicResource BaseColorOpacity100}"
+               HorizontalAlignment="LEft" MaxWidth="320" Margin="0,-4,0,0" Text="{DynamicResource EditLink}"
+               VerticalAlignment="Center" FontWeight="Bold"/>
+    <TextBox KeyDown="OnLinkNameKeyDown" Name="LinkNameText" Grid.Row="1"
+             Style="{DynamicResource HintEditTextStyle}" VerticalAlignment="Top" Margin="0,0,0,12" Height="36"
+             Tag="{DynamicResource Text}" Padding="4,0"/>
+    <TextBox KeyDown="OnLinkUrlKeyDown" Name="LinkUrlText" Grid.Row="2"
+             Style="{DynamicResource HintEditTextStyle}" VerticalAlignment="Top" Margin="0,0,0,20" Height="36"
+             Padding="4,0,22,0" Tag="{DynamicResource Link}"/>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="3"
+                Visibility="{Binding Path=WindowMode, ElementName=RootView, Converter={StaticResource BoolVisibleConverter}}">
+      <Button Click="OnSaveClick" Name="SaveButton" Style="{StaticResource SaveButtonStyle}"
+              Content="{StaticResource Confirm}" Width="88"/>
+      <Button Click="OnDeleteLinkClick" Name="DeleteLink" Margin="12,0,0,0"
+              Style="{StaticResource CancelButtonStyle}" Content="{StaticResource DeleteLink}" MinWidth="88"/>
+    </StackPanel>
+  </Grid>
+</Window>

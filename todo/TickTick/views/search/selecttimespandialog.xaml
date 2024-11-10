@@ -1,0 +1,63 @@
+<UserControl x:Class="ticktick_WPF.Views.Search.SelectTimeSpanDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:search="clr-namespace:ticktick_WPF.Views.Search"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             PreviewKeyUp="OnKeyUp" PreviewMouseLeftButtonUp="OnMouseUp" Width="250" Height="auto">
+  <FrameworkElement.Resources>
+    <search:TimeTextConverter x:Key="TimeTextConverter"/>
+    <search:TimeHintVisibleConverter x:Key="TimeHintVisibleConverter"/>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}">
+    <Grid>
+      <Grid Name="TimeSpanGrid">
+        <FrameworkElement.Resources>
+          <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FrameworkElement.Margin" Value="18,0"/>
+            <Setter Property="FrameworkElement.Height" Value="auto"/>
+            <Setter Property="FrameworkElement.Width" Value="auto"/>
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+          </Style>
+        </FrameworkElement.Resources>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="40"/>
+          <RowDefinition Height="40"/>
+          <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Text="{StaticResource To}" VerticalAlignment="Center"
+                   Style="{StaticResource TextBlockStyle}"
+                   Visibility="{Binding StartDate, Converter={StaticResource TimeHintVisibleConverter}}"/>
+        <TextBlock Grid.Row="0" Text="{StaticResource From}" VerticalAlignment="Center"
+                   Style="{StaticResource TextBlockStyle}"
+                   Visibility="{Binding StartDate, Converter={StaticResource TimeHintVisibleConverter}}"/>
+        <TextBox Name="StartDate" Grid.Row="0" Style="{StaticResource EditTextStyle}" IsReadOnly="true" Height="32"
+                 Margin="12,0" Text="{Binding StartDate, Converter={StaticResource TimeTextConverter}}"/>
+        <TextBox Name="EndDate" Grid.Row="1" Style="{StaticResource EditTextStyle}" IsReadOnly="true" Height="32"
+                 Margin="12,0" Text="{Binding EndDate, Converter={StaticResource TimeTextConverter}}"/>
+        <TextBox PreviewKeyUp="OnKeyUp" Name="FocusBox" IsReadOnly="true" Width="0" Grid.Row="1" Opacity="0"/>
+        <Grid PreviewMouseDown="StartDateGotFocus" Row="0" Background="Transparent" Cursor="Hand" Height="32"
+              VerticalAlignment="Center"/>
+        <Grid PreviewMouseDown="EndDateGotFocus" Row="1" Background="Transparent" Cursor="Hand" Height="32"
+              VerticalAlignment="Center"/>
+        <Grid Row="2" Margin="10,8,10,2">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button PreviewMouseLeftButtonUp="SaveBtnClick" Name="SaveBtn" Content="{DynamicResource OK}" Width="100"
+                    Style="{StaticResource SaveButtonStyle2}" Grid.Column="0"/>
+            <Button PreviewMouseLeftButtonUp="CancelBtnClick" Name="CancelBtn" Content="{DynamicResource Cancel}"
+                    Style="{StaticResource CancelButtonStyle2}" Width="100" Grid.Column="1"/>
+          </Grid>
+        </Grid>
+      </Grid>
+      <time:TickDatePicker x:Name="StartDateCalendar" Width="214" Margin="8,40,8,0" Visibility="Collapsed"
+                           Background="{DynamicResource PopupBackground}" IsChooseDate="true"/>
+      <time:TickDatePicker x:Name="EndDateCalendar" Width="210" Margin="10,80,10,0" Visibility="Collapsed"
+                           Background="{DynamicResource PopupBackground}" IsChooseDate="true"/>
+    </Grid>
+  </ContentControl>
+</UserControl>

@@ -1,0 +1,24 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.MonthCellControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             Width="36" Height="36" Background="Transparent">
+  <FrameworkElement.Resources>
+    <converter:MonthTextConverter x:Key="MonthTextConverter"/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Ellipse Name="HoverBackground" Fill="{StaticResource BaseColorOpacity5}" Height="34" Width="34"
+             Visibility="Collapsed" HorizontalAlignment="Center"/>
+    <Ellipse Fill="{DynamicResource PrimaryColor}" Height="34" Width="34"
+             Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"
+           Foreground="{DynamicResource BaseColorOpacity100_80}"
+           Content="{Binding Date, Converter={StaticResource MonthTextConverter}}"/>
+    <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Foreground="White"
+           Content="{Binding Date, Converter={StaticResource MonthTextConverter}}"
+           Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+  </Grid>
+</UserControl>

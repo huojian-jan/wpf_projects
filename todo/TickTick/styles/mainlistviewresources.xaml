@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:project="clr-namespace:ticktick_WPF.Views.Project"
+                    xmlns:projectList="clr-namespace:ticktick_WPF.Views.MainListView.ProjectList"
+                    xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+                    xmlns:taskList="clr-namespace:ticktick_WPF.Views.TaskList"
+                    xmlns:item="clr-namespace:ticktick_WPF.Views.TaskList.Item"
+                    xmlns:item1="clr-namespace:ticktick_WPF.Views.Kanban.Item">
+  <Style x:Key="PinProjectTooltipStyle" TargetType="{x:Type ToolTip}">
+    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="true"/>
+    <Setter Property="ToolTip.HasDropShadow" Value="true"/>
+    <Setter Property="ToolTip.Placement" Value="Top"/>
+    <Setter Property="ToolTip.HorizontalOffset" Value="-50"/>
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ToolTip}">
+          <Grid Width="150">
+            <Border Background="{DynamicResource ToolTipBackColor}" CornerRadius="2" HorizontalAlignment="Center">
+              <Border Name="BD" Background="{DynamicResource ToolTipTopColor}"
+                      Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Height}"
+                      BorderThickness="0" CornerRadius="2">
+                <UIElement.Effect>
+                  <DropShadowEffect Color="#000000" Opacity="0.12" BlurRadius="11" ShadowDepth="2" Direction="280"/>
+                </UIElement.Effect>
+                <Grid Margin="5,5,5,4">
+                  <TextBlock Name="TB" Style="{DynamicResource Tag01}" Foreground="White" TextTrimming="CharacterEllipsis"
+                             Text="{TemplateBinding ContentControl.Content}" TextAlignment="Center" MaxWidth="150"
+                             TextWrapping="Wrap"/>
+                </Grid>
+              </Border>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <DataTemplate x:Key="ProjectPinItemTemplate" DataType="projectList:ProjectPinItemViewModel">
+    <projectList:ProjectPinItemView/>
+  </DataTemplate>
+  <RadialGradientBrush x:Key="ProjectTopShadowBrush" Center="0.5,0" RadiusY="4" RadiusX="60" GradientOrigin="0.5,0">
+    <GradientStop Color="#90000000" Offset="0"/>
+    <GradientStop Color="#40000000" Offset="0.005"/>
+    <GradientStop Color="#30000000" Offset="0.01"/>
+    <GradientStop Color="#00000000" Offset="0.02"/>
+  </RadialGradientBrush>
+  <DataTemplate x:Key="ProjectItemTemplate">
+    <projectList:ProjectListItemView/>
+  </DataTemplate>
+  <DataTemplate x:Key="SectionGroupItemTemplate">
+    <projectList:ProjectSectionItemView Margin="0,8,0,0"/>
+  </DataTemplate>
+  <DataTemplate x:Key="EmptyProjectTemplate">
+    <Border Margin="11,2,11,4" CornerRadius="4" Background="{DynamicResource ProjectHoverBackGround}"
+            MinHeight="{DynamicResource Height50}">
+      <TextBlock Style="{DynamicResource Tag01}" Margin="12,8" FontSize="{DynamicResource Font12}"
+                 TextWrapping="Wrap" Foreground="{DynamicResource ProjectMenuColorOpacity40}" Text="{Binding Title}"/>
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="SplitLineTemplate">
+    <Line Margin="13,16,13,8" X1="0" X2="1" Stretch="Fill" StrokeThickness="1"
+          Stroke="{DynamicResource ProjectMenuColorOpacity5}"/>
+  </DataTemplate>
+  <DataTemplate x:Key="EmptySubItemTemplate">
+    <Border Height="6" Background="Transparent">
+      <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource ProjectMenuColorOpacity40}"
+              Visibility="{Binding EmptySubItemVisibility}"/>
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="SectionTemplate">
+    <taskList:SectionItemControl/>
+  </DataTemplate>
+  <DataTemplate x:Key="CustomSectionTemplate">
+    <taskList:EditableSectionControl/>
+  </DataTemplate>
+  <DataTemplate x:Key="TaskItemTemplate">
+    <item:TaskListItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="PreviewItem">
+    <item:PreviewListItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="MatrixItemTemplate">
+    <item:MatrixListItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="SubTaskItemTemplate">
+    <item:SubTaskListItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="KanbanItemTemplate">
+    <item1:KanbanItemView/>
+  </DataTemplate>
+  <DataTemplate x:Key="LoadMoreTemplate">
+    <taskList:LoadMoreItemControl/>
+  </DataTemplate>
+  <DataTemplate x:Key="AddViewTemplate">
+    <item1:ListItemAddView/>
+  </DataTemplate>
+</ResourceDictionary>

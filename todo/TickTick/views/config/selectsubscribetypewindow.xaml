@@ -1,0 +1,88 @@
+<Window x:Class="ticktick_WPF.Views.Config.SelectSubscribeTypeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        SizeToContent="Height" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Title="{StaticResource AddCalendar}" Style="{DynamicResource CustomWindowStyle}" Topmost="false">
+  <Grid Margin="0,0,0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="45"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="1" Text="{StaticResource SelectCalendarType}" Style="{StaticResource SettingTextStyle}"
+               Margin="14,10,0,8"/>
+    <Grid MouseLeftButtonUp="OnBindCalendarClick" Row="2" Margin="7,0"
+          Style="{StaticResource GridHoverStyle}" Cursor="Hand">
+      <Grid Margin="7,12">
+        <Border Width="40" Height="40" HorizontalAlignment="Left">
+          <Image Source="../../Assets/img_google.png"/>
+        </Border>
+        <TextBlock Margin="52,0" Text="Google" VerticalAlignment="Center" Style="{StaticResource SettingTextStyle}"
+                   FontSize="16"/>
+      </Grid>
+    </Grid>
+    <Grid MouseLeftButtonUp="OnBindOutlookClick" Row="3" Margin="7,0" Style="{StaticResource GridHoverStyle}"
+          Cursor="Hand">
+      <Grid Margin="7,12">
+        <Border Width="40" Height="40" HorizontalAlignment="Left">
+          <Image Source="../../Assets/img_Outlook.png"/>
+        </Border>
+        <TextBlock Margin="52,0" Text="Outlook" VerticalAlignment="Center" Style="{StaticResource SettingTextStyle}"
+                   FontSize="16"/>
+      </Grid>
+    </Grid>
+    <Grid MouseLeftButtonUp="OnBindExchangeClick" Row="4" Margin="7,0"
+          Style="{StaticResource GridHoverStyle}" Cursor="Hand">
+      <Grid Margin="7,12">
+        <Border Width="40" Height="40" HorizontalAlignment="Left">
+          <Image Source="../../Assets/img_exchange.png"/>
+        </Border>
+        <TextBlock Margin="52,0" Text="Exchange" VerticalAlignment="Center" Style="{StaticResource SettingTextStyle}"
+                   FontSize="16"/>
+      </Grid>
+    </Grid>
+    <Grid MouseLeftButtonUp="OnBindICloudClick" Row="5" Margin="7,0" Style="{StaticResource GridHoverStyle}"
+          Cursor="Hand">
+      <Grid Margin="7,12">
+        <Border Width="40" Height="40" HorizontalAlignment="Left">
+          <Image Source="../../Assets/img_iCloud.png"/>
+        </Border>
+        <TextBlock Margin="52,0" Text="iCloud" VerticalAlignment="Center" Style="{StaticResource SettingTextStyle}"
+                   FontSize="16"/>
+      </Grid>
+    </Grid>
+    <Grid MouseLeftButtonUp="OnBindCalDavClick" Row="6" Margin="7,0" Style="{StaticResource GridHoverStyle}"
+          Cursor="Hand">
+      <Grid Margin="7,12">
+        <Border Width="40" Height="40" CornerRadius="4" HorizontalAlignment="Left">
+          <Image Source="../../Assets/img_calDAV.png"/>
+        </Border>
+        <StackPanel Margin="52,0,12,0" VerticalAlignment="Center">
+          <TextBlock Text="CalDAV" Style="{StaticResource SettingTextStyle}" Margin="0" FontSize="16"/>
+          <TextBlock Name="CalDavSummary" Text="{StaticResource CalDavSummary}" FontSize="12"
+                     Foreground="{DynamicResource BaseColorOpacity60}"/>
+        </StackPanel>
+      </Grid>
+    </Grid>
+    <Grid MouseLeftButtonUp="OnSubscribeUrlClick" Row="7" Margin="7,0,7,12"
+          Style="{StaticResource GridHoverStyle}" Cursor="Hand">
+      <Grid Margin="7,12">
+        <Border Width="40" Height="40" CornerRadius="4" HorizontalAlignment="Left">
+          <Image Source="../../Assets/img_url.png"/>
+        </Border>
+        <StackPanel Margin="52,0,12,0" VerticalAlignment="Center">
+          <TextBlock Text="URL" Style="{StaticResource SettingTextStyle}" Margin="0" FontSize="16"/>
+          <TextBlock Text="{StaticResource UrlSubscribeSummary}" TextWrapping="Wrap" FontSize="12"
+                     Foreground="{DynamicResource BaseColorOpacity60}"/>
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

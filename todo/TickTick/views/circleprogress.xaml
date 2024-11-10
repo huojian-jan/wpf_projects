@@ -1,0 +1,30 @@
+<Border x:Class="ticktick_WPF.Views.CircleProgress"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        x:Name="RootBd">
+  <Path Name="PathRoot" HorizontalAlignment="Right" VerticalAlignment="Top"
+        Fill="{Binding SegmentColor, ElementName=RootBd}">
+    <Path.Data>
+      <CombinedGeometry GeometryCombineMode="Exclude">
+        <CombinedGeometry.Geometry1>
+          <PathGeometry>
+            <PathFigure StartPoint="6,6" IsClosed="true" x:Name="OutsidePath">
+              <LineSegment Point="6,1" x:Name="OutsideLine"/>
+              <ArcSegment Point="11,6" Size="5,5" SweepDirection="Clockwise" x:Name="OutsideArc" IsLargeArc="false"/>
+            </PathFigure>
+          </PathGeometry>
+        </CombinedGeometry.Geometry1>
+        <CombinedGeometry.Geometry2>
+          <PathGeometry>
+            <PathFigure StartPoint="6,6" IsClosed="true" x:Name="InsidePath">
+              <LineSegment Point="6,3" x:Name="InsideLine"/>
+              <ArcSegment Point="9,6" Size="3,3" SweepDirection="Clockwise" x:Name="InsideArc" IsLargeArc="false"/>
+            </PathFigure>
+          </PathGeometry>
+        </CombinedGeometry.Geometry2>
+      </CombinedGeometry>
+    </Path.Data>
+  </Path>
+</Border>

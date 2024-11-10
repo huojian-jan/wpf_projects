@@ -1,0 +1,24 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.DatePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             Background="{DynamicResource PopupBackground}">
+  <Grid>
+    <FrameworkElement.Resources>
+      <ResourceDictionary/>
+    </FrameworkElement.Resources>
+    <Border MouseLeftButtonUp="OnTextClick" BorderBrush="{DynamicResource BaseColorOpacity10_20}"
+            BorderThickness="1" CornerRadius="0" Height="24">
+      <TextBlock Name="DateText" Cursor="Hand" VerticalAlignment="Center" Margin="6,0,0,0"/>
+    </Border>
+    <misc:EscPopup x:Name="Popup" StaysOpen="false" Placement="Bottom" VerticalOffset="0" HorizontalOffset="-10"
+                   PlacementTarget="{Binding ElementName=DateText}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <time:TickDatePicker x:Name="Calendar" Margin="10"/>
+      </ContentControl>
+    </misc:EscPopup>
+  </Grid>
+</UserControl>

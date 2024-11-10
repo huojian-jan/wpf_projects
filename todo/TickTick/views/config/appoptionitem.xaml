@@ -1,0 +1,26 @@
+<MenuItem x:Class="ticktick_WPF.Views.Config.AppOptionItem"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          Name="Root" Height="32" MinWidth="240" Style="{StaticResource AppMenuItemStyle}"
+          Background="{StaticResource BaseColorOpacity5}">
+  <MenuItem.Icon>
+    <Grid Name="IconGrid" Width="24" Margin="8,0">
+      <Image Name="IconImage" Style="{StaticResource Icon01}"/>
+    </Grid>
+  </MenuItem.Icon>
+  <HeaderedItemsControl.Header>
+    <Grid HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock FontSize="13" Foreground="#D8191919" HorizontalAlignment="Left" MinWidth="140"
+                 Text="{Binding Path=Title, ElementName=Root}"/>
+      <TextBlock Name="ShortcutText" FontSize="11" Visibility="Collapsed" MinWidth="40" Grid.Column="1"
+                 HorizontalAlignment="Right" Margin="12,0" Foreground="#5C191919"
+                 Text="{Binding Path=Shortcut, ElementName=Root}"/>
+    </Grid>
+  </HeaderedItemsControl.Header>
+</MenuItem>

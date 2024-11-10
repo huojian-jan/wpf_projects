@@ -1,0 +1,214 @@
+<local:MyWindow x:Class="ticktick_WPF.Views.MainWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+                xmlns:local="clr-namespace:ticktick_WPF.Views"
+                xmlns:tabBar="clr-namespace:ticktick_WPF.Views.TabBar"
+                xmlns:config="clr-namespace:ticktick_WPF.Views.Config"
+                xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+                xmlns:controls="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
+                x:Name="Window" LocationChanged="WindowLocationChanged" PreviewKeyUp="OnWindowKeyUp"
+                StateChanged="OnStateChanged" PreviewKeyDown="OnWindowKeyDown" MouseLeftButtonUp="OnWindowMouseUp"
+                PreviewMouseLeftButtonDown="OnPreviewMouseDown" MouseLeftButtonDown="OnMouseDown" Height="780"
+                Focusable="true" Width="1140" MinHeight="400" MinWidth="400" UseLayoutRounding="true"
+                ShowInTaskbar="true" KeyboardNavigation.IsTabStop="false" ResizeMode="CanResize"
+                InputMethod.IsInputMethodEnabled="false" Icon="/TickTick;component/app_logo.ico"
+                Background="{DynamicResource MainBackground}"
+                Topmost="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=MainWindowTopmost, Mode=OneWay}">
+  <UIElement.InputBindings>
+    <KeyBinding Key="W" Modifiers="Control" Command="{x:Static local:MainWindowCommands.CloseCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+    <KeyBinding Key="Escape" Command="{x:Static local:MainWindowCommands.ExitImmersiveCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+    <KeyBinding Key="K" Modifiers="Control" Command="{x:Static local:MainWindowCommands.SearchOperationCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+    <KeyBinding Key="Tab" Command="{x:Static local:MainWindowCommands.TabCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+  </UIElement.InputBindings>
+  <FrameworkElement.Resources>
+    <ContextMenu x:Key="NotifyIconMenu" StaysOpen="false" Style="{StaticResource ContextMenuStyle}"
+                 Background="#FCFCFC" HorizontalOffset="-10" VerticalOffset="10" MinWidth="260">
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource AddListWidget}"
+                            Tag="{x:Static resource:AppOption.AddListWidget}" Icon="{StaticResource ProjectWidgetDrawingImage}"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource AddCalendarWidget}"
+                            Tag="{x:Static resource:AppOption.AddCalendarWidget}"
+                            Icon="{StaticResource CalendarWidgetDrawingImage}"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource CloseCalendarWidget}"
+                            Tag="{x:Static resource:AppOption.CloseCalendarWidget}"
+                            Icon="{StaticResource CalendarWidgetDrawingImage}"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource AddMatrixWidget}"
+                            Tag="{x:Static resource:AppOption.AddMatrixWidget}"
+                            Icon="{StaticResource MatrixWidgetDrawingImage}"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource CloseMatrixWidget}"
+                            Tag="{x:Static resource:AppOption.CloseMatrixWidget}"
+                            Icon="{StaticResource MatrixWidgetDrawingImage}"/>
+      <Separator Style="{StaticResource MenuSeparatorStyle}" Tag="{x:Static resource:AppOptionSeparator.First}"
+                 Visibility="Collapsed"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource BeginFocus}"
+                            Tag="{x:Static resource:AppOption.StartFocus}">
+        <config:AppOptionItem.Icon>
+          <DrawingImage>
+            <DrawingImage.Drawing>
+              <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+                <GeometryDrawing Brush="#FF191919" Geometry="{Binding Source={StaticResource FocusIcon}, Path=Data}"/>
+              </DrawingGroup>
+            </DrawingImage.Drawing>
+          </DrawingImage>
+        </config:AppOptionItem.Icon>
+        <config:AppOptionSubItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource StartPomo}" MinWidth="160"
+                                 Tag="{x:Static resource:AppOption.StartPomo}"/>
+        <config:AppOptionSubItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource StartTiming}" MinWidth="160"
+                                 Tag="{x:Static resource:AppOption.StartTiming}"/>
+      </config:AppOptionItem>
+      <Separator Style="{StaticResource MenuSeparatorStyle}" Tag="{x:Static resource:AppOptionSeparator.Second}"
+                 Visibility="Collapsed"/>
+      <config:AppOptionItem x:Name="PinOption" PreviewMouseLeftButtonUp="OnOptionClick"
+                            Title="{StaticResource KeepAboveOthers}" Icon="{StaticResource PinWindowDrawingImage}"
+                            Tag="{x:Static resource:AppOption.Pin}"/>
+      <config:AppOptionItem x:Name="UnpinOption" PreviewMouseLeftButtonUp="OnOptionClick"
+                            Title="{StaticResource CancelAboveOthers}" Icon="{StaticResource UnPinWindowDrawingImage}"
+                            Tag="{x:Static resource:AppOption.Unpin}"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource LockApp}"
+                            Tag="{x:Static resource:AppOption.Lock}">
+        <config:AppOptionItem.Icon>
+          <DrawingImage>
+            <DrawingImage.Drawing>
+              <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+                <GeometryDrawing Brush="#FF191919" Geometry="{Binding Source={StaticResource IcLockWidget}, Path=Data}"/>
+              </DrawingGroup>
+            </DrawingImage.Drawing>
+          </DrawingImage>
+        </config:AppOptionItem.Icon>
+      </config:AppOptionItem>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource UnLockApp}"
+                            Tag="{x:Static resource:AppOption.Unlock}">
+        <config:AppOptionItem.Icon>
+          <DrawingImage>
+            <DrawingImage.Drawing>
+              <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+                <GeometryDrawing Brush="#FF191919" Geometry="{Binding Source={StaticResource IcUnLockWidget}, Path=Data}"/>
+              </DrawingGroup>
+            </DrawingImage.Drawing>
+          </DrawingImage>
+        </config:AppOptionItem.Icon>
+      </config:AppOptionItem>
+      <Separator Style="{StaticResource MenuSeparatorStyle}" Tag="{x:Static resource:AppOptionSeparator.Third}"/>
+      <config:AppOptionItem PreviewMouseLeftButtonUp="OnOptionClick" Title="{StaticResource Exit}"
+                            Tag="{x:Static resource:AppOption.Exit}">
+        <config:AppOptionItem.Icon>
+          <DrawingImage>
+            <DrawingImage.Drawing>
+              <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+                <GeometryDrawing Brush="#FF191919" Geometry="{Binding Source={StaticResource IcExit}, Path=Data}"/>
+              </DrawingGroup>
+            </DrawingImage.Drawing>
+          </DrawingImage>
+        </config:AppOptionItem.Icon>
+      </config:AppOptionItem>
+    </ContextMenu>
+    <converter:MaxButtonConverter x:Key="MaxButtonConverter"/>
+    <converter:BackgroundBlurMarginConverter x:Key="BackgroundBlurMarginConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Name="Container">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}"
+                       Value="Maximized">
+            <Setter Property="FrameworkElement.Margin" Value="6"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Normal">
+            <Setter Property="FrameworkElement.Margin" Value="0"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="50"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="32"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Grid Row="0" RowSpan="2" Column="0" ColumnSpan="2" HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ThemeImageBlurRadius, Converter={StaticResource BackgroundBlurMarginConverter}}">
+        <Border Name="WindowBackground"
+                Opacity="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ThemeImageOpacity}">
+          <UIElement.Effect>
+            <BlurEffect Radius="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ThemeImageBlurRadius}"/>
+          </UIElement.Effect>
+          <Border.Background>
+            <ImageBrush AlignmentX="Left" AlignmentY="Bottom" x:Name="WindowBackgroundImage" Stretch="UniformToFill"/>
+          </Border.Background>
+        </Border>
+      </Grid>
+      <Border Name="CalendarBorder" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+      <Border Name="FocusBorder" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+      <Border Name="HabitBorder" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+      <Border Name="EisenhoverBorder" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+              Background="{DynamicResource ShowAreaBackground}"/>
+      <Border Name="ListBorder" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"/>
+      <tabBar:LeftMenuBar x:Name="LeftTabBar" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+      <ContentControl Name="TutorialContent" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"/>
+    </Grid>
+    <Border MouseLeftButtonDown="HeaderGrid_MouseLeftButtonDown" MouseLeftButtonUp="StopDragMove"
+            MouseMove="OnDragMove" Background="Transparent" VerticalAlignment="Top" Panel.ZIndex="10">
+      <StackPanel Name="ResizeButtons" HorizontalAlignment="Right" VerticalAlignment="Center"
+                  Orientation="Horizontal">
+        <Button Click="UpgradeProClick" Name="UpgradeButton" Width="45" Height="25"
+                Style="{DynamicResource normalButtonStyle}" Background="Transparent" Visibility="Collapsed">
+          <Path Width="18" Height="18" Fill="{DynamicResource TickYellow}" Stretch="Uniform"
+                VerticalAlignment="Center" Data="{Binding Source={StaticResource VipIcon}, Path=Data}"/>
+        </Button>
+        <Button Click="MinButton_Click" Name="MinButton" Width="46" Height="28" BorderThickness="0"
+                Style="{DynamicResource normalButtonStyle}" Background="Transparent">
+          <Rectangle Width="10" Height="1" Fill="{DynamicResource BaseColorOpacity60}" VerticalAlignment="Center"
+                     Margin="0,1,0,0"/>
+        </Button>
+        <Button Click="MaxButtonClick" Name="MaxButton" Width="48" Height="28" BorderThickness="0"
+                Style="{DynamicResource normalButtonStyle}"
+                Background="{Binding ElementName=NormalButton, Path=Background}"
+                Visibility="{Binding ElementName=Window, Path=WindowState, Converter={StaticResource MaxButtonConverter}, ConverterParameter=Max, Mode=OneWay}">
+          <Path Fill="{DynamicResource BaseColorOpacity60}" Margin="6,-5,0,0"
+                Data="{Binding Source={StaticResource ic_svg_path_max}, Path=Data}"/>
+        </Button>
+        <Button Click="NormalButtonClick" Name="NormalButton" Width="48" Height="28" BorderThickness="0"
+                Style="{DynamicResource normalButtonStyle}" Background="Transparent"
+                Visibility="{Binding ElementName=Window, Path=WindowState, Converter={StaticResource MaxButtonConverter}, ConverterParameter=Normal, Mode=OneWay}">
+          <Path Fill="{DynamicResource BaseColorOpacity100}" Margin="-4,-4,0,0"
+                Data="{Binding Source={StaticResource ic_svg_path_normal}, Path=Data}"/>
+        </Button>
+        <Button Click="OnCloseButtonClick" MouseEnter="OnClickButtonMouseEnter"
+                MouseLeave="OnClickButtonMouseLeave" Name="CloseButton" Width="48" Height="28" BorderThickness="0"
+                Style="{StaticResource closeButtonStyle}">
+          <Border Width="45" Height="25">
+            <Polygon Name="X" Fill="{DynamicResource BaseColorOpacity60}" Margin="21,1,0,0">
+              <Polygon.Points>
+                <Binding Source="{StaticResource ic_svg_polygon_close}" Path="Points"/>
+              </Polygon.Points>
+            </Polygon>
+          </Border>
+        </Button>
+      </StackPanel>
+    </Border>
+    <Border Name="ImmersiveGrid" Background="{DynamicResource WindowBackground}" Margin="0,0,0,0"
+            VerticalAlignment="Stretch" Visibility="Collapsed"/>
+    <Border BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBackground}" IsHitTestVisible="false"/>
+    <Border Name="CoachMarks"/>
+    <Grid MouseLeftButtonUp="CloseShortCut" Name="MaskPanel" Visibility="Collapsed">
+      <Border Name="ShortCutMask" Background="{DynamicResource BaseColorOpacity10}"/>
+      <Border MouseLeftButtonUp="CloseShortCut" Style="{DynamicResource SmoothHoverBorderStyle40_60}" Width="16"
+              Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="50" Cursor="Hand">
+        <Path Width="12" Height="12" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity100}"
+              Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
+      </Border>
+    </Grid>
+    <Grid Name="ToastGrid" HorizontalAlignment="Center" ZIndex="100" Margin="0,0,0,70"
+          VerticalAlignment="Bottom"/>
+  </Grid>
+</local:MyWindow>

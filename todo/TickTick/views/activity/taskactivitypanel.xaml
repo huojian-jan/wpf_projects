@@ -1,0 +1,26 @@
+<StackPanel x:Class="ticktick_WPF.Views.Activity.TaskActivityPanel"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:local="clr-namespace:ticktick_WPF.Views.MainListView.DetailView"
+            xmlns:activity="clr-namespace:ticktick_WPF.Views.Activity">
+  <Grid Height="25">
+    <StackPanel Orientation="Horizontal">
+      <TextBlock Name="ActivitiesName" Text="{StaticResource TaskActivities}"
+                 FontWeight="{DynamicResource NormalToBold}" VerticalAlignment="Center"
+                 Foreground="{DynamicResource BaseColorOpacity100}" FontSize="{DynamicResource Font13}"/>
+      <TextBlock Name="ActivityCountText" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,0"
+                 Foreground="{DynamicResource BaseColorOpacity40}" FontSize="{DynamicResource Font12}"/>
+    </StackPanel>
+    <Border MouseLeftButtonUp="OnCloseActivityClick" Height="12" Background="Transparent"
+            HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand"
+            ToolTip="{StaticResource Close}">
+      <Path Width="10" Fill="{DynamicResource BaseColorOpacity40}" Stretch="Uniform"
+            Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
+    </Border>
+  </Grid>
+  <Border Name="ActivityGrid" VerticalAlignment="Bottom" Background="Transparent">
+    <activity:TaskActivityControl x:Name="ActivityControl" VerticalAlignment="Top"/>
+  </Border>
+</StackPanel>

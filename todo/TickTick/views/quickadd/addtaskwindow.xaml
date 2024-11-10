@@ -1,0 +1,144 @@
+<Window x:Class="ticktick_WPF.Views.QuickAdd.AddTaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.QuickAdd"
+        xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+        xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+        x:Name="Root" WindowStyle="None" UseLayoutRounding="true" AllowsTransparency="true" Topmost="true"
+        ShowInTaskbar="false" Background="Transparent" WindowStartupLocation="CenterOwner"
+        SizeToContent="Height" Width="694">
+  <FrameworkElement.Resources>
+    <converter:IconOverDueColorConverter x:Key="IconOverDueColorConverter"/>
+    <converter:TextEmptyVisibleConverter x:Key="TextEmptyVisibleConverter"/>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource WindowContentStyle}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <local:QuickAddView x:Name="TaskTitle" GotFocus="OnTitleGotFocus" MinHeight="50" Margin="0,20,0,4"
+                          VerticalAlignment="Bottom"/>
+      <StackPanel Grid.Row="1" Orientation="Horizontal" Height="30" VerticalAlignment="Top" Margin="20,0,0,12">
+        <Grid Name="SetDateGrid" Background="Transparent" Cursor="Hand"
+              ToolTip="{StaticResource ReminderInputHint}">
+          <StackPanel Orientation="Horizontal" Margin="2,0">
+            <Path Name="SetDatePath" Stretch="Fill" Height="16" Width="16" VerticalAlignment="Center"
+                  HorizontalAlignment="Center" Data="{Binding Source={StaticResource IcCalendar}, Path=Data}">
+              <Shape.Fill>
+                <MultiBinding Converter="{StaticResource IconOverDueColorConverter}">
+                  <Binding Path="StartDate"/>
+                  <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                </MultiBinding>
+              </Shape.Fill>
+            </Path>
+            <TextBlock FontSize="12" VerticalAlignment="Center" Margin="4,0,0,0" Height="16"
+                       Visibility="{Binding DetailDayText, Converter={StaticResource TextEmptyVisibleConverter}}"
+                       Text="{Binding DetailDayText}" Foreground="{Binding ElementName=SetDatePath, Path=Fill}"/>
+            <Path Stretch="Fill" Height="12" Width="12" VerticalAlignment="Center" HorizontalAlignment="Center"
+                  Data="{Binding Source={StaticResource RepeatPath}, Path=Data}"
+                  Visibility="{Binding ShowRepeat, Converter={StaticResource BoolVisibleConverter}}"
+                  Fill="{Binding ElementName=SetDatePath, Path=Fill}"/>
+          </StackPanel>
+          <Border MouseLeftButtonUp="SetDateClick" CornerRadius="2" Height="22"
+                  BorderBrush="{DynamicResource TabBorderColor}" BorderThickness="1"
+                  Background="{DynamicResource BaseColorOpacity5}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="UIElement.Opacity" Value="0"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="1">
+                    <Setter Property="UIElement.Opacity" Value="1"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Border>
+        </Grid>
+        <Grid Name="SetTagGrid" Cursor="Hand" ToolTip="{StaticResource TagInputHint}" Background="Transparent"
+              Margin="8,0,0,0">
+          <Path Height="16" Width="16" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity60}"
+                Data="{Binding Source={StaticResource IcTagLine}, Path=Data}"/>
+          <Border MouseLeftButtonUp="SetTagClick" CornerRadius="2" Height="22" Width="22"
+                  Background="{DynamicResource BaseColorOpacity5}" BorderBrush="{DynamicResource TabBorderColor}"
+                  BorderThickness="1">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="UIElement.Opacity" Value="0"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="2">
+                    <Setter Property="UIElement.Opacity" Value="1"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Border>
+        </Grid>
+        <Popup Opened="PopupOpened" Closed="PopupClosed" x:Name="SetTagPopup" StaysOpen="false" Placement="Left"
+               HorizontalOffset="200" VerticalOffset="20" AllowsTransparency="true"
+               PlacementTarget="{Binding ElementName=SetTagGrid}"/>
+        <Grid Name="SetPriorityGrid" Cursor="Hand" Margin="8,0,0,0" ToolTip="{StaticResource PriorityInputHint}"
+              Background="Transparent">
+          <Image Style="{DynamicResource Icon01}" Opacity="1">
+            <Image.Source>
+              <MultiBinding Converter="{StaticResource TaskDetailPriorityIconConverter}">
+                <Binding Path="Priority"/>
+                <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+              </MultiBinding>
+            </Image.Source>
+          </Image>
+          <Border MouseLeftButtonUp="SetPriorityClick" CornerRadius="2" Height="22" Width="22"
+                  Background="{DynamicResource BaseColorOpacity5}" BorderBrush="{DynamicResource TabBorderColor}"
+                  BorderThickness="1">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="UIElement.Opacity" Value="0"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="3">
+                    <Setter Property="UIElement.Opacity" Value="1"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Border>
+        </Grid>
+        <Popup Opened="PopupOpened" Closed="PopupClosed" Name="SetPriorityPopup" StaysOpen="false"
+               Placement="Bottom" AllowsTransparency="true" HorizontalOffset="-5" VerticalOffset="-5"
+               PlacementTarget="{Binding ElementName=SetPriorityGrid}"/>
+        <StackPanel MouseLeftButtonUp="SetProjectClick" Name="ProjectPanel" Orientation="Horizontal"
+                    Visibility="Visible" Margin="8,0,0,0" HorizontalAlignment="Left" Background="Transparent"
+                    Cursor="Hand" Height="24" ToolTip="{StaticResource ProjectInputHint}">
+          <Border CornerRadius="2" Height="24" BorderThickness="1">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="Border.BorderBrush" Value="Transparent"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="4">
+                    <Setter Property="Border.BorderBrush" Value="{DynamicResource TabBorderColor}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Grid Margin="2,0,0,0">
+              <Image Source="{DynamicResource movetoDrawingImage}" HorizontalAlignment="Left"
+                     Style="{DynamicResource Icon01}" Width="16" Height="16"/>
+              <wpf:EmjTextBlock x:Name="ProjectName" Height="18" ClipToBounds="true" FontSize="13" Margin="24,0,6,0"
+                                Style="{DynamicResource Body02}" Foreground="{DynamicResource BaseSolidColorOpacity60}"
+                                MaxWidth="240" TextTrimming="CharacterEllipsis" Text="{Binding ProjectName}"/>
+            </Grid>
+          </Border>
+        </StackPanel>
+        <misc:EscPopup x:Name="SetProjectPopup" Opened="PopupOpened" Closed="PopupClosed" StaysOpen="false"
+                       Placement="Bottom" HorizontalOffset="-20" VerticalOffset="-5" AllowsTransparency="true"
+                       PlacementTarget="{Binding ElementName=ProjectPanel}"/>
+      </StackPanel>
+      <Button Click="OnSaveClick" Name="SaveButton" Content="{DynamicResource Add}" Grid.Row="1"
+              HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource SaveButtonStyle}"
+              Margin="0,2,20,0" Height="24" Width="Auto" MinWidth="60" FontSize="14"/>
+    </Grid>
+  </ContentControl>
+</Window>

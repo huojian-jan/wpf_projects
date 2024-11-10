@@ -1,0 +1,26 @@
+<Window x:Class="ticktick_WPF.Views.Search.SearchFilterDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.Search"
+        xmlns:filter="clr-namespace:ticktick_WPF.Views.Filter"
+        xmlns:views="clr-namespace:ticktick_WPF.Views"
+        Style="{DynamicResource OkCancelWindowsStyle}" WindowStartupLocation="CenterOwner"
+        SizeToContent="WidthAndHeight" Title="Search By Filter">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Escape" Command="{x:Static views:OkCancelWindowCommands.EscCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+    <KeyBinding Key="Enter" Command="{x:Static views:OkCancelWindowCommands.OkCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+  </UIElement.InputBindings>
+  <Grid Height="430" Margin="0,50,0,0">
+    <filter:NormalFilterControl x:Name="NormalFilterControl" Width="440" VerticalAlignment="Top"/>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20">
+      <Button Click="OnSearchClick" Style="{DynamicResource SaveButtonStyle}" Content="{StaticResource Search}"
+              Width="124" Height="30"/>
+      <Button Click="OnCancelClick" Style="{DynamicResource CancelButtonStyle}" Content="{StaticResource Cancel}"
+              Margin="8,0,0,0" Width="124"/>
+    </StackPanel>
+  </Grid>
+</Window>

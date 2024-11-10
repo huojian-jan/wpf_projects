@@ -1,0 +1,52 @@
+<UserControl x:Class="ticktick_WPF.Views.Habit.SetHabitFrequencyControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Habit"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time">
+  <ContentControl Style="{DynamicResource PopupContentStyle}" Margin="0">
+    <Grid Width="224">
+      <Grid Margin="12,13">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <customControl:CustomComboBox x:Name="FreqTypeComboBox" ItemSelected="OnFreqTypeChanged" HorizontalAlignment="Right" Width="200"
+                                      Height="28" VerticalAlignment="Center"/>
+        <StackPanel Name="ByDayPanel" Grid.Row="1" Visibility="Visible">
+          <TextBlock Name="DayText" Style="{DynamicResource Tag03}" Margin="0,14,0,12" TextWrapping="Wrap"/>
+          <time:WeekdaySelector x:Name="WeekDaySelector" Margin="0,0,0,5" AtLeastOne="true"/>
+        </StackPanel>
+        <StackPanel x:Name="ByWeekPanel" Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,8" Visibility="Collapsed">
+          <TextBlock Text="{StaticResource EveryWeek}" Style="{StaticResource Body03}"/>
+          <customControl:CustomComboBox x:Name="WeekTimesComboBox" Height="24" VerticalAlignment="Top" Row="0" Column="1" Width="78"
+                                        Margin="6,0"/>
+          <TextBlock x:Name="WeekDayText" Text="{StaticResource PublicDays}" Style="{StaticResource Body03}"/>
+        </StackPanel>
+        <StackPanel x:Name="ByTimeSpanPanel" Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,8"
+                    Visibility="Collapsed">
+          <TextBlock Text="{StaticResource Every}" Style="{StaticResource Body03}"/>
+          <TextBox PreviewTextInput="HandleNumberInput" TextChanged="OnIntervalTextChanged" Name="IntervalText"
+                   Height="24" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1"
+                   InputMethod.IsInputMethodEnabled="false" Width="78" Margin="8,0" Text="2" TextAlignment="Center"
+                   Style="{DynamicResource EditTextStyle}"/>
+          <TextBlock Text="{StaticResource PublicDays}" Style="{StaticResource Body03}"/>
+        </StackPanel>
+        <Grid Row="2" VerticalAlignment="Bottom" Height="40">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+          <Button Click="OnSaveClick" Content="{DynamicResource OK}" Style="{StaticResource SaveButtonStyle}"
+                  Height="28" VerticalAlignment="Bottom" Width="Auto" Margin="0,0,4,0"/>
+          <Button Click="OnCancelClick" Content="{DynamicResource Cancel}" VerticalAlignment="Bottom"
+                  Margin="4,0,0,0" Style="{StaticResource CancelButtonStyle}" Width="Auto" Height="28"
+                  Grid.Column="1"/>
+        </Grid>
+      </Grid>
+    </Grid>
+  </ContentControl>
+</UserControl>

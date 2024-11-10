@@ -1,0 +1,54 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:pomo="clr-namespace:ticktick_WPF.Views.Pomo"
+                    xmlns:focusStatistics="clr-namespace:ticktick_WPF.Views.Pomo.FocusStatistics"
+                    xmlns:timerDetail="clr-namespace:ticktick_WPF.Views.Pomo.TimerDetail">
+  <DataTemplate x:Key="FocusTimelineDataTemplate">
+    <StackPanel Orientation="Horizontal" Height="{Binding Height}" Margin="{Binding Margin}">
+      <TextBlock TextAlignment="Right" Width="{Binding TimeWidth}" Text="{Binding Time}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Tag01}">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity40}"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsZero}" Value="True">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <Line StrokeThickness="1" VerticalAlignment="Center" X1="0" HorizontalAlignment="Left" Margin="12,0,0,0"
+            Stroke="{DynamicResource BaseColorOpacity5}" X2="{Binding LineWidth}"/>
+    </StackPanel>
+  </DataTemplate>
+  <DataTemplate x:Key="FocusStatisticsTitleTemplate">
+    <focusStatistics:FocusStatisticsTitleView/>
+  </DataTemplate>
+  <DataTemplate x:Key="FocusStatisticsTemplate">
+    <focusStatistics:FocusStatisticsOverview/>
+  </DataTemplate>
+  <DataTemplate x:Key="FocusRecordTemplate">
+    <focusStatistics:FocusRecordItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="FocusLoadMoreTemplate">
+    <focusStatistics:RecordLoadMoreItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="FocusRecordEmptyTemplate">
+    <focusStatistics:FocusRecordEmptyItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="TimerItemTemplate">
+    <pomo:TimerListItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="TimerDetailTitleItemTemplate">
+    <timerDetail:TimerDetailTitleItem/>
+  </DataTemplate>
+  <DataTemplate x:Key="TimerStatisticsOverviewTemplate">
+    <timerDetail:TimerStatisticsOverview/>
+  </DataTemplate>
+  <DataTemplate x:Key="TimerStatisticsTimelineTemplate">
+    <timerDetail:TimerStatisticsTLineView/>
+  </DataTemplate>
+  <ItemsPanelTemplate x:Key="TimerStatisticsLineItemPanelTemplate">
+    <StackPanel Orientation="Horizontal"/>
+  </ItemsPanelTemplate>
+</ResourceDictionary>

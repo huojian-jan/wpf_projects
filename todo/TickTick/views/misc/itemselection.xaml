@@ -1,0 +1,34 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.ItemSelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+             Loaded="OnItemsLoaded">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="ItemTemplate">
+      <misc:SelectableItem MouseMove="OnGroupItemMouseMove"/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Grid Name="Container" Background="Transparent" MinWidth="200">
+    <customControl:UpDownSelectListView x:Name="SelectableItems" ItemSelected="OnItemClick" LeftRightKeyDown="OnLeftRightKeyDown"
+                                        MaxHeight="360" ItemTemplate="{StaticResource ItemTemplate}" NeedHandleItemEnter="false"/>
+    <misc:EscPopup x:Name="SubPopup" Closed="OnSubClosed" Placement="Right" StaysOpen="true" VerticalOffset="-12"
+                   HorizontalOffset="0" PlacementTarget="{Binding ElementName=Container}">
+      <ContentControl Style="{StaticResource PopupContentStyle}">
+        <customControl:UpDownSelectListView x:Name="SubItems" ItemSelected="OnSubItemClick" LeftRightKeyDown="OnSubLeftRightKeyDown"
+                                            MaxHeight="300" ItemTemplate="{StaticResource ItemTemplate}" NeedHandleItemEnter="false"
+                                            Width="200"/>
+      </ContentControl>
+    </misc:EscPopup>
+    <misc:EscPopup x:Name="SubSubPopup" Closed="OnSubSubClosed" Placement="Right" StaysOpen="true"
+                   VerticalOffset="-12" HorizontalOffset="0" PlacementTarget="{Binding ElementName=SubItems}">
+      <ContentControl Style="{StaticResource PopupContentStyle}">
+        <customControl:UpDownSelectListView x:Name="SubSubItems" ItemSelected="OnSubSubItemClick" LeftRightKeyDown="OnSubLeftRightKeyDown"
+                                            MaxHeight="300" ItemTemplate="{StaticResource ItemTemplate}" NeedHandleItemEnter="false"
+                                            Width="200"/>
+      </ContentControl>
+    </misc:EscPopup>
+  </Grid>
+</UserControl>

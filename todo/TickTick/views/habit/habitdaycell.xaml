@@ -1,0 +1,125 @@
+<UserControl x:Class="ticktick_WPF.Views.Habit.HabitDayCell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:habit="clr-namespace:ticktick_WPF.Views.Habit"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave" Name="Root" Background="Transparent">
+  <FrameworkElement.Resources>
+    <converter:DayTextConverter x:Key="DayTextConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Name="DayCellGrid" Height="40" Background="Transparent" Width="40">
+    <Grid>
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Grid}">
+          <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=ShowRealHint}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=HasPercent}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.Advanced}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <misc:CycleProgressBar UnderColor="{DynamicResource BaseColorOpacity10}" Thickness="4" Height="40" Width="40"
+                             TopColor="{DynamicResource PrimaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                             TargetPercent="{Binding Percent}"/>
+    </Grid>
+    <Ellipse Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Ellipse}">
+          <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+          <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=ShowBoolHint}" Value="True">
+              <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity10}"/>
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Completed}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+              <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=UnCompleted}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+              <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.Advanced}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Ellipse>
+    <Ellipse Width="40" Height="40" VerticalAlignment="Center" Fill="{DynamicResource HabitUnCompleteMask}"
+             HorizontalAlignment="Center"
+             Visibility="{Binding UnCompleted, Converter={StaticResource BoolVisibleConverter}}"/>
+    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"
+               Text="{Binding Date, Converter={StaticResource DayTextConverter}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type TextBlock}">
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+          <Setter Property="UIElement.Visibility" Value="Visible"/>
+          <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static habit:ShowMode.Today}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.CurrentMonth}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity80}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.LastMonth}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity20}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.NextMonth}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity20}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.Advanced}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity20}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.Today}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Completed}" Value="True">
+              <Setter Property="TextBlock.Foreground" Value="White"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=UnCompleted}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <Image Height="18" Width="18" Source="{StaticResource UncheckDrawingImage}" Margin="0,1,0,0"
+           Visibility="{Binding UnCompleted, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Ellipse MouseLeftButtonUp="OnClick" MouseRightButtonUp="OnRightClick" Width="40" Height="40"
+             VerticalAlignment="Center" HorizontalAlignment="Center">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Ellipse}">
+          <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity10_20}"/>
+          <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+          <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsMouseOver, ElementName=DayCellGrid}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Hover}" Value="True">
+              <Setter Property="UIElement.Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static habit:ShowMode.Advanced}" Binding="{Binding Path=ShowMode}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+              <Setter Property="FrameworkElement.Cursor" Value="No"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Ellipse>
+  </Grid>
+</UserControl>

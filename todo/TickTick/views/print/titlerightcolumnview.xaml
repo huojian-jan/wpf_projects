@@ -1,0 +1,216 @@
+<UserControl x:Class="ticktick_WPF.Views.Print.TitleRightColumnView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:models="clr-namespace:ticktick_WPF.ViewModels"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             HorizontalAlignment="Right" Height="20">
+  <FrameworkElement.Resources>
+    <Geometry x:Key="attachmentsGeometry1">
+      F0 M24,24z M0,0z M9.09494702E-13,12L9.09494702E-13,4.5C9.09494702E-13,2.01471863 2.01471863,1.02873265E-12 4.5,1.02873265E-12 6.98528137,1.02873265E-12 9,2.01471863 9,4.5L9,14.3357864
+    </Geometry>
+    <Geometry x:Key="attachmentsGeometry2">
+      F0 M24,24z M0,0z M5.45696821E-12,16.157215L5.45696821E-12,10.8000722C5.45696821E-12,9.02487117 1.34314575,7.58578644 3,7.58578644 4.65685425,7.58578644 6,9.02487117 6,10.8000722L6,16.157215
+    </Geometry>
+    <Geometry x:Key="attachmentsGeometry3">
+      F0 M24,24z M0,0z M3,11.3357864L3,4.85907288C3,3.92709236 3.67157288,3.17157288 4.5,3.17157288 5.32842712,3.17157288 6,3.92709236 6,4.85907288L6,7.67157288
+    </Geometry>
+    <DrawingGroup x:Key="attachmentsDrawingGroup" ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+      <DrawingGroup Opacity="1">
+        <DrawingGroup Opacity="1">
+          <GeometryDrawing>
+            <GeometryDrawing.Brush>
+              <SolidColorBrush Color="#FFD8D8D8" Opacity="0"/>
+            </GeometryDrawing.Brush>
+            <GeometryDrawing.Geometry>
+              <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,24,24"/>
+            </GeometryDrawing.Geometry>
+          </GeometryDrawing>
+          <DrawingGroup Opacity="1"
+                        Transform="0.707106781186547,0.707106781186548,-0.707106781186548,0.707106781186547,14.6819801247462,2.45405884457488">
+            <DrawingGroup Transform="1,2.44921270764475E-16,-2.44921270764475E-16,1,1.77635683940025E-15,-8.88178419700125E-16">
+              <GeometryDrawing Geometry="{StaticResource attachmentsGeometry1}">
+                <GeometryDrawing.Pen>
+                  <Pen Brush="#FF000000" Thickness="1.5" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter"/>
+                </GeometryDrawing.Pen>
+              </GeometryDrawing>
+            </DrawingGroup>
+            <DrawingGroup Transform="-1,-2.44921270764475E-16,2.44921270764475E-16,-1,6,23.743002">
+              <GeometryDrawing Geometry="{StaticResource attachmentsGeometry2}">
+                <GeometryDrawing.Pen>
+                  <Pen Brush="#FF000000" Thickness="1.5" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter"/>
+                </GeometryDrawing.Pen>
+              </GeometryDrawing>
+            </DrawingGroup>
+            <DrawingGroup Transform="1,2.44921270764475E-16,-2.44921270764475E-16,1,1.77635683940025E-15,-8.88178419700125E-16">
+              <GeometryDrawing Geometry="{StaticResource attachmentsGeometry3}">
+                <GeometryDrawing.Pen>
+                  <Pen Brush="#FF000000" Thickness="1.5" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter"/>
+                </GeometryDrawing.Pen>
+              </GeometryDrawing>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingGroup>
+    </DrawingGroup>
+    <DrawingImage x:Key="attachmentsDrawingImage" Drawing="{StaticResource attachmentsDrawingGroup}"/>
+    <Geometry x:Key="locationGeometry1">
+      F0 M24,24z M0,0z M0,24L0,24 24,24 24,0 0,0z
+    </Geometry>
+    <Geometry x:Key="locationGeometry2">
+      F1 M24,24z M0,0z M11.883119,20.7319079L6.96435055,15.4147293C4.25862909,12.4890089 4.35999926,7.97875414 7.19465411,5.17288659 10.123463,2.27567353 14.8765265,2.27567353 17.805523,5.1730722 20.6399903,7.97875414 20.7413604,12.4890089 18.0355588,15.414816L13.1168706,20.7319079C12.7861982,21.089364,12.2137913,21.089364,11.883119,20.7319079z M14.9999998,10.3627413C14.9999998,9.00723116 13.8797103,7.90907404 12.4990971,7.90907404 11.1202792,7.90907404 9.9999897,9.00723116 9.9999897,10.3627413 9.9999897,11.7200142 11.1202792,12.8181713 12.4990971,12.8181713 13.8797103,12.8181713 14.9999998,11.7200142 14.9999998,10.3627413z
+    </Geometry>
+    <DrawingGroup x:Key="locationDrawingGroup" ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+      <DrawingGroup Opacity="1">
+        <DrawingGroup Opacity="1">
+          <GeometryDrawing Geometry="{StaticResource locationGeometry1}">
+            <GeometryDrawing.Brush>
+              <SolidColorBrush Color="#FF5F7CE0" Opacity="0"/>
+            </GeometryDrawing.Brush>
+          </GeometryDrawing>
+          <GeometryDrawing Brush="#FF000000" Geometry="{StaticResource locationGeometry2}"/>
+        </DrawingGroup>
+      </DrawingGroup>
+    </DrawingGroup>
+    <DrawingImage x:Key="locationDrawingImage" Drawing="{StaticResource locationDrawingGroup}"/>
+    <DrawingImage x:Key="CommentDrawingImage">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+          <DrawingGroup Opacity="1">
+            <DrawingGroup Opacity="1">
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="#FFD8D8D8" Opacity="0"/>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,24,24"/>
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="#FF000000"
+                               Geometry="M 24,24 0,0 8.82447466,4 L 15.1755253,4 C 16.8531003,4 17.4614295,4.17467038 18.0747258,4.50266485 18.6880221,4.83065931 19.1693407,5.31197786 19.4973352,5.92527418 19.8253296,6.5385705 20,7.14689972 20,8.82447466 L 20,13.5670532 C 20,14.9765495 19.8253296,15.6295585 19.4973352,16.2428548 19.1693407,16.8561511 18.6880221,17.3374697 18.0747258,17.6654642 17.4614295,17.9934586 16.8084205,18.168129 15.3989242,18.168129 L 11.1735286,18.168129 C 10.3699408,18.168129 10.1047313,18.1854772 9.80792445,18.2338108 9.51111758,18.2821444 9.24831236,18.3614634 8.97432521,18.4854049 8.70033806,18.6093464 8.46981451,18.7416187 7.80040668,19.1861932 L 5.46136665,20.7396223 C 5.02851213,21.0270944 4.44457199,20.9092387 4.15709986,20.4763842 4.05464893,20.322121 4,20.1410544 4,19.9558698 L 4,8.82447466 C 4,7.14689972 4.17467038,6.5385705 4.50266485,5.92527418 4.83065931,5.31197786 5.31197786,4.83065931 5.92527418,4.50266485 6.5385705,4.17467038 7.14689972,4 8.82447466,4 M 8.44106362,8.42754031 C 7.95201102,8.42754031 7.55555556,8.82399578 7.55555556,9.31304838 7.55555556,9.80210097 7.95201102,10.1985564 8.44106362,10.1985564 L 15.5589364,10.1985564 C 16.047989,10.1985564 16.4444444,9.80210097 16.4444444,9.31304838 16.4444444,8.82399578 16.047989,8.42754031 15.5589364,8.42754031 L 8.44106362,8.42754031 M 8.44106362,11.9695726 C 7.95201102,11.9695726 7.55555556,12.366028 7.55555556,12.8550806 7.55555556,13.3441332 7.95201102,13.7405887 8.44106362,13.7405887 L 12.0033808,13.7405887 C 12.4924334,13.7405887 12.8888889,13.3441332 12.8888889,12.8550806 12.8888889,12.366028 12.4924334,11.9695726 12.0033808,11.9695726 L 8.44106362,11.9695726 Z"/>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="HasDescDrawingImage">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+          <DrawingGroup Opacity="1">
+            <DrawingGroup Opacity="1">
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="#FFD8D8D8" Opacity="0"/>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,24,24"/>
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="#FF000000"
+                               Geometry="M 24,24 0,0 9.1277704,4 L 14.8722296,4 C 16.6552671,4 17.3018396,4.18565122 17.9536914,4.53426541 18.6055433,4.88287959 19.1171204,5.39445674 19.4657346,6.04630859 19.8143488,6.69816044 20,7.34473292 20,9.1277704 L 20,14.8722296 C 20,16.6552671 19.8143488,17.3018396 19.4657346,17.9536914 19.1171204,18.6055433 18.6055433,19.1171204 17.9536914,19.4657346 17.3018396,19.8143488 16.6552671,20 14.8722296,20 L 9.1277704,20 C 7.34473292,20 6.69816044,19.8143488 6.04630859,19.4657346 5.39445674,19.1171204 4.88287959,18.6055433 4.53426541,17.9536914 4.18565122,17.3018396 4,16.6552671 4,14.8722296 L 4,9.1277704 C 4,7.34473292 4.18565122,6.69816044 4.53426541,6.04630859 4.88287959,5.39445674 5.39445674,4.88287959 6.04630859,4.53426541 6.69816044,4.18565122 7.34473292,4 9.1277704,4 M 8.44444444,11.1111111 C 7.95352467,11.1111111 7.55555556,11.5090802 7.55555556,12 7.55555556,12.4909198 7.95352467,12.8888889 8.44444444,12.8888889 L 15.5555556,12.8888889 C 16.0464753,12.8888889 16.4444444,12.4909198 16.4444444,12 16.4444444,11.5090802 16.0464753,11.1111111 15.5555556,11.1111111 L 8.44444444,11.1111111 M 8.44444444,14.6666667 C 7.95352467,14.6666667 7.55555556,15.0646358 7.55555556,15.5555556 7.55555556,16.0464753 7.95352467,16.4444444 8.44444444,16.4444444 L 12,16.4444444 C 12.4909198,16.4444444 12.8888889,16.0464753 12.8888889,15.5555556 12.8888889,15.0646358 12.4909198,14.6666667 12,14.6666667 L 8.44444444,14.6666667 M 8.44444444,7.55555556 C 7.95352467,7.55555556 7.55555556,7.95352467 7.55555556,8.44444444 7.55555556,8.93536422 7.95352467,9.33333333 8.44444444,9.33333333 L 15.5555556,9.33333333 C 16.0464753,9.33333333 16.4444444,8.93536422 16.4444444,8.44444444 16.4444444,7.95352467 16.0464753,7.55555556 15.5555556,7.55555556 L 8.44444444,7.55555556 Z"/>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="RepeatDrawingImage">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,48 48,48 48,0 0,0 Z">
+          <GeometryDrawing Brush="#FF191919"
+                           Geometry="M 24,24 0,0 15.7071,7.8297548828125 L 17.8284,5.7084348828125 C 18.219,5.3179048828125 18.219,4.6847448828125 17.8284,4.2942148828125 L 15.7071,2.1728978828125 C 15.3166,1.7823738828125 14.6834,1.7823738828125 14.2929,2.1728978828125 13.9024,2.5634228828125 13.9024,3.1965848828125 14.2929,3.5871148828125 L 14.7058,4.0000048828125 9,4.0000048828125 C 4.58172,4.0000048828125 1,7.5817248828125 1,12.0000048828125 1,13.4952048828125 1.410167,14.8945048828125 2.12412,16.0917048828125 2.43227,16.6084048828125 3.1276,16.6298048828125 3.55302,16.2044048828125 3.91045,15.8470048828125 3.935,15.2789048828125 3.69335,14.8349048828125 Q 3,13.5611048828125 3,12.0000048828125 3,9.5147148828125 4.75736,7.7573548828125 6.51472,6.0000048828125 9,6.0000048828125 L 14.7084,6.0000048828125 14.2929,6.4155348828125 C 13.9024,6.8060648828125 13.9024,7.4392248828125 14.2929,7.8297548828125 14.6834,8.2202748828125 15.3166,8.2202748828125 15.7071,7.8297548828125 M 20.3067,9.1650948828125 C 20.065,8.7211148828125 20.0896,8.1530748828125 20.447,7.7956448828125 20.8724,7.3702148828125 21.5677,7.3916048828125 21.8759,7.9083348828125 22.5898,9.1055048828125 23,10.5048548828125 23,12.0000048828125 23,16.4183048828125 19.4183,20.0000048828125 15,20.0000048828125 L 9.29552,20.0000048828125 9.70843,20.4129048828125 C 10.09895,20.8034048828125 10.09895,21.4366048828125 9.70843,21.8271048828125 9.3179,22.2176048828125 8.68474,22.2176048828125 8.29421,21.8271048828125 L 6.17289,19.7058048828125 C 5.78237,19.3153048828125 5.78237,18.6821048828125 6.17289,18.2916048828125 L 8.29421,16.1702048828125 C 8.68474,15.7797048828125 9.3179,15.7797048828125 9.70843,16.1702048828125 10.09895,16.5608048828125 10.09895,17.1940048828125 9.70843,17.5845048828125 L 9.29291,18.0000048828125 15,18.0000048828125 Q 17.4853,18.0000048828125 19.2426,16.2426048828125 21,14.4853048828125 21,12.0000048828125 21,10.4389548828125 20.3067,9.1650948828125 Z"/>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="reminderDrawingImage">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+          <GeometryDrawing Brush="#FF191919"
+                           Geometry="M 20,20 0,0 1.80964431346512,6.78202657924652 C 1.94861331346512,6.92099657924652 2.09980331346512,7.04775657924652 2.26145331346512,7.16054657924652 1.87775331346512,8.11818657924652 1.66666631346512,9.16360657924652 1.66666631346512,10.2583365792465 1.66666631346512,12.4601665792465 2.52060331346512,14.4625665792465 3.91536331346512,15.9523665792465 L 2.67354331346512,17.5621665792465 C 2.39243331346512,17.9265665792465 2.45997331346512,18.4498665792465 2.82438331346512,18.7310665792465 3.18879331346512,19.0121665792465 3.71209331346512,18.9445665792465 3.99320331346512,18.5801665792465 L 5.17231331346512,17.0516665792465 C 6.53441331346512,18.0213665792465 8.20060331346512,18.5916665792465 10.0000033134651,18.5916665792465 11.7994333134651,18.5916665792465 13.4656333134651,18.0213665792465 14.8276333134651,17.0516665792465 L 16.0068333134651,18.5801665792465 C 16.2879333134651,18.9445665792465 16.8112333134651,19.0121665792465 17.1756333134651,18.7310665792465 17.5400333134651,18.4498665792465 17.6075333134651,17.9265665792465 17.3264333134651,17.5621665792465 L 16.0846333134651,15.9523665792465 C 17.4794333134651,14.4625665792465 18.3333333134651,12.4601665792465 18.3333333134651,10.2583365792465 18.3333333134651,9.16360657924652 18.1222333134651,8.11818657924652 17.7385333134651,7.16054657924652 17.9002333134651,7.04775657924652 18.0513333134651,6.92099657924652 18.1903333134651,6.78202657924652 18.7935333134651,6.17880657924652 19.1666333134651,5.34547657924652 19.1666333134651,4.42499657924652 19.1666333134651,2.58404657924652 17.6742333134651,1.09166657924652 15.8333333134651,1.09166657924652 14.9128333134651,1.09166657924652 14.0795333134651,1.46476257924652 13.4763333134651,2.06797757924652 13.3373333134651,2.20694657924652 13.2105333134651,2.35813657924652 13.0978333134651,2.51978657924652 12.1401333134651,2.13608657924652 11.0947333134651,1.92499957924652 10.0000033134651,1.92499957924652 8.90527331346512,1.92499957924652 7.85985331346512,2.13608657924652 6.90221331346512,2.51978657924652 6.78942331346512,2.35813657924652 6.66266331346512,2.20694657924652 6.52369331346512,2.06797757924652 5.92047331346512,1.46476257924652 5.08714331346512,1.09166657924652 4.16666331346512,1.09166657924652 2.32571331346512,1.09166657924652 0.833333313465118,2.58404657924652 0.833333313465118,4.42499657924652 0.833333313465118,5.34547657924652 1.20642931346512,6.17880657924652 1.80964431346512,6.78202657924652 M 5.34517331346512,3.24648657924652 Q 5.37477331346512,3.27608657924652 5.40265331346512,3.30678657924652 C 4.46892331346512,3.92554657924652 3.66708331346512,4.72739657924652 3.04834331346512,5.66114657924652 Q 3.01787331346512,5.63322657924652 2.98815331346512,5.60350657924652 2.50000331346512,5.11535657924652 2.50000331346512,4.42499657924652 2.50000331346512,3.73464657924652 2.98815331346512,3.24648657924652 3.47631331346512,2.75833657924652 4.16666331346512,2.75833657924652 4.85702331346512,2.75833657924652 5.34517331346512,3.24648657924652 M 17.0118333134651,5.60350657924652 Q 16.9821333134651,5.63323657924652 16.9516333134651,5.66114657924652 C 16.3329333134651,4.72739657924652 15.5310333134651,3.92554657924652 14.5973333134651,3.30678657924652 Q 14.6252333134651,3.27608657924652 14.6548333134651,3.24648657924652 15.1429333134651,2.75833657924652 15.8333333134651,2.75833657924652 16.5237333134651,2.75833657924652 17.0118333134651,3.24648657924652 17.5000333134651,3.73464657924652 17.5000333134651,4.42499657924652 17.5000333134651,5.11535657924652 17.0118333134651,5.60350657924652 M 16.0542333134651,7.75112657924652 L 16.1538333134651,7.69420657924652 Q 15.6482333134651,6.47849657924652 14.7140333134651,5.54428657924652 13.7377333134651,4.56797657924652 12.4539333134651,4.05974657924652 11.2716333134651,3.59166657924652 10.0000033134651,3.59166657924652 8.72837331346512,3.59166657924652 7.54603331346512,4.05974657924652 6.26226331346512,4.56797657924652 5.28595331346512,5.54428657924652 4.30964331346512,6.52059657924652 3.80141331346512,7.80436657924652 3.33333331346512,8.98670657924652 3.33333331346512,10.2583365792465 3.33333331346512,11.5299665792465 3.80141331346512,12.7122665792465 4.30964331346512,13.9960665792465 5.28595331346512,14.9723665792465 6.26226331346512,15.9486665792465 7.54603331346512,16.4569665792465 8.72837331346512,16.9249665792465 10.0000033134651,16.9249665792465 11.2716333134651,16.9249665792465 12.4539333134651,16.4569665792465 13.7377333134651,15.9486665792465 14.7140333134651,14.9723665792465 15.6903333134651,13.9960665792465 16.1986333134651,12.7122665792465 16.6666333134651,11.5299665792465 16.6666333134651,10.2583365792465 16.6666333134651,8.98670657924652 16.1986333134651,7.80436657924652 16.1860333134651,7.77270657924652 16.1732333134651,7.74121657924652 C 16.1337333134651,7.74521657924652 16.0941333134651,7.74851657924652 16.0542333134651,7.75112657924652 M 9.16666331346512,10.2583365792465 C 9.16666331346512,10.7185665792465 9.53976331346512,11.0916665792465 10.0000033134651,11.0916665792465 L 12.5000333134651,11.0916665792465 C 12.9602333134651,11.0916665792465 13.3333333134651,10.7185665792465 13.3333333134651,10.2583365792465 13.3333333134651,9.79809657924652 12.9602333134651,9.42499657924652 12.5000333134651,9.42499657924652 L 10.8333333134651,9.42499657924652 10.8333333134651,6.09166657924652 C 10.8333333134651,5.63142657924652 10.4602333134651,5.25833657924652 10.0000033134651,5.25833657924652 9.53976331346512,5.25833657924652 9.16666331346512,5.63142657924652 9.16666331346512,6.09166657924652 L 9.16666331346512,10.2583365792465 Z"/>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <SolidColorBrush x:Key="BaseColorOpacity20" Color="{StaticResource black_18}"/>
+    <SolidColorBrush x:Key="TagBackground" Color="{DynamicResource ColorPrimary}" Opacity="0.36"/>
+    <converter:TaskListPrintDateColorConverter x:Key="TaskListPrintDateColorConverter"/>
+    <converter:TaskListAvatarVisibilityConverter x:Key="TaskListAvatarVisibilityConverter"/>
+    <Style TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="12"/>
+      <Setter Property="FrameworkElement.MaxWidth" Value="70"/>
+      <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
+      <Setter Property="FrameworkElement.Margin" Value="4,2"/>
+      <Setter Property="UIElement.Opacity" Value="0.56"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="TagBorderStyle" TargetType="{x:Type Border}">
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="Border.CornerRadius" Value="2"/>
+      <Setter Property="Border.Background" Value="{StaticResource TagBackground}"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <StackPanel Orientation="Horizontal">
+    <Border Margin="5,0,0,0" Style="{StaticResource TagBorderStyle}"
+            Visibility="{Binding FirstTag, Converter={StaticResource StringToVisibleConverter}}">
+      <TextBlock Name="FirstTag" Text="{Binding FirstTag}"/>
+    </Border>
+    <Border Margin="5,0,0,0" Style="{StaticResource TagBorderStyle}"
+            Visibility="{Binding SecondTag, Converter={StaticResource StringToVisibleConverter}}">
+      <TextBlock Text="{Binding SecondTag}"/>
+    </Border>
+    <Border Margin="5,0,0,0" Style="{StaticResource TagBorderStyle}"
+            Visibility="{Binding MoreTag, Converter={StaticResource StringToVisibleConverter}}">
+      <TextBlock Text="{Binding MoreTag}"/>
+    </Border>
+    <TextBlock Opacity="0.56" Text="{Binding ProjectName}"
+               Visibility="{Binding ProjectName, Converter={StaticResource StringToVisibleConverter}}"/>
+    <Image Source="{StaticResource attachmentsDrawingImage}" Style="{StaticResource ListIcon}"
+           Visibility="{Binding ShowAttachment, Converter={StaticResource BoolVisibleConverter}, Mode=OneWay}"/>
+    <Grid Width="20" Height="20" Margin="0,0,0,1"
+          Visibility="{Binding ShowProgress, Converter={StaticResource BoolVisibleConverter}}">
+      <Border BorderBrush="{StaticResource BaseColorOpacity20}" BorderThickness="2" CornerRadius="6" Width="12"
+              Height="12"/>
+      <views:CircleProgress Radius="2" SegmentColor="{DynamicResource BaseColorOpacity20}" StrokeThickness="4"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Percentage="{Binding Progress}"/>
+    </Grid>
+    <Image Source="{StaticResource locationDrawingImage}" Style="{StaticResource ListIcon}"
+           Visibility="{Binding ShowLocation, Converter={StaticResource BoolVisibleConverter}, Mode=OneWay}"/>
+    <Image Source="{StaticResource CommentDrawingImage}" Style="{StaticResource ListIcon}"
+           Visibility="{Binding ShowComment, Converter={StaticResource BoolVisibleConverter}, Mode=OneWay}"/>
+    <Image Source="{StaticResource HasDescDrawingImage}" Style="{StaticResource ListIcon}"
+           Visibility="{Binding ShowDescription, Converter={StaticResource BoolVisibleConverter}, Mode=OneWay}"/>
+    <Image Source="{StaticResource RepeatDrawingImage}" Style="{StaticResource ListIcon}"
+           Visibility="{Binding ShowRepeat, Converter={StaticResource BoolVisibleConverter}, Mode=OneWay}"/>
+    <Image Source="{StaticResource reminderDrawingImage}" Style="{StaticResource ListIcon}" Margin="2,2,2,0"
+           Visibility="{Binding ShowReminder, Converter={StaticResource BoolVisibleConverter}, Mode=OneWay}"/>
+    <TextBlock Name="DateText" FontSize="12" Style="{StaticResource TaskListViewTitleStyle}"
+               VerticalAlignment="Center" Margin="8,0,0,0">
+      <TextBlock.Text>
+        <MultiBinding Converter="{StaticResource TaskListDateConverter}">
+          <Binding Path="StartDate"/>
+          <Binding Path="DueDate"/>
+          <Binding Path="IsAllDay"/>
+          <Binding Path="Status"/>
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ShowCountDown"/>
+          <Binding/>
+          <Binding Path="IsNote"/>
+        </MultiBinding>
+      </TextBlock.Text>
+      <TextBlock.Foreground>
+        <MultiBinding Converter="{StaticResource TaskListPrintDateColorConverter}">
+          <Binding Path="StartDate"/>
+          <Binding Path="DueDate"/>
+          <Binding Path="IsAllDay"/>
+          <Binding Path="Status"/>
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+        </MultiBinding>
+      </TextBlock.Foreground>
+    </TextBlock>
+    <Border HorizontalAlignment="Center" Margin="10,0,5,0" VerticalAlignment="Center" BorderBrush="#14191919"
+            BorderThickness="1" CornerRadius="8"
+            Visibility="{Binding AvatarUrl, Converter={StaticResource TaskListAvatarVisibilityConverter}, Mode=OneWay}">
+      <Rectangle Name="AvatarImage" RadiusX="8" RadiusY="8" Width="16" Height="16"/>
+    </Border>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,58 @@
+<UserControl x:Class="ticktick_WPF.Views.Detail.AttachmentOptionPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Detail"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc">
+  <Border PreviewMouseLeftButtonUp="OnMouseUp" PreviewMouseRightButtonUp="OnOptionRightMouseUp"
+          Background="#1A191919" CornerRadius="4">
+    <Grid>
+      <Grid Name="ImageOption">
+        <Border PreviewMouseLeftButtonUp="OnImageMorePreviewMouseUp" Name="ImageOptionMenuBorder" Width="24"
+                Height="24" CornerRadius="4" Background="#66191919" HorizontalAlignment="Right"
+                VerticalAlignment="Top" Margin="6" Cursor="Hand">
+          <Path VerticalAlignment="Center" HorizontalAlignment="Center" Width="18" Height="18" Stretch="Fill"
+                Fill="White" Data="{Binding Source={StaticResource IcMore}, Path=Data}"/>
+        </Border>
+        <Popup Name="ImageOptionMenu" PopupAnimation="Fade" AllowsTransparency="true" Placement="Mouse"
+               StaysOpen="false">
+          <ContentControl Style="{DynamicResource PopupContentStyle}">
+            <StackPanel MinWidth="120">
+              <Button Click="OnSmallSizeClick" Name="SwitchToSmallSizeButton" Content="{StaticResource SmallSizeImage}"
+                      Style="{DynamicResource ListButtonStyle}"/>
+              <Button Click="OnNormalSizeClick" Name="SwitchToNormalSizeButton"
+                      Content="{StaticResource NormalSizeImage}" Style="{DynamicResource ListButtonStyle}"/>
+              <Button Click="OnImageCopyClick" Content="{StaticResource Copy}" Style="{DynamicResource ListButtonStyle}"/>
+              <Button Click="OnImageDownloadClick" Content="{StaticResource SaveAs}"
+                      Style="{DynamicResource ListButtonStyle}"/>
+              <Button Click="OnImageDeleteClick" Content="{StaticResource Delete}"
+                      Style="{DynamicResource ListButtonStyle}"/>
+            </StackPanel>
+          </ContentControl>
+        </Popup>
+      </Grid>
+      <StackPanel Name="FileOption" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center"
+                  Visibility="Collapsed" Margin="0,0,8,0" ToolTip="{Binding FileName}">
+        <Border PreviewMouseLeftButtonUp="OnAttachmentOptionClick" Width="24" Height="24" CornerRadius="4"
+                Background="#66191919" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6">
+          <Path VerticalAlignment="Center" HorizontalAlignment="Center" Width="21" Height="21" Stretch="Fill"
+                Fill="White" Data="{Binding Source={StaticResource IcMore}, Path=Data}"/>
+        </Border>
+        <Popup Name="AttachmentOptionMenu" PopupAnimation="Fade" AllowsTransparency="true" Placement="Mouse"
+               StaysOpen="false">
+          <ContentControl Style="{DynamicResource PopupContentStyle}">
+            <StackPanel MinWidth="120">
+              <Button Click="OnFileDownLoadClick" Content="{StaticResource SaveAs}"
+                      Style="{DynamicResource ListButtonStyle}"/>
+              <Button Click="OnFileDeleteClick" Content="{StaticResource Delete}"
+                      Style="{DynamicResource ListButtonStyle}"/>
+            </StackPanel>
+          </ContentControl>
+        </Popup>
+      </StackPanel>
+      <ProgressBar Name="DownloadProgress" IsIndeterminate="false" VerticalAlignment="Bottom" Height="2"/>
+    </Grid>
+  </Border>
+</UserControl>

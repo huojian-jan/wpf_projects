@@ -1,0 +1,89 @@
+<UserControl x:Class="ticktick_WPF.Views.Eisenhower.MatrixContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Eisenhower"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             PreviewMouseLeftButtonUp="OnMouseUp" Background="{DynamicResource MatrixContainerColor}"
+             IsTabStop="false">
+  <FrameworkElement.Resources>
+    <Storyboard x:Key="DragMoveStory">
+      <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:0.18">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" Duration="0:0:0.18">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+    </Storyboard>
+    <Storyboard x:Key="UnlockedSyncStory" Completed="SyncStoryCompleted">
+      <DoubleAnimation Storyboard.TargetName="SyncGrid"
+                       Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)" From="0" To="1080"
+                       Duration="0:0:2"/>
+      <DoubleAnimation Storyboard.TargetName="SyncGrid" Storyboard.TargetProperty="Opacity" From="0" To="1"
+                       Duration="0:0:0.1"/>
+      <DoubleAnimation Storyboard.TargetName="SyncGrid" Storyboard.TargetProperty="Opacity" From="1" To="0"
+                       BeginTime="0:0:1.5" Duration="0:0:0.4"/>
+    </Storyboard>
+    <Storyboard x:Key="LockedSyncStory" Completed="SyncStoryCompleted">
+      <DoubleAnimation Storyboard.TargetName="SyncGrid"
+                       Storyboard.TargetProperty="(RenderTransform).(RotateTransform.Angle)" From="0" To="1080"
+                       Duration="0:0:2"/>
+    </Storyboard>
+  </FrameworkElement.Resources>
+  <UIElement.Effect>
+    <BlurEffect Radius="0" x:Name="BlurEffect"/>
+  </UIElement.Effect>
+  <Grid Margin="16,0,16,16">
+    <Grid.RowDefinitions>
+      <RowDefinition x:Name="HeadRow" Height="74"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <TextBlock Name="TitleName" Text="{StaticResource Matrix}" Style="{StaticResource Title01}" FontSize="20"
+               VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0" Margin="0,0,0,16"/>
+    <Border Name="DragPanel" Background="Transparent" CornerRadius="6" Grid.Row="0" Height="25"
+            VerticalAlignment="Top"/>
+    <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal"
+                Margin="0,0,0,10">
+      <misc:HoverIconButton x:Name="UnLockGrid" Visibility="Collapsed" IsImage="false"
+                            IconData="{Binding Source={StaticResource IcUnLockWidget}, Path=Data}"/>
+      <misc:HoverIconButton x:Name="SyncGrid" ImageSource="{DynamicResource SyncDrawingImage}" Opacity="0"
+                            RenderTransformOrigin="0.5,0.5" IsHitTestVisible="false">
+        <UIElement.RenderTransform>
+          <RotateTransform Angle="0"/>
+        </UIElement.RenderTransform>
+      </misc:HoverIconButton>
+      <misc:HoverIconButton x:Name="MoreGrid" MouseLeftButtonUp="OnMoreClick" ImageSource="{DynamicResource MoreDrawingImage}"/>
+    </StackPanel>
+    <misc:EscPopup x:Name="MorePopup" StaysOpen="false" Grid.Row="0" Placement="Bottom" HorizontalOffset="-72"
+                   PlacementTarget="{Binding ElementName=MoreGrid}"/>
+    <Canvas SizeChanged="OnContainerSizeChanged" Name="Container" Grid.Row="1">
+      <local:QuadrantControl x:Name="Quadrant1" TaskDragOver="OnTaskDragOver" Level="1"/>
+      <local:QuadrantControl x:Name="Quadrant2" TaskDragOver="OnTaskDragOver" Level="2"/>
+      <local:QuadrantControl x:Name="Quadrant3" TaskDragOver="OnTaskDragOver" Level="3"/>
+      <local:QuadrantControl x:Name="Quadrant4" TaskDragOver="OnTaskDragOver" Level="4"/>
+    </Canvas>
+    <Popup x:Name="DragQuadrantPopup" AllowsTransparency="true" Grid.Row="1" Placement="Relative"
+           PlacementTarget="{Binding ElementName=Container}">
+      <Border RenderTransformOrigin="0.5,0.5" Margin="20">
+        <UIElement.RenderTransform>
+          <RotateTransform Angle="-2"/>
+        </UIElement.RenderTransform>
+        <ContentControl Style="{DynamicResource PopupContentStyle}" Margin="0">
+          <Border Width="{Binding ElementName=Quadrant1, Path=Width}"
+                  Height="{Binding ElementName=Quadrant1, Path=Height}">
+            <Border.Background>
+              <VisualBrush Stretch="UniformToFill" AlignmentX="Left" x:Name="DragVisual"
+                           Visual="{Binding ElementName=Quadrant1}"/>
+            </Border.Background>
+          </Border>
+        </ContentControl>
+      </Border>
+    </Popup>
+  </Grid>
+</UserControl>

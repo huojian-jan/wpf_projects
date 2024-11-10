@@ -1,0 +1,60 @@
+<UserControl x:Class="ticktick_WPF.Views.Team.InviteNormalItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Team="clr-namespace:ticktick_WPF.Views.Team"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             Loaded="InviteNormalItem_OnLoaded" Name="Root" Height="32" Cursor="Hand">
+  <Grid PreviewMouseLeftButtonUp="OnSelectedItem">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Setter Property="Panel.Background" Value="Transparent"/>
+        <Style.Triggers>
+          <Trigger Property="UIElement.IsMouseOver" Value="true">
+            <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition x:Name="TheThirdColumn"/>
+    </Grid.ColumnDefinitions>
+    <Grid Column="0" Width="10"
+          Visibility="{Binding Path=InGroup, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Ellipse Grid.Column="1" Margin="12,0,0,0" Width="18" Height="18" StrokeThickness="1"
+             Stroke="{DynamicResource BaseColorOpacity5}">
+      <Shape.Fill>
+        <ImageBrush Stretch="Fill" ImageSource="{Binding Avatar}"/>
+      </Shape.Fill>
+    </Ellipse>
+    <TextBlock Grid.Column="2" Margin="10,0,50,0" TextTrimming="CharacterEllipsis" Text="{Binding Path=UserName}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource Body03}" TargetType="{x:Type TextBlock}">
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Selected}" Value="True">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <Path Width="12" Fill="{DynamicResource PrimaryColor}" HorizontalAlignment="Right" Grid.Column="2"
+          Margin="0,0,18,0" Style="{StaticResource ListPathStyle}"
+          Data="{Binding Source={StaticResource IcCheck}, Path=Data}"
+          Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Image MouseLeftButtonUp="OnDeleteClick" Style="{DynamicResource Icon01}" HorizontalAlignment="Right"
+           Grid.Column="2" Margin="0,0,18,0" Width="14" Source="{DynamicResource DeleteDrawingLine}">
+      <UIElement.Visibility>
+        <MultiBinding Converter="{StaticResource BoolAndVisibilityConverter}" ConverterParameter="1">
+          <Binding Path="CanDelete"/>
+          <Binding Path="Selected"/>
+          <Binding ElementName="Root" Path="IsMouseOver"/>
+        </MultiBinding>
+      </UIElement.Visibility>
+    </Image>
+  </Grid>
+</UserControl>

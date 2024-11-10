@@ -1,0 +1,16 @@
+<Grid x:Class="ticktick_WPF.Views.Tag.TagInputTextBox"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ticktick_WPF.Views.Tag"
+      DataContextChanged="OnDataBinded" Margin="8,8,0,0" Height="{DynamicResource Height18}">
+  <TextBlock x:Name="HintText" Foreground="{DynamicResource BaseColorOpacity40_20}"
+             Text="{StaticResource InputTag}" HorizontalAlignment="Left" VerticalAlignment="Center"
+             MaxWidth="180" FontSize="{DynamicResource Font12}" LineHeight="15" Margin="3,0,0,0"/>
+  <TextBox PreviewKeyUp="OnKeyUp" PreviewKeyDown="OnKeyDown" TextChanged="OnTextChanged" x:Name="InputText"
+           Height="{DynamicResource Height18}" MaxWidth="190" MinWidth="50"
+           FontSize="{DynamicResource Font12}" VerticalScrollBarVisibility="Disabled"
+           Style="{DynamicResource NoBorderTextStyle}" VerticalAlignment="Center" MaxLength="64" Padding="0"
+           HorizontalAlignment="Left" Width="{Binding ElementName=HintText, Path=ActualWidth}"/>
+</Grid>

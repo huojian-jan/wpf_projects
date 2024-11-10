@@ -1,0 +1,445 @@
+<Grid x:Class="ticktick_WPF.Views.Detail.TaskDetailBatchControl"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ticktick_WPF.Views.Detail"
+      xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+      xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+      xmlns:views="clr-namespace:ticktick_WPF.Views"
+      xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+      Background="Transparent">
+  <FrameworkElement.Resources>
+    <Style x:Key="BatchTaskIconStyle" TargetType="{x:Type Path}">
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Top"/>
+      <Setter Property="FrameworkElement.Margin" Value="0,9,0,0"/>
+      <Setter Property="FrameworkElement.Width" Value="20"/>
+      <Setter Property="FrameworkElement.Height" Value="20"/>
+      <Setter Property="Shape.Stretch" Value="Fill"/>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsEnabled" Value="false">
+          <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity20}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style x:Key="BatchTaskTextStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+      <Setter Property="TextBlock.FontSize" Value="14"/>
+      <Setter Property="FrameworkElement.Margin" Value="0,0,0,9"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity80}"/>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsEnabled" Value="false">
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity20}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style x:Key="BatchTaskBorderStyle" TargetType="{x:Type Border}">
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Border.Background" Value="{DynamicResource BatchSelectBackground}"/>
+      <Setter Property="FrameworkElement.Margin" Value="6,6"/>
+      <Setter Property="Border.CornerRadius" Value="6"/>
+      <Setter Property="FrameworkElement.Height" Value="67"/>
+      <Setter Property="FrameworkElement.Width"
+              Value="{Binding ElementName=BatchBlockWidthTarget, Path=ActualWidth, Mode=OneWay}"/>
+      <Style.Triggers>
+        <Trigger Property="FrameworkElement.Tag" Value="False">
+          <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+        </Trigger>
+        <Trigger Property="UIElement.IsMouseOver" Value="true">
+          <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style x:Key="DropIconStyle" TargetType="{x:Type misc:DropIconButton}">
+      <Setter Property="Control.FontSize" Value="14"/>
+      <Setter Property="misc:DropIconButton.IconSize" Value="18"/>
+      <Setter Property="Control.Foreground" Value="{DynamicResource BaseColorOpacity80}"/>
+      <Setter Property="misc:DropIconButton.IconColor" Value="{DynamicResource BaseColorOpacity60}"/>
+      <Style.Triggers>
+        <Trigger Property="misc:DropIconButton.ItemSelected" Value="true">
+          <Setter Property="Control.Foreground" Value="{DynamicResource PrimaryColor}"/>
+          <Setter Property="misc:DropIconButton.IconColor" Value="{DynamicResource PrimaryColor}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <TextBlock Name="BatchTaskText" Foreground="{DynamicResource BaseColorOpacity100_80}" Margin="20, 0"
+             FontSize="16" FontWeight="SemiBold"/>
+  <TextBlock MouseLeftButtonUp="OnCancelClick" Name="CloseButton" Grid.Row="0" HorizontalAlignment="Right"
+             VerticalAlignment="Center" Foreground="{DynamicResource PrimaryColor}" Margin="20, 0" FontSize="14"
+             Text="{StaticResource Cancel}"/>
+  <Border Grid.Row="1" CornerRadius="6" Margin="20,20" VerticalAlignment="Top"
+          Background="{DynamicResource BatchSelectBackground}">
+    <StackPanel Orientation="Vertical">
+      <misc:OptionItemWithImageIcon x:Name="BatchRestoreProjectButton" MouseLeftButtonUp="RestoreProjectClick"
+                                    ImageSource="{DynamicResource RestoreDrawingImage}" CustomFontSize="14" Height="44"
+                                    Visibility="Collapsed" Content="{StaticResource Restore}"/>
+      <misc:EscPopup x:Name="SetProjectPopup" Placement="Bottom" HorizontalOffset="24" VerticalOffset="-15"
+                     StaysOpen="false" PlacementTarget="{Binding ElementName=BatchTaskMoveProjectButton}"/>
+      <misc:OptionItemWithImageIcon x:Name="BatchDeleteFromTrashButton" MouseLeftButtonUp="DeleteFromTrashClick" Height="44"
+                                    Visibility="Collapsed" ImageSource="{DynamicResource DeleteForeverDrawingImage}"
+                                    CustomFontSize="14" Content="{StaticResource DeleteForever}"/>
+      <Grid MouseLeftButtonUp="SelectDateClick" Name="BatchSelectDateButton" Visibility="Collapsed"
+            Cursor="Hand" MinWidth="120" IsEnabled="{Binding Enable}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Panel.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="44"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Path Width="18" Height="18" Stretch="Uniform" Grid.Column="0" HorizontalAlignment="Left"
+              Margin="16,0,0,0" IsHitTestVisible="false"
+              Data="{Binding Source={StaticResource IcCalendar}, Path=Data}">
+          <Shape.Fill>
+            <MultiBinding Converter="{StaticResource TaskDetailDateColorConverter}">
+              <Binding Path="DisplayStartDate"/>
+              <Binding Path="DisplayDueDate"/>
+              <Binding Path="IsAllDay"/>
+              <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+            </MultiBinding>
+          </Shape.Fill>
+        </Path>
+        <TextBlock Grid.Row="0" Margin="8,0" Background="Transparent" TextTrimming="CharacterEllipsis" Grid.Column="1"
+                   Style="{StaticResource Tag01}" IsHitTestVisible="false" FontSize="14"
+                   Foreground="{Binding DateIconColor}" Cursor="{Binding ElementName=ChooseTimeGrid, Path=Cursor}">
+          <FrameworkElement.MaxWidth>
+            <MultiBinding Converter="{StaticResource TaskDetailDateMaxWidthConverter}">
+              <Binding ElementName="DateGrid" Path="ActualWidth"/>
+              <Binding ElementName="RepeatIndicator" Path="Visibility"/>
+            </MultiBinding>
+          </FrameworkElement.MaxWidth>
+          <TextBlock.Text>
+            <MultiBinding Converter="{StaticResource TaskDetailDateConverter}">
+              <Binding Path="DisplayStartDate"/>
+              <Binding Path="DisplayDueDate"/>
+              <Binding Path="IsAllDay"/>
+              <Binding Path="Mode"/>
+              <Binding Path="Kind"/>
+              <Binding Path="Status"/>
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" Foreground="{DynamicResource BaseColorOpacity40}" FontSize="12"
+                   Margin="5,0,5, 11" Visibility="{Binding ShowTimeZoneText}">
+          <TextBlock.Text>
+            <MultiBinding Converter="{StaticResource TaskDetailTimeZoneDateConverter}">
+              <Binding Path="DisplayStartDate"/>
+              <Binding Path="DisplayDueDate"/>
+              <Binding Path="IsAllDay"/>
+              <Binding Path="TimeZoneName"/>
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+      </Grid>
+      <Grid MouseLeftButtonUp="SetPriorityClick" Name="BatchTaskPriorityButton" Height="44">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+            <Setter Property="Panel.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Width="18" Height="18" IsHitTestVisible="false" Margin="16,13,0,0" VerticalAlignment="Top">
+          <Image.Source>
+            <MultiBinding Converter="{StaticResource TaskDetailPriorityIconConverter}">
+              <Binding Path="Priority"/>
+              <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+            </MultiBinding>
+          </Image.Source>
+        </Image>
+        <TextBlock Name="PriorityText" Grid.Column="1" Text="{StaticResource priority}" IsHitTestVisible="false"
+                   VerticalAlignment="Center" Margin="8,0,12,0" Foreground="{DynamicResource BaseColorOpacity80}"
+                   FontSize="14" Tag="{Binding Priority, Converter={StaticResource TaskDetailPriorityTextConverter}}"/>
+      </Grid>
+      <misc:EscPopup x:Name="SetPriorityPopup" StaysOpen="false" HorizontalOffset="24" VerticalOffset="-12"
+                     Placement="Bottom" PlacementTarget="{Binding ElementName=BatchTaskPriorityButton}"/>
+      <misc:DropIconButton x:Name="BatchTaskMoveProjectButton" MouseLeftButtonUp="MoveProjectMouseUp" Visibility="Collapsed"
+                           Height="44" Margin="0,0,0,0" IconSize="18" Title="{StaticResource MoveTo}" FontSize="14"
+                           Style="{DynamicResource DropIconStyle}"
+                           Icon="{Binding Source={StaticResource IcMovetoLine}, Path=Data}"/>
+      <Grid MouseLeftButtonUp="OnSetAssigneeMouseUp" Name="BatchAssigneeGrid" Visibility="Collapsed">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+            <Setter Property="FrameworkElement.Height" Value="44"/>
+            <Style.Triggers>
+              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Rectangle Name="AvatarImage" RadiusX="18" RadiusY="18" Width="18" Height="18" Margin="16,0,0,0"
+                   HorizontalAlignment="Left" Visibility="{Binding ElementName=AvatarImage, Path=Visibility}">
+          <Shape.Fill>
+            <ImageBrush x:Name="Avatar" Stretch="Fill"/>
+          </Shape.Fill>
+        </Rectangle>
+        <Image Margin="16,0,0,0" Stretch="Uniform" Style="{DynamicResource Icon01}"
+               Source="{DynamicResource AssigntoDrawingImage}" Height="18" Width="18"
+               Visibility="{Binding ElementName=AvatarImage, Path=Visibility, Converter={StaticResource InverseVisibleConverter}}"/>
+        <wpf:EmjTextBlock Grid.Column="1" VerticalAlignment="Center" Margin="8,0,16,0" FontSize="14"
+                          Width="{Binding ElementName=BatchTaskMoveProjectButton, Path=ActualWidth}"
+                          MaxWidth="{Binding ElementName=BatchTaskMoveProjectButton, Path=ActualWidth}">
+          <wpf:EmjTextBlock.Text>
+            <MultiBinding Converter="{StaticResource AvatarNameConverter}">
+              <Binding Path="Assignee"/>
+              <Binding Path="ProjectId"/>
+            </MultiBinding>
+          </wpf:EmjTextBlock.Text>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type wpf:EmjTextBlock}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity80}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=AvatarImage, Path=Visibility}" Value="Visible">
+                  <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </wpf:EmjTextBlock>
+      </Grid>
+      <misc:EscPopup x:Name="BatchAssigneePopup" Placement="Bottom" StaysOpen="false" VerticalOffset="-12"
+                     HorizontalOffset="24" PlacementTarget="{Binding ElementName=BatchAssigneeGrid}"/>
+      <Grid MouseLeftButtonUp="OnTagMouseUp" Name="BatchSetTagsButton" MinHeight="44" Visibility="Collapsed">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+            <Setter Property="Panel.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Path Width="18" Height="18" IsHitTestVisible="false" Margin="16,13,0,0" VerticalAlignment="Top"
+              Data="{Binding Source={StaticResource IcTagLine}, Path=Data}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}">
+              <Setter Property="Shape.Stretch" Value="Uniform"/>
+              <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+              <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=BatchTagsText, Path=Visibility}" Value="Visible">
+                  <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Name="BatchTagsText" Grid.Column="1" Visibility="Collapsed" Text="{StaticResource Tags}"
+                   IsHitTestVisible="false" VerticalAlignment="Center" Margin="8,0,12,0"
+                   Foreground="{DynamicResource BaseColorOpacity80}" FontSize="14"/>
+        <Border Name="BatchTagsContainer" Grid.Column="1" Margin="6,8,0,8" IsHitTestVisible="false"/>
+      </Grid>
+    </StackPanel>
+  </Border>
+  <Grid Row="2" Margin="15,0">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Border Name="BatchBlockWidthTarget" Background="Transparent" Grid.Column="0" Width="Auto" Height="0"
+            Style="{DynamicResource BatchTaskBorderStyle}"/>
+    <Border Background="Transparent" Grid.Column="1" Width="Auto" Height="0"
+            Style="{DynamicResource BatchTaskBorderStyle}"/>
+  </Grid>
+  <WrapPanel Name="BatchTaskBlocks" Grid.Row="3" Margin="15 0 14 0" Visibility="Collapsed">
+    <Border MouseLeftButtonUp="OnBatchCompleteMouseUp" Name="BatchCompleteOrUndoneBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Name="BatchTaskDoneIcon"
+              Data="M 24,24 0,0 1.5,5.5 L 1.5,18.5 C 1.5,20.7091 3.29086,22.5 5.5,22.5 L 18.5,22.5 C 20.7091,22.5 22.5,20.7091 22.5,18.5 L 22.5,5.5 C 22.5,3.29086 20.7091,1.5 18.5,1.5 L 5.5,1.5 C 3.29086,1.5 1.5,3.29086 1.5,5.5 M 4.08582,19.9141 Q 3.5,19.3284 3.5,18.5 L 3.5,5.5 Q 3.5,4.67157 4.08579,4.08579 4.67157,3.5 5.5,3.5 L 18.5,3.5 Q 19.3284,3.50015 19.9142,4.08594 20.5,4.67157 20.5,5.5 L 20.5,18.5 Q 20.5,19.3283 19.9142,19.9141 19.3284,20.5 18.5,20.5 L 5.5,20.5 Q 4.6716,20.4998 4.08582,19.9141 M 17.2071,9.70711 C 17.3946,9.51957 17.5,9.26522 17.5,9 17.5,8.44772 17.0523,8 16.5,8 16.2348,8 15.9804,8.10536 15.7925,8.29327 L 10.5,13.5858 8.20711,11.29289 C 8.01957,11.10536 7.76522,11 7.5,11 6.94772,11 6.5,11.44772 6.5,12 6.5,12.2652 6.60536,12.5196 6.79289,12.7071 L 9.79289,15.7071 C 9.98043,15.8946 10.23478,16 10.5,16 10.76522,16 11.01957,15.8946 11.20711,15.7071 L 17.2071,9.70711 Z"
+              IsEnabled="{Binding ElementName=BatchCompleteOrUndoneBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FF4772FA"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <Path Name="BatchTaskUndoneIcon" Visibility="Collapsed"
+              Data="M 24,24 0,0 1.64999997615814,18.4999999761581 L 1.64999997615814,5.49999997615814 Q 1.64999997615814,3.90527997615814 2.77763997615814,2.77763997615814 3.90527997615814,1.64999997615814 5.49999997615814,1.64999997615814 L 18.4999999761581,1.64999997615814 Q 20.0946999761581,1.64999991655354 21.2223999761581,2.77763997615814 22.3499999761581,3.90527997615814 22.3499999761581,5.49999997615814 L 22.3499999761581,18.4999999761581 Q 22.3499999761581,20.0946999761581 21.2223999761581,21.2223999761581 20.0946999761581,22.3499999761581 18.4999999761581,22.3499999761581 L 5.49999997615814,22.3499999761581 Q 3.90527997615814,22.3499999761581 2.77763997615814,21.2223999761581 1.64999997615814,20.0946999761581 1.64999997615814,18.4999999761581 M 3.34999997615814,18.4999999761581 Q 3.34999997615814,19.3905999761581 3.97971997615814,20.0202999761581 4.60943997615814,20.6499999761581 5.49999997615814,20.6499999761581 L 18.4999999761581,20.6499999761581 Q 19.3905999761581,20.6499999761581 20.0202999761581,20.0202999761581 20.6499999761581,19.3905999761581 20.6499999761581,18.4999999761581 L 20.6499999761581,5.49999997615814 Q 20.6499999761581,4.60943997615814 20.0202999761581,3.97971997615814 19.3905999761581,3.34999997615814 18.4999999761581,3.34999997615814 L 5.49999997615814,3.34999997615814 Q 4.60943997615814,3.34999997615814 3.97971997615814,3.97971997615814 3.34999997615814,4.60943997615814 3.34999997615814,5.49999997615814 L 3.34999997615814,18.4999999761581 Z"
+              IsEnabled="{Binding ElementName=BatchCompleteOrUndoneBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FF4772FA"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock IsEnabled="{Binding ElementName=BatchCompleteOrUndoneBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BatchTaskTextStyle}">
+              <Setter Property="TextBlock.Text" Value="{StaticResource TaskDone}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=BatchTaskUndoneIcon, Path=Visibility}" Value="Visible">
+                  <Setter Property="TextBlock.Text" Value="{StaticResource TaskUndone}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="OnStarMouseUp" Name="BatchTaskStarBorder"
+            Style="{StaticResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Name="BatchTaskStartPinIcon" IsEnabled="{Binding ElementName=BatchTaskStarBorder, Path=Tag}"
+              Data="{Binding Source={StaticResource IcTaskPinned}, Path=Data}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FFFFB000"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <Path Name="BatchTaskStartUnPinIcon" Visibility="Collapsed"
+              IsEnabled="{Binding ElementName=BatchTaskStarBorder, Path=Tag}"
+              Data="{Binding Source={StaticResource IcTaskUnPinned}, Path=Data}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FFFFB000"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock IsEnabled="{Binding ElementName=BatchTaskStarBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BatchTaskTextStyle}">
+              <Setter Property="TextBlock.Text" Value="{StaticResource Pin}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=BatchTaskStartUnPinIcon, Path=Visibility}" Value="Visible">
+                  <Setter Property="TextBlock.Text" Value="{StaticResource Unpin}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="OnMergeMouseUp" Name="BatchTaskMergeBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Data="M 24,24 0,0 19.5000831054688,13.0000220703125 C 21.1568831054688,13.0000220703125 22.5000831054688,14.3431220703125 22.5000831054688,16.0000220703125 L 22.5000831054688,19.5000220703125 C 22.5000831054688,21.1568220703125 21.1568831054688,22.5000220703125 19.5000831054688,22.5000220703125 L 4.50006310546875,22.5000220703125 C 2.84320310546875,22.5000220703125 1.50006103546875,21.1568220703125 1.50006103546875,19.5000220703125 L 1.50006103546875,16.0000220703125 C 1.50006103546875,14.3431220703125 2.84320310546875,13.0000220703125 4.50006310546875,13.0000220703125 L 7.00006310546875,13.0000220703125 C 7.55234310546875,13.0000220703125 8.00006310546875,13.4477220703125 8.00006310546875,14.0000220703125 8.00006310546875,14.5523220703125 7.55234310546875,15.0000220703125 7.00006310546875,15.0000220703125 L 4.50006310546875,15.0000220703125 Q 4.08584310546875,15.0000220703125 3.79295310546875,15.2929220703125 3.50006310546875,15.5858220703125 3.50006310546875,16.0000220703125 L 3.50006310546875,19.5000220703125 Q 3.50006310546875,19.9142220703125 3.79295310546875,20.2071220703125 4.08584310546875,20.5000220703125 4.50006310546875,20.5000220703125 L 19.5000831054688,20.5000220703125 Q 19.9142831054688,20.5000220703125 20.2071831054688,20.2071220703125 20.5000831054688,19.9142220703125 20.5000831054688,19.5000220703125 L 20.5000831054688,16.0000220703125 Q 20.5000831054688,15.5858220703125 20.2071831054688,15.2929220703125 19.9142831054688,15.0000220703125 19.5000831054688,15.0000220703125 L 17.0000831054688,15.0000220703125 C 16.4477831054688,15.0000220703125 16.0000831054688,14.5523220703125 16.0000831054688,14.0000220703125 16.0000831054688,13.4477220703125 16.4477831054688,13.0000220703125 17.0000831054688,13.0000220703125 L 19.5000831054688,13.0000220703125 M 11.2907131054688,12.5000220703125 C 11.4782431054687,12.3124220703125 11.7324831054688,12.2071220703125 11.9977831054688,12.2071220703125 12.2629831054688,12.2071220703125 12.5173831054688,12.3124220703125 12.7048831054688,12.5000220703125 L 15.1571831054688,14.9523220703125 C 15.3749831054688,15.1426220703125 15.5000831054688,15.4178220703125 15.5000831054688,15.7071220703125 15.5000831054688,16.2606220703125 15.0512831054687,16.7094220703125 14.4977831054688,16.7094220703125 14.2084831054687,16.7094220703125 13.9332831054687,16.5844220703125 13.7429831054688,16.3665220703125 L 12.9977831054688,15.6213220703125 12.9977831054688,18.6396220703125 C 12.9992831054688,18.6621220703125 13.0000831054688,18.6846220703125 13.0000831054688,18.7071220703125 13.0000831054688,19.2606220703125 12.5512831054687,19.7094220703125 11.9977831054688,19.7094220703125 11.4442031054688,19.7094220703125 10.9955431054687,19.2606220703125 10.9955431054687,18.7071220703125 10.9955431054687,18.6846220703125 10.9962231054688,18.6621220703125 10.9977431054688,18.6396220703125 L 10.9977431054688,15.6213220703125 10.2526231054687,16.3665220703125 C 10.0622931054688,16.5844220703125 9.78703310546875,16.7094220703125 9.49774310546875,16.7094220703125 8.94420310546875,16.7094220703125 8.49554310546875,16.2606220703125 8.49554310546875,15.7071220703125 8.49554310546875,15.4178220703125 8.62057310546875,15.1426220703125 8.83844310546875,14.9523220703125 L 11.2907131054688,12.5000220703125 M 4.50006310546875,11.0000020703125 C 2.84320310546875,11.0000020703125 1.50006103546875,9.6568520703125 1.50006103546875,8.0000020703125 L 1.50006103546875,4.5000020703125 C 1.50006103546875,2.8431420703125 2.84320310546875,1.4999995603125 4.50006310546875,1.4999995973125 L 19.5000831054688,1.4999999333125 C 21.1568831054688,1.4999999703125 22.5000831054688,2.8431420703125 22.5000831054688,4.5000020703125 L 22.5000831054688,8.0000020703125 C 22.5000831054688,9.6568520703125 21.1568831054688,11.0000020703125 19.5000831054688,11.0000020703125 L 17.0000831054688,11.0000020703125 C 16.4477831054688,11.0000020703125 16.0000831054688,10.5522820703125 16.0000831054688,10.0000020703125 16.0000831054688,9.4477120703125 16.4477831054688,9.0000020703125 17.0000831054688,9.0000020703125 L 19.5000831054688,9.0000020703125 Q 19.9142831054688,9.0000020703125 20.2071831054688,8.7071120703125 20.5000831054688,8.4142120703125 20.5000831054688,8.0000020703125 L 20.5000831054688,4.5000020703125 Q 20.5000831054688,4.0857820703125 20.2071831054688,3.7928920703125 19.9142831054688,3.5000020703125 19.5000831054688,3.5000020703125 L 4.50006310546875,3.5000020703125 Q 4.08584310546875,3.5000020703125 3.79295310546875,3.7928920703125 3.50006310546875,4.0857820703125 3.50006310546875,4.5000020703125 L 3.50006310546875,8.0000020703125 Q 3.50006310546875,8.4142120703125 3.79295310546875,8.7071020703125 4.08584310546875,9.0000020703125 4.50006310546875,9.0000020703125 L 7.00006310546875,9.0000020703125 C 7.55234310546875,9.0000020703125 8.00006310546875,9.4477120703125 8.00006310546875,10.0000020703125 8.00006310546875,10.5522820703125 7.55234310546875,11.0000020703125 7.00006310546875,11.0000020703125 L 4.50006310546875,11.0000020703125 M 12.7093831054687,11.5000020703125 C 12.5218831054687,11.6875220703125 12.2675831054688,11.7929220703125 12.0023831054688,11.7929220703125 11.7371831054688,11.7929220703125 11.4827631054688,11.6875220703125 11.2952231054688,11.5000020703125 L 10.0690931054688,10.2738520703125 8.84295310546875,9.0477020703125 C 8.62509310546875,8.8573720703125 8.50006310546875,8.5821720703125 8.50006310546875,8.2928720703125 8.50006310546875,7.7393420703125 8.94884310546875,7.2906220703125 9.50238310546875,7.2906220703125 9.79167310546875,7.2906220703125 10.0668131054687,7.4156120703125 10.2571431054687,7.6334820703125 L 11.0023831054688,8.3786920703125 11.0023831054688,5.3603520703125 C 11.0008631054687,5.3378920703125 11.0000631054687,5.3153820703125 11.0000631054687,5.2928720703125 11.0000631054687,4.7393320703125 11.4488431054688,4.2906220703125 12.0023831054688,4.2906220703125 12.5558831054687,4.2906220703125 13.0045831054688,4.7393620703125 13.0045831054688,5.2929120703125 13.0045831054688,5.3154120703125 13.0038831054688,5.3378920703125 13.0023831054688,5.3603520703125 L 13.0023831054688,8.3786620703125 13.7474831054687,7.6334820703125 C 13.9377831054687,7.4156120703125 14.2130831054687,7.2906220703125 14.5023831054688,7.2906220703125 15.0558831054687,7.2906220703125 15.5045831054688,7.7393420703125 15.5045831054688,8.2928820703125 15.5045831054688,8.5821720703125 15.3795831054688,8.8573720703125 15.1616831054688,9.0477020703125 L 12.7093831054687,11.5000020703125 Z"
+              IsEnabled="{Binding ElementName=BatchTaskMergeBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FF10C3EE"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Style="{DynamicResource BatchTaskTextStyle}" Text="{StaticResource Merge}"
+                   IsEnabled="{Binding ElementName=BatchTaskMergeBorder, Path=Tag}"/>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="BatchCopyMouseUp" Name="BatchTaskCopyBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Data="M 24,24 0,0 12.0000032186508,0.999984741210938 L 10.0179632186508,0.999984741210938 C 8.36111321865082,0.999984741210938 6.99999321865082,2.35252474121094 6.99999321865082,4.00936474121094 L 6.99998321865082,4.99898474121094 8.99998321865082,4.99898474121094 8.99998321865082,3.99998474121094 C 8.99998321865082,3.44770474121094 9.44770321865082,2.99998474121094 9.99998321865082,2.99998474121094 L 12.0000032186508,2.99998474121094 12.0000032186508,0.999984741210938 M 16.0000032186508,0.999984741210938 L 16.0000032186508,2.99998474121094 14.0000032186508,2.99998474121094 14.0000032186508,0.999984741210938 16.0000032186508,0.999984741210938 M 21.0000032186508,6.00000474121094 L 23.0000032186508,6.00000474121094 Q 22.9985032186508,5.20143474121094 22.9984032186508,4.01749474121094 C 22.9984032186508,2.35952474121094 21.6420032186508,0.999993556200938 19.9840032186508,0.999999919010938 L 18.0000032186508,1.00000446291094 18.0000032186508,3.00000474121094 20.0000032186508,3.00000474121094 C 20.5523032186508,3.00000474121094 21.0000032186508,3.44772474121094 21.0000032186508,4.00000474121094 L 21.0000032186508,6.00000474121094 M 18.0000032186508,16.9999847412109 L 19.9820032186508,16.9999847412109 C 21.6389032186508,16.9999847412109 23.0000032186508,15.6408847412109 23.0000032186508,13.9839847412109 L 23.0000032186508,11.9999847412109 21.0000032186508,11.9999847412109 21.0000032186508,13.9999847412109 C 21.0000032186508,14.5522847412109 20.5523032186508,14.9999847412109 20.0000032186508,14.9999847412109 L 18.0000032186508,14.9999847412109 18.0000032186508,9.02432474121094 C 18.0000032186508,7.36747474121094 16.6569032186508,5.99999474121094 15.0000032186508,5.99999474121094 L 4.00001321865082,5.99999474121094 C 2.34315321865082,5.99999474121094 1.00001034042082,7.34313474121094 1.00001002673082,8.99999474121094 L 1.00000794407082,19.9999847412109 C 1.00000763038082,21.6568847412109 2.37906321865082,22.9999847412109 4.03591321865082,22.9999847412109 L 15.0062032186508,22.9999847412109 C 16.6631032186508,22.9999847412109 18.0000032186508,21.6496847412109 18.0000032186508,19.9927847412109 L 18.0000032186508,16.9999847412109 M 4.00000321865082,7.99998474121094 L 15.0000032186508,7.99998474121094 C 15.5523032186508,7.99998474121094 16.0000032186508,8.44770474121094 16.0000032186508,8.99998474121094 L 16.0000032186508,19.9999847412109 C 16.0000032186508,20.5522847412109 15.5523032186508,20.9999847412109 15.0000032186508,20.9999847412109 L 4.00000321865082,20.9999847412109 C 3.44772321865082,20.9999847412109 3.00000321865082,20.5522847412109 3.00000321865082,19.9999847412109 L 3.00000321865082,8.99998474121094 C 3.00000321865082,8.44770474121094 3.44772321865082,7.99998474121094 4.00000321865082,7.99998474121094 M 23.0000032186508,9.99998474121094 L 21.0000032186508,9.99998474121094 21.0000032186508,7.99998474121094 23.0000032186508,7.99998474121094 23.0000032186508,9.99998474121094 Z"
+              IsEnabled="{Binding ElementName=BatchTaskCopyBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FF0CCE9C"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Style="{DynamicResource BatchTaskTextStyle}" Text="{StaticResource CopyTask}"
+                   IsEnabled="{Binding ElementName=BatchTaskCopyBorder, Path=Tag}"/>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="SwitchTaskNoteMouseUp" Name="BatchSwitchTaskNoteBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Name="SwitchPath" IsEnabled="{Binding ElementName=BatchSwitchTaskNoteBorder, Path=Tag}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FF4772FA"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Name="SwitchTaskToNoteText" Style="{DynamicResource BatchTaskTextStyle}"
+                   Text="{StaticResource ConvertToNote}"
+                   IsEnabled="{Binding ElementName=BatchSwitchTaskNoteBorder, Path=Tag}"/>
+        <TextBlock Name="SwitchNoteToTaskText" Style="{DynamicResource BatchTaskTextStyle}" Visibility="Collapsed"
+                   Text="{StaticResource ConvertToTask}"
+                   IsEnabled="{Binding ElementName=BatchSwitchTaskNoteBorder, Path=Tag}"/>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="OnBatchOpenStickyMouseUp" Name="BatchOpenStickyBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Data="{Binding Source={StaticResource IcSticky}, Path=Data}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FFFFB000"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Style="{DynamicResource BatchTaskTextStyle}" Text="{StaticResource SetAsSticky}"/>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="OnBatchCopyTextMouseUp" Name="BatchCopyTextBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Data="M 24,24 0,0 10.0179747683716,1 L 18.0000047683716,1 19.9840047683716,1.0000151778 C 21.6420047683716,1.00000881499 22.9984047683716,2.35954 22.9984047683716,4.01751 Q 22.9985047683716,5.20145 23.0000047683716,6.00002 L 23.0000047683716,13.984 C 23.0000047683716,15.6349 21.6487047683716,16.9902 20.0000047683716,16.9999 L 20.0000047683716,15 C 20.5523047683716,15 21.0000047683716,14.5523 21.0000047683716,14 L 21.0000047683716,4.00002 C 21.0000047683716,3.44774 20.5523047683716,3.00002 20.0000047683716,3.00002 L 18.0000047683716,3.00002 12.0000047683716,3 10.0000047683716,3 C 9.44772476837158,3 9.00000476837158,3.44772 9.00000476837158,4 L 7.00002476837158,4 C 7.00515476837158,2.34743 8.36425476837158,1 10.0179747683716,1 M 15.0062047683716,23 C 16.6607047683716,23 17.9961047683716,21.6536 18.0000047683716,20 L 18.0000047683716,13 18.0000047683716,9.02434 C 18.0000047683716,7.36749 16.6569047683716,6.00001 15.0000047683716,6.00001 L 4.00001476837158,6.00001 C 2.34315476837158,6.00001 1.00001189014158,7.34315 1.00001157645158,9.00001 L 1.00000949379158,20 C 1.00000918010158,21.6569 2.37906476837158,23 4.03591476837158,23 L 15.0062047683716,23 M 15.0000047683716,8 L 4.00000476837158,8 C 3.44772476837158,8 3.00000476837158,8.44772 3.00000476837158,9 L 3.00000476837158,20 C 3.00000476837158,20.5523 3.44772476837158,21 4.00000476837158,21 L 15.0000047683716,21 C 15.5523047683716,21 16.0000047683716,20.5523 16.0000047683716,20 L 16.0000047683716,9 C 16.0000047683716,8.44772 15.5523047683716,8 15.0000047683716,8 M 6.00000476837158,11.5 Q 5.90151476837158,11.5 5.80491476837158,11.5192 5.70831476837158,11.5384 5.61732476837158,11.5761 5.52632476837158,11.6138 5.44443476837158,11.6685 5.36254476837158,11.7232 5.29289476837158,11.7929 5.22325476837158,11.8625 5.16853476837158,11.9444 5.11381476837158,12.0263 5.07612476837158,12.1173 5.03843476837158,12.2083 5.01921476837158,12.3049 5.00000476837158,12.4015 5.00000476837158,12.5 5.00000476837158,12.5985 5.01921476837158,12.6951 5.03843476837158,12.7917 5.07612476837158,12.8827 5.11381476837158,12.9737 5.16853476837158,13.0556 5.22325476837158,13.1375 5.29289476837158,13.2071 5.36254476837158,13.2767 5.44443476837158,13.3315 5.52632476837158,13.3862 5.61732476837158,13.4239 5.70831476837158,13.4616 5.80491476837158,13.4808 5.90151476837158,13.5 6.00000476837158,13.5 L 13.0000047683716,13.5 Q 13.0985047683716,13.5 13.1951047683716,13.4808 13.2917047683716,13.4616 13.3827047683716,13.4239 13.4737047683716,13.3862 13.5556047683716,13.3315 13.6375047683716,13.2767 13.7071047683716,13.2071 13.7767047683716,13.1375 13.8315047683716,13.0556 13.8862047683716,12.9737 13.9239047683716,12.8827 13.9616047683716,12.7917 13.9808047683716,12.6951 14.0000047683716,12.5985 14.0000047683716,12.5 14.0000047683716,12.4015 13.9808047683716,12.3049 13.9616047683716,12.2083 13.9239047683716,12.1173 13.8862047683716,12.0263 13.8315047683716,11.9444 13.7767047683716,11.8625 13.7071047683716,11.7929 13.6375047683716,11.7232 13.5556047683716,11.6685 13.4737047683716,11.6138 13.3827047683716,11.5761 13.2917047683716,11.5384 13.1951047683716,11.5192 13.0985047683716,11.5 13.0000047683716,11.5 L 6.00000476837158,11.5 M 6.00000476837158,15.5 Q 5.90151476837158,15.5 5.80491476837158,15.5192 5.70831476837158,15.5384 5.61732476837158,15.5761 5.52632476837158,15.6138 5.44443476837158,15.6685 5.36254476837158,15.7232 5.29289476837158,15.7929 5.22325476837158,15.8625 5.16853476837158,15.9444 5.11381476837158,16.0263 5.07612476837158,16.1173 5.03843476837158,16.2083 5.01921476837158,16.3049 5.00000476837158,16.4015 5.00000476837158,16.5 5.00000476837158,16.5985 5.01921476837158,16.6951 5.03843476837158,16.7917 5.07612476837158,16.8827 5.11381476837158,16.9737 5.16853476837158,17.0556 5.22325476837158,17.1375 5.29289476837158,17.2071 5.36254476837158,17.2767 5.44443476837158,17.3315 5.52632476837158,17.3862 5.61732476837158,17.4239 5.70831476837158,17.4616 5.80491476837158,17.4808 5.90151476837158,17.5 6.00000476837158,17.5 L 13.0000047683716,17.5 Q 13.0985047683716,17.5 13.1951047683716,17.4808 13.2917047683716,17.4616 13.3827047683716,17.4239 13.4737047683716,17.3862 13.5556047683716,17.3315 13.6375047683716,17.2767 13.7071047683716,17.2071 13.7767047683716,17.1375 13.8315047683716,17.0556 13.8862047683716,16.9737 13.9239047683716,16.8827 13.9616047683716,16.7917 13.9808047683716,16.6951 14.0000047683716,16.5985 14.0000047683716,16.5 14.0000047683716,16.4015 13.9808047683716,16.3049 13.9616047683716,16.2083 13.9239047683716,16.1173 13.8862047683716,16.0263 13.8315047683716,15.9444 13.7767047683716,15.8625 13.7071047683716,15.7929 13.6375047683716,15.7232 13.5556047683716,15.6685 13.4737047683716,15.6138 13.3827047683716,15.5761 13.2917047683716,15.5384 13.1951047683716,15.5192 13.0985047683716,15.5 13.0000047683716,15.5 L 6.00000476837158,15.5 Z">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FF10C3EE"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Style="{DynamicResource BatchTaskTextStyle}" Text="{StaticResource CopyText}"
+                   IsEnabled="{Binding ElementName=BatchCopyTextBorder, Path=Tag}"/>
+      </Grid>
+    </Border>
+    <Border MouseLeftButtonUp="OnDeleteMouseUp" Name="BatchDeleteBorder"
+            Style="{DynamicResource BatchTaskBorderStyle}">
+      <Grid>
+        <Path Data="{Binding Source={StaticResource IcTrash}, Path=Data}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource BatchTaskIconStyle}">
+              <Setter Property="Shape.Fill" Value="#FFE03131"/>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+        <TextBlock Style="{DynamicResource BatchTaskTextStyle}" Text="{StaticResource Delete}"
+                   IsEnabled="{Binding ElementName=BatchDeleteBorder, Path=Tag}"/>
+      </Grid>
+    </Border>
+  </WrapPanel>
+</Grid>

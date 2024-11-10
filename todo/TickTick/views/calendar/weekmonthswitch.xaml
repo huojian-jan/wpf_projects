@@ -1,0 +1,214 @@
+<UserControl x:Class="ticktick_WPF.Views.Calendar.WeekMonthSwitch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Calendar"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             Name="Root" Height="30">
+  <FrameworkElement.Resources>
+    <Style x:Key="PathStyle" TargetType="{x:Type Path}">
+      <Setter Property="FrameworkElement.Width" Value="10"/>
+      <Setter Property="FrameworkElement.Height" Value="10"/>
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Path.Data" Value="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+      <Setter Property="FrameworkElement.Margin" Value="3,1,4,0"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Border PreviewMouseLeftButtonUp="ShowSwitchPopup" Name="SwitchBorder" Height="30" CornerRadius="6"
+            Background="Transparent">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Border}">
+          <Setter Property="Border.BorderThickness" Value="1"/>
+          <Setter Property="Border.BorderBrush" Value="{DynamicResource BaseColorOpacity20}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=ModePopup, Path=IsOpen}" Value="True">
+              <Setter Property="Border.BorderBrush" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <StackPanel Orientation="Horizontal" Margin="12,0,6,0" VerticalAlignment="Center" IsHitTestVisible="false">
+        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding DisplayText}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=SwitchBorder, Path=IsMouseOver}" Value="True">
+                  <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+        <Path>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}" BasedOn="{StaticResource PathStyle}">
+              <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity40}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=SwitchBorder, Path=IsMouseOver}" Value="True">
+                  <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+      </StackPanel>
+    </Border>
+    <misc:EscPopup x:Name="ModePopup" StaysOpen="false" Placement="Right" PopupAnimation="Fade"
+                   HorizontalOffset="-195" VerticalOffset="25" PlacementTarget="{Binding ElementName=SwitchBorder}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <StackPanel Width="192">
+          <ContentControl MouseLeftButtonUp="OnItemClick" Style="{DynamicResource ListHoverItemStyle}" Tag="Day">
+            <Grid Height="34">
+              <Path Name="DayIcon" IsHitTestVisible="false" Visibility="Collapsed" HorizontalAlignment="Left"
+                    Width="12" Height="12" Style="{DynamicResource Path01}" Margin="12,0,0,0"
+                    Fill="{DynamicResource PrimaryColor}" Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+              <TextBlock Name="Day" Text="{DynamicResource Day}" FontSize="13" VerticalAlignment="Center" Margin="34,0,0,0"/>
+              <TextBlock Text="D/1" FontSize="12" HorizontalAlignment="Right"
+                         Foreground="{DynamicResource BaseColorOpacity60}" VerticalAlignment="Center" Margin="0,0,16,0"/>
+            </Grid>
+          </ContentControl>
+          <ContentControl MouseLeftButtonUp="OnItemClick" Style="{DynamicResource ListHoverItemStyle}" Tag="Week">
+            <Grid Height="34">
+              <Path Name="WeekIcon" IsHitTestVisible="false" HorizontalAlignment="Left" Width="12" Height="12"
+                    Style="{DynamicResource Path01}" Margin="12,0,0,0" Fill="{DynamicResource PrimaryColor}"
+                    Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+              <TextBlock Name="Week" Text="{DynamicResource Week}" FontSize="13" VerticalAlignment="Center"
+                         Margin="34,0,0,0"/>
+              <TextBlock Text="W/2" FontSize="12" HorizontalAlignment="Right"
+                         Foreground="{DynamicResource BaseColorOpacity60}" VerticalAlignment="Center" Margin="0,0,16,0"/>
+            </Grid>
+          </ContentControl>
+          <ContentControl MouseLeftButtonUp="OnItemClick" Style="{DynamicResource ListHoverItemStyle}" Tag="Month">
+            <Grid Height="34">
+              <Path Name="MonthIcon" IsHitTestVisible="false" HorizontalAlignment="Left" Width="12" Height="12"
+                    Style="{DynamicResource Path01}" Margin="12,0,0,0" Fill="{DynamicResource PrimaryColor}"
+                    Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+              <TextBlock Name="Month" Text="{DynamicResource Month}" FontSize="13" VerticalAlignment="Center"
+                         Margin="34,0,0,0"/>
+              <TextBlock Text="M/3" FontSize="12" HorizontalAlignment="Right"
+                         Foreground="{DynamicResource BaseColorOpacity60}" VerticalAlignment="Center" Margin="0,0,16,0"/>
+            </Grid>
+          </ContentControl>
+          <Border Height="4" BorderBrush="{DynamicResource BaseColorOpacity8}" Margin="0,0,0,4"
+                  BorderThickness="0,0,0,1"/>
+          <ContentControl MouseLeftButtonUp="OnItemClick" Name="MultiDayGrid" Style="{DynamicResource ListHoverItemStyle}"
+                          Tag="MultiDay">
+            <Grid Height="34">
+              <Path Name="MultiDayIcon" IsHitTestVisible="false" HorizontalAlignment="Left" Width="12" Height="12"
+                    Style="{DynamicResource Path01}" Margin="12,0,0,0" Fill="{DynamicResource PrimaryColor}"
+                    Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+              <TextBlock Name="MultiDay" Text="{StaticResource MultiDays}" FontSize="13" VerticalAlignment="Center"
+                         Margin="34,0,0,0"/>
+              <TextBlock Name="MultiDayTextBlock" Text="3 Days" FontSize="12" HorizontalAlignment="Right"
+                         Foreground="{DynamicResource BaseColorOpacity60}" VerticalAlignment="Center" Margin="0,0,16,0"
+                         Visibility="{Binding ElementName=MultiDayGrid, Path=IsMouseOver, Converter={StaticResource VisibleConverter}}"/>
+              <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0" Orientation="Horizontal"
+                          Visibility="{Binding ElementName=MultiDayGrid, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}">
+                <Border PreviewMouseLeftButtonUp="OnChangeNumClick" Name="SubDay" Tag="-Day" Background="Transparent">
+                  <Path IsHitTestVisible="false"
+                        Data="F1 M 16,16 0,0 3.33360005969238,7.33342456817627 L 12.6669330596924,7.33342456817627 C 13.0351330596924,7.33342456817627 13.3336330596924,7.63190156817627 13.3336330596924,8.00009156817627 13.3336330596924,8.36828456817627 13.0351330596924,8.66675456817627 12.6669330596924,8.66675456817627 L 3.33360005969238,8.66675456817627 C 2.96541005969238,8.66675456817627 2.66693305969238,8.36828456817627 2.66693305969238,8.00009156817627 2.66693305969238,7.63190156817627 2.96541005969238,7.33342456817627 3.33360005969238,7.33342456817627 Z"
+                        HorizontalAlignment="Left" Width="16" Height="16" Stretch="Uniform">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Path}">
+                        <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=SubDay, Path=IsMouseOver}" Value="True">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                          </DataTrigger>
+                          <DataTrigger Binding="{Binding ElementName=SubDay, Path=Opacity}" Value="0.4">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Path>
+                </Border>
+                <TextBlock Name="MultiDayText" Text="3" FontSize="12" Foreground="{DynamicResource BaseColorOpacity90}"
+                           VerticalAlignment="Center" Margin="8,0,8,0"/>
+                <Border PreviewMouseLeftButtonUp="OnChangeNumClick" Name="AddDay" Tag="+Day" Background="Transparent">
+                  <Path IsHitTestVisible="false"
+                        Data="M 16,16 0,0 7.33360305969238,7.33340803329468 L 3.33360005969238,7.33340803329468 C 2.96541005969238,7.33340803329468 2.66693305969238,7.63188803329468 2.66693305969238,8.00007803329468 2.66693305969238,8.36826803329468 2.96541005969238,8.66673803329468 3.33360005969238,8.66673803329468 L 7.33360305969238,8.66673803329468 7.33360305969238,12.6667380332947 C 7.33360305969238,13.0349380332947 7.63207305969238,13.3334380332947 8.00026305969238,13.3334380332947 8.36845305969238,13.3334380332947 8.66693305969238,13.0349380332947 8.66693305969238,12.6667380332947 L 8.66693305969238,8.66673803329468 12.6669330596924,8.66673803329468 C 13.0351330596924,8.66673803329468 13.3336330596924,8.36826803329468 13.3336330596924,8.00007803329468 13.3336330596924,7.63188803329468 13.0351330596924,7.33340803329468 12.6669330596924,7.33340803329468 L 8.66693305969238,7.33340803329468 8.66693305969238,3.33340503329468 C 8.66693305969238,2.96521503329468 8.36845305969238,2.66673803329468 8.00026305969238,2.66673803329468 7.63207305969238,2.66673803329468 7.33360305969238,2.96521503329468 7.33360305969238,3.33340503329468 L 7.33360305969238,7.33340803329468 Z"
+                        HorizontalAlignment="Left" Width="16" Height="16" Stretch="Uniform">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Path}">
+                        <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=AddDay, Path=IsMouseOver}" Value="True">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                          </DataTrigger>
+                          <DataTrigger Binding="{Binding ElementName=AddDay, Path=Opacity}" Value="0.4">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Path>
+                </Border>
+              </StackPanel>
+            </Grid>
+          </ContentControl>
+          <ContentControl MouseLeftButtonUp="OnItemClick" Name="MultiWeekGrid" Style="{DynamicResource ListHoverItemStyle}"
+                          Tag="MultiWeek">
+            <Grid Height="34">
+              <Path Name="MultiWeekIcon" IsHitTestVisible="false" HorizontalAlignment="Left" Width="12" Height="12"
+                    Style="{DynamicResource Path01}" Margin="12,0,0,0" Fill="{DynamicResource PrimaryColor}"
+                    Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+              <TextBlock Name="MultiWeek" Text="{StaticResource MultiWeeks}" FontSize="13" VerticalAlignment="Center"
+                         Margin="34,0,0,0"/>
+              <TextBlock Name="MultiWeekTextBlock" Text="2 Weeks" FontSize="12" HorizontalAlignment="Right"
+                         Foreground="{DynamicResource BaseColorOpacity60}" VerticalAlignment="Center" Margin="0,0,16,0"
+                         Visibility="{Binding ElementName=MultiWeekGrid, Path=IsMouseOver, Converter={StaticResource VisibleConverter}}"/>
+              <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0" Orientation="Horizontal"
+                          Visibility="{Binding ElementName=MultiWeekGrid, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}">
+                <Border PreviewMouseLeftButtonUp="OnChangeNumClick" Name="SubWeek" Tag="-Week" Background="Transparent">
+                  <Path Data="F1 M 16,16 0,0 3.33360005969238,7.33342456817627 L 12.6669330596924,7.33342456817627 C 13.0351330596924,7.33342456817627 13.3336330596924,7.63190156817627 13.3336330596924,8.00009156817627 13.3336330596924,8.36828456817627 13.0351330596924,8.66675456817627 12.6669330596924,8.66675456817627 L 3.33360005969238,8.66675456817627 C 2.96541005969238,8.66675456817627 2.66693305969238,8.36828456817627 2.66693305969238,8.00009156817627 2.66693305969238,7.63190156817627 2.96541005969238,7.33342456817627 3.33360005969238,7.33342456817627 Z"
+                        HorizontalAlignment="Left" Width="16" Height="16" Stretch="Uniform">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Path}">
+                        <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=SubWeek, Path=IsMouseOver}" Value="True">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                          </DataTrigger>
+                          <DataTrigger Binding="{Binding ElementName=SubWeek, Path=Opacity}" Value="0.4">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Path>
+                </Border>
+                <TextBlock Name="MultiWeekText" Text="2" FontSize="12" Foreground="{DynamicResource BaseColorOpacity90}"
+                           VerticalAlignment="Center" Margin="6,0,6,0"/>
+                <Border PreviewMouseLeftButtonUp="OnChangeNumClick" Name="AddWeek" Tag="+Week" Background="Transparent">
+                  <Path IsHitTestVisible="false"
+                        Data="M 16,16 0,0 7.33360305969238,7.33340803329468 L 3.33360005969238,7.33340803329468 C 2.96541005969238,7.33340803329468 2.66693305969238,7.63188803329468 2.66693305969238,8.00007803329468 2.66693305969238,8.36826803329468 2.96541005969238,8.66673803329468 3.33360005969238,8.66673803329468 L 7.33360305969238,8.66673803329468 7.33360305969238,12.6667380332947 C 7.33360305969238,13.0349380332947 7.63207305969238,13.3334380332947 8.00026305969238,13.3334380332947 8.36845305969238,13.3334380332947 8.66693305969238,13.0349380332947 8.66693305969238,12.6667380332947 L 8.66693305969238,8.66673803329468 12.6669330596924,8.66673803329468 C 13.0351330596924,8.66673803329468 13.3336330596924,8.36826803329468 13.3336330596924,8.00007803329468 13.3336330596924,7.63188803329468 13.0351330596924,7.33340803329468 12.6669330596924,7.33340803329468 L 8.66693305969238,7.33340803329468 8.66693305969238,3.33340503329468 C 8.66693305969238,2.96521503329468 8.36845305969238,2.66673803329468 8.00026305969238,2.66673803329468 7.63207305969238,2.66673803329468 7.33360305969238,2.96521503329468 7.33360305969238,3.33340503329468 L 7.33360305969238,7.33340803329468 Z"
+                        HorizontalAlignment="Left" Width="16" Height="16" Stretch="Uniform">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Path}">
+                        <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=AddWeek, Path=IsMouseOver}" Value="True">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                          </DataTrigger>
+                          <DataTrigger Binding="{Binding ElementName=AddWeek, Path=Opacity}" Value="0.4">
+                            <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Path>
+                </Border>
+              </StackPanel>
+            </Grid>
+          </ContentControl>
+        </StackPanel>
+      </ContentControl>
+    </misc:EscPopup>
+  </Grid>
+</UserControl>

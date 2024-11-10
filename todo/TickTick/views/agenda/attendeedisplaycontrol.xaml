@@ -1,0 +1,28 @@
+<UserControl x:Class="ticktick_WPF.Views.Agenda.AttendeeDisplayControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Agenda">
+  <FrameworkElement.Resources>
+    <local:ItemTemplateSelector x:Key="AttendeeDisplaySelector"/>
+    <DataTemplate x:Key="AttendeeExtraTemplate">
+      <local:AttendeeExtraGrid/>
+    </DataTemplate>
+    <DataTemplate x:Key="AttendeeTemplate">
+      <local:AttendeeGrid/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Grid>
+    <ItemsControl Name="AttendeePanel" ItemTemplateSelector="{StaticResource AttendeeDisplaySelector}"
+                  Focusable="false">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
+    <TextBlock Name="ErrorHint" Text="{DynamicResource NoPermissionHint}" TextWrapping="WrapWithOverflow"
+               FontSize="14" Style="{DynamicResource TaskListViewTitleStyle}" Margin="0,8" Visibility="Collapsed"/>
+  </Grid>
+</UserControl>

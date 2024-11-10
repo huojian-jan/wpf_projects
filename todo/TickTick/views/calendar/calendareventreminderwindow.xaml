@@ -1,0 +1,57 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Calendar.CalendarEventReminderWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:calendar="clr-namespace:ticktick_WPF.Views.Calendar"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+                Topmost="true" ShowInTaskbar="false" SizeToContent="Height"
+                Title="{DynamicResource PublicTickTick}" Icon="/TickTick;component/app_logo.ico" WindowStyle="None"
+                Width="282" HorizontalAlignment="Right" VerticalAlignment="Bottom" AllowsTransparency="true"
+                Background="Transparent" ResizeMode="NoResize">
+  <UIElement.Effect>
+    <DropShadowEffect BlurRadius="15" Opacity="0.2" ShadowDepth="0"/>
+  </UIElement.Effect>
+  <Grid Background="{DynamicResource WindowBackgroundPrimary}" Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <Grid Height="30" Background="Transparent">
+      <Image Name="WindowIcon" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center"
+             Margin="9,0,0,0" Stretch="Uniform"/>
+      <TextBlock Text="{StaticResource PublicTickTick}" Margin="32,0,10,0"
+                 Foreground="{DynamicResource BaseColorOpacity100_80}" VerticalAlignment="Center"/>
+      <Button Click="OnCloseClick" VerticalAlignment="Top" Height="24" Width="24" HorizontalAlignment="Right"
+              Style="{DynamicResource closeButtonStyle}">
+        <Path Width="8" Fill="{DynamicResource BaseColorOpacity40}" Stretch="Uniform"
+              Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
+      </Button>
+      <Grid PreviewMouseDown="OnPreviewMouseDown" Margin="0,0,24,0" Background="Transparent"/>
+    </Grid>
+    <Border MouseLeftButtonUp="OnViewDetailClick" Name="TitleBorder" Grid.Row="1" Background="Transparent"
+            Cursor="Hand">
+      <wpf:EmjTextBlock x:Name="TitleText" Margin="10,0" FontSize="14" TextWrapping="Wrap" MaxHeight="75"
+                        Foreground="{DynamicResource BaseColorOpacity100_80}" VerticalAlignment="Center"
+                        HorizontalAlignment="Left" Text="{Binding Summary}"/>
+    </Border>
+    <ScrollViewer MouseLeftButtonUp="OnViewDetailClick" Margin="10,0" Style="{DynamicResource for_scrollviewer}"
+                  Cursor="Hand" Grid.Row="2" MaxHeight="75">
+      <wpf:EmjTextBlock TextWrapping="Wrap" TextTrimming="WordEllipsis" Grid.Row="1"
+                        Foreground="{DynamicResource BaseColorOpacity60}" FontSize="12" Text="{Binding Description}"/>
+    </ScrollViewer>
+    <Grid Name="Buttons" Row="3" Margin="10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Button Click="OnViewButtonClick" Content="{DynamicResource ViewDetail}" Margin="0,0,5,0" Height="32"
+              Style="{StaticResource SaveButtonStyle}"/>
+      <Button Click="OnCloseClick" Content="{DynamicResource Close}" Height="32" Margin="5,0,0,0" Grid.Column="1"
+              Style="{StaticResource CancelButtonStyle}"/>
+    </Grid>
+  </Grid>
+</views:MyWindow>

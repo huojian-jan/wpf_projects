@@ -1,0 +1,99 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.DayCellControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:properties="clr-namespace:ticktick_WPF.Properties"
+             MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave" MouseLeftButtonUp="OnClick"
+             MouseDoubleClick="OnCellDoubleClick">
+  <Grid Name="DayCellGrid" Height="32">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Path=CanSelect}" Value="False">
+            <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding Path=IsFixed}" Value="True">
+            <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Border Name="RangeBorder" BorderThickness="0" Height="30"
+            Background="{DynamicResource DateRangeSelectColor}"
+            HorizontalAlignment="{Binding Selection, Converter={StaticResource SelectionHorizonConverter}}"
+            CornerRadius="{Binding Selection, Converter={StaticResource SelectionBackgroundConverter}}"
+            Visibility="{Binding Selection, Converter={StaticResource SelectionVisibleConverter}}">
+      <FrameworkElement.Width>
+        <MultiBinding Converter="{StaticResource SelectionWidthConverter}">
+          <Binding Path="Selection"/>
+          <Binding Path="ActualWidth" ElementName="DayCellGrid"/>
+        </MultiBinding>
+      </FrameworkElement.Width>
+    </Border>
+    <Grid Width="30" Height="30">
+      <Rectangle Width="30" Height="30" RadiusX="4" RadiusY="4" Stroke="{DynamicResource TabBorderColor}"
+                 StrokeThickness="{Binding TabBorderThickness}"/>
+      <Image Name="WorkRestImage" Height="10" Width="10" HorizontalAlignment="Right" VerticalAlignment="Top"
+             Stretch="Uniform" Opacity="{Binding WorkRestOpacity}"/>
+      <Path Stretch="Fill" Width="30" Height="30" Data="{Binding EllipseGeometry}"
+            Fill="{Binding EllipseColor}"/>
+    </Grid>
+    <Grid VerticalAlignment="Stretch">
+      <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+        <TextBlock Name="DateText" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"
+                   FontSize="12" Text="{Binding Date, Converter={StaticResource DayTextConverter}}"
+                   Foreground="{Binding DateTextBrush}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Selected}" Value="True">
+                  <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Center" Opacity="0.9" Margin="0,-1,0,0" TextTrimming="CharacterEllipsis"
+                   TextWrapping="WrapWithOverflow" FontSize="7" Text="{Binding LunarText}"
+                   Visibility="{Binding LunarText, Converter={StaticResource StringToVisibleConverter}}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="TextBlock.Foreground" Value="{Binding ElementName=DateText, Path=Foreground}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowLunarMonthFirstDay}" Value="True">
+                  <Setter Property="TextBlock.Foreground" Value="{StaticResource TickYellow}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </StackPanel>
+      <Ellipse Width="3" Height="3" VerticalAlignment="Bottom" Fill="{DynamicResource PrimaryColor}"
+               Opacity="0.85">
+        <UIElement.Visibility>
+          <MultiBinding Converter="{StaticResource BoolAndVisibilityConverter}" ConverterParameter="1">
+            <Binding Path="HasTasks"/>
+            <Binding Path="Selected"/>
+          </MultiBinding>
+        </UIElement.Visibility>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Ellipse}">
+            <Setter Property="FrameworkElement.Margin" Value="0,0,0,3"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=EnableLunar}"
+                           Value="True">
+                <Setter Property="FrameworkElement.Margin" Value="0,0,0,0"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Ellipse>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,85 @@
+<local:MyWindow x:Class="ticktick_WPF.Views.Time.ModifyRepeatDialog"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:local="clr-namespace:ticktick_WPF.Views"
+                Loaded="OnWindowLoaded" WindowStyle="None" AllowsTransparency="true" ShowInTaskbar="false"
+                WindowStartupLocation="CenterScreen" SizeToContent="Height" Topmost="true" UseLayoutRounding="true"
+                Width="550" Background="Transparent">
+  <FrameworkElement.Resources>
+    <Style TargetType="{x:Type RadioButton}">
+      <Setter Property="FrameworkElement.Margin" Value="0,4"/>
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type RadioButton}">
+            <BulletDecorator Background="Transparent" Cursor="Hand">
+              <BulletDecorator.Bullet>
+                <Grid Height="16" Width="16">
+                  <Border Name="RadioOuter" Background="Transparent" BorderBrush="{DynamicResource BaseColorOpacity40}"
+                          BorderThickness="1.5" CornerRadius="8"/>
+                  <Border Name="RadioMark" CornerRadius="8" Margin="5" Background="{DynamicResource BaseColorOpacity100_80}"
+                          Visibility="Hidden"/>
+                </Grid>
+              </BulletDecorator.Bullet>
+              <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource BaseColorOpacity100_80}" FontSize="13"
+                         VerticalAlignment="Center">
+                <ContentPresenter/>
+              </TextBlock>
+            </BulletDecorator>
+            <ControlTemplate.Triggers>
+              <Trigger Property="ToggleButton.IsChecked" Value="true">
+                <Setter TargetName="RadioMark" Property="UIElement.Visibility" Value="Visible"/>
+                <Setter TargetName="RadioOuter" Value="{DynamicResource BaseColorOpacity40}" Property="Border.BorderBrush"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </FrameworkElement.Resources>
+  <Border Background="{DynamicResource WindowBackgroundPrimary}" Margin="15" CornerRadius="4">
+    <UIElement.Effect>
+      <DropShadowEffect BlurRadius="6" Opacity="0.2" ShadowDepth="3"/>
+    </UIElement.Effect>
+    <Grid>
+      <Grid Margin="24">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Name="TitleTextBlock" Margin="0,0,0,18" TextWrapping="Wrap" FontSize="22"
+                   Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+        <TextBlock Name="ContentTextBlock" Margin="0,10" TextWrapping="WrapWithOverflow" Grid.Row="1" FontSize="14"
+                   Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+        <StackPanel Name="ModifyRadios" Grid.Row="2">
+          <RadioButton Name="CurrentRadio" Content="{StaticResource OnlyThisRecurrence}"/>
+          <RadioButton Name="FutureRadio" Content="{StaticResource AllFutureRecurrences}"/>
+          <RadioButton Name="AllRadio" Content="{StaticResource AllUnfinishedRecurrences}"/>
+        </StackPanel>
+        <StackPanel Name="CompleteRadios" Grid.Row="2" Visibility="Collapsed">
+          <RadioButton Name="CompleteAllRadio" Content="{StaticResource CompleteAllRecurrence}"/>
+          <RadioButton Name="SkipAllRadio" Content="{StaticResource SkipAllRecurrence}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,24,0,0" HorizontalAlignment="Right">
+          <Button Click="OnOkClick" Name="OkButton" IsDefault="true" Content="{DynamicResource OK}" Height="32"
+                  MinWidth="100" Style="{StaticResource SaveButtonStyle}"/>
+          <Button Click="OnCancelClick" Name="CancelButton" Content="{DynamicResource Cancel}" Height="32"
+                  Width="100" Margin="12,0,0,0" Style="{StaticResource CancelButtonStyle}"/>
+        </StackPanel>
+      </Grid>
+      <Button Click="OnCloseClick" Name="CloseButton" HorizontalAlignment="Right" VerticalAlignment="Top"
+              Width="40" Height="40" Style="{StaticResource closeButtonStyle}">
+        <Grid Width="24" Height="24" Background="Transparent">
+          <Polygon Margin="11,0,0,0" Fill="{Binding ElementName=CloseButton, Path=Foreground}">
+            <Polygon.Points>
+              <Binding Source="{StaticResource ic_svg_polygon_close}" Path="Points"/>
+            </Polygon.Points>
+          </Polygon>
+        </Grid>
+      </Button>
+    </Grid>
+  </Border>
+</local:MyWindow>

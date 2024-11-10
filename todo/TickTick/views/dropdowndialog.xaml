@@ -1,0 +1,48 @@
+<UserControl x:Class="ticktick_WPF.Views.DropdownDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+             Width="auto" Height="auto" BorderThickness="0" BorderBrush="Transparent">
+  <FrameworkElement.Resources>
+    <converter:SelectedTextColorConverter x:Key="TextColorConverter"/>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}">
+    <Grid>
+      <customControl:UpDownSelectListView x:Name="Listview" ItemSelected="OnItemClick" HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border Margin="4,0" CornerRadius="4" Cursor="Hand">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Setter Property="Border.Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="UIElement.IsMouseOver" Value="true">
+                      <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                    </Trigger>
+                    <DataTrigger Binding="{Binding Path=HoverSelected}" Value="True">
+                      <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <Grid Height="{DynamicResource Height32}">
+                <TextBlock FontSize="{DynamicResource Font13}" Margin="12,0,30,0" VerticalAlignment="Center"
+                           Text="{Binding Value}" Tag="{Binding Key}"
+                           Foreground="{Binding Selected, Converter={StaticResource TextColorConverter}}"/>
+                <Path Width="12" Margin="0,0,12,0" Fill="{DynamicResource TextAccentColor}"
+                      Style="{StaticResource ListPathStyle}" HorizontalAlignment="Right"
+                      Data="{Binding Source={StaticResource IcCheck}, Path=Data}"
+                      Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </customControl:UpDownSelectListView>
+    </Grid>
+  </ContentControl>
+</UserControl>

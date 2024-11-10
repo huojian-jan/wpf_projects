@@ -1,0 +1,55 @@
+<UserControl x:Class="ticktick_WPF.Views.Team.InviteUsersDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:team="clr-namespace:ticktick_WPF.Views.Team"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             Width="224" Height="286">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="InviteUserData">
+      <team:InviteNormalItem/>
+    </DataTemplate>
+    <DataTemplate x:Key="InviteGroupData">
+      <team:InviteGroupItem/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}" Margin="0">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="40"/>
+        <RowDefinition/>
+        <RowDefinition Height="50"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <misc:GroupTitle x:Name="Titles" SelectedTitleChanged="OnTitleSelected" Titles="InviteRecently|SharedProject"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,3,0,0"/>
+      <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource for_scrollviewer}"
+                    Margin="0,4">
+        <Grid>
+          <ItemsControl Name="RecentInvite" ItemTemplate="{DynamicResource InviteUserData}"/>
+          <ItemsControl Name="SharedProject" ItemTemplate="{DynamicResource InviteGroupData}" Visibility="Collapsed"/>
+          <ItemsControl Name="TeamMembers" ItemTemplate="{DynamicResource InviteUserData}" Visibility="Collapsed"/>
+        </Grid>
+      </ScrollViewer>
+      <StackPanel Name="EmptyPage" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+        <Image Source="{DynamicResource noInviteDrawingImage}" Width="76" Height="76" Opacity="0.12"
+               Margin="0,22,0,0"/>
+        <TextBlock Name="EmptyText1" Text="{DynamicResource ShareEmpty1}" Style="{DynamicResource Body05}"
+                   FontSize="14" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"
+                   Margin="20,18,20,0"/>
+        <TextBlock Name="EmptyText2" Text="{DynamicResource ShareEmpty2}" Style="{DynamicResource Body05}"
+                   FontSize="12" HorizontalAlignment="Center" Margin="15,8,15,0" TextWrapping="Wrap" LineHeight="16"
+                   TextAlignment="Center"/>
+      </StackPanel>
+      <Button Click="OnInviteClick" Name="InviteButton" Content="{DynamicResource OK}"
+              HorizontalAlignment="Right" Height="28" Grid.Column="0" Style="{DynamicResource SaveButtonStyle}"
+              Grid.Row="2" Margin="0,0,5,0" Width="92" IsEnabled="false"/>
+      <Button Click="OnCancelClick" Content="{DynamicResource Cancel}" HorizontalAlignment="Left" Grid.Row="2"
+              Grid.Column="1" Style="{DynamicResource CancelButtonStyle}" Margin="5,0,0,0" Height="28" Width="92"/>
+    </Grid>
+  </ContentControl>
+</UserControl>

@@ -1,0 +1,163 @@
+<Grid x:Class="ticktick_WPF.Views.Habit.HabitListItem"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:views="clr-namespace:ticktick_WPF.Views"
+      xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+      xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+      xmlns:habit="clr-namespace:ticktick_WPF.Views.Habit"
+      xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+      DataContextChanged="OnDataContextChanged" SizeChanged="OnSizeChanged"
+      Height="{DynamicResource Height44}"
+      Visibility="{Binding IsHide, Converter={StaticResource VisibleConverter}, ConverterParameter=Hide}"
+      IsHitTestVisible="{Binding IsHide, Converter={StaticResource BoolConverseConverter}}">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="DailyCheckItem">
+      <Grid Background="Transparent" VerticalAlignment="Center" Margin="0,0,3,0" Height="24">
+        <Grid VerticalAlignment="Center" Width="{Binding IconWidth}" Height="{Binding IconWidth}">
+          <Grid Background="Transparent"
+                Visibility="{Binding Path=ShowPercent, Converter={StaticResource BoolVisibleConverter}}">
+            <misc:CycleProgressBar UnderColor="{DynamicResource BaseColorOpacity10}" Thickness="2"
+                                   TopColor="{DynamicResource PrimaryColor}" HorizontalAlignment="Center"
+                                   TargetPercent="{Binding Percent}" Width="{Binding IconWidth}" Height="{Binding IconWidth}"/>
+          </Grid>
+          <Ellipse Fill="{DynamicResource BaseColorOpacity10}"
+                   Visibility="{Binding BoolUnchecked, Converter={StaticResource BoolVisibleConverter}}"/>
+          <Grid>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Grid}">
+                <Setter Property="UIElement.Visibility" Value="Visible"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Status}" Value="0">
+                    <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Ellipse Fill="{DynamicResource PrimaryColor}"/>
+            <Ellipse Fill="{DynamicResource HabitUnCompleteMask}"
+                     Visibility="{Binding Uncompleted, Converter={StaticResource BoolVisibleConverter}}"/>
+            <Image Height="8.5" Width="8.5" Source="{StaticResource CheckDrawingImage}"
+                   Visibility="{Binding Completed, Converter={StaticResource BoolVisibleConverter}}"/>
+            <Image Height="12" Width="12" Source="{StaticResource UncheckDrawingImage}"
+                   Visibility="{Binding Uncompleted, Converter={StaticResource BoolVisibleConverter}}"/>
+          </Grid>
+          <Border CornerRadius="{Binding IconWidth, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE/2}"
+                  ToolTip="{Binding ToolTipText}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity10}"/>
+                  </Trigger>
+                  <DataTrigger Binding="{Binding Select}" Value="True">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity10}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Border>
+        </Grid>
+      </Grid>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Border BorderThickness="1" Margin="12,2" BorderBrush="{DynamicResource TaskDragBorderColor}"
+          CornerRadius="6" Background="Transparent"
+          Visibility="{Binding Dragging, Converter={StaticResource BoolVisibleConverter}}"/>
+  <Border Margin="12,0,12,0" CornerRadius="6">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Border}">
+        <Setter Property="Border.Background" Value="Transparent"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding ElementName=Container, Path=IsMouseOver}" Value="True">
+            <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity3}"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding Selected}" Value="True">
+            <Setter Property="Border.Background" Value="{DynamicResource ItemSelectedColor}"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding Dragging}" Value="True">
+            <Setter Property="Border.Background" Value="Transparent"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </Border>
+  <DockPanel PreviewMouseLeftButtonUp="OnItemSelected" PreviewMouseRightButtonDown="OnMouseRightDown"
+             PreviewMouseRightButtonUp="ShowOptionPopup" x:Name="Container" Cursor="Hand"
+             Background="Transparent"
+             Opacity="{Binding Dragging, Converter={StaticResource BoolOpacityConverter}}">
+    <Grid MouseLeftButtonUp="OnCheckItemClick" Name="IconGrid" Height="20" Width="20"
+          HorizontalAlignment="Left" Margin="20,0,8,0" DockPanel.Dock="Left">
+      <Ellipse Name="IconEllipse" Visibility="{Binding ElementName=IconText, Path=Visibility}"/>
+      <Image Source="{Binding IconUrl}"
+             Visibility="{Binding Path=IsIcon, Converter={StaticResource BoolVisibleConverter}}"/>
+      <wpf:EmjTextBlock x:Name="IconText" HorizontalAlignment="Center" Margin="0.5,0,0,0" FontSize="12"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding Path=IsIcon, Converter={StaticResource VisibleConverter}}"
+                        Text="{Binding IconText}"/>
+      <Border Name="IconHoverBorder" CornerRadius="10"
+              Visibility="{Binding ElementName=IconGrid, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}"/>
+    </Grid>
+    <StackPanel MouseLeftButtonUp="OnSwitchShowInfoClicked" DockPanel.Dock="Right" MinWidth="64" Margin="0,0,20,0"
+                VerticalAlignment="Center" Orientation="Vertical">
+      <TextBlock Style="{DynamicResource Body10}" FontSize="{DynamicResource Font12}"
+                 Foreground="{DynamicResource BaseColorOpacity100_80}" Margin="5, 0, 0, 0"
+                 HorizontalAlignment="Right" TextAlignment="Right">
+        <TextBlock.Text>
+          <MultiBinding Converter="{StaticResource HabitKeepTotalCountTextConverter}">
+            <Binding Source="{x:Static habit:HabitItemDisplayModel.DisplayModel}" Path="ShowCurrentStreak"/>
+            <Binding Path="CurrentStreak"/>
+            <Binding Path="KeepingDays"/>
+          </MultiBinding>
+        </TextBlock.Text>
+      </TextBlock>
+      <TextBlock Style="{DynamicResource Tag03}" HorizontalAlignment="Right" FontSize="{DynamicResource Font10}">
+        <TextBlock.Text>
+          <MultiBinding Converter="{StaticResource HabitKeepTotalTextConverter}">
+            <Binding Source="{x:Static habit:HabitItemDisplayModel.DisplayModel}" Path="ShowCurrentStreak"/>
+            <Binding Path="KeepTotalStr"/>
+          </MultiBinding>
+        </TextBlock.Text>
+      </TextBlock>
+    </StackPanel>
+    <ItemsControl Name="CheckInItems" Width="140" ItemTemplate="{StaticResource DailyCheckItem}"
+                  DockPanel.Dock="Right"
+                  Visibility="{Binding Path=ShowCheckIns, Converter={StaticResource BoolVisibleConverter}}"
+                  ItemsSource="{Binding Path=WeekCheckIns}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
+    <StackPanel Orientation="Horizontal">
+      <wpf:EmjTextBlock x:Name="NameTextBlock" VerticalAlignment="Center" FontSize="{DynamicResource Font14}"
+                        Foreground="{DynamicResource BaseColorOpacity100_80}" TextTrimming="CharacterEllipsis"
+                        Margin="0,0,5,0" Text="{Binding Name}"/>
+      <TextBlock Name="CompletedCyclesDisplayStrTextBlock" Style="{DynamicResource Font12_40}"
+                 FontSize="{DynamicResource Font12}" TextTrimming="CharacterEllipsis"
+                 Text="{Binding CompletedCyclesDisplayStr}"
+                 Visibility="{Binding ShowCompletedCycles, Converter={StaticResource BoolVisibleConverter}}"/>
+    </StackPanel>
+  </DockPanel>
+  <Line Name="BottomLine" HorizontalAlignment="Stretch" Margin="48, 0, 20, 0" VerticalAlignment="Bottom">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Line}" BasedOn="{StaticResource SplitLineStyle}">
+        <Setter Property="UIElement.Visibility" Value="Visible"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding ElementName=Container, Path=IsMouseOver}" Value="True">
+            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding Dragging}" Value="True">
+            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding Selected}" Value="True">
+            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </Line>
+</Grid>

@@ -1,0 +1,47 @@
+<UserControl x:Class="ticktick_WPF.Views.Pomo.MiniFocus.PomoStatisticsSetView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Pomo.MiniFocus">
+  <ContentControl Style="{DynamicResource PopupContentStyle}">
+    <ItemsControl Name="Items">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <ContentControl Height="28">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type ContentControl}" BasedOn="{StaticResource ListHoverItemStyle}">
+                <Setter Property="UIElement.Opacity" Value="1"/>
+                <Setter Property="UIElement.IsEnabled" Value="true"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                    <Setter Property="UIElement.Opacity" Value="0.4"/>
+                    <Setter Property="UIElement.IsEnabled" Value="false"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <DockPanel>
+              <Path DockPanel.Dock="Right" Margin="8,0,8,0" IsHitTestVisible="false" HorizontalAlignment="Right"
+                    Width="12" Height="12" Style="{DynamicResource Path01}" Fill="{DynamicResource PrimaryColor}"
+                    Data="{Binding Source={StaticResource IcCheck}, Path=Data}"
+                    Visibility="{Binding Path=Selected, Converter={StaticResource BoolVisibleConverter}, ConverterParameter=Hidden}"/>
+              <TextBlock FontSize="12" VerticalAlignment="Center" Height="16" Margin="8,0,0,0" Text="{Binding Name}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Path=Selected}" Value="True">
+                        <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+            </DockPanel>
+          </ContentControl>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </ContentControl>
+</UserControl>

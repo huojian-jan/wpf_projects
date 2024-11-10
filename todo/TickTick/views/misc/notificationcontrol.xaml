@@ -1,0 +1,88 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.NotificationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:model="clr-namespace:ticktick_WPF.Models"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             Loaded="InitViews" Unloaded="ResetView">
+  <FrameworkElement.Resources>
+    <DoubleAnimation x:Key="HideAnimation" From="1" To="0.2" Duration="0:0:0.2"/>
+    <DoubleAnimation x:Key="ShowAnimation" From="0.2" To="1" Duration="0:0:0.2"/>
+    <Storyboard x:Key="HideNotificationLoadingStoryboard" x:Name="HideNotificationProgressBarStoryboard">
+      <DoubleAnimation BeginTime="0:0:0" Duration="0:0:1" FillBehavior="HoldEnd" Storyboard.TargetName="Loading"
+                       Storyboard.TargetProperty="Opacity" From="0.8" To="0"/>
+    </Storyboard>
+    <Style x:Key="NotificationListViewStyle" TargetType="{x:Type ListView}"
+           BasedOn="{StaticResource ListViewStyle}">
+      <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Standard"/>
+      <Setter Property="ItemsControl.ItemTemplate" Value="{DynamicResource NotificationListDataTemplate}"/>
+      <Setter Property="Control.IsTabStop" Value="false"/>
+      <Setter Property="ItemsControl.ItemContainerStyle">
+        <Setter.Value>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="ListBoxItem.IsSelected"
+                    Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="Control.Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                  <ContentPresenter/>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Storyboard x:Key="ShowNotificationLoadingStoryboard" x:Name="ShowNotificationProgressBarStoryboard">
+      <DoubleAnimation BeginTime="0:0:0" Duration="0:0:1" FillBehavior="HoldEnd" Storyboard.TargetName="Loading"
+                       Storyboard.TargetProperty="Opacity" From="0" To="0.8"/>
+    </Storyboard>
+    <DataTemplate x:Key="NotificationListDataTemplate">
+      <local:NotificationListItem/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Grid Width="320" Height="430">
+    <Grid.RowDefinitions>
+      <RowDefinition MinHeight="40" Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid Name="SwitchGrid" Visibility="Collapsed" HorizontalAlignment="Center" Row="0"
+            VerticalAlignment="Center" Height="50">
+        <local:GroupTitle x:Name="SwitchTitle" Titles="Notification|Activity" HorizontalAlignment="Center"/>
+        <Border Name="UnreadNumber" Height="8" Width="8" Background="{DynamicResource OutDateColor}"
+                Margin="0,7,6,0" CornerRadius="4" VerticalAlignment="Top" HorizontalAlignment="Right"
+                Visibility="Hidden"/>
+      </Grid>
+      <TextBlock Name="NotificationSingle" Text="{DynamicResource Notification}" Grid.Row="0"
+                 VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource Body01}"/>
+    </Grid>
+    <Grid Name="NotificationGrid" Row="1" Margin="0,0,0,12">
+      <Grid Name="NoNotificationsGrid" Background="Transparent" Visibility="Collapsed">
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="{DynamicResource NoNotifications}" Foreground="{DynamicResource BaseColorOpacity40}"
+                     FontSize="22" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+          <TextBlock Text="{DynamicResource NoNotificationsContent}" Foreground="{DynamicResource BaseColorOpacity40}"
+                     Margin="20,10,20,0" FontSize="13" LineHeight="21" TextWrapping="Wrap"/>
+        </StackPanel>
+      </Grid>
+      <ListView Name="NotificationItemsControl" Style="{StaticResource NotificationListViewStyle}"/>
+    </Grid>
+    <Grid Name="ActivitiesGrid" Row="1" Opacity="0.2" Visibility="Collapsed" Margin="0,0,0,12">
+      <ListView Name="ActivitiesItemsControl" Style="{StaticResource NotificationListViewStyle}"/>
+      <Grid Name="NoActivitiesGrid" Background="Transparent" Visibility="Collapsed">
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="{DynamicResource NoActivities}" Foreground="{DynamicResource BaseColorOpacity40}"
+                     FontSize="22" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+          <TextBlock Text="{DynamicResource NoActivitiesContent}" Foreground="{DynamicResource BaseColorOpacity40}"
+                     Margin="20,10,20,0" FontSize="13" LineHeight="21" TextWrapping="Wrap"/>
+        </StackPanel>
+      </Grid>
+    </Grid>
+    <views:LoadingIndicator x:Name="Loading" SpeedRatio="1" IsActive="true" Grid.Row="1"
+                            Style="{StaticResource LoadingIndicatorRingStyle}" Height="50" Width="50" Visibility="Collapsed"
+                            Margin="0,0,6,0"/>
+  </Grid>
+</UserControl>

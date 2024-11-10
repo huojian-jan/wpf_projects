@@ -1,0 +1,83 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.ReminderPopup"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+                xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+                WindowStyle="None" ShowInTaskbar="false" AllowsTransparency="true" ResizeMode="NoResize"
+                Topmost="true" Title="ReminderWindow" Width="324" HorizontalAlignment="Left" Height="172"
+                Background="Transparent" Opacity="0">
+  <UIElement.Effect>
+    <DropShadowEffect BlurRadius="15" Opacity="0.2" ShadowDepth="0"/>
+  </UIElement.Effect>
+  <Border Name="ContainerBorder" Margin="10" CornerRadius="12" RenderTransformOrigin="0.5,0"
+          Background="{DynamicResource WindowBackgroundPrimary}" Height="152">
+    <UIElement.RenderTransform>
+      <ScaleTransform ScaleX="1" ScaleY="1"/>
+    </UIElement.RenderTransform>
+    <StackPanel>
+      <Grid>
+        <Image Name="WindowIcon" Width="15" Height="15" HorizontalAlignment="Left" VerticalAlignment="Center"
+               Margin="14,11,0,0" Stretch="Uniform"/>
+        <StackPanel Margin="38,11,10,0" Orientation="Horizontal">
+          <TextBlock Name="TimeText" FontSize="12" MaxWidth="180" TextTrimming="CharacterEllipsis"
+                     Foreground="{DynamicResource ThemeBlue}" VerticalAlignment="Center"/>
+          <Image Name="RepeatIcon" Width="13" Height="13" Margin="4,0,0,0" Opacity="0.6" Visibility="Collapsed"
+                 Stretch="Uniform" Source="{DynamicResource RepeatDrawingImage}"/>
+        </StackPanel>
+        <Border PreviewMouseDown="OnPreviewMouseDown" Background="Transparent"/>
+        <Border MouseLeftButtonUp="OnFocusClick" Name="FocusIcon" VerticalAlignment="Top" Height="20" Width="20"
+                HorizontalAlignment="Right" Style="{DynamicResource HoverBorderStyle}" Margin="12,11,42,0"
+                Visibility="Collapsed">
+          <Path Width="14" Height="14" Fill="{DynamicResource BaseColorOpacity60}" Stretch="Uniform"
+                Data="{Binding Source={StaticResource IcFocus}, Path=Data}"/>
+        </Border>
+        <Border MouseLeftButtonUp="OnCloseIconClick" VerticalAlignment="Top" Height="20" Width="20"
+                HorizontalAlignment="Right" Style="{DynamicResource HoverBorderStyle}" Margin="12,11,14,0">
+          <Path Width="14" Height="14" Fill="{DynamicResource BaseColorOpacity60}" Stretch="Uniform"
+                Data="{Binding Source={StaticResource IcXPlus}, Path=Data}"/>
+        </Border>
+      </Grid>
+      <Grid Background="Transparent" Cursor="Hand" Margin="0,6,0,0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer MouseLeftButtonUp="OnPopupClick" Name="Viewer" Background="Transparent" VerticalAlignment="Top"
+                      Style="{DynamicResource for_scrollviewer}" Grid.Row="1" Height="66">
+          <Grid VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <wpf:EmjTextBlock Name="TitleTextBlock" Style="{DynamicResource Body01}" TextTrimming="WordEllipsis"
+                              TextWrapping="Wrap" MaxHeight="42" VerticalAlignment="Center" FontSize="14.5" Margin="14,0"
+                              LineHeight="21"/>
+            <StackPanel Name="ContentPanel" Grid.Row="1" Margin="14,2"/>
+          </Grid>
+        </ScrollViewer>
+        <Grid Name="TaskOperationPanel" Row="2" VerticalAlignment="Top" HorizontalAlignment="Right"
+              Margin="14,8,14,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Grid Margin="5,0,0,0" Column="1">
+            <customControl:CustomComboBox x:Name="ChooseRemindLaterComboBox" ItemSelected="ReminderSelectionChanged" Width="131" Height="0"
+                                          VerticalAlignment="Top"/>
+            <Button Click="RemindLaterButtonClick" Content="{DynamicResource Snooze}" Width="133" Height="28"
+                    FontSize="12" Style="{StaticResource CancelButtonStyle}"/>
+          </Grid>
+          <Button Click="CompleteClick" Name="CompleteButton" Content="{DynamicResource PublicComplete}" Width="133"
+                  Margin="0,0,5,0" Height="28" Grid.Column="0" FontSize="12" Style="{StaticResource SaveButtonStyle}"/>
+          <Button Click="OnCloseClick" Name="CloseButton" Content="{DynamicResource GotIt}" Width="133"
+                  Grid.Column="0" Height="28" FontSize="12" Style="{StaticResource SaveButtonStyle}"
+                  Visibility="Collapsed" Margin="0,0,5,0"/>
+        </Grid>
+      </Grid>
+    </StackPanel>
+  </Border>
+</views:MyWindow>

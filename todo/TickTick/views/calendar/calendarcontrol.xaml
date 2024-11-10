@@ -1,0 +1,66 @@
+<UserControl x:Class="ticktick_WPF.Views.Calendar.CalendarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Calendar"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             MouseWheel="OnScrollChanged" SizeChanged="OnSizeChanged" Name="Root"
+             Background="{DynamicResource ShowAreaBackground}">
+  <UIElement.InputBindings>
+    <KeyBinding Gesture="Ctrl+P" Command="{x:Static local:CalendarCommands.PrintCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CalendarControl}}}"/>
+    <KeyBinding Gesture="CtrL+Alt+P" Command="{x:Static local:CalendarCommands.PrintAllCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CalendarControl}}}"/>
+  </UIElement.InputBindings>
+  <UIElement.Effect>
+    <BlurEffect Radius="0" x:Name="CalendarBlurEffect"/>
+  </UIElement.Effect>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <local:CalendarHead x:Name="HeadView" Tag="{Binding ElementName=Root, Path=Tag}"/>
+    <Grid Name="CalendarBody" Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid Name="MonthGrid" Column="0" Visibility="Hidden" Margin="-1,0,0,0"/>
+      <Grid Name="WeekGrid" Column="0" Visibility="Hidden" Margin="0,0,1,0"/>
+      <Grid Column="1">
+        <Grid Name="SideViewGrid" Width="244">
+          <local:CalendarSideBar x:Name="CalendarSide" HorizontalAlignment="Right"/>
+          <local:ArrangeTaskPanel x:Name="ArrangePanel" HorizontalAlignment="Right" Opacity="0" IsHitTestVisible="false"/>
+        </Grid>
+      </Grid>
+    </Grid>
+    <Border Name="NotProBorder" Background="{DynamicResource ToastBackground}" Grid.Row="1" Margin="0,0,0,40"
+            Height="48" CornerRadius="24" Visibility="Collapsed" VerticalAlignment="Bottom"
+            HorizontalAlignment="Center">
+      <UIElement.Effect>
+        <DropShadowEffect ShadowDepth="0" Direction="300" BlurRadius="16" Opacity="0.4"/>
+      </UIElement.Effect>
+      <DockPanel Margin="18,0">
+        <Path Width="18" Height="18" Fill="{DynamicResource TickYellow}" Stretch="Uniform"
+              VerticalAlignment="Center" Data="{Binding Source={StaticResource VipIcon}, Path=Data}"/>
+        <StackPanel MouseLeftButtonUp="ProClick" DockPanel.Dock="Right" Orientation="Horizontal"
+                    Background="Transparent" Cursor="Hand">
+          <TextBlock Foreground="{DynamicResource TickYellow}" DockPanel.Dock="Right" VerticalAlignment="Center"
+                     HorizontalAlignment="Left" FontSize="13" Text="{StaticResource UpdateNow}" Margin="8,0,4,0"/>
+          <Path Width="14" Height="14" Fill="{DynamicResource TickYellow}" Stretch="Uniform"
+                VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="-90"/>
+            </UIElement.RenderTransform>
+          </Path>
+        </StackPanel>
+        <TextBlock Foreground="White" Opacity="0.9" VerticalAlignment="Center" HorizontalAlignment="Left"
+                   FontSize="13" Text="{StaticResource ProFeatureDesc}" Margin="8,0,36,0"/>
+      </DockPanel>
+    </Border>
+  </Grid>
+</UserControl>

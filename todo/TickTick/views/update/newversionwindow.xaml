@@ -1,0 +1,54 @@
+<Window x:Class="ticktick_WPF.Views.Update.NewVersionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Width="620" WindowStartupLocation="CenterScreen" Style="{StaticResource CustomWindowStyle}"
+        Title="{StaticResource NewVersionAvailable}">
+  <Grid Margin="0,45,0,0">
+    <StackPanel Orientation="Vertical">
+      <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="76"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Height="56" Source="../../Assets/logo.png" Grid.Column="0" Margin="-10,0,0,0" Grid.Row="0"
+               VerticalAlignment="Top" Stretch="Uniform"/>
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+          <TextBlock FontSize="14" Foreground="{DynamicResource BaseColorOpacity100_80}" TextWrapping="Wrap"
+                     LineHeight="21">
+            <Run Text="{StaticResource NewVersionPre}"/>
+            <Run Text="{Binding NewVersion}"/>
+            <Run Text="{StaticResource NewVersionCenter}"/>
+            <Run Text="{Binding OldVersion}"/>
+            <Run Text="{StaticResource NewVersionPost}"/>
+          </TextBlock>
+          <TextBlock Margin="0,20" FontSize="14" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                     FontWeight="SemiBold">
+            <Run Text="{Binding NewVersion}"/>
+            <Run Text="{StaticResource NewVersionHint}"/>
+          </TextBlock>
+          <Border Height="160" BorderBrush="{DynamicResource BaseColorOpacity10_20}" BorderThickness="1">
+            <ScrollViewer Style="{DynamicResource for_scrollviewer}">
+              <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left"
+                         Foreground="{DynamicResource BaseColorOpacity100_80}" Margin="10" TextWrapping="Wrap" FontSize="14"
+                         LineHeight="28" Text="{Binding ReleaseNote}"/>
+            </ScrollViewer>
+          </Border>
+        </StackPanel>
+      </Grid>
+      <Grid Height="60" Background="{DynamicResource WindowBackgroundSecondary}">
+        <StackPanel Orientation="Vertical" Margin="14">
+          <Grid>
+            <Button Style="{StaticResource CancelButtonStyle}" Content="{StaticResource SkipThisVersion}"
+                    MinWidth="116" HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
+              <Button Margin="14,0,0,0" Style="{StaticResource SaveButtonStyle}" Content="{StaticResource InstallUpdate}"
+                      MinWidth="116" HorizontalAlignment="Left"/>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+      </Grid>
+    </StackPanel>
+  </Grid>
+</Window>

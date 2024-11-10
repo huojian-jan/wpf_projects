@@ -1,0 +1,81 @@
+<UserControl x:Class="ticktick_WPF.Views.Setting.FeatureConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Setting">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <TextBlock Style="{DynamicResource SettingTitleStyle}" Margin="28,52,0,0"
+               Text="{StaticResource FeatureModule}"/>
+    <Grid Row="1" VerticalAlignment="Top" Margin="28,24,0,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="22"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="22"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Style="{DynamicResource Body01}" Margin="0,0,55,0" FontWeight="SemiBold" VerticalAlignment="Top"
+                 Text="{DynamicResource Matrix}" Grid.Column="0" Grid.Row="0"/>
+      <CheckBox PreviewMouseLeftButtonUp="OnCheckBoxClick" Name="MatrixCheckBox"
+                Style="{DynamicResource BlueSwitchCheckBoxStyle}" Grid.Column="0" Grid.Row="0"
+                VerticalAlignment="Top" Margin="0,0,24,0" HorizontalAlignment="Right"/>
+      <TextBlock Style="{DynamicResource Tag03}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top"
+                 Text="{DynamicResource MatrixDesc}" Margin="0,6,24,0" TextWrapping="Wrap"/>
+      <Border Height="126" CornerRadius="12" HorizontalAlignment="Left" VerticalAlignment="Top" Width="215"
+              Margin="0,10,0,0" Grid.Row="2" BorderBrush="{DynamicResource BaseColorOpacity10_0}"
+              BorderThickness="1">
+        <Border.Background>
+          <ImageBrush ImageSource="../../Assets/ImageSource/MatrixFeature.png" Stretch="Fill"/>
+        </Border.Background>
+      </Border>
+      <TextBlock Style="{DynamicResource Body01}" Margin="0,0,55,0" TextWrapping="Wrap" FontWeight="SemiBold"
+                 VerticalAlignment="Top" Text="{DynamicResource HabitView}" Grid.Column="1" Grid.Row="0"/>
+      <CheckBox PreviewMouseLeftButtonUp="OnCheckBoxClick" Name="HabitCheckBox"
+                Style="{DynamicResource BlueSwitchCheckBoxStyle}" Grid.Column="1" Grid.Row="0"
+                VerticalAlignment="Top" Margin="0,0,24,0" HorizontalAlignment="Right"/>
+      <TextBlock Style="{DynamicResource Tag03}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"
+                 Text="{DynamicResource HabitDesc}" Margin="0,6,24,0" TextWrapping="Wrap"/>
+      <Border Height="126" CornerRadius="12" HorizontalAlignment="Left" VerticalAlignment="Top" Width="215"
+              Margin="0,10,0,0" Grid.Column="1" Grid.Row="2" BorderBrush="{DynamicResource BaseColorOpacity10_0}"
+              BorderThickness="1">
+        <Border.Background>
+          <ImageBrush ImageSource="../../Assets/ImageSource/HabitFeature.png" Stretch="Fill"/>
+        </Border.Background>
+      </Border>
+      <TextBlock MouseLeftButtonUp="OnSettingTextClick" Name="HabitSetting" Style="{DynamicResource Tag03}"
+                 Margin="0,12,0,0" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" Background="Transparent"
+                 Foreground="{DynamicResource PrimaryColor}" Cursor="Hand" Text="{DynamicResource HabitSetting}"/>
+      <TextBlock Style="{DynamicResource Body01}" Margin="0,0,55,0" FontWeight="SemiBold" VerticalAlignment="Top"
+                 Text="{DynamicResource PomoFocus}" Grid.Column="0" Grid.Row="5"/>
+      <CheckBox PreviewMouseLeftButtonUp="OnCheckBoxClick" Name="FocusCheckBox"
+                Style="{DynamicResource BlueSwitchCheckBoxStyle}" Grid.Column="0" Grid.Row="5"
+                VerticalAlignment="Top" Margin="0,0,24,0" HorizontalAlignment="Right"/>
+      <TextBlock Style="{DynamicResource Tag03}" Grid.Column="0" Grid.Row="6" Text="{DynamicResource FocusDesc}"
+                 Margin="0,6,24,0" TextWrapping="Wrap"/>
+      <Border Height="126" CornerRadius="12" HorizontalAlignment="Left" VerticalAlignment="Top" Width="215"
+              Margin="0,10,0,0" Grid.Row="7" BorderBrush="{DynamicResource BaseColorOpacity10_0}"
+              BorderThickness="1">
+        <Border.Background>
+          <ImageBrush ImageSource="../../Assets/ImageSource/FocusFeature.png" Stretch="Fill"/>
+        </Border.Background>
+      </Border>
+      <TextBlock MouseLeftButtonUp="OnSettingTextClick" Name="FocusSetting" Style="{DynamicResource Tag03}"
+                 Margin="0,12,0,0" Grid.Row="8" VerticalAlignment="Top" Background="Transparent"
+                 Foreground="{DynamicResource PrimaryColor}" Cursor="Hand" Text="{DynamicResource FocusSetting}"/>
+    </Grid>
+  </Grid>
+</UserControl>

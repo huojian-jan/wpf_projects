@@ -1,0 +1,34 @@
+<StackPanel x:Class="ticktick_WPF.Views.Filter.OrAndNotSelector"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+            xmlns:local="clr-namespace:ticktick_WPF.Views.Filter"
+            DataContextChanged="OnDataBind" Orientation="Horizontal">
+  <FrameworkElement.Resources>
+    <converter:LogicVisibleConverter x:Key="LogicVisibleConverter"/>
+    <converter:LogicTextColorConverter x:Key="LogicTextColorConverter"/>
+    <converter:LogicBackgroundColorConverter x:Key="LogicBackgroundColorConverter"/>
+  </FrameworkElement.Resources>
+  <Grid MouseLeftButtonUp="SelectOrLogic" Name="OrGrid" Width="auto" Height="20" Cursor="Hand">
+    <Border Name="OrBorder" MinWidth="18" CornerRadius="4"
+            Background="{Binding Logic, Converter={StaticResource LogicBackgroundColorConverter}, ConverterParameter=Or}"/>
+    <TextBlock Text="{StaticResource or}" Padding="4,0" VerticalAlignment="Center"
+               Foreground="{Binding Logic, Converter={StaticResource LogicTextColorConverter}, ConverterParameter=Or}"/>
+  </Grid>
+  <Grid MouseLeftButtonUp="SelectAndLogic" Name="AndGrid" Width="auto" Height="20" Cursor="Hand"
+        Visibility="Collapsed">
+    <Border Name="AndBorder" MinWidth="18" CornerRadius="4"
+            Background="{Binding Logic, Converter={StaticResource LogicBackgroundColorConverter}, ConverterParameter=And}"/>
+    <TextBlock Text="{StaticResource and}" Padding="4,0" VerticalAlignment="Center"
+               Foreground="{Binding Logic, Converter={StaticResource LogicTextColorConverter}, ConverterParameter=And}"/>
+  </Grid>
+  <Grid MouseLeftButtonUp="SelectNotLogic" Name="NotGrid" Width="auto" Height="20" Cursor="Hand"
+        Visibility="Collapsed">
+    <Border CornerRadius="0,4,4,0"
+            Background="{Binding Logic, Converter={StaticResource LogicBackgroundColorConverter}, ConverterParameter=Not}"/>
+    <TextBlock Text="{StaticResource Not}" Padding="4,0" VerticalAlignment="Center"
+               Foreground="{Binding Logic, Converter={StaticResource LogicTextColorConverter}, ConverterParameter=Not}"/>
+  </Grid>
+</StackPanel>

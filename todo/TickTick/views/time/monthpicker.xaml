@@ -1,0 +1,56 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.MonthPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+  <FrameworkElement.Resources>
+    <Style TargetType="{x:Type Border}">
+      <Setter Property="Border.BorderBrush" Value="{DynamicResource BaseColorOpacity60}"/>
+      <Setter Property="Border.CornerRadius" Value="2"/>
+      <Setter Property="Border.BorderThickness" Value="1"/>
+    </Style>
+    <Style TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="12"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+      <Setter Property="TextBlock.Padding" Value="3,0,3,0"/>
+    </Style>
+    <Style TargetType="{x:Type Line}">
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="234"/>
+      <Setter Property="Shape.StrokeThickness" Value="0.5"/>
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity60}"/>
+    </Style>
+    <Style TargetType="{x:Type Popup}">
+      <Setter Property="Popup.Placement" Value="Relative"/>
+      <Setter Property="Popup.AllowsTransparency" Value="true"/>
+      <Setter Property="Popup.VerticalOffset" Value="14"/>
+      <Setter Property="Popup.HorizontalOffset" Value="-62"/>
+      <Setter Property="Popup.StaysOpen" Value="true"/>
+    </Style>
+    <Style TargetType="{x:Type Button}">
+      <Setter Property="Control.Background" Value="White"/>
+      <Setter Property="FrameworkElement.Height" Value="33"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border Background="{TemplateBinding Control.Background}">
+              <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" TextBlock.FontSize="14"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsMouseOver" Value="true">
+          <Setter Property="Control.Background" Value="{StaticResource BaseColorOpacity5}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}">
+    <Grid Width="210">
+      <Grid Name="MonthGrid" Row="0" Background="Transparent"/>
+    </Grid>
+  </ContentControl>
+</UserControl>

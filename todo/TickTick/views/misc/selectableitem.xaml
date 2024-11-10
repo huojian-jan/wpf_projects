@@ -1,0 +1,233 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.SelectableItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             DataContextChanged="OnDataContextChanged" MinWidth="100" Background="Transparent">
+  <FrameworkElement.Resources>
+    <Style x:Key="RadioButtonStyle" TargetType="{x:Type RadioButton}">
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type RadioButton}">
+            <BulletDecorator Background="Transparent" Cursor="Hand">
+              <BulletDecorator.Bullet>
+                <Grid Height="18" Width="18">
+                  <Border Name="RadioOuter" Background="Transparent" BorderBrush="{DynamicResource BaseColorOpacity20}"
+                          BorderThickness="1" CornerRadius="9"/>
+                  <Border Name="RadioMark" CornerRadius="9" Margin="4" Background="{DynamicResource BaseColorOpacity20}"
+                          Visibility="Hidden"/>
+                </Grid>
+              </BulletDecorator.Bullet>
+            </BulletDecorator>
+            <ControlTemplate.Triggers>
+              <Trigger Property="ToggleButton.IsChecked" Value="true">
+                <Setter TargetName="RadioMark" Property="UIElement.Visibility" Value="Visible"/>
+                <Setter TargetName="RadioOuter" Value="{DynamicResource PrimaryColor}" Property="Border.BorderBrush"/>
+                <Setter TargetName="RadioMark" Value="{DynamicResource PrimaryColor}" Property="Border.Background"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid>
+    <ContentControl Name="Container" Style="{DynamicResource ListHoverSelectedItemStyle}"
+                    Visibility="{Binding IsSplit, Converter={StaticResource VisibleConverter}}">
+      <Grid>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="FrameworkElement.MinHeight" Value="{DynamicResource Height36}"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Path=InCalFilter}" Value="True">
+                <Setter Property="FrameworkElement.MinHeight" Value="36"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <ContentControl Name="SubPopupPlacement" Margin="2,0,2,0"/>
+        <Grid Margin="0,5,6,5" HorizontalAlignment="Left">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Border PreviewMouseLeftButtonUp="OnOpenClick" Name="OpenIconGrid" HorizontalAlignment="Left"
+                  Grid.Column="1" VerticalAlignment="Stretch" Background="Transparent" Width="12">
+            <Path Name="OpenIcon" Width="12" Height="12" Stretch="Fill" Margin="0,1,0,0" HorizontalAlignment="Right"
+                  Fill="{DynamicResource BaseColorOpacity40}" VerticalAlignment="Center"
+                  RenderTransformOrigin="0.5,0.5" Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+              <UIElement.RenderTransform>
+                <RotateTransform Angle="{Binding Open, Converter={StaticResource SectionOpenConverter}, Mode=OneWay}"/>
+              </UIElement.RenderTransform>
+              <UIElement.Visibility>
+                <MultiBinding Converter="{StaticResource ProjectFoldIconVisibleConverter}">
+                  <Binding Path="IsSectionGroup"/>
+                  <Binding Path="IsParent"/>
+                  <Binding ElementName="Container" Path="IsMouseOver"/>
+                </MultiBinding>
+              </UIElement.Visibility>
+            </Path>
+          </Border>
+          <Grid Width="12" Background="Transparent" Column="2"
+                Visibility="{Binding IsSubItem, Converter={StaticResource BoolVisibleConverter}}"/>
+          <Grid Width="16" Background="Transparent" Column="3"
+                Visibility="{Binding ShowIcon, Converter={StaticResource BoolVisibleConverter}}">
+            <Path Name="ItemIcon" Width="16" Height="16" VerticalAlignment="Center" Stretch="Uniform"
+                  Data="{Binding Icon}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Path}">
+                  <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity60}"/>
+                  <Style.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Highlighted}" Value="True"/>
+                        <Condition Binding="{Binding Path=InCalFilter}" Value="False"/>
+                      </MultiDataTrigger.Conditions>
+                      <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                    </MultiDataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Path>
+            <wpf:EmjTextBlock HorizontalAlignment="Left" FontSize="14" Margin="-1,-1,0,0" Style="{DynamicResource Body01}"
+                              Text="{Binding Emoji}"/>
+          </Grid>
+          <StackPanel VerticalAlignment="Center" Grid.Column="4">
+            <wpf:EmjTextBlock TextWrapping="Wrap" ClipToBounds="true" TextTrimming="CharacterEllipsis" Text="{Binding Title}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type wpf:EmjTextBlock}">
+                  <Setter Property="TextBlock.FontSize" Value="{DynamicResource Font13}"/>
+                  <Setter Property="FrameworkElement.MaxHeight" Value="{DynamicResource Height16}"/>
+                  <Setter Property="TextBlock.Padding" Value="8,0,20,0"/>
+                  <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+                  <Style.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Highlighted}" Value="True"/>
+                        <Condition Binding="{Binding Path=InCalFilter}" Value="False"/>
+                      </MultiDataTrigger.Conditions>
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                    </MultiDataTrigger>
+                    <DataTrigger Binding="{Binding Path=IsTeam}" Value="True">
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=IsBold}" Value="True">
+                      <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=InCalFilter}" Value="True">
+                      <Setter Property="TextBlock.FontSize" Value="13"/>
+                      <Setter Property="FrameworkElement.MaxHeight" Value="16"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=ShowIcon}" Value="False">
+                      <Setter Property="TextBlock.Padding" Value="0,0,20,0"/>
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsBold}" Value="True"/>
+                        <Condition Binding="{Binding Path=InCalFilter}" Value="True"/>
+                      </MultiDataTrigger.Conditions>
+                      <Setter Property="TextBlock.FontSize" Value="12"/>
+                    </MultiDataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </wpf:EmjTextBlock>
+            <wpf:EmjTextBlock TextWrapping="Wrap" ClipToBounds="true" Height="14" Margin="8,2,20,0"
+                              TextTrimming="CharacterEllipsis" FontSize="11" Foreground="{DynamicResource BaseColorOpacity40}"
+                              Text="{Binding Desc}"
+                              Visibility="{Binding Desc, Converter={StaticResource StringToVisibleConverter}}"/>
+          </StackPanel>
+        </Grid>
+        <Grid Name="BatchGrid" Width="32" HorizontalAlignment="Right" Background="Transparent">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="FrameworkElement.Margin" Value="0,0,0,0"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding InCalFilter}" Value="True">
+                  <Setter Property="FrameworkElement.Margin" Value="0,0,8,0"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Border Width="18" Height="18">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Binding="{Binding InCalFilter}" Value="True"/>
+                      <Condition Binding="{Binding CanMultiSelect}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="UIElement.Visibility" Value="Visible"/>
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <RadioButton VerticalAlignment="Center" IsHitTestVisible="false" Width="18"
+                         Style="{DynamicResource RadioButtonStyle}" IsChecked="{Binding Path=Selected}"/>
+          </Border>
+          <Border PreviewMouseLeftButtonUp="OnCheckBoxClick" Background="Transparent" HorizontalAlignment="Center"
+                  Visibility="{Binding ShowSubOnSide, Converter={StaticResource VisibleConverter}}">
+            <Path Stretch="Uniform">
+              <Path.Data>
+                <MultiBinding Converter="{StaticResource SelectableItemCheckIconConverter}">
+                  <Binding Path="Selectable"/>
+                  <Binding Path="InCalFilter"/>
+                  <Binding Path="CanMultiSelect"/>
+                  <Binding Path="Selected"/>
+                  <Binding Path="PartSelected"/>
+                  <Binding Path="Open"/>
+                </MultiBinding>
+              </Path.Data>
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Path}">
+                  <Setter Property="FrameworkElement.Height" Value="15"/>
+                  <Setter Property="FrameworkElement.Width" Value="15"/>
+                  <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity40}"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Highlighted}" Value="True">
+                      <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=InCalFilter}" Value="False">
+                      <Setter Property="FrameworkElement.Width" Value="12"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Path>
+          </Border>
+        </Grid>
+        <Polygon Width="12" Height="12" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" Margin="0,0,8,0"
+                 HorizontalAlignment="Right"
+                 Visibility="{Binding ShowSubOnSide, Converter={StaticResource BoolVisibleConverter}}">
+          <Polygon.Points>
+            <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+          </Polygon.Points>
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="-90"/>
+          </UIElement.RenderTransform>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Polygon}">
+              <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity40}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Highlighted}" Value="True">
+                  <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Polygon>
+      </Grid>
+    </ContentControl>
+    <Line Style="{DynamicResource SplitLineStyle}" Margin="0,4"
+          Visibility="{Binding IsSplit, Converter={StaticResource BoolVisibleConverter}}"/>
+  </Grid>
+</UserControl>

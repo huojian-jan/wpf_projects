@@ -1,0 +1,64 @@
+<StackPanel x:Class="ticktick_WPF.Views.Config.SwitchListViewControl"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+            xmlns:local="clr-namespace:ticktick_WPF.Views.Config"
+            Name="Root">
+  <FrameworkElement.Resources>
+    <converter:TabSelectColorConverter x:Key="TabSelectColorConverter"/>
+    <Style TargetType="{x:Type Border}">
+      <Setter Property="FrameworkElement.Width" Value="28"/>
+      <Setter Property="FrameworkElement.Height" Value="28"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="Border.BorderThickness" Value="1"/>
+      <Setter Property="Border.CornerRadius" Value="4"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Border.Background" Value="Transparent"/>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsMouseOver" Value="true">
+          <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity10}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource TooltipStyle}">
+      <Setter Property="ToolTip.Placement" Value="Center"/>
+      <Setter Property="ToolTip.VerticalOffset" Value="30"/>
+    </Style>
+    <Style TargetType="{x:Type Path}">
+      <Setter Property="FrameworkElement.Width" Value="18"/>
+      <Setter Property="FrameworkElement.Height" Value="18"/>
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <TextBlock Text="{StaticResource OmSwitchView}" FontSize="12" Margin="12,8,12,0"
+             Foreground="{DynamicResource BaseColorOpacity40}"/>
+  <Grid Margin="12,6,12,-2" Height="28" Width="124">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Border MouseLeftButtonUp="SwitchViewClick" Name="ListBorder" Grid.Column="0" HorizontalAlignment="Left"
+            ToolTip="{StaticResource OmListView}" Tag="list"
+            BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=0}">
+      <Path Name="ListPath" Fill="{DynamicResource BaseColorOpacity60}"
+            Data="{Binding Source={StaticResource IcListViewModeIcon}, Path=Data}"/>
+    </Border>
+    <Border MouseLeftButtonUp="SwitchViewClick" Name="KanbanBorder" Grid.Column="1"
+            HorizontalAlignment="Center" ToolTip="{StaticResource OmKanbanView}" Tag="kanban"
+            BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=1}">
+      <Path Name="KanbanPath" Fill="{DynamicResource BaseColorOpacity60}"
+            Data="{Binding Source={StaticResource IcKanbanViewModeIcon}, Path=Data}"/>
+    </Border>
+    <Border MouseLeftButtonUp="SwitchViewClick" Name="TimelineBorder" Grid.Column="2"
+            HorizontalAlignment="Right" ToolTip="{StaticResource OmTimelineView}" Tag="timeline"
+            BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=2}">
+      <Path Name="TimelinePath" Fill="{DynamicResource BaseColorOpacity60}"
+            Data="{Binding Source={StaticResource IcTimelineViewModeIcon}, Path=Data}"/>
+    </Border>
+  </Grid>
+  <Line Style="{DynamicResource SplitLineStyle}" Margin="0,8,0,4"/>
+</StackPanel>

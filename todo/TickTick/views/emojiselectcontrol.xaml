@@ -1,0 +1,156 @@
+<UserControl x:Class="ticktick_WPF.Views.EmojiSelectControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf">
+  <FrameworkElement.Resources>
+    <converter:IconConverter x:Key="IconConverter"/>
+    <converter:GroupIndicatorAngleConverter x:Key="GroupIndicatorAngleConverter"/>
+    <local:EmojiTemplateSelector x:Key="EmojiTemplateSelector"/>
+    <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Top"/>
+    </Style>
+    <DataTemplate x:Key="EmojiItemTemplate">
+      <Border Width="24" Height="24" Style="{DynamicResource HoverBorderStyle}" Margin="4" Cursor="Hand">
+        <Border HorizontalAlignment="Center">
+          <wpf:EmjTextBlock FontSize="16" Foreground="{DynamicResource BaseColorOpacity100}" Text="{Binding Text}"/>
+        </Border>
+      </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="EmojiItem" DataType="local:EmojiSelectViewModel">
+      <ItemsControl Margin="10,0" Background="Transparent" ItemTemplate="{StaticResource EmojiItemTemplate}"
+                    ItemsSource="{Binding Children}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </DataTemplate>
+    <DataTemplate x:Key="TextItem" DataType="local:EmojiSelectViewModel">
+      <Border Height="24" Width="450" Margin="8,0,0,0">
+        <TextBlock Style="{DynamicResource Body08}" Text="{Binding Text}"/>
+      </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="SectionItem" DataType="local:EmojiSelectViewModel">
+      <StackPanel Orientation="Horizontal" Background="Transparent" Height="24" Margin="18,2,0,2" Cursor="Hand"
+                  Width="390">
+        <Path Width="12" Height="12" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" Stretch="Uniform"
+              HorizontalAlignment="Center" Fill="{DynamicResource BaseColorOpacity100_80}" Opacity="0.36"
+              Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="{Binding Folded, Converter={StaticResource GroupIndicatorAngleConverter}, ConverterParameter=-90;0}"/>
+          </UIElement.RenderTransform>
+        </Path>
+        <TextBlock Style="{DynamicResource Body03}" Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Text}"/>
+      </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="EmojiKeyItem" DataType="local:EmojiKeyViewModel">
+      <Grid Background="Transparent" Width="24" Height="24" Cursor="Hand" ToolTip="{Binding Text}">
+        <Path Width="14" Height="14" Stretch="Uniform"
+              Data="{Binding EmojiPathName, Converter={StaticResource IconConverter}}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Path}">
+              <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity40}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                  <Setter Property="Shape.Fill" Value="{DynamicResource TextAccentColor}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Path>
+      </Grid>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Grid MouseMove="OnEmojiListMouseMove" HorizontalAlignment="Stretch">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Image Grid.Row="0" Grid.Column="0" Source="{DynamicResource searchDrawingImage}"
+           Style="{StaticResource Icon01}" HorizontalAlignment="Left" Margin="23,1,0,0" Opacity="0.2"
+           Width="16" Height="16"/>
+    <markDown:EmojiEditor x:Name="SearchTextBox" TextChanged="TrySearchEmoji" Grid.Column="0" BorderThickness="1"
+                          BorderCorner="4" Grid.ColumnSpan="2" Grid.Row="0"
+                          BorderBackground="{DynamicResource TextBoxBackground}" Height="32" Padding="32,0,6,0"
+                          WordWrap="false" MaxLength="20" Margin="16,8" VerticalAlignment="Top"
+                          Foreground="{DynamicResource BaseColorOpacity100_80}" Tag="{StaticResource Search}"/>
+    <Border Name="EmojiHeadBorder" Grid.Column="0" Grid.Row="1" Height="36" CornerRadius="4" Margin="12,0,0,4"
+            HorizontalAlignment="Left">
+      <ItemsControl Name="EmojiKeyList" ItemTemplate="{StaticResource EmojiKeyItem}" BorderThickness="0"
+                    Background="Transparent" FocusVisualStyle="{x:Null}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Horizontal"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </Border>
+    <StackPanel Name="HeadPanel" Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,0,4"
+                Grid.Column="1">
+      <Grid Width="1" Background="{DynamicResource BaseColorOpacity20}" Height="15"/>
+      <TextBlock MouseLeftButtonUp="OnRandomClick" Text="{StaticResource Random}" Style="{DynamicResource Body06}"
+                 FontSize="12" Margin="12,0" Foreground="{DynamicResource BaseColorOpacity60}" Cursor="Hand"/>
+      <TextBlock MouseLeftButtonUp="OnResetClick" Name="ResetText" Text="{StaticResource Reset}"
+                 Style="{DynamicResource Body06}" FontSize="12" Margin="0,0,14,0"
+                 Foreground="{DynamicResource BaseColorOpacity60}" Cursor="Hand"/>
+    </StackPanel>
+    <ListView Name="EmojiList" Grid.Column="0" Grid.Row="2" Style="{StaticResource ListViewStyle}"
+              IsTabStop="false" Grid.ColumnSpan="2" ItemTemplateSelector="{StaticResource EmojiTemplateSelector}"
+              Height="275">
+      <ItemsControl.ItemContainerStyle>
+        <Style TargetType="{x:Type ListViewItem}">
+          <Setter Property="ListBoxItem.IsSelected"
+                  Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type ListViewItem}">
+                <ContentPresenter/>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </ListView>
+    <Grid Name="SearchEmptyGrid" Column="0" ColumnSpan="2" VerticalAlignment="Center" Visibility="Collapsed "
+          Height="160" Row="2" Margin="0,-20,0,0">
+      <Viewbox Width="120" Height="120">
+        <Grid Width="200" Height="200">
+          <Grid Background="Transparent">
+            <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity5}"/>
+            <Image Source="{DynamicResource EmptySearchDrawingImage}" Width="200" Height="200" Stretch="None"/>
+            <Path Width="200" Height="200" Stretch="None" Fill="{DynamicResource EmptyPathColor}"
+                  Data="{Binding Source={StaticResource IcSearchResult}, Path=Data}"/>
+          </Grid>
+        </Grid>
+      </Viewbox>
+      <TextBlock Text="{DynamicResource NoResult}" VerticalAlignment="Bottom" Margin="0,0,0,0"
+                 Foreground="{DynamicResource BaseColorOpacity60}" FontSize="14" HorizontalAlignment="Center"/>
+    </Grid>
+    <Popup Name="EmojiSkinPopup" Grid.Column="0" AllowsTransparency="true" Grid.Row="2" Placement="Center"
+           VerticalOffset="-30">
+      <ContentControl Style="{DynamicResource PopupContentStyle}" Margin="0">
+        <ItemsControl Name="SkinItems" ItemTemplate="{StaticResource EmojiItemTemplate}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ContentControl>
+    </Popup>
+  </Grid>
+</UserControl>

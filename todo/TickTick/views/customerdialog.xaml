@@ -1,0 +1,60 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.CustomerDialog"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                Loaded="OnWindowLoaded" WindowStyle="None" AllowsTransparency="true" Background="Transparent"
+                ShowInTaskbar="false" WindowStartupLocation="CenterOwner" SizeToContent="Height" Topmost="true"
+                Width="460">
+  <UIElement.Effect>
+    <DropShadowEffect BlurRadius="15" Opacity="0.2" ShadowDepth="0"/>
+  </UIElement.Effect>
+  <Border Background="{DynamicResource WindowBackgroundPrimary}" Margin="10" CornerRadius="12">
+    <Grid Margin="20">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <TextBlock Name="TitleTextBlock" Margin="0,0,24,14" TextWrapping="Wrap" FontWeight="Bold" FontSize="16"
+                 Foreground="{DynamicResource BaseColorOpacity100}"/>
+      <TextBlock Name="ContentTextBlock" Margin="0,10" TextWrapping="Wrap" TextAlignment="Left" Grid.Row="2"
+                 FontSize="14" LineHeight="21" Foreground="{DynamicResource BaseSolidColorOpacity60}"/>
+      <TextBlock Name="ContentComplexTextBlock" Margin="0,10" TextWrapping="WrapWithOverflow" Grid.Row="2"
+                 FontSize="14" Visibility="Collapsed" Background="Transparent"
+                 Foreground="{DynamicResource BaseSolidColorOpacity60}">
+        <Run x:Name="CenPreText"/>
+        <Run PreviewMouseLeftButtonUp="OnCenterTextClick" x:Name="CenCenterText" Background="Transparent"
+             Foreground="{StaticResource ThemeBlue}" Cursor="Hand"/>
+        <Run x:Name="CenPostText"/>
+      </TextBlock>
+      <StackPanel Name="EmphasizeTextBlock" Grid.Row="3" Margin="0,0,0,10" Orientation="Horizontal"
+                  Visibility="Collapsed">
+        <TextBlock FontSize="16" Text="* " Foreground="Red" TextAlignment="Center" VerticalAlignment="Center"
+                   Height="14" FontFamily="Microsoft Yahei"/>
+        <TextBlock Name="EmphasizeText" TextWrapping="WrapWithOverflow" FontSize="14" Background="Transparent"
+                   Foreground="{DynamicResource BaseSolidColorOpacity60}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,34,0,0" HorizontalAlignment="Right">
+        <Button Click="OnOkClick" Name="OkButton" IsDefault="true" Content="{DynamicResource OK}" Height="30"
+                MinWidth="100" Style="{StaticResource SaveButtonStyle}"/>
+        <Button Click="OnCancelClick" Name="CancelButton" Content="{DynamicResource Close}" Height="30"
+                MinWidth="100" Margin="12,0,0,0" Style="{StaticResource CancelButtonStyle}"/>
+      </StackPanel>
+      <Border MouseLeftButtonUp="OnCloseClick" Name="CloseButton" Grid.Row="0" Grid.RowSpan="5"
+              HorizontalAlignment="Right" VerticalAlignment="Top" Width="24" Height="24"
+              Style="{DynamicResource SmoothHoverBorderStyle40_60}" Cursor="Hand">
+        <UIElement.RenderTransform>
+          <TranslateTransform X="2" Y="-2"/>
+        </UIElement.RenderTransform>
+        <Path Fill="{DynamicResource BaseColorOpacity100}" Width="14" Height="14" Stretch="Uniform"
+              VerticalAlignment="Center" HorizontalAlignment="Center"
+              Data="{Binding Source={StaticResource IcXPlus}, Path=Data}"/>
+      </Border>
+    </Grid>
+  </Border>
+</views:MyWindow>

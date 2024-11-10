@@ -1,0 +1,138 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.SetDateDurationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels">
+  <FrameworkElement.Resources>
+    <Style x:Key="LeftTitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body10}"/>
+    <Style TargetType="{x:Type Border}">
+      <Setter Property="Border.BorderBrush" Value="{DynamicResource BaseColorOpacity10}"/>
+      <Setter Property="Border.CornerRadius" Value="4"/>
+      <Setter Property="Border.BorderThickness" Value="1"/>
+    </Style>
+    <Style TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="12"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+      <Setter Property="TextBlock.Padding" Value="3,0,3,0"/>
+    </Style>
+    <Style TargetType="{x:Type Line}">
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="234"/>
+      <Setter Property="Shape.StrokeThickness" Value="1"/>
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity5}"/>
+    </Style>
+    <Style TargetType="{x:Type Popup}">
+      <Setter Property="Popup.Placement" Value="Relative"/>
+      <Setter Property="Popup.AllowsTransparency" Value="true"/>
+      <Setter Property="Popup.VerticalOffset" Value="14"/>
+      <Setter Property="Popup.HorizontalOffset" Value="-62"/>
+      <Setter Property="Popup.StaysOpen" Value="true"/>
+    </Style>
+    <Style TargetType="{x:Type Button}">
+      <Setter Property="Control.Background" Value="White"/>
+      <Setter Property="FrameworkElement.Height" Value="33"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border Background="{TemplateBinding Control.Background}">
+              <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" TextBlock.FontSize="14"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsMouseOver" Value="true">
+          <Setter Property="Control.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <converter:DateTextConverter x:Key="DateTextConverter"/>
+    <converter:DurationDateColumnSpanConverter x:Key="DurationDateColumnSpanConverter"/>
+    <converter:DurationDateMarginConverter x:Key="DurationDateMarginConverter"/>
+  </FrameworkElement.Resources>
+  <StackPanel MouseLeftButtonUp="ClosePopup" Background="Transparent" Margin="0" Width="260">
+    <Grid Margin="16,12,16,4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="52"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="8"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Text="{StaticResource Start}" Grid.Column="0" Style="{StaticResource LeftTitleStyle}" FontSize="12"/>
+      <Grid MouseLeftButtonUp="StartDateClick" MouseLeftButtonDown="OnShowPopupButtonMouseDown"
+            Name="StartDateText" Column="1" Height="28" Background="Transparent" Cursor="Hand"
+            ColumnSpan="{Binding IsAllDay, Converter={StaticResource DurationDateColumnSpanConverter}}">
+        <Border>
+          <TextBlock Margin="3,0,0,0" Text="{Binding StartDate, Converter={StaticResource DateTextConverter}}"/>
+        </Border>
+        <Border Name="StartDateBorder" BorderThickness="0" CornerRadius="4"
+                Style="{DynamicResource HoverBorderStyle}" BorderBrush="{DynamicResource PrimaryColor}"/>
+      </Grid>
+      <Grid MouseLeftButtonUp="StartTimeClick" Column="3" Height="28" Background="Transparent" Cursor="Hand"
+            Visibility="{Binding IsAllDay, Converter={StaticResource VisibleConverter}}">
+        <local:TimeInputControl x:Name="StartTimeInput" FontSize="12" DropWidth="245"
+                                Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+      </Grid>
+    </Grid>
+    <Grid Margin="16,8,16,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="52"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="8"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Text="{StaticResource End}" Grid.Column="0" Style="{StaticResource LeftTitleStyle}" FontSize="12"/>
+      <Grid MouseLeftButtonUp="EndDateClick" MouseLeftButtonDown="OnShowPopupButtonMouseDown"
+            Name="EndDateText" Column="1" Height="28" Background="Transparent" Cursor="Hand"
+            ColumnSpan="{Binding IsAllDay, Converter={StaticResource DurationDateColumnSpanConverter}}">
+        <Border>
+          <TextBlock Margin="3,0,0,0" FontSize="12"
+                     Text="{Binding DueDate, Converter={StaticResource DateTextConverter}}"/>
+        </Border>
+        <Border Name="DueDateBorder" BorderThickness="0" CornerRadius="4"
+                Style="{DynamicResource HoverBorderStyle}" BorderBrush="{DynamicResource PrimaryColor}"/>
+      </Grid>
+      <Grid MouseLeftButtonUp="EndTimeClick" Column="3" Height="28" Background="Transparent" Cursor="Hand"
+            Visibility="{Binding IsAllDay, Converter={StaticResource VisibleConverter}}">
+        <local:TimeInputControl x:Name="DueTimeInput" FontSize="12" DropWidth="245"
+                                Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+      </Grid>
+    </Grid>
+    <Popup Opened="DatePopupOpened" Closed="DatePopupClosed" Name="SetDatePopup" StaysOpen="false"
+           VerticalOffset="20" AllowsTransparency="true" HorizontalOffset="-58"
+           PlacementTarget="{Binding ElementName=StartDateText}"/>
+    <Grid Margin="16,8,16,5" Height="32">
+      <TextBlock HorizontalAlignment="Left" Margin="0" Text="{StaticResource AllDay}" FontSize="12" Width="50"
+                 Style="{StaticResource LeftTitleStyle}"/>
+      <Grid HorizontalAlignment="Right" Margin="0,0,-4,0">
+        <CheckBox Click="OnAllDayClick" Name="AllDayCheckBox" Style="{StaticResource BlueSwitchCheckBoxStyle}"
+                  HorizontalAlignment="Center" IsChecked="{Binding IsAllDay}"/>
+        <Rectangle Name="AllDayBorder" Stroke="{DynamicResource TabBorderColor}" StrokeThickness="1" RadiusX="8"
+                   RadiusY="8" Opacity="0" Width="36" Height="20" HorizontalAlignment="Left"
+                   VerticalAlignment="Center"/>
+      </Grid>
+    </Grid>
+    <Grid Name="TimeZone" Margin="15,4,15,8">
+      <UIElement.Visibility>
+        <MultiBinding Converter="{StaticResource MultipleBoolVisibleConverter}" ConverterParameter="false,true">
+          <Binding ElementName="AllDayCheckBox" Path="IsChecked"/>
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="EnableTimeZone"/>
+        </MultiBinding>
+      </UIElement.Visibility>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Grid Name="TimeZoneGrid" HorizontalAlignment="Stretch" Height="28" Column="1"/>
+    </Grid>
+    <Line X1="0" X2="1" Stretch="Fill" StrokeThickness="1" Margin="0,8,0,4"
+          Stroke="{DynamicResource BaseColorOpacity5}"/>
+  </StackPanel>
+</UserControl>

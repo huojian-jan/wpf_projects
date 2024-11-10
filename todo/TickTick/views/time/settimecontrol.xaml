@@ -1,0 +1,19 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.SetTimeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             Background="{DynamicResource PopupBackground}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid Name="ChooseTimePopupGrid" Margin="0" Width="210" Background="{DynamicResource PopupBackground}">
+      <Grid Margin="8">
+        <Calendar Name="Calendar" FirstDayOfWeek="Sunday" Style="{StaticResource CalendarStyle1}" BorderThickness="0"
+                  SelectedDate="{Binding SelectedDate}"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

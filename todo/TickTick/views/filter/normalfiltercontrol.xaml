@@ -1,0 +1,191 @@
+<UserControl x:Class="ticktick_WPF.Views.Filter.NormalFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             Background="Transparent">
+  <FrameworkElement.Resources>
+    <converter:SelectedListConverter x:Key="SelectedListConverter"/>
+    <converter:PriorityCheckConverter x:Key="PriorityCheckConverter"/>
+    <converter:CheckPriorityAllConverter x:Key="CheckPriorityAllConverter"/>
+    <converter:ShowExpiredWarningConverter x:Key="ShowExpiredWarningConverter"/>
+    <converter:CheckTaskTypeConverter x:Key="CheckTaskTypeConverter"/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <FrameworkElement.Resources>
+      <Style x:Key="TitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body01}">
+        <Setter Property="FrameworkElement.Width" Value="74"/>
+        <Setter Property="FrameworkElement.Margin" Value="20,0,0,0"/>
+      </Style>
+      <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body01}">
+        <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="FrameworkElement.MaxWidth" Value="310"/>
+        <Setter Property="TextBlock.FontSize" Value="13"/>
+      </Style>
+      <Style x:Key="PathStyle" TargetType="{x:Type Path}">
+        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+        <Setter Property="FrameworkElement.Margin" Value="0,0,8,0"/>
+        <Setter Property="FrameworkElement.Width" Value="12"/>
+        <Setter Property="FrameworkElement.Height" Value="12"/>
+        <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity40}"/>
+        <Setter Property="Shape.Stretch" Value="Fill"/>
+        <Setter Property="Path.Data" Value="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+      </Style>
+    </FrameworkElement.Resources>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <Grid Row="0" Height="32" Margin="0,5">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{StaticResource lists}" Style="{StaticResource TitleStyle}"/>
+        <Grid PreviewMouseLeftButtonUp="OnListClick" Height="32" Background="Transparent">
+          <wpf:EmjTextBlock Name="listTextBox" Margin="8,0,24,0" Style="{StaticResource TextBlockStyle}" Cursor="Hand"
+                            TextWrapping="Wrap" Height="18" ClipToBounds="true" Text="{Binding DisplayProjectText}"/>
+          <Path Style="{StaticResource PathStyle}"/>
+          <misc:PopupPlacementBorder Height="30" Width="335" IsDropDownOpen="{Binding ElementName=listPopup, Path=IsOpen}"/>
+        </Grid>
+        <Grid Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center"
+              ToolTip="{StaticResource FilterExpiredToolTip}"
+              Visibility="{Binding DisplayProjectText, Converter={StaticResource ShowExpiredWarningConverter}}">
+          <Path Cursor="Hand" Width="12" Height="12" Fill="#f9bf13" Stretch="Uniform"
+                Data="{Binding Source={StaticResource IconWarning}, Path=Data}"/>
+        </Grid>
+        <misc:EscPopup x:Name="listPopup" Width="348" Height="auto" StaysOpen="false" PopupAnimation="Fade"
+                       VerticalOffset="-2" HorizontalOffset="-12" PlacementTarget="{Binding ElementName=listTextBox}"/>
+      </StackPanel>
+    </Grid>
+    <Grid Name="tagGrid" Row="1" Height="32" Margin="0,5">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{StaticResource Tags}" Style="{StaticResource TitleStyle}"/>
+        <Grid PreviewMouseLeftButtonUp="OnTagClick" Height="32" Background="Transparent">
+          <wpf:EmjTextBlock Name="tagTextBox" Margin="8,0,24,0" Cursor="Hand" Style="{StaticResource TextBlockStyle}"
+                            Text="{Binding Tags, Converter={StaticResource SelectedListConverter}, ConverterParameter=Tag}"/>
+          <Path Style="{StaticResource PathStyle}"/>
+          <misc:PopupPlacementBorder Height="30" Width="335" IsDropDownOpen="{Binding ElementName=tagPopup, Path=IsOpen}"/>
+        </Grid>
+        <misc:EscPopup x:Name="tagPopup" Width="348" Height="auto" StaysOpen="false" PopupAnimation="Fade"
+                       HorizontalOffset="-12" VerticalOffset="-2" PlacementTarget="{Binding ElementName=tagTextBox}"/>
+      </StackPanel>
+    </Grid>
+    <Grid Row="2" Height="32" Margin="0,5">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{StaticResource date}" Style="{StaticResource TitleStyle}"/>
+        <Grid PreviewMouseLeftButtonUp="OnDateClick" Height="32" Background="Transparent">
+          <TextBlock Name="dateTextBox" Margin="8,0,8,0" Cursor="Hand" Style="{StaticResource TextBlockStyle}"
+                     Text="{Binding DueDates, Converter={StaticResource SelectedListConverter}, ConverterParameter=DueDate}"/>
+          <Path Style="{StaticResource PathStyle}"/>
+          <misc:PopupPlacementBorder Height="30" Width="335" IsDropDownOpen="{Binding ElementName=datePopup, Path=IsOpen}"/>
+        </Grid>
+        <misc:EscPopup x:Name="datePopup" Margin="100,0,0,0" Width="348" Height="auto" StaysOpen="false"
+                       PopupAnimation="Fade" HorizontalOffset="-12" VerticalOffset="-2"
+                       PlacementTarget="{Binding ElementName=dateTextBox}"/>
+      </StackPanel>
+    </Grid>
+    <Grid Row="3" Height="40">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{StaticResource priority}" Style="{StaticResource TitleStyle}"/>
+        <Grid Column="1">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton PreviewMouseLeftButtonUp="PriorityAllClick" Name="rbPriority"
+                         Style="{DynamicResource RadioButtonStyle}" Grid.Column="0" VerticalAlignment="Center" FontSize="14"
+                         Content="{StaticResource All}" HorizontalAlignment="Right" Margin="0,11"
+                         IsChecked="{Binding Priorities, Converter={StaticResource CheckPriorityAllConverter}, Mode=OneWay}"/>
+            <CheckBox PreviewMouseLeftButtonUp="PriorityCheckboxClick" Grid.Column="1" Content="{StaticResource high}"
+                      Margin="16,0,0,0" FontSize="13" Style="{StaticResource SimpleCheckBoxStyle}" Padding="4,0,0,0"
+                      Tag="5"
+                      IsChecked="{Binding Priorities, Converter={StaticResource PriorityCheckConverter}, ConverterParameter=5, Mode=OneWay}"/>
+            <CheckBox PreviewMouseLeftButtonUp="PriorityCheckboxClick" Grid.Column="2" Content="{StaticResource medium}"
+                      Style="{StaticResource SimpleCheckBoxStyle}" Margin="16,0,0,0" FontSize="13" Tag="3"
+                      IsChecked="{Binding Priorities, Converter={StaticResource PriorityCheckConverter}, ConverterParameter=3, Mode=OneWay}"/>
+            <CheckBox PreviewMouseLeftButtonUp="PriorityCheckboxClick" Grid.Column="3" Content="{StaticResource low}"
+                      Style="{StaticResource SimpleCheckBoxStyle}" Margin="16,0,0,0" FontSize="13" Tag="1"
+                      IsChecked="{Binding Priorities, Converter={StaticResource PriorityCheckConverter}, ConverterParameter=1, Mode=OneWay}"/>
+            <CheckBox PreviewMouseLeftButtonUp="PriorityCheckboxClick" Grid.Column="4" Content="{StaticResource none}"
+                      Style="{StaticResource SimpleCheckBoxStyle}" Margin="16,0,0,0" FontSize="13" Tag="0"
+                      IsChecked="{Binding Priorities, Converter={StaticResource PriorityCheckConverter}, ConverterParameter=0, Mode=OneWay}"/>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+    <Grid Name="assigneeGrid" Row="4" Height="32" Margin="0,5">
+      <Grid Name="AssignVersion3Grid">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="{StaticResource assignee}" Style="{StaticResource TitleStyle}"/>
+          <Grid PreviewMouseLeftButtonUp="OnAssigneeClick" Height="32" Background="Transparent">
+            <wpf:EmjTextBlock Name="AssignTextBox" Margin="8,0,24,0" Cursor="Hand" Style="{StaticResource TextBlockStyle}"
+                              Text="{Binding Assignees, Converter={StaticResource SelectedListConverter}, ConverterParameter=Assignee}"/>
+            <Path Style="{StaticResource PathStyle}"/>
+            <misc:PopupPlacementBorder Height="30" Width="335" IsDropDownOpen="{Binding ElementName=AssignPopup, Path=IsOpen}"/>
+          </Grid>
+          <misc:EscPopup x:Name="AssignPopup" Margin="100,0,0,0" Width="348" Height="auto" StaysOpen="false"
+                         PopupAnimation="Fade" HorizontalOffset="-12" VerticalOffset="-2"
+                         PlacementTarget="{Binding ElementName=AssignTextBox}"/>
+        </StackPanel>
+      </Grid>
+    </Grid>
+    <Grid Name="KeywordsGrid" Row="5" Height="32" Margin="0,5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{StaticResource ContentInclude}" Style="{StaticResource TitleStyle}"/>
+      <TextBox TextChanged="OnKeywordsChagned" Name="KeywordsText" Grid.Column="1" MaxLength="64"
+               Style="{StaticResource HintEditTextStyle}" Tag="{StaticResource KeywordsHint}" Height="30"
+               Width="335"/>
+    </Grid>
+    <Grid Name="TaskTypeGrid" Row="6" Height="40">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{StaticResource TaskType}" Style="{StaticResource TitleStyle}"/>
+        <Grid Column="1">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton Click="TaskTypeAllClick" Name="AllType" Style="{DynamicResource RadioButtonStyle}" Grid.Column="0"
+                         VerticalAlignment="Center" FontSize="14" Content="{StaticResource All}" HorizontalAlignment="Right"
+                         Margin="0,11"
+                         IsChecked="{Binding TaskTypes, Converter={StaticResource CheckTaskTypeConverter}, ConverterParameter=All, Mode=OneWay}"/>
+            <CheckBox Click="TaskTypeCheckboxClick" Grid.Column="1" Content="{StaticResource Task}" Margin="16,0,0,0"
+                      FontSize="13" Style="{StaticResource SimpleCheckBoxStyle}" Tag="task"
+                      IsChecked="{Binding TaskTypes, Converter={StaticResource CheckTaskTypeConverter}, ConverterParameter=task, Mode=OneWay}"/>
+            <CheckBox Click="TaskTypeCheckboxClick" Grid.Column="2" Content="{StaticResource Notes}"
+                      Style="{StaticResource SimpleCheckBoxStyle}" Margin="16,0,0,0" FontSize="13" Tag="note"
+                      IsChecked="{Binding TaskTypes, Converter={StaticResource CheckTaskTypeConverter}, ConverterParameter=note, Mode=OneWay}"/>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

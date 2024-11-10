@@ -1,0 +1,33 @@
+<UserControl x:Class="ticktick_WPF.Views.MarkDown.ImmersiveContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.MarkDown"
+             xmlns:detail="clr-namespace:ticktick_WPF.Views.Detail"
+             xmlns:detailView="clr-namespace:ticktick_WPF.Views.MainListView.DetailView"
+             Name="Root">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Up" Modifiers="Control" Command="{x:Static local:ScaleCommands.ZoomInCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+    <KeyBinding Key="Down" Modifiers="Control" Command="{x:Static local:ScaleCommands.ZoomOutCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+  </UIElement.InputBindings>
+  <Grid>
+    <ScrollViewer Name="TaskDetailScrollViewer" Style="{DynamicResource for_scrollviewer}"
+                  HorizontalAlignment="Stretch">
+      <Grid Name="ImmersiveGrid" Background="Transparent" HorizontalAlignment="Stretch" Width="595">
+        <Grid VerticalAlignment="Stretch">
+          <detailView:TaskDetailImmerseView x:Name="TaskDetail" Background="Transparent"/>
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+    <Grid MouseEnter="OnMenuMouseEnter" MouseLeave="OnMenuMouseLeave" Height="56" VerticalAlignment="Bottom"
+          Background="Transparent">
+      <Grid Name="EditorMenuControl">
+        <local:EditorMenu x:Name="EditorMenu" IsImmersiveMode="true" Background="Transparent" VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

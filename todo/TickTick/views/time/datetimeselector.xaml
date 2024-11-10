@@ -1,0 +1,28 @@
+<ContentControl x:Class="ticktick_WPF.Views.Time.DateTimeSelector"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:local="clr-namespace:ticktick_WPF.Views.Time"
+                Style="{DynamicResource PopupContentStyle}" Margin="0,8,0,4">
+  <StackPanel>
+    <local:TickDatePicker x:Name="Calendar" SelectedDateChanged="OnSelectedDateChanged" Margin="10,0"
+                          HorizontalAlignment="Stretch"/>
+    <local:TimeInputControl x:Name="TimePointControl" SelectedTimeChanged="OnTimeChanged" FontSize="13" Height="32"
+                            ShowTimeZone="false" Margin="16,10,16,0" DropWidth="248"
+                            Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+    <Grid Height="48" Margin="16,0,16,4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Button Click="SaveClick" Name="SaveButton" Content="{DynamicResource OK}"
+              Style="{StaticResource SaveButtonStyle}" Width="104" BorderBrush="{DynamicResource TabBorderColor}"
+              Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Left"
+              Focusable="false"/>
+      <Button Click="CancelClick" Name="CancelButton" Content="{DynamicResource Cancel}"
+              Style="{StaticResource CancelButtonStyle}" Width="104" Margin="5,0,0,0" Grid.Column="1"
+              VerticalAlignment="Center" HorizontalAlignment="Right" Focusable="false"/>
+    </Grid>
+  </StackPanel>
+</ContentControl>

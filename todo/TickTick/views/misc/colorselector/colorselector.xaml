@@ -1,0 +1,39 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.ColorSelector.ColorSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Misc.ColorSelector"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc">
+  <Grid>
+    <StackPanel Orientation="Horizontal">
+      <ItemsControl Name="DefaultColorItems">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Horizontal"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <local:ColorSelectItem MouseLeftButtonUp="OnDefaultColorClick"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <Grid MouseLeftButtonUp="ShowColorSelector" Name="CustomColorItem" Width="20" Height="20" Cursor="Hand"
+            Margin="4,0">
+        <Image Name="CustomColorImage" Width="18" Height="18" Source="../../../Assets/Theme/CustomColor.png"
+               Stretch="Uniform"/>
+        <Image Name="CustomColorSelectedImage" Width="20" Height="20"
+               Source="../../../Assets/Theme/CustomColorSelected.png" Visibility="Collapsed"/>
+        <Rectangle Name="CustomSelectedColor" Fill="Transparent" VerticalAlignment="Center"
+                   HorizontalAlignment="Center" Width="12" Height="12" RadiusX="6" RadiusY="6"/>
+      </Grid>
+    </StackPanel>
+    <misc:EscPopup x:Name="ColorPopup" Closed="OnColorPopupClosed" StaysOpen="false" Placement="Center"
+                   HorizontalOffset="0" VerticalOffset="200">
+      <ContentControl Name="MoreColorContainer" Style="{DynamicResource PopupContentStyle}">
+        <local:ColorItemSelector x:Name="Selector"/>
+      </ContentControl>
+    </misc:EscPopup>
+  </Grid>
+</UserControl>

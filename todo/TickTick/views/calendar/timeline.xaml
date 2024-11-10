@@ -1,0 +1,35 @@
+<UserControl x:Class="ticktick_WPF.Views.Calendar.TimeLine"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:calendar="clr-namespace:ticktick_WPF.Views.Calendar"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             Background="Transparent" VerticalAlignment="Top">
+  <FrameworkElement.Resources>
+    <calendar:TimeLineExpandHeightConverter x:Key="TimeLineExpandHeightConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Name="Containner" Background="Transparent">
+    <StackPanel Name="ItemsPanel" VerticalAlignment="Top"/>
+    <Border MouseLeftButtonUp="OnFoldClick" MouseEnter="OnBorderEnter" MouseLeave="OnBorderLeave"
+            Name="TopExpandBorder" Visibility="Collapsed" VerticalAlignment="Top"
+            Style="{DynamicResource HoverBorderStyle}">
+      <FrameworkElement.Height>
+        <MultiBinding Converter="{StaticResource TimeLineExpandHeightConverter}" ConverterParameter="True">
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="CollapsedStart"/>
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="CalendarHourHeight"/>
+        </MultiBinding>
+      </FrameworkElement.Height>
+    </Border>
+    <Border MouseLeftButtonUp="OnFoldClick" MouseEnter="OnBorderEnter" MouseLeave="OnBorderLeave"
+            Name="BottomExpandBorder" Visibility="Collapsed" VerticalAlignment="Bottom"
+            Style="{DynamicResource HoverBorderStyle}">
+      <FrameworkElement.Height>
+        <MultiBinding Converter="{StaticResource TimeLineExpandHeightConverter}" ConverterParameter="False">
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="CollapsedEnd"/>
+          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="CalendarHourHeight"/>
+        </MultiBinding>
+      </FrameworkElement.Height>
+    </Border>
+  </Grid>
+</UserControl>

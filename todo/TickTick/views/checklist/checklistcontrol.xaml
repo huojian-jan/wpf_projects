@@ -1,0 +1,24 @@
+<UserControl x:Class="ticktick_WPF.Views.CheckList.ChecklistControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:checkList="clr-namespace:ticktick_WPF.Views.CheckList">
+  <Grid>
+    <ItemsControl Name="CheckListView" ScrollViewer.PanningMode="None"/>
+    <Popup Name="TaskDragPopup" Placement="Relative" HorizontalAlignment="Stretch" AllowsTransparency="true"
+           Width="{Binding ElementName=CheckListView, Path=ActualWidth}"
+           PlacementTarget="{Binding ElementName=CheckListView}"
+           HorizontalOffset="{Binding ElementName=CheckListView, Path=ActualWidth, Mode=OneWay}">
+      <Border Background="Transparent" Margin="6,2,12,6">
+        <Border Background="{DynamicResource TaskDragPopupBackground}" CornerRadius="3"
+                BorderBrush="{DynamicResource BaseColorOpacity5}" BorderThickness="0">
+          <UIElement.Effect>
+            <DropShadowEffect BlurRadius="8" Opacity="0.15" ShadowDepth="4" Direction="300"/>
+          </UIElement.Effect>
+          <checkList:DragCheckItem/>
+        </Border>
+      </Border>
+    </Popup>
+  </Grid>
+</UserControl>

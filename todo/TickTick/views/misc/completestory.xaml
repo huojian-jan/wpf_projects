@@ -1,0 +1,122 @@
+<Viewbox x:Class="ticktick_WPF.Views.Misc.CompleteStory"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+         Name="Root" Width="40" Height="40">
+  <FrameworkElement.Resources>
+    <Storyboard x:Key="Story">
+      <DoubleAnimation Storyboard.TargetName="line" Storyboard.TargetProperty="X2" BeginTime="0:0:0.3" Duration="0:0:0.6"
+                       From="64" To="88">
+        <DoubleAnimation.EasingFunction>
+          <QuarticEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="line" Storyboard.TargetProperty="X1" BeginTime="0:0:0.4" Duration="0:0:0.6"
+                       From="64" To="88">
+        <DoubleAnimation.EasingFunction>
+          <QuarticEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Angle" BeginTime="0:0:0" Duration="0:0:0.4"
+                       From="0" To="360">
+        <DoubleAnimation.EasingFunction>
+          <QuadraticEase EasingMode="EaseIn"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="CheckBorder" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.0"
+                       Duration="0:0:0.2" From="0" To="0.3"/>
+      <DoubleAnimation Storyboard.TargetName="CheckBorder" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.2"
+                       Duration="0:0:0.3" From="0.3" To="0"/>
+      <DoubleAnimation Storyboard.TargetName="CheckGrid"
+                       Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" BeginTime="0:0:0.0"
+                       Duration="0:0:0.5" From="0.4" To="1"/>
+      <DoubleAnimation Storyboard.TargetName="CheckGrid"
+                       Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" BeginTime="0:0:0.0"
+                       Duration="0:0:0.5" From="0.4" To="1"/>
+    </Storyboard>
+  </FrameworkElement.Resources>
+  <Grid Width="90" Height="90">
+    <Grid x:Name="CheckGrid" RenderTransformOrigin="0.5,0.5" Height="48" Width="48">
+      <UIElement.RenderTransform>
+        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+      </UIElement.RenderTransform>
+      <Border Name="CheckBorder" Background="{StaticResource TickYellow}" CornerRadius="4" Margin="8" Opacity="0"/>
+      <Path Fill="{StaticResource TickYellow}" Height="48" Width="48" VerticalAlignment="Center"
+            HorizontalAlignment="Center" Stretch="None" RenderTransformOrigin="0.5,0.5">
+        <Path.Data>
+          <CombinedGeometry GeometryCombineMode="Intersect">
+            <CombinedGeometry.Geometry1>
+              <PathGeometry Figures="M48,48z M0,0z M23,9L23,10C23,10.5522847,22.5522847,11,22,11L11,11 11,11 11,37 37,37 37,25C37,24.4477153,37.4477153,24,38,24L39,24C39.5522847,24,40,24.4477153,40,25L40,37 40,37C40,38.6568542,38.6568542,40,37,40L11,40C9.34314575,40,8,38.6568542,8,37L8,11C8,9.34314575,9.34314575,8,11,8L22,8C22.5522847,8,23,8.44771525,23,9z M37.4951006,8.68314253L38.2686672,9.31685747C38.6958963,9.66684856,38.75851,10.29691,38.408519,10.7241391L24.5910053,27.5909784C24.2799021,27.9707375,23.7475087,28.0624056,23.3329832,27.832278L23.1524004,27.7040727 23.1524004,27.7040727 16.7492519,22.00203C16.3368005,21.6347395,16.3001904,21.0026338,16.6674809,20.5901824L17.3325191,19.8433731C17.6998421,19.4309855,18.3319102,19.3943564,18.744411,19.7615523L23.59,24.076 36.0877503,8.82293802C36.437826,8.39582306,37.0678421,8.33324205,37.4951006,8.68314253z"/>
+            </CombinedGeometry.Geometry1>
+            <CombinedGeometry.Geometry2>
+              <PathGeometry>
+                <PathFigure StartPoint="24,24">
+                  <LineSegment Point="24,0"/>
+                  <ArcSegment Point="24,0" Size="24,24" SweepDirection="Counterclockwise" x:Name="Arc"/>
+                  <LineSegment Point="24,24"/>
+                </PathFigure>
+              </PathGeometry>
+            </CombinedGeometry.Geometry2>
+          </CombinedGeometry>
+        </Path.Data>
+      </Path>
+    </Grid>
+    <Line Name="line" X1="64" X2="64" Y1="45" Y2="45" Stroke="{StaticResource TickYellow}"
+          StrokeThickness="3" RenderTransformOrigin="0.5,0.5">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="0"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="45" Y2="45" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="45"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="45" Y2="45" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="90"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="45" Y2="45" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="135"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="45" Y2="45" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="180"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="50" Y2="50" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="225"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="45" Y2="45" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="-90"/>
+      </UIElement.RenderTransform>
+    </Line>
+    <Line Y1="45" Y2="45" Stroke="{StaticResource TickYellow}" StrokeThickness="3"
+          RenderTransformOrigin="0.5,0.5" X1="{Binding ElementName=line, Path=X1}"
+          X2="{Binding ElementName=line, Path=X2}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="-45"/>
+      </UIElement.RenderTransform>
+    </Line>
+  </Grid>
+</Viewbox>

@@ -1,0 +1,53 @@
+<Window x:Class="ticktick_WPF.Views.Tag.AddOrEditTagWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:ticktick_WPF.Views"
+        xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+        xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+        xmlns:colorSelector="clr-namespace:ticktick_WPF.Views.Misc.ColorSelector"
+        Loaded="OnWindowLoaded" Activated="OnActivated" Title="{StaticResource AddTag}"
+        WindowStartupLocation="CenterScreen" Width="380" Topmost="false"
+        Style="{DynamicResource OkCancelWindowsStyle}">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Escape" Command="{x:Static views:OkCancelWindowCommands.EscCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+    <KeyBinding Key="Enter" Command="{x:Static views:OkCancelWindowCommands.OkCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+  </UIElement.InputBindings>
+  <Grid Margin="20,45,20,0">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="57"/>
+      </Grid.RowDefinitions>
+      <markDown:EmojiEditor x:Name="TagTextBox" TextChanged="OnTagTextChanged" BorderThickness="1" BorderCorner="4"
+                            WordWrap="false" BorderBackground="{DynamicResource TextBoxBackground}" Margin="0,14,0,8"
+                            MaxLength="64" Height="36" Padding="8,0" VerticalAlignment="Top" Tag="{StaticResource tag}"
+                            Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+      <TextBlock Name="TagValidHintText" Foreground="{DynamicResource TextRedColor}" VerticalAlignment="Bottom"
+                 Text="{DynamicResource AddOrEditProjectNameRepeat}" Grid.Row="1" FontSize="14"
+                 Visibility="Collapsed" Margin="4,0"/>
+      <Grid Row="2" Margin="0,10,0,0">
+        <TextBlock Text="{StaticResource Color}" VerticalAlignment="Center" FontSize="13"
+                   Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+        <colorSelector:ColorSelector x:Name="ColorItems" HorizontalAlignment="Right"/>
+      </Grid>
+      <Grid Name="TagParentPanel" Row="3" Height="50" Margin="0,0,0,10" Visibility="Collapsed">
+        <TextBlock Text="{StaticResource TagParent}" VerticalAlignment="Center" FontSize="13" MaxWidth="84"
+                   HorizontalAlignment="Left" Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+        <customControl:CustomComboBox x:Name="TagParentComboBox" Height="32" HorizontalAlignment="Right" Width="230" MaxWidth="230"/>
+      </Grid>
+      <Grid Row="4" VerticalAlignment="Bottom" Margin="0,0,0,20">
+        <Button Click="OnCancelClick" Content="{DynamicResource Cancel}" HorizontalAlignment="Right"
+                Style="{StaticResource CancelButtonStyle}" Width="84"/>
+        <Button Click="OnSaveClick" Name="SaveButton" Content="{DynamicResource PublicSave}"
+                HorizontalAlignment="Right" Style="{StaticResource SaveButtonStyle}" Margin="0,0,94,0" Width="84"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

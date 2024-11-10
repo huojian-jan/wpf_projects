@@ -1,0 +1,50 @@
+<UserControl x:Class="ticktick_WPF.Views.Config.CalendarInfoItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Config"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf">
+  <FrameworkElement.Resources>
+    <converter:BoolVisibleConverter x:Key="BoolVisibleConverter"/>
+    <converter:VisibleConverter x:Key="VisibleConverter"/>
+  </FrameworkElement.Resources>
+  <Border MouseLeftButtonUp="OnItemClick" x:Name="Container" CornerRadius="6" Margin="0,1"
+          Background="Transparent">
+    <Grid Margin="0,8">
+      <Grid Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="24"/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Width="24" Height="24" Column="0">
+          <Image Source="{Binding ImageUrl}"
+                 Visibility="{Binding ShowIcon, Converter={StaticResource VisibleConverter}}"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="12,0" VerticalAlignment="Center">
+          <wpf:EmjTextBlock TextTrimming="CharacterEllipsis" MaxWidth="300" FontSize="13" VerticalAlignment="Center"
+                            Foreground="{DynamicResource BaseSolidColorOpacity60}" Text="{Binding Title}"/>
+          <Border Background="Transparent"
+                  Visibility="{Binding ShowTips, Converter={StaticResource BoolVisibleConverter}}"
+                  ToolTip="{Binding Tips}">
+            <Path Style="{DynamicResource ProjectIconStyle}" Width="14" Fill="{DynamicResource BaseColorOpacity40}"
+                  Margin="6,0,0,0" Data="{Binding Source={StaticResource IcHelp}, Path=Data}"/>
+          </Border>
+          <Path Style="{DynamicResource ProjectIconStyle}" Width="14" Fill="#FFB000" Margin="6, 0 ,0 , 0"
+                Data="{Binding Source={StaticResource IcExpired}, Path=Data}"
+                Visibility="{Binding IsExpired, Converter={StaticResource BoolVisibleConverter}}"/>
+        </StackPanel>
+        <TextBlock MouseLeftButtonUp="OnEditClick" Text="{StaticResource Edit}" Background="Transparent"
+                   Grid.Column="2" Foreground="{DynamicResource PrimaryColor}" Cursor="Hand"
+                   VerticalAlignment="Center" FontSize="14"
+                   Visibility="{Binding ElementName=Container, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}"/>
+        <TextBlock Name="PopupShowText" Text="{StaticResource Edit}" Background="Transparent" IsHitTestVisible="false"
+                   Grid.Column="2" Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center"
+                   FontSize="14" Visibility="Collapsed"/>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

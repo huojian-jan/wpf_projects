@@ -1,0 +1,38 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.ColorSelector.ColorSelectItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             Background="Transparent">
+  <Grid Name="ColorItem" Width="26" Height="26" Cursor="Hand">
+    <Grid Width="26" Height="26"
+          Visibility="{Binding IsAddCustom, Converter={StaticResource VisibleConverter}}">
+      <Grid Width="20" Height="20" Visibility="{Binding NoColor, Converter={StaticResource VisibleConverter}}">
+        <Rectangle VerticalAlignment="Center" Width="18" Height="18" RadiusX="9" RadiusY="9" Fill="{Binding Color}"
+                   Visibility="{Binding Selected, Converter={StaticResource VisibleConverter}}"/>
+        <Rectangle StrokeThickness="2" VerticalAlignment="Center" Width="20" Height="20" RadiusX="10" RadiusY="10"
+                   Stroke="{Binding Color}"
+                   Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+        <Rectangle VerticalAlignment="Center" Width="12" Height="12" RadiusX="6" RadiusY="6" Fill="{Binding Color}"
+                   Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+      </Grid>
+      <Grid Background="Transparent"
+            Visibility="{Binding NoColor, Converter={StaticResource BoolVisibleConverter}}">
+        <Rectangle Stroke="{DynamicResource PrimaryColor}" StrokeThickness="1.5" VerticalAlignment="Center" Width="20"
+                   Height="20" RadiusX="10" RadiusY="10"
+                   Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+        <Image Width="18" Height="18" Source="{StaticResource NoneDrawingImage}" Stretch="Uniform"
+               Visibility="{Binding Selected, Converter={StaticResource VisibleConverter}}"/>
+        <Image Width="14.5" Height="14.5" Source="{StaticResource NoneDrawingImage}" Stretch="Uniform"
+               VerticalAlignment="Center" HorizontalAlignment="Center"
+               Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+      </Grid>
+    </Grid>
+    <Border Width="20" Height="20" CornerRadius="10" Background="{DynamicResource BaseColorOpacity5}"
+            Visibility="{Binding IsAddCustom, Converter={StaticResource BoolVisibleConverter}}">
+      <Path Height="12" Width="12" Stretch="Uniform" Fill="{DynamicResource PrimaryColor}"
+            Data="{Binding Source={StaticResource IcAdd}, Path=Data}"/>
+    </Border>
+  </Grid>
+</UserControl>

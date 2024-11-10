@@ -1,0 +1,184 @@
+<UserControl x:Class="ticktick_WPF.Views.SetPriorityDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             x:Name="Root">
+  <FrameworkElement.Resources>
+    <Style x:Key="CheckPath" TargetType="{x:Type Path}">
+      <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.Height" Value="12"/>
+      <Setter Property="FrameworkElement.Margin" Value="0,0,10,0"/>
+      <Setter Property="FrameworkElement.Width" Value="12"/>
+      <Setter Property="DockPanel.Dock" Value="Right"/>
+      <Setter Property="Path.Data" Value="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{StaticResource PopupContentStyle}">
+    <StackPanel MinWidth="130">
+      <Border MouseEnter="OnItemMouseEnter" CornerRadius="4" Margin="4,0" Tag="5">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="Border.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=HoverPriority}" Value="5">
+                <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <DockPanel MouseLeftButtonUp="OnMouseLeftButtonUp" Background="Transparent" Tag="5" Cursor="Hand" Height="32">
+          <Path>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Path}" BasedOn="{StaticResource CheckPath}">
+                <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="5">
+                    <Setter Property="UIElement.Visibility" Value="Visible"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Path>
+          <Image Source="{DynamicResource HighPriorityDrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                 Margin="12,0,0,0" Opacity="1" DockPanel.Dock="Left"/>
+          <TextBlock Text="{DynamicResource PriorityHigh}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DropUnitTitle}">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="5">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </DockPanel>
+      </Border>
+      <Border MouseEnter="OnItemMouseEnter" CornerRadius="4" Margin="4,0" Tag="3">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="Border.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=HoverPriority}" Value="3">
+                <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <DockPanel MouseLeftButtonUp="OnMouseLeftButtonUp" Background="Transparent" Tag="3" Cursor="Hand" Height="32">
+          <Path>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Path}" BasedOn="{StaticResource CheckPath}">
+                <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="3">
+                    <Setter Property="UIElement.Visibility" Value="Visible"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Path>
+          <Image Source="{DynamicResource MidPriorityDrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                 Margin="12,0,0,0" Opacity="1" DockPanel.Dock="Left"/>
+          <TextBlock Text="{DynamicResource PriorityMedium}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DropUnitTitle}">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="3">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </DockPanel>
+      </Border>
+      <Border MouseEnter="OnItemMouseEnter" CornerRadius="4" Margin="4,0" Tag="1">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="Border.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=HoverPriority}" Value="1">
+                <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <DockPanel MouseLeftButtonUp="OnMouseLeftButtonUp" Background="Transparent" Tag="1" Cursor="Hand" Height="32">
+          <Path>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Path}" BasedOn="{StaticResource CheckPath}">
+                <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="1">
+                    <Setter Property="UIElement.Visibility" Value="Visible"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Path>
+          <Image Source="{DynamicResource LowPriorityDrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                 Margin="12,0,0,0" Opacity="1"/>
+          <TextBlock Text="{DynamicResource PriorityLow}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DropUnitTitle}">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="1">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </DockPanel>
+      </Border>
+      <Border MouseEnter="OnItemMouseEnter" CornerRadius="4" Margin="4,0" Tag="0">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="Border.Background" Value="Transparent"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=HoverPriority}" Value="0">
+                <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <DockPanel MouseLeftButtonUp="OnMouseLeftButtonUp" MouseEnter="OnItemMouseEnter" Background="Transparent"
+                   Tag="0" Cursor="Hand" Height="32">
+          <Path>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Path}" BasedOn="{StaticResource CheckPath}">
+                <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="0">
+                    <Setter Property="UIElement.Visibility" Value="Visible"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Path>
+          <Image Source="{DynamicResource NonePriorityDrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                 Margin="12,0,0,0" Opacity="1"/>
+          <TextBlock Text="{DynamicResource PriorityNull}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DropUnitTitle}">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Priority}" Value="0">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </DockPanel>
+      </Border>
+    </StackPanel>
+  </ContentControl>
+</UserControl>

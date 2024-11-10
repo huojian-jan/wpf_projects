@@ -1,0 +1,173 @@
+<UserControl x:Class="ticktick_WPF.Views.Project.ProjectPinnedControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Project"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             MouseLeftButtonUp="DragMouseUp">
+  <FrameworkElement.Resources>
+    <local:TitleTextTrimConverter x:Key="TitleTextTrimConverter"/>
+    <local:PinnedProjectIconBackColorConverter x:Key="PinnedProjectIconBackColorConverter"/>
+    <local:PinnedProjectIconColorConverter x:Key="PinnedProjectIconColorConverter"/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <ListView Name="ProjectPinnedList" Style="{DynamicResource ListViewStyle}"
+              ItemContainerStyle="{StaticResource ListViewItemContainerStyle}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border Height="56" Background="Transparent" Margin="0,2" Width="{Binding ItemWidth}">
+            <Border Name="Container" Visibility="{Binding Dragging, Converter={StaticResource VisibleConverter}}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Setter Property="Border.Background" Value="Transparent"/>
+                  <Style.Triggers>
+                    <Trigger Property="UIElement.IsMouseOver" Value="true">
+                      <Setter Property="Border.Background" Value="{DynamicResource ProjectHoverBackGround}"/>
+                    </Trigger>
+                    <DataTrigger Binding="{Binding Selected}" Value="True">
+                      <Setter Property="Border.Background" Value="{DynamicResource ProjectSelectedBackground}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsMore}" Value="True">
+                      <Setter Property="Border.Background" Value="Transparent"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <Grid>
+                <Grid Background="Transparent" Visibility="{Binding IsMore, Converter={StaticResource VisibleConverter}}">
+                  <Border Height="24" Width="24" CornerRadius="4" VerticalAlignment="Top" Margin="0,6,0,0">
+                    <Border.Background>
+                      <MultiBinding Converter="{StaticResource PinnedProjectIconBackColorConverter}">
+                        <Binding Path="Color"/>
+                        <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                      </MultiBinding>
+                    </Border.Background>
+                    <Grid>
+                      <Path Style="{DynamicResource Path01}" Width="18" Margin="0,1,0,0" Data="{Binding Icon}">
+                        <Shape.Fill>
+                          <MultiBinding Converter="{StaticResource PinnedProjectIconColorConverter}">
+                            <Binding Path="Color"/>
+                            <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                          </MultiBinding>
+                        </Shape.Fill>
+                      </Path>
+                      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1">
+                        <wpf:EmjTextBlock TextTrimming="CharacterEllipsis" Style="{DynamicResource Body01}"
+                                          Foreground="{DynamicResource ProjectMenuColorOpacity80}" Text="{Binding Emoji}"/>
+                      </Border>
+                    </Grid>
+                  </Border>
+                  <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,7">
+                    <wpf:EmjTextBlock TextTrimming="WordEllipsis" Style="{DynamicResource Body01}" FontSize="10"
+                                      Foreground="{DynamicResource ProjectMenuColorOpacity100_80}"
+                                      Text="{Binding Title, Converter={StaticResource TitleTextTrimConverter}}">
+                      <UIElement.Effect>
+                        <DropShadowEffect BlurRadius="2" Direction="270" ShadowDepth="1"
+                                          Opacity="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ProjectTextShadowOpacity}"/>
+                      </UIElement.Effect>
+                    </wpf:EmjTextBlock>
+                  </Border>
+                </Grid>
+                <Grid Background="Transparent"
+                      Visibility="{Binding IsMore, Converter={StaticResource BoolVisibleConverter}}">
+                  <Grid Height="24" Width="24" VerticalAlignment="Top" Margin="0,6,0,0">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Grid}">
+                        <Setter Property="UIElement.Opacity" Value="0.6"/>
+                        <Style.Triggers>
+                          <Trigger Property="UIElement.IsMouseOver" Value="true">
+                            <Setter Property="UIElement.Opacity" Value="1"/>
+                          </Trigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                    <Border BorderThickness="1" Height="24" Width="24" CornerRadius="4" Background="Transparent"
+                            BorderBrush="{DynamicResource ProjectMenuColorOpacity40}"/>
+                    <Path Style="{DynamicResource Path01}" Width="12" Height="12"
+                          Fill="{DynamicResource ProjectMenuColorOpacity100_80}"
+                          Data="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+                  </Grid>
+                  <TextBlock Text="{StaticResource Expand}" FontSize="10" VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center" Margin="0,0,0,8"
+                             Foreground="{DynamicResource ProjectMenuColorOpacity80}">
+                    <UIElement.Effect>
+                      <DropShadowEffect BlurRadius="2" Direction="270" ShadowDepth="1"
+                                        Opacity="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ProjectTextShadowOpacity}"/>
+                    </UIElement.Effect>
+                  </TextBlock>
+                </Grid>
+              </Grid>
+            </Border>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ListView>
+    <Popup Name="ProjectDragPopup" Placement="Relative" HorizontalAlignment="Stretch"
+           AllowsTransparency="true" PlacementTarget="{Binding ElementName=ProjectListView}">
+      <Grid>
+        <Border HorizontalAlignment="Stretch" CornerRadius="4"
+                Background="{DynamicResource ProjectSelectedBackground}" Margin="10" Opacity="0.8">
+          <Grid Height="56" Width="46">
+            <Border Height="24" Width="24" CornerRadius="4" VerticalAlignment="Top" Margin="0,6,0,0">
+              <Border.Background>
+                <MultiBinding Converter="{StaticResource PinnedProjectIconBackColorConverter}">
+                  <Binding Path="Color"/>
+                  <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                </MultiBinding>
+              </Border.Background>
+              <Grid>
+                <Path Style="{DynamicResource Path01}" Width="18" Data="{Binding Icon}">
+                  <Shape.Fill>
+                    <MultiBinding Converter="{StaticResource PinnedProjectIconColorConverter}">
+                      <Binding Path="Color"/>
+                      <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                    </MultiBinding>
+                  </Shape.Fill>
+                </Path>
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1">
+                  <wpf:EmjTextBlock TextTrimming="CharacterEllipsis" Style="{DynamicResource Body01}"
+                                    Foreground="{DynamicResource ProjectMenuColorOpacity80}" Text="{Binding Emoji}"/>
+                </Border>
+              </Grid>
+            </Border>
+            <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,8">
+              <wpf:EmjTextBlock TextTrimming="WordEllipsis" Style="{DynamicResource Body01}" FontSize="10"
+                                Foreground="{DynamicResource ProjectMenuColorOpacity80}"
+                                Text="{Binding Title, Converter={StaticResource TitleTextTrimConverter}}"/>
+            </Border>
+          </Grid>
+        </Border>
+      </Grid>
+    </Popup>
+    <Grid Name="BottomGrid" Row="1" Margin="0,0,0,6" Visibility="Collapsed">
+      <Border Name="BottomBorder" BorderThickness="0,0,0,1"
+              BorderBrush="{DynamicResource ProjectMenuColorOpacity100_80}" Opacity="0.05" Height="11"
+              VerticalAlignment="Bottom"/>
+      <Border MouseLeftButtonUp="OnFoldClick" Name="FoldBorder" Height="18" Cursor="Hand" Margin="0,-2,0,2"
+              Style="{DynamicResource SmoothHoverBorderStyle60_100}">
+        <Path Style="{DynamicResource Path01}" Width="12" Height="12"
+              Fill="{DynamicResource ProjectMenuColorOpacity100_80}" RenderTransformOrigin="0.5,0.5"
+              Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="180"/>
+          </UIElement.RenderTransform>
+        </Path>
+      </Border>
+    </Grid>
+    <misc:EscPopup x:Name="UnPinPopup" Grid.Row="0" StaysOpen="false" Placement="Mouse" HorizontalOffset="-5"
+                   VerticalOffset="-10"/>
+  </Grid>
+</UserControl>

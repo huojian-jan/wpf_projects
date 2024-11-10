@@ -1,0 +1,196 @@
+<UserControl x:Class="ticktick_WPF.Views.Search.SearchInputControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:search="clr-namespace:ticktick_WPF.Views.Search"
+             xmlns:emj="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             xmlns:taskList="clr-namespace:ticktick_WPF.Views.TaskList"
+             Name="Root">
+  <FrameworkElement.Resources>
+    <search:SearchTextConverter x:Key="SearchTextConverter"/>
+    <search:SearchMoreTagConverter x:Key="SearchMoreTagConverter"/>
+    <search:SearchTagVisibleConverter x:Key="SearchTagVisibleConverter"/>
+    <search:SearchMoreTagVisibleConverter x:Key="SearchMoreTagVisibleConverter"/>
+    <search:SearchItemTemplateSelector x:Key="SearchItemTemplateSelector"/>
+    <DataTemplate x:Key="SearchProjectDataTemplate">
+      <search:SearchProjectItemTemplate MouseLeftButtonUp="OnTagOrProjectSelected" MouseEnter="OnItemHover" MouseLeave="OnItemMouseLeave"/>
+    </DataTemplate>
+    <DataTemplate x:Key="SearchTaskItemTemplate">
+      <search:SearchTaskItemControl MouseLeftButtonUp="OnSearchItemSelected" MouseEnter="OnItemHover" MouseLeave="OnItemMouseLeave"/>
+    </DataTemplate>
+    <DataTemplate x:Key="SearchSplitTemplate">
+      <Line Style="{DynamicResource SplitLineStyle}" Margin="20,8"/>
+    </DataTemplate>
+    <DataTemplate x:Key="SearchTitleTemplate">
+      <TextBlock FontSize="12" Margin="20,6,0,6" FontWeight="Bold"
+                 Foreground="{DynamicResource BaseColorOpacity100}" Text="{Binding Title}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="SearchLoadMoreTemplate">
+      <TextBlock Text="{StaticResource LoadMore}" HorizontalAlignment="Left" Margin="20,6,0,8" Cursor="Hand"
+                 Background="Transparent" Foreground="{DynamicResource PrimaryColor}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="TextBlock.TextDecorations" Value="{x:Null}"/>
+            <Style.Triggers>
+              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="SearchHistoryItemTemp" DataType="search:SearchHistoryViewModel">
+      <Grid Name="Container" Height="{DynamicResource Height44}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Panel.Background" Value="Transparent"/>
+            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Path=Selected}" Value="True">
+                <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid Margin="20,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="FirstColumn" Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition x:Name="ThirdColumn" Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Image Grid.Column="0" Source="{DynamicResource searchDrawingImage}" Style="{StaticResource Icon01}"
+                 HorizontalAlignment="Left" Width="18" Stretch="Fill" Height="18"/>
+          <emj:EmjTextBlock Grid.Column="1" Padding="8,0,0,0" Style="{StaticResource Body03}"
+                            FontSize="{DynamicResource Font13}" TextTrimming="CharacterEllipsis" MaxWidth="560"
+                            Text="{Binding SearchKey}"/>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0,0,5,0">
+            <Grid Margin="2,0" VerticalAlignment="Center"
+                  Visibility="{Binding FirstTag, Converter={StaticResource SearchTagVisibleConverter}}">
+              <Border Background="{DynamicResource PrimaryColor}" Opacity="0.36" CornerRadius="2"/>
+              <TextBlock Foreground="{DynamicResource PrimaryColor}" Margin="3" MaxWidth="90"
+                         TextTrimming="CharacterEllipsis" Text="{Binding FirstTag}"/>
+            </Grid>
+            <Grid Margin="2,0" VerticalAlignment="Center"
+                  Visibility="{Binding SecondTag, Converter={StaticResource SearchTagVisibleConverter}}">
+              <Border Background="{DynamicResource PrimaryColor}" Opacity="0.36" CornerRadius="2"/>
+              <TextBlock Foreground="{DynamicResource PrimaryColor}" Margin="3" MaxWidth="90"
+                         TextTrimming="CharacterEllipsis" Text="{Binding SecondTag}"/>
+            </Grid>
+            <Grid HorizontalAlignment="Right" Margin="2,0" VerticalAlignment="Center"
+                  Visibility="{Binding MoreNum, Converter={StaticResource SearchMoreTagVisibleConverter}}">
+              <Border Background="{DynamicResource PrimaryColor}" CornerRadius="2" Opacity="0.36"/>
+              <TextBlock Foreground="{DynamicResource PrimaryColor}" Margin="3"
+                         Text="{Binding MoreNum, Converter={StaticResource SearchMoreTagConverter}}"/>
+            </Grid>
+          </StackPanel>
+        </Grid>
+      </Grid>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <StackPanel>
+    <Grid>
+      <Border Height="56" Grid.Column="0">
+        <Grid Margin="20,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Line X1="0" X2="1" Stretch="Fill" Stroke="{DynamicResource BaseColorOpacity10}" Grid.ColumnSpan="2"
+                StrokeThickness="1" VerticalAlignment="Bottom"/>
+          <Line Name="FocusHighlightLine" Grid.Column="0" X1="0" X2="1" Stretch="Fill"
+                Stroke="{DynamicResource PrimaryColor}" Grid.ColumnSpan="2" StrokeThickness="1"
+                VerticalAlignment="Bottom"
+                Visibility="{Binding ElementName=TitleTextBox, Path=IsFocused, Converter={StaticResource BoolVisibleConverter}}"/>
+          <Image Source="{DynamicResource searchDrawingImage}" Style="{DynamicResource Icon01}" Width="18"
+                 Height="18" HorizontalAlignment="Left" Margin="0,0,10,0" Grid.Column="0"/>
+          <TextBlock Name="HintText" Text="{StaticResource SearchHint}" FontSize="16"
+                     Foreground="{DynamicResource BaseColorOpacity40}" VerticalAlignment="Center" Margin="2,0"
+                     Grid.Column="1"/>
+          <ScrollViewer Name="Visual" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" MaxWidth="1000"
+                        VerticalScrollBarVisibility="Disabled" Margin="0,0,50,0">
+            <RichTextBox PreviewKeyDown="OnTextKeyDown" PreviewMouseLeftButtonUp="OnTextBoxClick" Name="TitleTextBox"
+                         Background="Transparent" BorderThickness="0" AcceptsTab="false" AcceptsReturn="false"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxHeight="36" Width="10000" Padding="-4,0,0,0"
+                         VerticalAlignment="Center" TextBlock.TextAlignment="Left" TextBlock.FontSize="16" IsTabStop="false"
+                         IsDocumentEnabled="true" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                         CaretBrush="{DynamicResource BaseColorOpacity100_80}"/>
+          </ScrollViewer>
+        </Grid>
+      </Border>
+      <Border MouseLeftButtonUp="ClearClick" Name="ClearGrid" HorizontalAlignment="Right"
+              VerticalAlignment="Center" Margin="0,0,40,0" Cursor="Hand" Width="24"
+              Style="{DynamicResource SmoothHoverBorderStyle40_60}">
+        <Path Width="14" Height="14" Fill="{DynamicResource BaseColorOpacity100}" Stretch="Uniform"
+              VerticalAlignment="Center" HorizontalAlignment="Center"
+              Data="{Binding Source={StaticResource IcCloseWithBorder}, Path=Data}"/>
+      </Border>
+      <Border MouseLeftButtonUp="CloseClick" Name="CloseGrid" HorizontalAlignment="Right"
+              VerticalAlignment="Center" Margin="0,0,15,0" Cursor="Hand"
+              Style="{DynamicResource SmoothHoverBorderStyle40_60}" ToolTip="{StaticResource Close}" Width="24">
+        <Path Width="18" Height="18" Fill="{DynamicResource BaseColorOpacity100}" Stretch="Uniform"
+              VerticalAlignment="Center" HorizontalAlignment="Center"
+              Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+      </Border>
+    </Grid>
+    <Grid Margin="0,10,0,0" Height="400">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <StackPanel Name="SearchHistoryPage" Grid.Row="0" Visibility="Collapsed" Background="Transparent"
+                  Width="{Binding ElementName=Root, Path=ActualWidth}">
+        <ItemsControl Name="SearchHistoryList" Margin="0,0,0,4" ItemTemplate="{StaticResource SearchHistoryItemTemp}"/>
+        <Border MouseLeftButtonUp="OnClearHistoryClick" Background="Transparent" Height="20" Margin="0,0,0,5"
+                Cursor="Hand">
+          <TextBlock Text="{DynamicResource ClearSearchHistory}" Style="{DynamicResource Body03}" Opacity="0.36"
+                     HorizontalAlignment="Center" Margin="0,5,0,0"/>
+        </Border>
+      </StackPanel>
+      <ListView Name="SearchItemList" Grid.Row="0" Style="{DynamicResource ListViewStyle}" IsHitTestVisible="false"
+                VerticalAlignment="Top" Height="355"
+                ItemTemplateSelector="{StaticResource SearchItemTemplateSelector}" Margin="0,0,0,4"
+                Width="{Binding ElementName=Root, Path=ActualWidth}">
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="Control.Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                  <ContentPresenter/>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+      </ListView>
+      <Border Name="SearchMore" Grid.Row="1" Background="Transparent" Height="30" Margin="0,0,0,15"
+              HorizontalAlignment="Center">
+        <TextBlock Foreground="{DynamicResource BaseColorOpacity40}" FontSize="12" Style="{DynamicResource Body03}"
+                   HorizontalAlignment="Center">
+          <Run Text="{StaticResource NotFoundYet}"/>
+          <Run PreviewMouseLeftButtonUp="OnTryCloudSearchClick" Text="{StaticResource TryCloudSearch}"
+               Foreground="{DynamicResource PrimaryColor}" Background="Transparent" Cursor="Hand"/>
+        </TextBlock>
+      </Border>
+      <StackPanel x:Name="EmptyGrid" Grid.Row="0" VerticalAlignment="Center" Margin="0,-70,0,0">
+        <Grid Background="Transparent" Width="200" Height="200">
+          <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity3}"/>
+          <Image Width="200" Height="200" Stretch="None" Source="{DynamicResource SearchEmptyDrawingImage}"/>
+          <Path Width="200" Height="200" Fill="{DynamicResource EmptyPathColor}" Stretch="None"
+                Data="M 200,200 0,0 121.440705603027,120.999642480469 Q 121.610105603027,119.301542480469 121.610105603027,117.568442480469 121.610105603027,110.526842480469 118.813305603027,104.064442480469 118.799505603027,104.032442480469 118.785205603027,103.999642480469 L 95.9997056030273,103.999642480469 95.9997056030273,91.9996724804687 110.023405603027,91.9996724804687 Q 106.035805603027,88.4952524804687 101.114105603027,86.3652624804687 94.6517056030274,83.5684776305688 87.6101056030273,83.5684795379688 81.0538056030273,83.5684777620688 74.9996056030273,85.9930224804688 L 74.9996056030273,120.999542480469 121.440705603027,120.999642480469 M 115.905805603027,89.2956524804687 Q 115.900105603027,89.2899024804688 115.894305603027,89.2841624804688 L 115.905805603027,89.2956524804687 M 48.7197056030273,147.973842480469 L 57.2050056030273,156.459142480469 43.7699056030273,169.894142480469 C 41.4267956030273,172.237242480469 37.6278056030273,172.237242480469 35.2846656030273,169.894142480469 32.9415196030273,167.550942480469 32.9415186030273,163.751942480469 35.2846656030273,161.408842480469 L 48.7197056030273,147.973842480469 Z"/>
+        </Grid>
+        <TextBlock Name="NoTaskGridTitleTextBox" Text="{DynamicResource SearchHint}" Margin="0,8,0,0"
+                   Foreground="{DynamicResource BaseColorOpacity40}" FontSize="16" HorizontalAlignment="Center"
+                   Visibility="{Binding ElementName=NoTaskGridTitleTextBoxOnSearch, Path=Visibility, Converter={StaticResource InverseVisibleConverter}}"/>
+        <TextBlock Name="NoTaskGridTitleTextBoxOnSearch" Margin="0,8,0,0"
+                   Foreground="{DynamicResource BaseColorOpacity40}" FontSize="16" HorizontalAlignment="Center"
+                   Visibility="{Binding ElementName=ClearGrid, Path=Visibility}">
+          <Run Text="{StaticResource NotFoundYet}"/>
+          <Run PreviewMouseLeftButtonUp="OnTryCloudSearchClick" Text="{StaticResource TryCloudSearch}"
+               Foreground="{DynamicResource PrimaryColor}" Background="Transparent" Cursor="Hand"/>
+        </TextBlock>
+      </StackPanel>
+    </Grid>
+  </StackPanel>
+</UserControl>

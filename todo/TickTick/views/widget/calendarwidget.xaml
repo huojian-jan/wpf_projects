@@ -1,0 +1,19 @@
+<UserControl x:Class="ticktick_WPF.Views.Widget.CalendarWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:calendar="clr-namespace:ticktick_WPF.Views.Calendar"
+             Background="Transparent">
+  <Border BorderBrush="{DynamicResource BaseColorOpacity5}" Margin="0,0,-1,0">
+    <Grid>
+      <Border Background="{DynamicResource WindowBackground}" CornerRadius="6" Opacity="{Binding Opacity}"/>
+      <Grid Background="#01FFFFFF"/>
+      <Grid>
+        <Grid Name="UndoToastGrid" ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+              Margin="0,0,0,70"/>
+        <calendar:CalendarControl x:Name="CalendarControl" Background="Transparent"/>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

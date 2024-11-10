@@ -1,0 +1,383 @@
+<UserControl x:Class="ticktick_WPF.Views.Summary.SummaryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:search="clr-namespace:ticktick_WPF.Views.Search"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Summary"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter">
+  <FrameworkElement.Resources>
+    <converter:HighlightTextConverter x:Key="HighlightTextConverter"/>
+    <search:SearchDateTextConverter x:Key="SearchDateTextConverter"/>
+    <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="12"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+    </Style>
+    <Style x:Key="PathStyle" TargetType="{x:Type Path}">
+      <Setter Property="FrameworkElement.Width" Value="12"/>
+      <Setter Property="FrameworkElement.Height" Value="12"/>
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity20_40}"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Path.Data" Value="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+      <Setter Property="FrameworkElement.Margin" Value="6,0,2,0"/>
+    </Style>
+    <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
+      <Setter Property="Border.BorderBrush" Value="{DynamicResource BaseColorOpacity10}"/>
+      <Setter Property="Border.BorderThickness" Value="1"/>
+      <Setter Property="Border.CornerRadius" Value="4"/>
+      <Setter Property="Border.Padding" Value="8, 5"/>
+      <Setter Property="FrameworkElement.Height" Value="32"/>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid Name="Container">
+      <StackPanel Name="TitlePanel" Grid.Column="0" Orientation="Horizontal" Margin="20,0,20,0">
+        <Border MouseEnter="OnShowMenuMouseEnter" MouseLeftButtonUp="MenuGrid_MouseLeftButtonUp"
+                Name="MenuPathGrid" Visibility="Visible" Margin="0,36,0,0" Cursor="Hand" HorizontalAlignment="Left"
+                VerticalAlignment="Top" Width="18" Background="Transparent">
+          <Image Name="FoldImage" Width="18" Height="18" Source="{DynamicResource HideMenuDrawingImage}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Image}" BasedOn="{StaticResource Icon01}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=MenuPathGrid, Path=IsMouseOver}" Value="True">
+                    <Setter Property="UIElement.Opacity" Value="0.8"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Image>
+        </Border>
+        <Grid MaxWidth="{Binding ActualWidth, ElementName=Container, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-30}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="48"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock MouseLeftButtonUp="OnTemplateToggleClick" Name="TemplateName" Grid.Column="0"
+                     Style="{StaticResource Title03}" TextTrimming="CharacterEllipsis" Cursor="Hand" FontWeight="Bold"
+                     VerticalAlignment="Top" Margin="12,32,0,0" Text="{Binding Name}"/>
+          <Border MouseLeftButtonUp="OnTemplateToggleClick" Name="ArrowGrid" Margin="4,32,8,0" Cursor="Hand"
+                  HorizontalAlignment="Left" Background="Transparent" Grid.Column="1" VerticalAlignment="Center"
+                  Visibility="{Binding ShowTemplate, Converter={StaticResource BoolVisibleConverter}}">
+            <Path Style="{DynamicResource Path01}" Fill="{DynamicResource BaseColorOpacity40}"
+                  Data="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+          </Border>
+        </Grid>
+        <misc:EscPopup x:Name="ChooseTemplatePopup" Placement="Right" Width="168" VerticalOffset="20"
+                       HorizontalOffset="-158" StaysOpen="false" PlacementTarget="{Binding ElementName=ArrowGrid}">
+          <ContentControl Style="{DynamicResource PopupContentStyle}">
+            <ItemsControl Name="TemplatesItems" AllowDrop="true">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:SummaryTemplateViewModel}">
+                  <Grid Height="36" Margin="4,0" Background="Transparent">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Grid}">
+                        <Setter Property="Panel.Background" Value="Transparent"/>
+                        <Setter Property="UIElement.Opacity" Value="1"/>
+                        <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                          <Trigger Property="UIElement.IsEnabled" Value="false">
+                            <Setter Property="UIElement.Opacity" Value="0.6"/>
+                            <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+                            <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity10}"/>
+                          </Trigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="12"/>
+                      <ColumnDefinition Width="12"/>
+                      <ColumnDefinition/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                      <RowDefinition/>
+                      <RowDefinition Height="1"/>
+                    </Grid.RowDefinitions>
+                    <Border Name="OptionButton1" Grid.Column="0" Grid.ColumnSpan="4" CornerRadius="4">
+                      <FrameworkElement.Style>
+                        <Style TargetType="{x:Type Border}">
+                          <Setter Property="Border.Background" Value="Transparent"/>
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=OptionButton, Path=IsMouseOver}" Value="True">
+                              <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity3}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=MoreGrid, Path=IsMouseOver}" Value="True">
+                              <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity3}"/>
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </FrameworkElement.Style>
+                    </Border>
+                    <Path Grid.Row="0" Grid.Column="1" Width="12" Height="12" Stretch="Uniform"
+                          Fill="{DynamicResource TextAccentColor}" HorizontalAlignment="Center"
+                          Data="{Binding Source={StaticResource IcCheck}, Path=Data}"
+                          Visibility="{Binding IsSelected, Converter={StaticResource BoolVisibleConverter}}"/>
+                    <TextBlock x:Name="TitleText" Grid.Row="0" Grid.Column="2" Margin="12,0" IsHitTestVisible="false"
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="13" Text="{Binding Name}">
+                      <TextBlock.Foreground>
+                        <MultiBinding Converter="{StaticResource HighlightTextConverter}">
+                          <Binding Path="IsSelected"/>
+                          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                        </MultiBinding>
+                      </TextBlock.Foreground>
+                    </TextBlock>
+                    <Grid Row="0" Column="3" Visibility="{Binding IsDefault, Converter={StaticResource VisibleConverter}}">
+                      <misc:HoverIconButton x:Name="MoreGrid" ImageSource="{DynamicResource MoreDrawingImage}">
+                        <UIElement.Visibility>
+                          <MultiBinding Converter="{StaticResource BoolOrVisibilityConverter}">
+                            <Binding Path="IsMouseOver" ElementName="MoreGrid"/>
+                            <Binding Path="IsMouseOver" ElementName="OptionButton"/>
+                          </MultiBinding>
+                        </UIElement.Visibility>
+                      </misc:HoverIconButton>
+                    </Grid>
+                    <Border Name="OptionButton" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background="Transparent"
+                            CornerRadius="4"/>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ContentControl>
+        </misc:EscPopup>
+      </StackPanel>
+    </Grid>
+    <misc:EscPopup x:Name="TemplateOptionPopup" Grid.Row="0" Placement="Left" StaysOpen="false"
+                   PlacementTarget="{Binding ElementName=MoreGrid}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <StackPanel Orientation="Vertical">
+          <misc:OptionCheckBox MouseLeftButtonUp="OnTemplateEditClick" Height="{DynamicResource Height32}"
+                               Text="{StaticResource Edit}"/>
+          <misc:OptionCheckBox MouseLeftButtonUp="OnTemplateDeleteClick" Height="{DynamicResource Height32}"
+                               Text="{StaticResource Delete}"/>
+        </StackPanel>
+      </ContentControl>
+    </misc:EscPopup>
+    <Grid Row="2" Margin="24,10,80,6">
+      <WrapPanel>
+        <misc:PopupPlacementBorder x:Name="DateFilterText" PreviewMouseLeftButtonUp="DateFilterClick" Height="24" Margin="0,8,10,0"
+                                   IsDropDownOpen="{Binding ElementName=DateSelectPopup, Path=IsOpen}">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="Transparent" Margin="5,0,0,0">
+            <TextBlock MouseLeftButtonUp="DateFilterClick" Style="{StaticResource TextBlockStyle}" FontSize="12"
+                       TextAlignment="Center" MaxWidth="210" Cursor="Hand" TextTrimming="CharacterEllipsis">
+              <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource SearchDateTextConverter}">
+                  <Binding Path="DateFilter"/>
+                  <Binding Path="StartDate"/>
+                  <Binding Path="EndDate"/>
+                </MultiBinding>
+              </TextBlock.Text>
+            </TextBlock>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="DateSelectPopup" Width="auto" Height="auto" StaysOpen="false" HorizontalOffset="-7"
+                       VerticalOffset="-5" Placement="Bottom" PlacementTarget="{Binding ElementName=DateFilterText}"/>
+        <misc:PopupPlacementBorder x:Name="ProjectOrGroupFilterText" PreviewMouseLeftButtonUp="ProjectOrGroupFilterClick"
+                                   Margin="0,8,10,0" Height="24"
+                                   IsDropDownOpen="{Binding ElementName=ProjectOrGroupFilterPopup, Path=IsOpen}">
+          <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
+            <wpf:EmjTextBlock Style="{StaticResource TextBlockStyle}" MaxWidth="210" Height="16" TextTrimming="CharacterEllipsis"
+                              TextWrapping="Wrap" ClipToBounds="true" Text="{Binding SelectedProjectDisplayText}"/>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="ProjectOrGroupFilterPopup" Width="auto" Height="auto" StaysOpen="false"
+                       HorizontalOffset="-7" VerticalOffset="-5"
+                       PlacementTarget="{Binding ElementName=ProjectOrGroupFilterText}"/>
+        <misc:PopupPlacementBorder x:Name="TagFilterText" PreviewMouseLeftButtonUp="TagFilterClick" Margin="0,8,10,0" Height="24"
+                                   IsDropDownOpen="{Binding ElementName=TagFilterPopup, Path=IsOpen}">
+          <StackPanel Orientation="Horizontal" Margin="5,0,0,0" VerticalAlignment="Center">
+            <TextBlock MaxWidth="210" Height="16" TextWrapping="Wrap" ClipToBounds="true"
+                       Style="{StaticResource TextBlockStyle}" TextTrimming="CharacterEllipsis"
+                       Text="{Binding SelectedTagDisplayText}"/>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="TagFilterPopup" StaysOpen="false" Placement="Bottom" PopupAnimation="Fade"
+                       HorizontalOffset="-7" VerticalOffset="-5" PlacementTarget="{Binding ElementName=TagFilterText}"/>
+        <misc:PopupPlacementBorder x:Name="StatusFilter" PreviewMouseLeftButtonUp="StatusFilterClick" Height="24" Margin="0,8,10,0"
+                                   IsDropDownOpen="{Binding ElementName=StatusFilterPopup, Path=IsOpen}">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
+            <TextBlock MaxWidth="210" Style="{StaticResource TextBlockStyle}" TextTrimming="CharacterEllipsis"
+                       Text="{Binding SelectedStatusDisplayText}"/>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="StatusFilterPopup" StaysOpen="false" Width="168" Placement="Bottom" HorizontalOffset="-7"
+                       VerticalOffset="-5" PlacementTarget="{Binding ElementName=StatusFilter}"
+                       Visibility="{Binding ElementName=StatusFilter, Path=Visibility}"/>
+        <misc:PopupPlacementBorder x:Name="PriorityFilter" PreviewMouseLeftButtonUp="PriorityFilterClick" Height="24"
+                                   Margin="0,8,10,0"
+                                   Visibility="{Binding ShowPriority, Converter={StaticResource BoolVisibleConverter}}"
+                                   IsDropDownOpen="{Binding ElementName=PriorityFilterPopup, Path=IsOpen}">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
+            <TextBlock MaxWidth="210" Style="{StaticResource TextBlockStyle}" TextTrimming="CharacterEllipsis"
+                       Text="{Binding SelectedPriorityDisplayText}"/>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="PriorityFilterPopup" StaysOpen="false" Width="168" Placement="Bottom" HorizontalOffset="-7"
+                       VerticalOffset="-5" PlacementTarget="{Binding ElementName=PriorityFilter}"
+                       Visibility="{Binding ElementName=PriorityFilter, Path=Visibility}"/>
+        <misc:PopupPlacementBorder x:Name="AssignFilter" PreviewMouseLeftButtonUp="AssignFilterClick" Height="24" Margin="0,8,10,0"
+                                   Visibility="{Binding ShowAssignee, Converter={StaticResource BoolVisibleConverter}}"
+                                   IsDropDownOpen="{Binding ElementName=AssignFilterPopup, Path=IsOpen}">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
+            <TextBlock MaxWidth="210" Style="{StaticResource TextBlockStyle}" TextTrimming="CharacterEllipsis"
+                       Text="{Binding SelectedAssignTypeText}"/>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="AssignFilterPopup" StaysOpen="false" Width="250" Placement="Bottom" HorizontalOffset="-7"
+                       VerticalOffset="-5" PlacementTarget="{Binding ElementName=AssignFilter}"
+                       Visibility="{Binding ElementName=AssignFilter, Path=Visibility}"/>
+        <misc:PopupPlacementBorder x:Name="MoreFilter" PreviewMouseLeftButtonUp="MoreFilterClick" Height="24" Margin="0,8,10,0"
+                                   IsDropDownOpen="{Binding ElementName=MoreFilterPopup, Path=IsOpen}"
+                                   Visibility="{Binding ShowMoreConditions, Converter={StaticResource BoolVisibleConverter}}">
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
+            <TextBlock Text="{StaticResource More}" MaxWidth="210" Style="{StaticResource TextBlockStyle}"
+                       TextTrimming="CharacterEllipsis"/>
+            <Path Style="{DynamicResource PathStyle}"/>
+          </StackPanel>
+        </misc:PopupPlacementBorder>
+        <misc:EscPopup x:Name="MoreFilterPopup" StaysOpen="false" Width="168" Placement="Bottom" HorizontalOffset="-7"
+                       VerticalOffset="-5" PlacementTarget="{Binding ElementName=MoreFilter}"
+                       Visibility="{Binding ElementName=MoreFilter, Path=Visibility}">
+          <ContentControl Style="{DynamicResource PopupContentStyle}">
+            <ItemsControl Name="MoreConditionPopup" AllowDrop="true">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:FilterConditionViewModel}">
+                  <misc:OptionCheckBox MouseLeftButtonUp="OnFilterConditionClick" Height="{DynamicResource Height32}"
+                                       Text="{Binding Name}"/>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ContentControl>
+        </misc:EscPopup>
+        <Grid MouseLeftButtonUp="OnClearClick" Name="ClearFilterGrid" Cursor="Hand" Height="16" Width="16"
+              VerticalAlignment="Center" Margin="0,8,0,0">
+          <Border Height="16" Width="16" CornerRadius="8" Background="{DynamicResource PrimaryColor}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="UIElement.Opacity" Value="0.24"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=ClearFilterGrid, Path=IsMouseOver}" Value="True">
+                    <Setter Property="UIElement.Opacity" Value="1"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Border>
+          <Path Height="7" Width="8" Stretch="Uniform" Data="{Binding Source={StaticResource IcClose}, Path=Data}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Path}">
+                <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=ClearFilterGrid, Path=IsMouseOver}" Value="True">
+                    <Setter Property="Shape.Fill" Value="White"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Path>
+        </Grid>
+      </WrapPanel>
+    </Grid>
+    <local:SummaryDisplayFilterControl x:Name="DisplayFilter" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                       Margin="0,12,30,0"/>
+    <Grid Row="3" Margin="0,10,30,0">
+      <Border Margin="25,0,0,0" BorderBrush="{DynamicResource BaseColorOpacity10}" BorderThickness="1"
+              CornerRadius="4"/>
+      <Grid Height="45" VerticalAlignment="Top">
+        <markDown:EditorMenu x:Name="TextEditorMenu" IsPopMode="false" Margin="30,0,0,0" VerticalAlignment="Center"
+                             HorizontalAlignment="Left" IsFlatMode="false"/>
+      </Grid>
+      <Grid Name="SpliteLine" Height="1" Background="{DynamicResource BaseColorOpacity10}" Margin="27,46,0,0"
+            VerticalAlignment="Top"/>
+      <Grid Name="ContentGrid" VerticalAlignment="Stretch" Margin="18,56,18,20">
+        <ScrollViewer PreviewMouseWheel="OnMouseScroll" Name="ContentScrollViewer"
+                      Style="{DynamicResource for_scrollviewer}"
+                      Height="{Binding ElementName=ContentGrid, Path=ActualHeight}">
+          <Grid MouseLeftButtonUp="OnContentClick" Name="MdGrid" Background="Transparent" Margin="0,0,0,0">
+            <markDown:MarkDownEditor x:Name="SummaryContent" RequestBringIntoView="EditorOnRequestBringIntoView"
+                                     GotFocus="OnContentGotFocus" LostFocus="OnContentLostFocus" ScrollViewer.PanningMode="None"
+                                     EnableSpellCheck="false" VerticalAlignment="Top" VerticalContentAlignment="Top"/>
+          </Grid>
+        </ScrollViewer>
+      </Grid>
+    </Grid>
+    <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Right" Margin="0,18,0,16">
+      <Button Click="OnCopyClick" Name="CopyButton" Style="{StaticResource SaveButtonStyle}" Width="80"
+              Height="32" Margin="0,0" Content="{StaticResource Copy}" FontSize="13"/>
+      <Button Click="OnExportClick" Name="ExportButton" Style="{StaticResource NormalButton}" Width="80"
+              Height="32" Margin="16,0,30,0" Content="{StaticResource save_as}"
+              BorderBrush="{DynamicResource PrimaryColor}" BorderThickness="1"
+              Foreground="{DynamicResource PrimaryColor}" FontSize="13"/>
+      <Button Click="OnInsertClick" Name="InsertButton" Style="{StaticResource NormalButton}" Width="80"
+              Height="32" Margin="16,0,30,0" Content="{StaticResource Insert}"
+              BorderBrush="{DynamicResource PrimaryColor}" BorderThickness="1"
+              Foreground="{DynamicResource PrimaryColor}" FontSize="13" Visibility="Collapsed"/>
+    </StackPanel>
+    <Popup Name="CopyPopup" Grid.Row="4" StaysOpen="false" AllowsTransparency="true" PopupAnimation="Fade"
+           Placement="Top" VerticalOffset="5" HorizontalOffset="-10"
+           PlacementTarget="{Binding ElementName=CopyButton}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <StackPanel Background="Transparent" MinWidth="160">
+          <StackPanel MouseLeftButtonUp="OnCopyTypeClick" Style="{DynamicResource DropUnit}" Tag="markdown">
+            <Image Source="../../Assets/Attachment_Icon/markdown.png" Style="{DynamicResource DropUnitIcon}"
+                   Opacity="1"/>
+            <TextBlock Text="{DynamicResource Markdown}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+          <StackPanel MouseLeftButtonUp="OnCopyTypeClick" Style="{DynamicResource DropUnit}" Tag="richtext">
+            <Image Source="../../Assets/Attachment_Icon/RichText.png" Style="{DynamicResource DropUnitIcon}"
+                   Opacity="1"/>
+            <TextBlock Text="{DynamicResource RichText}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+          <StackPanel MouseLeftButtonUp="OnCopyTypeClick" Style="{DynamicResource DropUnit}" Tag="plaintext">
+            <Image Source="../../Assets/Attachment_Icon/PlainText.png" Style="{DynamicResource DropUnitIcon}"
+                   Opacity="1"/>
+            <TextBlock Text="{DynamicResource PlainText}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+        </StackPanel>
+      </ContentControl>
+    </Popup>
+    <Popup Name="ExportPopup" Grid.Row="4" StaysOpen="false" AllowsTransparency="true" PopupAnimation="Fade"
+           Placement="Top" VerticalOffset="5" HorizontalOffset="-10"
+           PlacementTarget="{Binding ElementName=ExportButton}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <StackPanel Background="Transparent" MinWidth="140">
+          <StackPanel MouseLeftButtonUp="OnTemplateClick" Style="{DynamicResource DropUnit}" Tag="template">
+            <Image Source="../../Assets/Attachment_Icon/Template.png" Style="{DynamicResource DropUnitIcon}"
+                   Opacity="1"/>
+            <TextBlock Text="{DynamicResource Template}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+          <StackPanel MouseLeftButtonUp="OnCopyTypeClick" Style="{DynamicResource DropUnit}" Tag="pdf">
+            <Image Source="../../Assets/Attachment_Icon/PDF.png" Style="{DynamicResource DropUnitIcon}" Opacity="1"/>
+            <TextBlock Text="{DynamicResource PDF}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+          <StackPanel MouseLeftButtonUp="OnCopyTypeClick" Style="{DynamicResource DropUnit}" Tag="png">
+            <Image Source="../../Assets/Attachment_Icon/PNG.png" Style="{DynamicResource DropUnitIcon}" Opacity="1"/>
+            <TextBlock Text="{DynamicResource Image}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+          <StackPanel MouseLeftButtonUp="OnCopyTypeClick" Style="{DynamicResource DropUnit}" Tag="email">
+            <Image Source="../../Assets/Attachment_Icon/Email.png" Style="{DynamicResource DropUnitIcon}" Opacity="1"/>
+            <TextBlock Text="{DynamicResource SendEmail}" Style="{DynamicResource DropUnitTitle}"/>
+          </StackPanel>
+        </StackPanel>
+      </ContentControl>
+    </Popup>
+  </Grid>
+</UserControl>

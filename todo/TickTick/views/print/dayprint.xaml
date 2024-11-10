@@ -1,0 +1,37 @@
+<UserControl x:Class="ticktick_WPF.Views.Print.DayPrint"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Print"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource">
+  <FlowDocumentPageViewer Name="PageViewer" Height="1752" VerticalAlignment="Top">
+    <FlowDocument x:Name="Doc" ColumnWidth="1240" PagePadding="109,87,109,110" LineHeight="1" PageHeight="1752">
+      <Paragraph TextAlignment="Center">
+        <Run x:Name="MonthText" Text="2019年12月12日" FontSize="32"/>
+        <Run x:Name="WeekdayText" Text="周一" FontSize="26" Foreground="#89191919"/>
+      </Paragraph>
+      <BlockUIContainer Margin="0,40,0,0">
+        <Grid>
+          <Grid Height="5" Width="0.4" VerticalAlignment="Top" Background="#89191919" Margin="48,0,0,0"
+                HorizontalAlignment="Left"/>
+          <Grid Height="0.4" VerticalAlignment="Top" Background="#89191919"/>
+        </Grid>
+      </BlockUIContainer>
+      <BlockUIContainer x:Name="CenterLine">
+        <Grid>
+          <Grid Height="10" Width="0.4" VerticalAlignment="Top" Background="#89191919" Margin="48,0,0,0"
+                HorizontalAlignment="Left"/>
+          <Grid Height="0.4" VerticalAlignment="Center" Background="#89191919"/>
+        </Grid>
+      </BlockUIContainer>
+      <BlockUIContainer x:Name="BottomLine">
+        <Grid>
+          <Grid Height="5" Width="0.4" VerticalAlignment="Top" Background="#89191919" Margin="48,0,0,0"
+                HorizontalAlignment="Left"/>
+          <Grid Height="0.4" VerticalAlignment="Bottom" Background="#89191919"/>
+        </Grid>
+      </BlockUIContainer>
+    </FlowDocument>
+  </FlowDocumentPageViewer>
+</UserControl>

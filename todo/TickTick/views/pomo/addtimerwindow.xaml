@@ -1,0 +1,72 @@
+<Window x:Class="ticktick_WPF.Views.Pomo.AddTimerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.Pomo"
+        xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+        xmlns:habit="clr-namespace:ticktick_WPF.Views.Habit"
+        xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+        xmlns:views="clr-namespace:ticktick_WPF.Views"
+        Loaded="OnWindowLoaded" WindowStartupLocation="CenterOwner" Title="{StaticResource AddTimer}"
+        Topmost="false" Style="{DynamicResource OkCancelWindowsStyle}">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Escape" Command="{x:Static views:OkCancelWindowCommands.EscCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+    <KeyBinding Key="Enter" Command="{x:Static views:OkCancelWindowCommands.OkCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+  </UIElement.InputBindings>
+  <Grid Height="270" Width="440" Margin="20,56,20,0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="72"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid MouseLeftButtonUp="OnSelectIconClick" Name="IconGrid" Height="36" Width="36"
+          HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Hand">
+      <Image Name="IconImage" Source="../../Assets/Habits/habit_daily_check_in.png"/>
+      <Image Height="11" Width="11" HorizontalAlignment="Right" Source="{DynamicResource IconEditDrawingImage}"
+             VerticalAlignment="Bottom" Stretch="Uniform"/>
+    </Grid>
+    <misc:EscPopup x:Name="SetIconPopup" Placement="Bottom" VerticalOffset="-5" PopupAnimation="Fade"
+                   HorizontalOffset="-5" StaysOpen="false" PlacementTarget="{Binding ElementName=IconGrid}">
+      <habit:SetHabitIconControl x:Name="SetIconControl" OnIconSaved="OnIconSelected" Closed="HideIconPopup"/>
+    </misc:EscPopup>
+    <Grid Margin="54,0,40,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+      <markDown:EmojiEditor x:Name="TitleText" TextChanged="OnTitleChanged" Height="36" FontSize="14" Padding="8,0,30,0"
+                            WordWrap="false" Foreground="{DynamicResource BaseColorOpacity100_80}" Background="Transparent"
+                            BorderThickness="1" BorderCorner="4" Tag="{StaticResource Appellation}"
+                            BorderBrush="{DynamicResource BaseColorOpacity10}"/>
+      <misc:HoverIconButton x:Name="LinkIcon" MouseLeftButtonUp="OnLinkClick" IsImage="false" Margin="8,0"
+                            HorizontalAlignment="Right" IconData="{Binding Source={StaticResource PomoLinkTask}, Path=Data}"/>
+      <Border MouseLeftButtonUp="OnClearClick" Name="ClearIcon"
+              Style="{DynamicResource SmoothHoverBorderStyle40_60}" Width="26" VerticalAlignment="Stretch"
+              Cursor="Hand" HorizontalAlignment="Right" Visibility="Collapsed">
+        <Path HorizontalAlignment="Left" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity60}" Width="14"
+              Height="14" Data="{Binding Source={StaticResource IcCloseWithBorder}, Path=Data}"/>
+      </Border>
+    </Grid>
+    <TextBlock Text="{StaticResource TimerMode}" Style="{DynamicResource Body01}" Grid.Row="1" Margin="0,0,0,10"/>
+    <RadioButton Checked="OnPomoCheckChanged" Unchecked="OnPomoCheckChanged" Name="PomoRadio"
+                 HorizontalAlignment="Left" Style="{DynamicResource RadioButtonStyle}" Grid.Row="2" Margin="0,10"/>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="28,0,0,2">
+      <TextBlock Text="{StaticResource PomoTimer2}" Style="{DynamicResource Body01}"/>
+      <misc:NumInputTextBox x:Name="PomoCount" Width="50" Height="30" Margin="8,0" MaxNum="180" MinNum="5"/>
+      <TextBlock Text="{StaticResource PublicMinutes}" Style="{DynamicResource Body01}"/>
+    </StackPanel>
+    <RadioButton Name="TimingRadio" HorizontalAlignment="Left" Style="{DynamicResource RadioButtonStyle}"
+                 Grid.Row="3" Margin="0,10"/>
+    <TextBlock Text="{StaticResource Timing}" Style="{DynamicResource Body01}" Grid.Row="3"
+               VerticalAlignment="Center" Margin="28,0,0,2"/>
+    <Grid Row="4" VerticalAlignment="Bottom" Height="56">
+      <Button Click="OnCancelClick" Content="{DynamicResource Cancel}" HorizontalAlignment="Right"
+              Style="{StaticResource CancelButtonStyle}" Width="120" Margin="0,0,40,20"/>
+      <Button Click="OnSaveClick" Name="SaveButton" Content="{DynamicResource PublicSave}"
+              HorizontalAlignment="Right" Style="{StaticResource SaveButtonStyle}" Margin="0,0,176,20"
+              Width="120" IsEnabled="false"/>
+    </Grid>
+  </Grid>
+</Window>

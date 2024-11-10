@@ -1,0 +1,156 @@
+<misc:EscPopup x:Class="ticktick_WPF.Views.Calendar.PomoDetailWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+               xmlns:view="clr-namespace:ticktick_WPF.Views"
+               xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+               xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+               xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+               x:Name="Root" Width="420" StaysOpen="false" AllowsTransparency="true">
+  <FrameworkElement.Resources>
+    <Storyboard x:Key="ShowToast" Completed="OnToasted">
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.15" To="1"/>
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:1.5" Duration="0:0:0.15" To="0"/>
+    </Storyboard>
+  </FrameworkElement.Resources>
+  <ContentControl Name="Control" Style="{DynamicResource WindowContentStyle}" Margin="0">
+    <Grid MouseLeftButtonUp="OnMouseUp">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid Name="Container" Row="0" Margin="0,0,0,12">
+        <ScrollViewer Name="ScrollViewer" Focusable="false" Style="{DynamicResource for_scrollviewer}" MaxHeight="400">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ItemsControl Name="TaskPomoItems" ItemsSource="{Binding PomoTaskModels}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid>
+                    <Grid Margin="20,10,38,0">
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="36"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="Auto"/>
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition/>
+                      </Grid.ColumnDefinitions>
+                      <Path Fill="{DynamicResource PrimaryColor}" Width="16" Height="24" Stretch="Uniform" Grid.Column="0"
+                            Grid.Row="0" Data="{Binding Icon}"/>
+                      <wpf:EmjTextBlock Grid.Column="1" Grid.Row="0" FontSize="15" Margin="8,-2,0,0" Background="Transparent"
+                                        FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                                        HorizontalAlignment="Left" Text="{Binding Title}"
+                                        Visibility="{Binding Bind, Converter={StaticResource BoolVisibleConverter}}"
+                                        IsEnabled="{Binding Bind}">
+                        <FrameworkElement.Style>
+                          <Style TargetType="{x:Type wpf:EmjTextBlock}">
+                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+                            <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                                <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextAccentColor}"/>
+                              </Trigger>
+                              <DataTrigger Binding="{Binding BindTask}" Value="False">
+                                <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </wpf:EmjTextBlock>
+                      <TextBlock Grid.Column="1" Grid.Row="0" FontSize="15" Margin="8,-2,0,0"
+                                 Text="{StaticResource FocusNotSetTask}" Background="Transparent" Cursor="Hand"
+                                 VerticalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                 Visibility="{Binding Bind, Converter={StaticResource VisibleConverter}}"
+                                 IsEnabled="{Binding Enable}">
+                        <FrameworkElement.Style>
+                          <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity40}"/>
+                            <Style.Triggers>
+                              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                                <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextAccentColor}"/>
+                              </Trigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </TextBlock>
+                      <Path Fill="{DynamicResource BaseColorOpacity60}" Width="18" Height="18" Stretch="Uniform" Grid.Row="1"
+                            Grid.Column="0" Data="{Binding Source={StaticResource FocusIcon}, Path=Data}"/>
+                      <TextBlock Style="{DynamicResource Body05}" Grid.Row="1" Grid.Column="1" Margin="6,0,0,0"
+                                 Text="{Binding TimeString}"/>
+                      <Image Source="{DynamicResource DateTimeDrawingImage}" Style="{DynamicResource Icon01}" Grid.Row="2"
+                             Grid.Column="0"/>
+                      <TextBlock Style="{DynamicResource Body05}" Grid.Row="2" Grid.Column="1" Margin="6,0,0,0"
+                                 Text="{Binding DurationString}"/>
+                    </Grid>
+                    <Border Height="22" Width="22" Style="{DynamicResource HoverBorderStyle}" CornerRadius="2"
+                            VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,20,0" Cursor="Hand"
+                            Visibility="{Binding Enable, Converter={StaticResource BoolVisibleConverter}}">
+                      <FrameworkElement.ToolTip>
+                        <ToolTip Placement="Center" VerticalOffset="-26" Content="{StaticResource FocusSetTask}"/>
+                      </FrameworkElement.ToolTip>
+                      <Path Fill="{DynamicResource BaseColorOpacity60}" Width="18" Height="18" Stretch="Uniform"
+                            Data="{Binding Source={StaticResource PomoLinkTask}, Path=Data}"/>
+                    </Border>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <markDown:EmojiEditor x:Name="NoteEditor" TextChanged="OnNoteChanged" FontSize="13" Grid.Row="1" MaxLength="500"
+                                  Height="114" Foreground="{DynamicResource BaseColorOpacity80}" BorderThickness="1" WordWrap="true"
+                                  Margin="24,20,24,10" MinHeight="116" AcceptReturn="true" Background="Transparent" BorderCorner="4"
+                                  BorderBackground="{DynamicResource BaseColorOpacity5}" TextVerticalAlignment="Stretch"
+                                  Padding="12,8,12,20" Cursor="IBeam" BorderBrush="{DynamicResource BaseColorOpacity5}"
+                                  Tag="{StaticResource FocusNoteHint}" VerticalAlignment="Top"/>
+            <TextBlock Name="LengthText" Grid.Row="1" FontSize="12" IsHitTestVisible="false" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Right" Foreground="{DynamicResource BaseColorOpacity40}" Margin="20,0,34,16"/>
+          </Grid>
+        </ScrollViewer>
+        <Popup Name="FilterPopup" AllowsTransparency="true" StaysOpen="false" PopupAnimation="Fade"
+               Placement="Bottom" VerticalOffset="0" HorizontalOffset="-5"/>
+      </Grid>
+      <Border Grid.Row="1" Height="44" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+              BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BaseColorOpacity10}"
+              Visibility="{Binding Enable, Converter={StaticResource BoolVisibleConverter}}">
+        <Border MouseLeftButtonUp="OnDeleteMouseUp" Name="DeleteBorder" Height="22" Width="22"
+                VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="2" HorizontalAlignment="Right"
+                Style="{DynamicResource HoverBorderStyle}">
+          <Image Source="{DynamicResource DeleteDrawingLine}" Style="{DynamicResource Icon01}"/>
+        </Border>
+      </Border>
+      <Border Name="ToastBorder" Grid.Row="0" Grid.RowSpan="2" Background="{StaticResource ToastBackground}"
+              CornerRadius="4" Height="50" Visibility="Collapsed" HorizontalAlignment="Center"
+              VerticalAlignment="Bottom" Margin="0,0,0,20" UseLayoutRounding="true">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="15,0">
+          <TextBlock Name="ToastText" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+        </StackPanel>
+      </Border>
+      <Popup Name="DeletePopup" Placement="Left" AllowsTransparency="true" StaysOpen="false"
+             PopupAnimation="Fade" PlacementTarget="{Binding ElementName=DeleteBorder}">
+        <ContentControl Style="{DynamicResource PopupContentStyle}" Margin="0">
+          <Grid Width="260">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{StaticResource DeleteFocusNotify}" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                       Grid.ColumnSpan="2" Margin="20, 20, 20 ,0" TextWrapping="Wrap" FontSize="13" LineHeight="19"/>
+            <StackPanel Margin="0,12" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
+              <Button Click="OkBtnClick" Content="{DynamicResource Delete}" HorizontalAlignment="Right"
+                      Style="{StaticResource SaveButtonStyle}" Margin="0,0,12,0" Width="100" Height="30"/>
+              <Button Click="CancelBtnClick" Content="{DynamicResource Cancel}" HorizontalAlignment="Right"
+                      Style="{StaticResource CancelButtonStyle}" Margin="0,0,0,0" Width="100" Height="30"/>
+            </StackPanel>
+          </Grid>
+        </ContentControl>
+      </Popup>
+    </Grid>
+  </ContentControl>
+</misc:EscPopup>

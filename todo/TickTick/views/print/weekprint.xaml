@@ -1,0 +1,16 @@
+<UserControl x:Class="ticktick_WPF.Views.Print.WeekPrint"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Print"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource">
+  <FlowDocumentPageViewer Name="PageViewer" Height="1752" VerticalAlignment="Top">
+    <FlowDocument x:Name="Doc" ColumnWidth="1240" PagePadding="109,87,109,110" LineHeight="0.0034" PageHeight="1752">
+      <Paragraph TextAlignment="Center">
+        <Run x:Name="MonthText" Text="2019年12月" FontSize="32"/>
+      </Paragraph>
+      <BlockUIContainer x:Name="Head" Margin="0,40,0,0"/>
+    </FlowDocument>
+  </FlowDocumentPageViewer>
+</UserControl>

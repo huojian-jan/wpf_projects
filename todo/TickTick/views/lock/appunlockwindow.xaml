@@ -1,0 +1,41 @@
+<Window x:Class="ticktick_WPF.Views.Lock.AppUnlockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowStartupLocation="CenterScreen" Style="{StaticResource OkCancelWindowsStyle}"
+        Title="{StaticResource UnlockTickTick}">
+  <Grid Margin="0,45,0,0">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="104"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Image Height="56" Source="../../Assets/logo.png" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"
+             Margin="0,22,0,0" Stretch="Uniform"/>
+      <StackPanel Orientation="Vertical" Margin="0,14,14,14" Grid.Column="1">
+        <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource UnlockMessage}" Margin="0,3,0,0"/>
+        <Grid>
+          <PasswordBox KeyDown="OnPasswordKeyDown" PasswordChanged="OnPasswordChanged" Name="PasswordText"
+                       Style="{StaticResource PasswordTextStyle}" Width="318" Margin="0,14,0,26"/>
+          <TextBlock Name="PasswordInvalidText" Text="{StaticResource IncorrectUnlockPassword}"
+                     VerticalAlignment="Bottom" FontSize="12" Foreground="{StaticResource TextRedColor}" Margin="0,2"
+                     Visibility="Collapsed"/>
+        </Grid>
+        <Grid Margin="-85,0,0,0">
+          <TextBlock MouseLeftButtonUp="OnForgetPasswordClick" HorizontalAlignment="Left"
+                     Text="{StaticResource LoginForgetPasssword}" VerticalAlignment="Center"
+                     Foreground="{DynamicResource BaseColorOpacity40}" Style="{StaticResource HoverUnderlineStyle}"
+                     Cursor="Hand" Margin="0,10,0,0"/>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0"
+                      Visibility="{Binding Path=WindowMode, ElementName=RootView, Converter={StaticResource BoolVisibleConverter}}">
+            <Button Click="OnSaveClick" Name="SaveButton" Style="{StaticResource SaveButtonStyle}"
+                    Content="{StaticResource Confirm}" Width="116" HorizontalAlignment="Left" IsEnabled="false"/>
+            <Button Click="OnCancelClick" Margin="14,0,1,0" Style="{StaticResource CancelButtonStyle}"
+                    Content="{StaticResource Cancel}" Width="116" HorizontalAlignment="Left"/>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

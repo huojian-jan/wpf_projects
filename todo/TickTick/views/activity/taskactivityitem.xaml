@@ -1,0 +1,66 @@
+<UserControl x:Class="ticktick_WPF.Views.Activity.TaskActivityItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:activity="clr-namespace:ticktick_WPF.Views.Activity"
+             xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+             DataContextChanged="OnDataBind">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="20"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition MinHeight="20"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Row="0" Column="0" VerticalAlignment="Top" Width="20" Height="20">
+      <Ellipse Width="20" Height="20" Fill="{Binding Color}"/>
+      <Path Width="16" Height="16" Fill="White" HorizontalAlignment="Center" Stretch="Uniform"
+            VerticalAlignment="Center" Data="{Binding Icon}"/>
+    </Grid>
+    <TextBlock Margin="14,0,20,0" VerticalAlignment="Top" LineHeight="21" Grid.Column="1" Grid.Row="0"
+               TextWrapping="Wrap">
+      <Run FontSize="{DynamicResource Font14}" Foreground="{DynamicResource BaseColorOpacity100_80}"
+           Text="{Binding User}"/>
+      <Run Text=""/>
+      <Run FontSize="{DynamicResource Font14}" Foreground="{DynamicResource BaseColorOpacity60}"
+           Text="{Binding Title}"/>
+      <Run Text=""/>
+      <Run FontSize="{DynamicResource Font13}" Foreground="{DynamicResource BaseColorOpacity40}"
+           Text="{Binding When}"/>
+    </TextBlock>
+    <Grid Width="1" Background="{DynamicResource BaseColorOpacity20}" Row="0" RowSpan="2" Column="0"
+          Margin="0,24,0,4"/>
+    <StackPanel Margin="12,4,12,18" Grid.Row="1" Grid.Column="1">
+      <Grid Name="ContentGrid" Margin="0,0,6,0">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="FrameworkElement.MaxHeight" Value="{DynamicResource Height68}"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Path=Fold}" Value="False">
+                <Setter Property="FrameworkElement.MaxHeight" Value="10000"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <markDown:EmojiEditor x:Name="ContentTxt" Visibility="Collapsed" FontSize="{DynamicResource Font14}"
+                              Foreground="{DynamicResource BaseColorOpacity100_80}" BorderThickness="0" WordWrap="true"
+                              ReadOnly="true" Background="Transparent" VerticalAlignment="Top"/>
+      </Grid>
+      <StackPanel MouseLeftButtonUp="ExpandClick" Name="ExpandPanel" Orientation="Horizontal" Visibility="Collapsed"
+                  HorizontalAlignment="Left" Cursor="Hand" Background="Transparent">
+        <TextBlock Name="ExpandOrCollapseBtn" Margin="2,0,0,0" FontSize="{DynamicResource Font12}"
+                   Background="Transparent" Foreground="{DynamicResource PrimaryColor}" Text="{StaticResource expand}"/>
+        <Path Name="ExpandPath" Margin="2,0,0,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+              Fill="{DynamicResource BaseColorOpacity40}" Stretch="Uniform" Height="12" Width="12"
+              Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="0" x:Name="ExpandPathRotate"/>
+          </UIElement.RenderTransform>
+        </Path>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</UserControl>

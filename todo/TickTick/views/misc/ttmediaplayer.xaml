@@ -1,0 +1,12 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.TTMediaPlayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
+             HorizontalAlignment="Stretch">
+  <Border Name="Container" Background="#F6F8FE">
+    <controls:MediaUriElement x:Name="MediaEle" Loop="true" Stretch="Uniform" VideoRenderer="VideoMixingRenderer9"
+                              LoadedBehavior="Play" Volume="0"/>
+  </Border>
+</UserControl>

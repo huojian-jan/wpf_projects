@@ -1,0 +1,57 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.GroupTitle2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:util="clr-namespace:ticktick_WPF.Util"
+             x:Name="Root" Height="28">
+  <FrameworkElement.Resources>
+    <local:HeightCornerRadiusConverter x:Key="HeightCornerRadiusConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Background="Transparent">
+    <Border Name="BackBorder" Background="{DynamicResource GroupTitleBackColor}" CornerRadius="6"/>
+    <ItemsControl Name="TitlesListView" BorderThickness="0" Background="Transparent" FocusVisualStyle="{x:Null}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <Grid util:GridHelpers.StarColumns="0,1,2,3,4,5,6"
+                util:GridHelpers.ColumnCount="{Binding ElementName=Root, Path=Count}"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemContainerStyle>
+        <Style>
+          <Setter Property="Grid.Column" Value="{Binding Index}"/>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border CornerRadius="4" Margin="2" Cursor="Hand">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Setter Property="Border.BorderThickness" Value="0"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Border.Background" Value="{DynamicResource GroupTitleSelectColor}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <TextBlock Padding="10,2" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Content}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                  <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </TextBlock>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
+</UserControl>

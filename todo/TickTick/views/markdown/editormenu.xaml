@@ -1,0 +1,242 @@
+<UserControl x:Class="ticktick_WPF.Views.MarkDown.EditorMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             SizeChanged="OnMenuSizeChanged" Name="Root">
+  <ContentControl Name="Content" Style="{DynamicResource EditorContentStyle}">
+    <Grid Margin="6">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <ItemsControl Name="EditorPanel" Grid.Column="0" Height="20">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel Orientation="Horizontal"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ContentControl MouseLeftButtonUp="OnNavigateBackClick" Name="NavigateBackBtn"
+                        Style="{DynamicResource ClickIconStyle}" Visibility="Collapsed" Tag="NavigateBack"
+                        ToolTip="{StaticResource NavigateBack}">
+          <Image Source="{DynamicResource NavigateBackDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnExitClick" Name="ExitImmersiveBtn" Style="{DynamicResource ClickIconStyle}"
+                        Tag="ExitImmersive" ToolTip="{DynamicResource ExitTip}"
+                        Visibility="{Binding IsImmersiveMode, ElementName=Root, Converter={StaticResource BoolVisibleConverter}}">
+          <Image Source="{DynamicResource MarkDownFullScreenExitDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnImmersiveClick" Name="EnterImmersiveBtn"
+                        Style="{DynamicResource ClickIconStyle}" Tag="EnterImmersive"
+                        ToolTip="{DynamicResource ImmersiveWriting}"
+                        Visibility="{Binding IsImmersiveMode, ElementName=Root, Converter={StaticResource VisibleConverter}}">
+          <Image Source="{DynamicResource MarkDownFullScreenDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <Grid Name="ImmersiveSeparator" Width="1" Height="12" Background="{DynamicResource BaseColorOpacity20}"
+              Margin="3,0" Tag="ImmersiveSeparator"/>
+        <ContentControl MouseLeftButtonUp="OnHeaderClick" x:Name="HeaderButton" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource Heading}" Tag="Header">
+          <Grid>
+            <Border CornerRadius="2" Background="{DynamicResource BaseColorOpacity5}"
+                    Visibility="{Binding IsOpen, ElementName=HeaderPopup, Converter={StaticResource BoolVisibleConverter}}"/>
+            <Image Source="{DynamicResource MarkDownHeadingDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+            <Popup Name="HeaderPopup" AllowsTransparency="true" HorizontalOffset="-20" VerticalOffset="8"
+                   StaysOpen="false" Placement="Top" PlacementTarget="{Binding ElementName=HeaderButton}">
+              <ContentControl Style="{StaticResource PopupContentStyle}" Margin="0,6">
+                <StackPanel Orientation="Vertical">
+                  <Grid MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource DropGrid}" Tag="Heading1" Height="24"
+                        Margin="0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition/>
+                      <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Height="24">
+                      <Image Source="{DynamicResource MarkDownH1DrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                             Margin="6,0,0,0"/>
+                      <TextBlock Style="{DynamicResource DropUnitTitle}" FontSize="12">
+                        <Run Text="#" Foreground="{DynamicResource BaseColorOpacity40}"/>
+                        <Run Text="{DynamicResource Heading}"/>
+                        <Run Text="1"/>
+                      </TextBlock>
+                    </StackPanel>
+                    <TextBlock Text="Alt+Ctrl+1" Grid.Column="1" Style="{DynamicResource ShortCutStyle}" FontSize="10"/>
+                  </Grid>
+                  <Grid MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource DropGrid}" Tag="Heading2" Height="24">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="57*"/>
+                      <ColumnDefinition Width="32*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Height="24">
+                      <Image Source="{DynamicResource MarkDownH2DrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                             Margin="6,0,0,0"/>
+                      <TextBlock Style="{DynamicResource DropUnitTitle}" FontSize="12">
+                        <Run Text="##" Foreground="{DynamicResource BaseColorOpacity40}"/>
+                        <Run Text="{DynamicResource Heading}"/>
+                        <Run Text="2"/>
+                      </TextBlock>
+                    </StackPanel>
+                    <TextBlock Text="Alt+Ctrl+2" Grid.Column="1" Style="{DynamicResource ShortCutStyle}" FontSize="10"
+                               HorizontalAlignment="Right"/>
+                  </Grid>
+                  <Grid MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource DropGrid}" Tag="Heading3" Height="24">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition/>
+                      <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Height="24">
+                      <Image Source="{DynamicResource MarkDownH3DrawingImage}" Style="{DynamicResource DropUnitIcon}"
+                             Margin="6,0,0,0"/>
+                      <TextBlock Style="{DynamicResource DropUnitTitle}" FontSize="12">
+                        <Run Text="###" Foreground="{DynamicResource BaseColorOpacity40}"/>
+                        <Run Text="{DynamicResource Heading}"/>
+                        <Run Text="3"/>
+                      </TextBlock>
+                    </StackPanel>
+                    <TextBlock Text="Alt+Ctrl+3" Grid.Column="1" Style="{DynamicResource ShortCutStyle}" FontSize="10"/>
+                  </Grid>
+                </StackPanel>
+              </ContentControl>
+            </Popup>
+          </Grid>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}" Tag="Bold">
+          <Image Source="{DynamicResource MarkDownBoldDrawingImage}" Style="{DynamicResource EditorIcon}"
+                 ToolTip="{DynamicResource BoldTip}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource HighLightTip}" Tag="HighLight">
+          <Image Source="{DynamicResource MarkDownHighLightDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <Grid Width="1" Height="12" Background="{DynamicResource BaseColorOpacity20}" Margin="3,0" Tag="Split1"/>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource CheckItemTip}" Tag="CheckItem">
+          <Image Source="{DynamicResource MarkDownCheckItemDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource BulletTip}" Tag="BulletList">
+          <Image Source="{DynamicResource MarkDownUnorderListDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource NumberedListTip}" Tag="NumberedList">
+          <Image Source="{DynamicResource MarkDownOrderListDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <Grid Width="1" Height="12" Background="{DynamicResource BaseColorOpacity20}" Margin="3,0" Tag="Split2"/>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}" Tag="Italic">
+          <Image Source="{DynamicResource MarkDownItalicDrawingImage}" Style="{DynamicResource EditorIcon}"
+                 ToolTip="{DynamicResource ItalicTip}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}" Tag="UnderLine"
+                        ToolTip="{DynamicResource UnderLineTip}">
+          <Image Source="{DynamicResource MarkDownUnderlineDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource StrikeThroughTip}" Tag="StrikeThrough">
+          <Image Source="{DynamicResource MarkDownStrikethroughDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource SplitLineTip}" Tag="SplitLine">
+          <Image Source="{DynamicResource MarkDownSeparatorDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnDateClick" Name="DateItem" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource Time}" Tag="DateTime">
+          <Grid>
+            <Border CornerRadius="2" Background="{DynamicResource BaseColorOpacity5}"
+                    Visibility="{Binding IsOpen, ElementName=DatePopup, Converter={StaticResource BoolVisibleConverter}}"/>
+            <Image Source="{DynamicResource MarkDownDateTimeDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+            <Popup x:Name="DatePopup" AllowsTransparency="true" HorizontalOffset="-20" VerticalOffset="8"
+                   StaysOpen="false" Placement="Top" PlacementTarget="{Binding ElementName=DateItem}"/>
+          </Grid>
+        </ContentControl>
+        <Grid Width="1" Height="12" Background="{DynamicResource BaseColorOpacity20}" Margin="3,0"
+              Tag="SplitSplitLine"/>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}" Tag="Link"
+                        ToolTip="{DynamicResource LinkTip}">
+          <Image Source="{DynamicResource MarkDownLinkDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}"
+                        ToolTip="{DynamicResource CodeTip}" Tag="Code">
+          <Image Source="{DynamicResource MarkDownCodeDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+        </ContentControl>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Style="{DynamicResource ClickIconStyle}" Tag="Quote"
+                        ToolTip="{DynamicResource QuoteTip}">
+          <Image Source="{DynamicResource MarkDownQuoteDrawingImage}" Style="{DynamicResource EditorIcon}"
+                 Tag="Quote"/>
+        </ContentControl>
+        <Grid Name="Split" Width="1" Height="12" Background="{DynamicResource BaseColorOpacity20}" Margin="3,0"
+              Tag="SplitQuote"/>
+        <ContentControl MouseLeftButtonUp="OnStyleClick" Name="Attachment" Style="{DynamicResource ClickIconStyle}"
+                        Tag="Attachment" ToolTip="{DynamicResource Attachment}">
+          <Image Source="{DynamicResource attachmentsDrawingImage}" Style="{DynamicResource EditorIcon}"
+                 Tag="Attachment"/>
+        </ContentControl>
+      </ItemsControl>
+      <Grid Name="MoreOptionGrid" Column="1">
+        <ContentControl Name="MoreGrid" Style="{DynamicResource ClickIconStyle}"
+                        Visibility="{Binding IsImmersiveMode, ElementName=Root, Converter={StaticResource VisibleConverter}}">
+          <Grid>
+            <Border MouseLeftButtonUp="OnMoreClick" Width="20" Background="Transparent">
+              <Image Source="{DynamicResource MoreDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+            </Border>
+            <Popup Name="MoreOptionPopup" Placement="Left" HorizontalOffset="46" StaysOpen="false"
+                   VerticalOffset="-48" AllowsTransparency="true" PlacementTarget="{Binding ElementName=MoreGrid}">
+              <ContentControl Style="{DynamicResource EditorContentStyle}" HorizontalAlignment="Left" MinWidth="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="6">
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreItalicItem" Style="{DynamicResource ClickIconStyle}"
+                                  Tag="Italic">
+                    <Image Source="{DynamicResource MarkDownItalicDrawingImage}" Style="{DynamicResource EditorIcon}"
+                           ToolTip="{DynamicResource ItalicTip}"/>
+                  </ContentControl>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreUnderLineItem" Style="{DynamicResource ClickIconStyle}"
+                                  Tag="UnderLine" ToolTip="{DynamicResource UnderLineTip}">
+                    <Image Source="{DynamicResource MarkDownUnderlineDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                  </ContentControl>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreStrikeThroughItem"
+                                  Style="{DynamicResource ClickIconStyle}" ToolTip="{DynamicResource StrikeThroughTip}"
+                                  Tag="StrikeThrough">
+                    <Image Source="{DynamicResource MarkDownStrikethroughDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                  </ContentControl>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreLineItem" Style="{DynamicResource ClickIconStyle}"
+                                  ToolTip="{DynamicResource SplitLineTip}" Tag="SplitLine">
+                    <Image Source="{DynamicResource MarkDownSeparatorDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                  </ContentControl>
+                  <ContentControl MouseLeftButtonUp="OnExtraDateClick" Name="ExtraDateItem" Style="{DynamicResource ClickIconStyle}"
+                                  ToolTip="{DynamicResource Time}" Tag="DateTime">
+                    <Grid>
+                      <Border CornerRadius="2" Background="{DynamicResource BaseColorOpacity5}"
+                              Visibility="{Binding IsOpen, ElementName=ExtraDatePopup, Converter={StaticResource BoolVisibleConverter}}"/>
+                      <Image Source="{DynamicResource MarkDownDateTimeDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                      <Popup x:Name="ExtraDatePopup" AllowsTransparency="true" HorizontalOffset="-20" VerticalOffset="8"
+                             StaysOpen="true" Placement="Top" PlacementTarget="{Binding ElementName=ExtraDateItem}"/>
+                    </Grid>
+                  </ContentControl>
+                  <Grid Name="MoreSplit" Width="1" Height="12" Visibility="Collapsed" Tag="SplitSplitLine"
+                        Background="{DynamicResource BaseColorOpacity20}" Margin="3,0"/>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreLink" Style="{DynamicResource ClickIconStyle}"
+                                  ToolTip="{DynamicResource LinkTip}" Tag="Link">
+                    <Image Source="{DynamicResource MarkDownLinkDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                  </ContentControl>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreCodeItem" Style="{DynamicResource ClickIconStyle}"
+                                  ToolTip="{DynamicResource CodeTip}" Tag="Code">
+                    <Image Source="{DynamicResource MarkDownCodeDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                  </ContentControl>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreQuote" Style="{DynamicResource ClickIconStyle}"
+                                  ToolTip="{DynamicResource QuoteTip}" Tag="Quote">
+                    <Image Source="{DynamicResource MarkDownQuoteDrawingImage}" Style="{DynamicResource EditorIcon}"/>
+                  </ContentControl>
+                  <Grid Name="MoreSplit2" Width="1" Height="12" Background="{DynamicResource BaseColorOpacity20}"
+                        Margin="3,0" Tag="SplitQuote"/>
+                  <ContentControl MouseLeftButtonUp="OnStyleClick" Name="MoreAttachment" Style="{DynamicResource ClickIconStyle}"
+                                  Tag="Attachment" ToolTip="{DynamicResource Attachment}">
+                    <Image Source="{DynamicResource attachmentsDrawingImage}" Style="{DynamicResource EditorIcon}"
+                           Tag="Attachment"/>
+                  </ContentControl>
+                </StackPanel>
+              </ContentControl>
+            </Popup>
+          </Grid>
+        </ContentControl>
+      </Grid>
+    </Grid>
+  </ContentControl>
+</UserControl>

@@ -1,0 +1,172 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Habit.EditHabitLogWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:habit="clr-namespace:ticktick_WPF.Views.Habit"
+                xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+                xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+                Loaded="OnLogWindowLoaded" SizeToContent="Height" WindowStartupLocation="CenterScreen"
+                Background="Transparent" WindowStyle="None" AllowsTransparency="true" Width="440" Topmost="true">
+  <FrameworkElement.Resources>
+    <converter:LeftTextConverter x:Key="LeftTextConverter"/>
+    <Style x:Key="UnselectedImageStyle" TargetType="{x:Type Image}">
+      <Setter Property="UIElement.Opacity" Value="1"/>
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=ThemeId}" Value="Dark">
+          <Setter Property="UIElement.Opacity" Value="0.8"/>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid Width="440">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Border PreviewMouseLeftButtonDown="TryDargMove" Background="{DynamicResource PopupBackground}"
+            Grid.RowSpan="5" BorderThickness="1" CornerRadius="4"
+            BorderBrush="{DynamicResource BaseColorOpacity5}">
+      <UIElement.Effect>
+        <DropShadowEffect BlurRadius="10" Opacity="0.20" ShadowDepth="3" Direction="270" Color="Black"/>
+      </UIElement.Effect>
+    </Border>
+    <StackPanel HorizontalAlignment="Center" Margin="20, 24, 20, 0" Grid.Row="0" Orientation="Horizontal">
+      <Grid Height="20" Width="20">
+        <Image Name="IconImage" Source="../../Assets/Habits/habit_daily_check_in.png"/>
+        <Border Name="IconTextBorder" CornerRadius="10">
+          <wpf:EmjTextBlock x:Name="IconText" Margin="0.5,-0.5,0,0" FontSize="12" VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+        </Border>
+      </Grid>
+      <TextBlock Name="Title" Margin="6, 0 ,0, 0" Style="{DynamicResource Title04}" MaxWidth="300"
+                 TextTrimming="CharacterEllipsis"/>
+    </StackPanel>
+    <TextBlock Name="CheckInDateText" Margin="0,4,0,0" Style="{DynamicResource Body02}" Grid.Row="1"
+               HorizontalAlignment="Center"/>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,16" Cursor="Hand"
+                Height="50">
+      <Grid MouseLeftButtonUp="OnScoreClick" Width="50" Tag="10">
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score1_unselected.png"
+               Style="{DynamicResource UnselectedImageStyle}" Width="50" Height="50"/>
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score1_selected.png">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Score}" Value="10">
+                  <Setter Property="UIElement.Visibility" Value="Visible"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </Grid>
+      <Grid MouseLeftButtonUp="OnScoreClick" Width="50" Margin="12,0,0,0" Tag="20">
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score2_unselected.png"
+               Style="{DynamicResource UnselectedImageStyle}" Width="50" Height="50"/>
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score2_selected.png">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Score}" Value="20">
+                  <Setter Property="UIElement.Visibility" Value="Visible"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </Grid>
+      <Grid MouseLeftButtonUp="OnScoreClick" Width="50" Margin="12,0,0,0" Tag="30">
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score3_unselected.png"
+               Style="{DynamicResource UnselectedImageStyle}" Width="50" Height="50"/>
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score3_selected.png">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Score}" Value="30">
+                  <Setter Property="UIElement.Visibility" Value="Visible"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </Grid>
+      <Grid MouseLeftButtonUp="OnScoreClick" Width="50" Margin="12,0,0,0" Tag="40">
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score4_unselected.png"
+               Style="{DynamicResource UnselectedImageStyle}" Width="50" Height="50"/>
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score4_selected.png">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Score}" Value="40">
+                  <Setter Property="UIElement.Visibility" Value="Visible"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </Grid>
+      <Grid MouseLeftButtonUp="OnScoreClick" Width="50" Tag="50" Margin="12,0,0,0">
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score5_unselected.png"
+               Style="{DynamicResource UnselectedImageStyle}" Width="50" Height="50"/>
+        <Image Source="../../Assets/Habits/HabitRecordEmoji/score5_selected.png">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Score}" Value="50">
+                  <Setter Property="UIElement.Visibility" Value="Visible"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </Grid>
+    </StackPanel>
+    <Grid Height="122" Row="3">
+      <TextBox KeyDown="OnEscKeyDown" TextChanged="OnTitleTextChanged" Name="TitleTextBox" Margin="0,0"
+               Style="{DynamicResource BatchHintEditTextStyle}" FontSize="{DynamicResource Font14}" Padding="8,10"
+               Height="122" TextAlignment="Left" Width="400" Background="{DynamicResource BaseColorOpacity5}"
+               AcceptsReturn="true" TextWrapping="Wrap"/>
+      <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,18,22,4" FontSize="12"
+                 Foreground="{DynamicResource TextRedColor}"
+                 Text="{Binding ElementName=TitleTextBox, Path=Text, Converter={StaticResource LeftTextConverter}}"/>
+      <TextBlock Name="HintText" IsHitTestVisible="false" Padding="30,11,0,0" VerticalAlignment="Top"
+                 HorizontalAlignment="Left">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body01}">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity20}"/>
+            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=TitleTextBox, Path=Text}" Value="">
+                <Setter Property="UIElement.Visibility" Value="Visible"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding ElementName=TitleTextBox, Path=Text}" Value="{x:Null}">
+                <Setter Property="UIElement.Visibility" Value="Visible"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+    </Grid>
+    <TextBlock MouseLeftButtonUp="OnDoNotShowClick" Name="DoNotShowText" Text="{StaticResource DoNotShowAgain}"
+               Grid.Row="4" Width="auto" Margin="18,0,0,0" FontSize="14"
+               Foreground="{DynamicResource PrimaryColor}" VerticalAlignment="Center" HorizontalAlignment="Left"
+               Cursor="Hand"/>
+    <StackPanel HorizontalAlignment="Right" Grid.Row="4" Margin="0,18,0,18" Orientation="Horizontal">
+      <Button Click="OnSaveClick" Name="OkButton" Content="{DynamicResource OK}"
+              Style="{StaticResource SaveButtonStyle}" Margin="0,0,14,0" Width="85"/>
+      <Button Click="OnCancelClick" Content="{DynamicResource Cancel}" Style="{StaticResource CancelButtonStyle}"
+              Margin="0,0,20,0" Width="85"/>
+    </StackPanel>
+  </Grid>
+</views:MyWindow>

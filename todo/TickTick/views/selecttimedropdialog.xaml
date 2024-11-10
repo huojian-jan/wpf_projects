@@ -1,0 +1,89 @@
+<UserControl x:Class="ticktick_WPF.Views.SelectTimeDropDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time">
+  <FrameworkElement.Resources>
+    <converter:SelectedTextColorConverter x:Key="TextColorConverter"/>
+    <converter:TextStyleConverter x:Key="TextStyleConverter"/>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}" MinWidth="91">
+    <StackPanel>
+      <ListView Name="ReminderListView" Height="228" HorizontalAlignment="Stretch"
+                Style="{StaticResource ListViewStyle}" VirtualizingPanel.IsVirtualizing="false"
+                ScrollViewer.CanContentScroll="false">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="views:TimeViewModel">
+            <Grid Height="32" HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="50"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="28"/>
+              </Grid.ColumnDefinitions>
+              <Border Grid.ColumnSpan="3" Margin="4,0" CornerRadius="4">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Border}">
+                    <Setter Property="Border.Background" Value="Transparent"/>
+                    <Style.Triggers>
+                      <Trigger Property="UIElement.IsMouseOver" Value="true">
+                        <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </Border>
+              <TextBlock IsHitTestVisible="false" FontSize="12" HorizontalAlignment="Left" Margin="16,0"
+                         VerticalAlignment="Center" Text="{Binding DisplayText}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Selected}" Value="True">
+                        <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextAccentColor}"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+              <TextBlock Grid.Column="1" FontSize="11" Width="60" IsHitTestVisible="false" VerticalAlignment="Center"
+                         Margin="0,0,10,0" Text="{Binding TimeSpanText}"
+                         Visibility="{Binding ShowSpanText, Converter={StaticResource BoolVisibleConverter}}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Selected}" Value="True">
+                        <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextAccentColor}"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+              <Path IsHitTestVisible="false" Margin="0,0,16,0" Grid.Column="2" HorizontalAlignment="Right" Width="12"
+                    Height="12" Style="{DynamicResource Path01}" Fill="{DynamicResource PrimaryColor}"
+                    Data="{Binding Source={StaticResource IcCheck}, Path=Data}"
+                    Visibility="{Binding Path=Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="ListBoxItem.IsSelected"
+                    Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="Control.Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                  <ContentPresenter/>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+      </ListView>
+      <Grid Name="TimeZoneGrid" Height="40"/>
+    </StackPanel>
+  </ContentControl>
+</UserControl>

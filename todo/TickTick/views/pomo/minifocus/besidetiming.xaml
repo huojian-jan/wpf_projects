@@ -1,0 +1,17 @@
+<UserControl x:Class="ticktick_WPF.Views.Pomo.MiniFocus.BesideTiming"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Pomo.MiniFocus">
+  <Grid Name="Container">
+    <Path Name="BottomPath" Width="4" Stretch="UniformToFill" Fill="{DynamicResource BaseColorOpacity10}"/>
+    <Path Name="TopPath" Width="4" Stretch="UniformToFill" Fill="{DynamicResource PrimaryColor}"
+          Data="{Binding ElementName=BottomPath, Path=Data}"
+          Height="{Binding ElementName=Container, Path=ActualHeight}">
+      <UIElement.Clip>
+        <RectangleGeometry x:Name="ClipGeo" Rect="0,0,5,0"/>
+      </UIElement.Clip>
+    </Path>
+  </Grid>
+</UserControl>

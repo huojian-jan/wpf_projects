@@ -1,0 +1,114 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Widget.WidgetWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:system="clr-namespace:System;assembly=mscorlib"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                x:Name="ProjectWindow" SizeChanged="OnSizeChanged" LocationChanged="OnLocationChanged"
+                StateChanged="OnStatusChanged" PreviewKeyUp="OnWindowKeyDown" Title="{StaticResource ListWidget}"
+                AllowsTransparency="true" WindowStartupLocation="Manual" ShowInTaskbar="false" WindowStyle="None"
+                Background="Transparent" ResizeMode="CanResize" UseLayoutRounding="true" Left="{Binding Left}"
+                Top="{Binding Top}" Width="{Binding Width}" Height="{Binding Height}">
+  <FrameworkElement.Resources>
+    <system:Boolean x:Key="IsDarkTheme">True</system:Boolean>
+    <Storyboard x:Key="PopInRightStoryBoard">
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Left" Duration="0:0:0.24">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseInOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Left" BeginTime="0:0:0.35"
+                       Duration="0:0:0.15"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1"
+                       BeginTime="0:0:0.1" From="1.0" To="0.0"/>
+      <DoubleAnimation Storyboard.TargetName="StickRightGrid" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.24"
+                       Duration="0:0:0.06" From="0.0" To="1.0"/>
+    </Storyboard>
+    <Storyboard x:Key="PopOutRightStoryBoard">
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Left" Duration="0:0:0.200"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" Duration="0:0:0.01"
+                       From="0.0" To="1.0"/>
+      <DoubleAnimation Storyboard.TargetName="StickRightGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.000"
+                       From="1.0" To="0.0"/>
+    </Storyboard>
+    <Storyboard x:Key="PopInLeftStoryBoard">
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Left" Duration="0:0:0.24">
+        <DoubleAnimation.EasingFunction>
+          <CubicEase EasingMode="EaseInOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Left" BeginTime="0:0:0.35"
+                       Duration="0:0:0.15"/>
+      <DoubleAnimation Storyboard.TargetName="StickLeftGrid" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.24"
+                       Duration="0:0:0.01" To="1.0"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.1"
+                       Duration="0:0:0.1" To="0"/>
+    </Storyboard>
+    <Storyboard x:Key="PopOutLeftStoryBoard">
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Left" Duration="0:0:0.200" To="0"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" Duration="0:0:0.01" To="1"/>
+      <DoubleAnimation Storyboard.TargetName="StickLeftGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.000"
+                       To="0.0"/>
+    </Storyboard>
+    <Storyboard x:Key="HideStoryBoard">
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Top" Duration="0:0:0.240"/>
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Top" BeginTime="0:0:0.35"
+                       Duration="0:0:0.15"/>
+      <DoubleAnimation Storyboard.TargetName="CollapseGrid" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.250"
+                       Duration="0:0:0.15" From="0.0" To="1.0"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.1"
+                       Duration="0:0:0.1" To="0"/>
+    </Storyboard>
+    <Storyboard x:Key="ShowStoryBoard">
+      <DoubleAnimation Storyboard.TargetName="ProjectWindow" Storyboard.TargetProperty="Top" Duration="0:0:0.200" To="0"/>
+      <DoubleAnimation Storyboard.TargetName="CollapseGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.000"
+                       From="1.0" To="0.0"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" Duration="0:0:0.01" To="1"/>
+    </Storyboard>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid Name="Container"/>
+    <Grid MouseEnter="OnCollapseGridEnter" MouseLeave="OnPopoutGridLeave" Name="CollapseGrid"
+          VerticalAlignment="Bottom" Width="auto" Height="20" HorizontalAlignment="Stretch" Opacity="0">
+      <Border BorderThickness="0" CornerRadius="0,0,6,6" BorderBrush="Black"
+              Background="{DynamicResource WindowBackground}" HorizontalAlignment="Center" Width="auto">
+        <StackPanel Orientation="Horizontal" Margin="13,0" VerticalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                     MaxWidth="120" TextTrimming="CharacterEllipsis" Text="{Binding Path=CollapseTitle}"/>
+        </StackPanel>
+      </Border>
+    </Grid>
+    <Grid MouseEnter="OnPopLeftGridEnter" MouseLeave="OnPopoutGridLeave" Name="StickLeftGrid" Width="11"
+          Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Stretch" Opacity="0">
+      <Border Width="11" Height="28" HorizontalAlignment="Center" CornerRadius="0,2,2,0"
+              Background="{DynamicResource WindowBackground}">
+        <Grid Background="Transparent" Cursor="Hand">
+          <Path Width="8" Height="5" Stretch="Fill" Fill="{DynamicResource BaseColorOpacity100_80}"
+                HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                Data="{Binding Source={StaticResource ic_svg_path_arrow}, Path=Data}">
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="270"/>
+            </UIElement.RenderTransform>
+          </Path>
+        </Grid>
+      </Border>
+      <Grid Background="#01000000" Width="2" VerticalAlignment="Center" Height="80" HorizontalAlignment="Left"/>
+    </Grid>
+    <Grid MouseEnter="OnPopRightGridEnter" MouseLeave="OnPopoutGridLeave" Name="StickRightGrid" Width="11"
+          Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch" Opacity="0">
+      <Border Width="11" Height="28" CornerRadius="2,0,0,2" Background="{DynamicResource WindowBackground}">
+        <Grid Background="Transparent" Cursor="Hand">
+          <Path Width="8" Height="5" Stretch="Fill" Fill="{DynamicResource BaseColorOpacity100_80}"
+                HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                Data="{Binding Source={StaticResource ic_svg_path_arrow}, Path=Data}">
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="90"/>
+            </UIElement.RenderTransform>
+          </Path>
+        </Grid>
+      </Border>
+      <Grid Background="#01000000" Width="2" VerticalAlignment="Center" Height="80" HorizontalAlignment="Right"/>
+    </Grid>
+  </Grid>
+</views:MyWindow>

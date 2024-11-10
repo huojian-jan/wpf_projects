@@ -1,0 +1,125 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.TickDatePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:util="clr-namespace:ticktick_WPF.Util"
+             Loaded="OnLoaded" MouseLeftButtonUp="OnClick" Name="RootView" Margin="0,6" Height="auto"
+             Background="Transparent">
+  <FrameworkElement.Resources>
+    <Style x:Key="WeekTitleTextStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="10"/>
+      <Setter Property="TextBlock.Background" Value="Transparent"/>
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+      <Setter Property="FrameworkElement.Margin" Value="0,0,0,2"/>
+    </Style>
+    <converter:PivotMonthConverter x:Key="PivotMonthConverter"/>
+    <converter:PivotYearConverter x:Key="PivotYearConverter"/>
+    <converter:MonthSimpleTitleDateTextConverter x:Key="MonthSimpleTitleDateTextConverter"/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid Name="TopGrid" Height="24" Row="0" Margin="0,0,0,0"
+          Visibility="{Binding MiniMode, Converter={StaticResource VisibleConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock MouseMove="OnMonthTextMouseMove" Name="YearMonthButton" Margin="8,0,24,0" Background="Transparent"
+                 FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left"
+                 Foreground="{Binding PrimaryTextColor}">
+        <Run x:Name="MonthRun" Text="{Binding PivotDate, Converter={StaticResource PivotMonthConverter}}"/>
+        <Run Text="{Binding PivotDate, Converter={StaticResource PivotYearConverter}}"/>
+      </TextBlock>
+      <TextBlock Name="YearButton" Margin="10,0,24,0" Background="Transparent" FontSize="12" FontWeight="Bold"
+                 VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Left" Visibility="Collapsed"
+                 Foreground="{Binding PrimaryTextColor}"
+                 Text="{Binding PivotDate, Converter={StaticResource PivotYearConverter}}"/>
+      <Grid Name="NextOrLastGrid" Column="2" HorizontalAlignment="Right">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Border MouseLeftButtonUp="LastClick" Width="24" HorizontalAlignment="Right" Cursor="Hand" Grid.Column="0"
+                Style="{DynamicResource SmoothHoverBorderStyle60_100}">
+          <Path Width="9" Height="9" Stretch="Uniform" Fill="{Binding PrimaryTextColor}"
+                Data="{Binding Source={StaticResource IcLeftArraw}, Path=Data}"/>
+        </Border>
+        <Ellipse MouseLeftButtonUp="GotoCurrentMonth" Name="GotoCurrentBt" Width="8" Height="8" Cursor="Hand"
+                 Margin="6,0" StrokeThickness="1" HorizontalAlignment="Center" Grid.Column="1" Fill="Transparent"
+                 Stroke="{Binding SecondaryTextColor}"/>
+        <Border MouseLeftButtonUp="NextClick" Name="NextGrid" Width="24" HorizontalAlignment="Right" Cursor="Hand"
+                Grid.Column="2" Style="{DynamicResource SmoothHoverBorderStyle60_100}">
+          <Path Width="9" Height="9" Stretch="Uniform" Fill="{Binding PrimaryTextColor}"
+                Data="{Binding Source={StaticResource IcRightArraw}, Path=Data}"/>
+        </Border>
+      </Grid>
+    </Grid>
+    <Grid Name="MonthCellsGrid" Row="1" Margin="0,11,0,0" Height="128" VerticalAlignment="Top"
+          Visibility="Collapsed"/>
+    <StackPanel Name="DayGrid" Grid.Row="1" Orientation="Vertical">
+      <Grid Name="WeekDaysGrid" Height="22" Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=0}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+        <TextBlock Grid.Column="1" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=1}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+        <TextBlock Grid.Column="2" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=2}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+        <TextBlock Grid.Column="3" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=3}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+        <TextBlock Grid.Column="4" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=4}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+        <TextBlock Grid.Column="5" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=5}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+        <TextBlock Grid.Column="6" Style="{StaticResource WeekTitleTextStyle}"
+                   Text="{Binding StartDate, ElementName=RootView, Converter={StaticResource MonthSimpleTitleDateTextConverter}, ConverterParameter=6}"
+                   Foreground="{Binding SecondaryTextColor}"/>
+      </Grid>
+      <ItemsControl Name="DayCells" VerticalContentAlignment="Top" Height="192" VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch" FocusVisualStyle="{x:Null}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <Grid util:GridHelpers.ColumnCount="7" util:GridHelpers.StarColumns="0,1,2,3,4,5,6"
+                  util:GridHelpers.StarRows="0,1,2,3,4,5" HorizontalAlignment="Stretch"
+                  util:GridHelpers.RowCount="{Binding RowCount}"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemContainerStyle>
+          <Style>
+            <Setter Property="Grid.Column" Value="{Binding Column}"/>
+            <Setter Property="Grid.Row" Value="{Binding Row}"/>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <time:DayCellControl DayClicked="OnDayClicked" DayDoubleClicked="OnDayDoubleClicked" DataContext="{Binding Data}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+  </Grid>
+</UserControl>

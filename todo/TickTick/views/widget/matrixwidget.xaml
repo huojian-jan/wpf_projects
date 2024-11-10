@@ -1,0 +1,40 @@
+<UserControl x:Class="ticktick_WPF.Views.Widget.MatrixWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Widget"
+             xmlns:eisenhower="clr-namespace:ticktick_WPF.Views.Eisenhower"
+             SizeChanged="OnGridWidgetSizeChanged" Background="Transparent">
+  <Border BorderBrush="{DynamicResource BaseColorOpacity5}" Margin="0,0,-1,0">
+    <Grid>
+      <Border Background="{DynamicResource WindowBackground}" CornerRadius="6" Opacity="{Binding Opacity}"/>
+      <Border Background="{DynamicResource MatrixContainerColor}" CornerRadius="6"/>
+      <Grid Background="#01FFFFFF"/>
+      <Grid>
+        <Grid Name="UndoToastGrid" ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+              Margin="0,0,0,70"/>
+        <eisenhower:MatrixContainer x:Name="MatrixContainer" Background="Transparent"/>
+        <Border Name="NotProBorder" Background="Transparent" Visibility="Collapsed">
+          <Border VerticalAlignment="Bottom" Background="#FF8E0A" HorizontalAlignment="Center" CornerRadius="6"
+                  Height="54" Margin="0,0,0,24" Visibility="Visible">
+            <Grid MinWidth="540">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+              <TextBlock Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14"
+                         Text="{StaticResource PremiumExpired}" Margin="12,0,36,0"/>
+              <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Click="OnCancelClick" Style="{DynamicResource CancelButtonStyle}" Width="100" Height="30"
+                        Content="{StaticResource Cancel}" BorderBrush="White" Foreground="White"/>
+                <Button Click="OnRenewClick" Style="{DynamicResource SaveButtonStyle}" Content="{StaticResource RenewNow}"
+                        Width="100" Height="30" Background="White" Foreground="#FF8E0A" Margin="12,0"/>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </Border>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

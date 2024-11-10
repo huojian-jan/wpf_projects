@@ -1,0 +1,38 @@
+<Border x:Class="ticktick_WPF.Views.Activity.ProjectActivityControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:activity="clr-namespace:ticktick_WPF.Views.Activity"
+        Background="Transparent">
+  <FrameworkElement.Resources>
+    <activity:ItemTemplateSelector x:Key="DisplaySelector"/>
+    <DataTemplate x:Key="ModifyItemTemplate">
+      <activity:ProjectActivityItem/>
+    </DataTemplate>
+    <DataTemplate x:Key="DateSectionTemplate">
+      <TextBlock Foreground="{DynamicResource BaseColorOpacity60}" Margin="0,12" FontSize="{DynamicResource Font14}"
+                 Text="{Binding Title}"/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <ListView Name="Items" VerticalAlignment="Stretch" Margin="12,8" Style="{DynamicResource ListViewStyle}"
+            ItemTemplateSelector="{StaticResource DisplaySelector}" Background="Transparent">
+    <ItemsControl.ItemContainerStyle>
+      <Style TargetType="{x:Type ListViewItem}">
+        <Setter Property="Control.Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ListViewItem}">
+              <ContentPresenter FocusVisualStyle="{x:Null}"/>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="FrameworkElement.LayoutTransform">
+          <Setter.Value>
+            <ScaleTransform x:Name="transform"/>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+      </Style>
+    </ItemsControl.ItemContainerStyle>
+  </ListView>
+</Border>

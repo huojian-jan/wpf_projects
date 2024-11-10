@@ -1,0 +1,43 @@
+<UserControl x:Class="ticktick_WPF.Views.Setting.GeneralSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:customcontrol="clr-namespace:ticktick_WPF.Views.CustomControl">
+  <FrameworkElement.Resources>
+    <sys:String x:Key="SimpleChinese">简体中文</sys:String>
+    <sys:String x:Key="TraditionalChinese">繁體中文</sys:String>
+    <sys:String x:Key="English">English</sys:String>
+    <sys:String x:Key="Japanese">日本語</sys:String>
+    <sys:String x:Key="Korean">한국어</sys:String>
+    <sys:String x:Key="French">Français</sys:String>
+    <sys:String x:Key="Russian">Pусский</sys:String>
+    <sys:String x:Key="Brasil">Português (Brasil)</sys:String>
+    <sys:String x:Key="Deutsch">Deutsch</sys:String>
+    <sys:String x:Key="Español">Español</sys:String>
+    <sys:String x:Key="Italiano">Italiano</sys:String>
+    <sys:String x:Key="latviešu">latviešu</sys:String>
+    <sys:String x:Key="Lietuvių">Lietuvių</sys:String>
+    <sys:String x:Key="Magyar">Magyar</sys:String>
+    <sys:String x:Key="Nederlands">Nederlands</sys:String>
+    <sys:String x:Key="Polski">Polski</sys:String>
+    <sys:String x:Key="Slovenčina">Slovenčina</sys:String>
+    <sys:String x:Key="Svenska">Svenska</sys:String>
+    <sys:String x:Key="Čeština">Čeština</sys:String>
+    <sys:String x:Key="Украінська">Украінська</sys:String>
+    <Storyboard x:Key="ShowHelpText">
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.15" To="1"/>
+    </Storyboard>
+    <Storyboard x:Key="HideHelpText">
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:2.5" Duration="0:0:0.15" To="0"/>
+    </Storyboard>
+  </FrameworkElement.Resources>
+  <Border Grid.Row="1" Margin="20,16,20,0" Background="{DynamicResource BaseColorOpacity2}" CornerRadius="8">
+    <Grid Name="LanguageGrid" Height="42" Margin="18,4,16,4">
+      <TextBlock Text="{DynamicResource Language}" Style="{DynamicResource SettingTextStyle}"/>
+      <customcontrol:CustomSimpleComboBox x:Name="LanguageComboBox" ItemSelected="LanguageComboBoxSelectionChanged" Height="28"
+                                          HorizontalAlignment="Right" VerticalAlignment="Center"/>
+    </Grid>
+  </Border>
+</UserControl>

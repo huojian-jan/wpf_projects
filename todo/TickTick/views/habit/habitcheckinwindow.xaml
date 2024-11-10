@@ -1,0 +1,135 @@
+<misc:EscPopup x:Class="ticktick_WPF.Views.Habit.HabitCheckInWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+               xmlns:habit="clr-namespace:ticktick_WPF.Views.Habit"
+               xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+               xmlns:views="clr-namespace:ticktick_WPF.Views"
+               xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+               Width="345" AllowsTransparency="true" StaysOpen="false">
+  <FrameworkElement.Resources>
+    <converter:RatioBarWidthConverter x:Key="RatioBarWidthConverter"/>
+    <converter:RatioBarVisibilityConverter x:Key="RatioBarVisibilityConverter"/>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource WindowContentStyle}">
+    <Grid Margin="20">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="29*"/>
+        <ColumnDefinition Width="255*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel Orientation="Vertical" Grid.ColumnSpan="2">
+        <Grid Height="48">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Grid Row="0" Width="36" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Border CornerRadius="18" BorderBrush="{DynamicResource BaseColorOpacity10}" BorderThickness="1"/>
+            <Border CornerRadius="18" Background="{Binding Color}"/>
+            <wpf:EmjTextBlock Margin="0,-1,0,0" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Text="{Binding IconText}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type wpf:EmjTextBlock}">
+                  <Setter Property="TextBlock.Foreground" Value="White"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Color}" Value="{x:Null}">
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Color}" Value="">
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </wpf:EmjTextBlock>
+            <Image Stretch="UniformToFill" Source="{Binding ImageUrl}"/>
+          </Grid>
+          <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                     TextTrimming="CharacterEllipsis" Style="{DynamicResource Title01}" Text="{Binding Name}"/>
+        </Grid>
+        <StackPanel Orientation="Vertical" Margin="0,20,0,0"
+                    Visibility="{Binding Type, Converter={StaticResource RatioBarVisibilityConverter}}">
+          <TextBlock Margin="0,6" Style="{StaticResource Body06}">
+            <Run Text="{Binding Value}"/>
+            <Run Text="/"/>
+            <Run Text="{Binding Goal}"/>
+            <Run Text=" "/>
+            <Run Text="{Binding Unit}"/>
+          </TextBlock>
+          <Grid VerticalAlignment="Center">
+            <Border Name="BaseBar" Height="5" Background="{DynamicResource BaseColorOpacity10}" CornerRadius="3"/>
+            <Border Height="5" CornerRadius="3" HorizontalAlignment="Left">
+              <FrameworkElement.Width>
+                <MultiBinding Converter="{StaticResource RatioBarWidthConverter}">
+                  <Binding Path="CompletedRatio"/>
+                  <Binding Path="ActualWidth" ElementName="BaseBar"/>
+                </MultiBinding>
+              </FrameworkElement.Width>
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Setter Property="Border.Background" Value="{Binding Color}"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Color}" Value="{x:Null}">
+                      <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Color}" Value="">
+                      <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Border>
+          </Grid>
+        </StackPanel>
+        <StackPanel Name="ActionPanel" Orientation="Vertical" Margin="0,20,0,0">
+          <Popup Name="ManuallyCheckInPopup" Grid.Column="0" Placement="Bottom" VerticalOffset="-5"
+                 HorizontalOffset="-5" StaysOpen="false" AllowsTransparency="true"
+                 PlacementTarget="{Binding ElementName=ActionPanel}">
+            <habit:ManualRecordCheckinControl x:Name="CheckInControl"/>
+          </Popup>
+          <Grid Name="AutoCheckInGrid" HorizontalAlignment="Stretch" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*"/>
+              <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="OnAutoCheckInClick" Grid.Column="0" Style="{StaticResource SaveButtonStyle}"
+                    Margin="0,0,4,0" Content="{Binding AutoAmount}"/>
+            <Button Click="OnManualCheckInClick" Content="{DynamicResource ManuallyRecord}"
+                    Style="{StaticResource CancelButtonStyle}" Margin="4,0" Grid.Column="1"/>
+          </Grid>
+          <Grid Name="AutoCheckInGridWithReset" HorizontalAlignment="Stretch" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="OnAutoCheckInClick" Grid.Column="0" MaxWidth="144" Style="{StaticResource SaveButtonStyle}"
+                    Margin="0,0,4,0" Content="{Binding AutoAmount}"/>
+            <Button Click="OnManualCheckInClick" Content="{DynamicResource ManuallyRecord}"
+                    Style="{StaticResource CancelButtonStyle}" Margin="4,0" Grid.Column="1"/>
+            <Button Click="OnResetClick" Content="{DynamicResource Reset}" Grid.Column="2"
+                    Style="{StaticResource CancelButtonStyle}" Margin="4,0,0,0"/>
+          </Grid>
+          <Grid Name="ManualCheckInGrid" HorizontalAlignment="Stretch" Margin="0,0,0,0" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Click="OnManualCheckInClick" Style="{StaticResource SaveButtonStyle}" Margin="6,0"
+                    Content="{StaticResource ManuallyRecord}" Grid.Column="0"/>
+            <Button Click="OnResetClick" Content="{DynamicResource Reset}" Style="{StaticResource CancelButtonStyle}"
+                    Margin="6,0" Grid.Column="1"/>
+          </Grid>
+          <Button Click="OnManualCheckInClick" Name="ManualCheckInButton" Content="{DynamicResource ManuallyRecord}"
+                  Style="{StaticResource SaveButtonStyle}" Visibility="Collapsed"/>
+          <Button Click="OnCheckInClick" Name="CheckInButton" Content="{DynamicResource IDidIt}"
+                  Style="{StaticResource SaveButtonStyle}" Visibility="Collapsed"/>
+          <Button Click="OnResetClick" Name="ResetButton" Content="{DynamicResource Reset}"
+                  Style="{StaticResource CancelButtonStyle}" Visibility="Collapsed"/>
+        </StackPanel>
+      </StackPanel>
+    </Grid>
+  </ContentControl>
+</misc:EscPopup>

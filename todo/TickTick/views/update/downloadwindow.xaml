@@ -1,0 +1,29 @@
+<Window x:Class="ticktick_WPF.Views.Update.DownloadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:update="clr-namespace:ticktick_WPF.Views.Update"
+        Loaded="OnWindowLoaded" Width="508" WindowStartupLocation="CenterScreen"
+        Style="{StaticResource CustomWindowStyle}" Title="{StaticResource UpdatingTickTick}">
+  <Grid Margin="0,45,0,0">
+    <StackPanel Orientation="Vertical">
+      <Grid Margin="20,20,20,12">
+        <StackPanel Orientation="Vertical">
+          <TextBlock Name="IndicatorText" FontSize="14" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                     TextWrapping="Wrap" LineHeight="21" Text="{DynamicResource DownloadingUpdate}" Margin="0,0,0,16"/>
+          <update:DownloadProgressBar x:Name="ProgressBar"/>
+          <TextBlock FontSize="14" Foreground="{DynamicResource BaseColorOpacity40}" TextWrapping="Wrap" LineHeight="21"
+                     Margin="0,12,0,0"/>
+        </StackPanel>
+      </Grid>
+      <Grid Height="60" Background="{DynamicResource WindowBackgroundSecondary}">
+        <Button Click="OnCancelClick" Name="CancalBtn" Margin="0,0,20,0" Style="{StaticResource CancelButtonStyle}"
+                Content="{StaticResource Cancel}" MinWidth="116" HorizontalAlignment="Right"/>
+        <Button Click="OnInstallClick" Name="InstallBtn" Margin="0,0,20,0" Style="{StaticResource SaveButtonStyle}"
+                Content="{StaticResource InstallAndRelaunch}" MinWidth="116" HorizontalAlignment="Right"
+                Visibility="Collapsed"/>
+      </Grid>
+    </StackPanel>
+  </Grid>
+</Window>

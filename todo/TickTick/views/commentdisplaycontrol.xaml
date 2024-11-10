@@ -1,0 +1,66 @@
+<UserControl x:Class="ticktick_WPF.Views.CommentDisplayControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             Background="Transparent">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="CommentTemplate">
+      <local:CommentItemControl ShowAddComment="TryShowAddComment"/>
+    </DataTemplate>
+    <Style x:Key="CommentListViewStyle" TargetType="{x:Type ListView}">
+      <Setter Property="UIElement.Focusable" Value="false"/>
+      <Setter Property="Control.Background" Value="White"/>
+      <Setter Property="Control.BorderThickness" Value="0"/>
+      <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+      <Setter Property="ItemsControl.ItemContainerStyle">
+        <Setter.Value>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="Control.Background" Value="Transparent"/>
+            <Setter Property="Control.BorderBrush" Value="Red"/>
+            <Setter Property="Control.BorderThickness" Value="0"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="UIElement.Focusable" Value="false"/>
+          </Style>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <converter:CountVisibleConverter x:Key="CountVisibleConverter"/>
+    <converter:ViewModeConverter x:Key="ViewModeConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Visibility="{Binding Count, Converter={StaticResource CountVisibleConverter}}">
+    <StackPanel Orientation="Vertical">
+      <StackPanel Height="30" Orientation="Horizontal">
+        <TextBlock Text="{StaticResource comments}" FontWeight="{DynamicResource NormalToBold}" FontSize="14"
+                   VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        <TextBlock Style="{DynamicResource Body05}" Margin="8,0,0,0" Foreground="{DynamicResource BaseColorOpacity60}"
+                   Text="{Binding Count}"/>
+      </StackPanel>
+      <Grid ScrollViewer.PanningMode="None">
+        <ListView Name="commentListView" Background="Transparent" ScrollViewer.PanningMode="None"
+                  Style="{StaticResource CommentListViewStyle}" ItemTemplate="{DynamicResource CommentTemplate}"
+                  ItemsSource="{Binding DisplayList}">
+          <ItemsControl.ItemContainerStyle>
+            <Style TargetType="{x:Type ListViewItem}">
+              <Setter Property="ListBoxItem.IsSelected"
+                      Value="{Binding Content.IsSelected, Mode=TwoWay, RelativeSource={RelativeSource Self}}"/>
+              <Setter Property="Control.Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <ContentPresenter/>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </ListView>
+      </Grid>
+      <Label Height="30" HorizontalAlignment="Center" FontSize="13" VerticalContentAlignment="Center"
+             Foreground="{DynamicResource PrimaryColor}" Cursor="Hand"
+             Content="{Binding ViewMode, Converter={StaticResource ViewModeConverter}}"
+             Visibility="{Binding ShowExpand, Converter={StaticResource BoolVisibleConverter}}"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

@@ -1,0 +1,18 @@
+<UserControl x:Class="ticktick_WPF.Views.Pomo.PageTurnClock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Pomo"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition x:Name="HourColumn" Width="0"/>
+      <ColumnDefinition x:Name="MinuteColumn"/>
+      <ColumnDefinition x:Name="SecondColumn"/>
+    </Grid.ColumnDefinitions>
+    <misc:PageTurn x:Name="HourPage" Grid.Column="0" Visibility="Collapsed"/>
+    <misc:PageTurn x:Name="MinutePage" Grid.Column="1"/>
+    <misc:PageTurn x:Name="SecondPage" Grid.Column="2"/>
+  </Grid>
+</UserControl>

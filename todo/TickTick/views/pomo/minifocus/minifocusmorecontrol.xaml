@@ -1,0 +1,124 @@
+<UserControl x:Class="ticktick_WPF.Views.Pomo.MiniFocus.MiniFocusMoreControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:miniFocus="clr-namespace:ticktick_WPF.Views.Pomo.MiniFocus">
+  <ContentControl Name="Container" Style="{DynamicResource PopupContentStyle}" Margin="0,0,0,4">
+    <StackPanel MouseMove="ShowPopup" Background="Transparent" MinWidth="156">
+      <miniFocus:MiniFocusStatisticsView x:Name="StatisticsView" Margin="0,2,0,2"/>
+      <Line Style="{DynamicResource SplitLineStyle}" Margin="0,0,0,4"
+            Visibility="{Binding ElementName=StatisticsView, Path=Visibility}"/>
+      <ContentControl MouseLeftButtonUp="OnFocusOnClick" Name="FocusOnItem" Style="{DynamicResource ListHoverItemStyle}"
+                      Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Path Fill="{DynamicResource BaseColorOpacity60}" Margin="8,0,8,0" Width="14" Height="14"
+                Stretch="Uniform" Data="{Binding Source={StaticResource PomoLinkTask}, Path=Data}"/>
+          <TextBlock FontSize="12" Text="{StaticResource FocusOn}" VerticalAlignment="Center"
+                     Foreground="{DynamicResource BaseColorOpacity100}"/>
+          <TextBlock Name="BindText" FontSize="12" FontWeight="Bold" MaxWidth="116"
+                     Foreground="{DynamicResource BaseColorOpacity100}" VerticalAlignment="Center" Margin="4,0,12,0"
+                     TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+      </ContentControl>
+      <ContentControl Name="FocusPopupTarget" Height="0" Margin="7,0,0,0"/>
+      <ContentControl Name="ModifyFocusItem" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <Grid HorizontalAlignment="Stretch">
+          <Image Source="{DynamicResource ModifyFocusDrawingImage}" Opacity="0.6" Margin="8,0,8,0" Width="14"
+                 Height="14" Stretch="Uniform" HorizontalAlignment="Left"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="30,0,24,0"
+                     Text="{StaticResource ModifyTimeSetting}" VerticalAlignment="Center"
+                     Foreground="{DynamicResource BaseColorOpacity100}"/>
+          <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+            <Polygon.Points>
+              <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+            </Polygon.Points>
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="270"/>
+            </UIElement.RenderTransform>
+          </Polygon>
+        </Grid>
+      </ContentControl>
+      <misc:EscPopup x:Name="ModifyFocusPopup" StaysOpen="true" PopupAnimation="Fade" Placement="Right"
+                     HorizontalOffset="-1" VerticalOffset="-10" PlacementTarget="{Binding ElementName=FocusPopupTarget}">
+        <ContentControl Style="{DynamicResource PopupContentStyle}">
+          <StackPanel>
+            <ContentControl MouseLeftButtonUp="OnSetDurationClick" Name="SetDurationBtn"
+                            Style="{DynamicResource ListHoverItemStyle}" Height="28">
+              <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0"
+                         Text="{StaticResource ModifyPomoDuration}" VerticalAlignment="Center"
+                         Foreground="{DynamicResource BaseColorOpacity100}"/>
+            </ContentControl>
+            <ContentControl MouseLeftButtonUp="OnSwitchTimingClick" Name="SwitchTiming"
+                            Style="{DynamicResource ListHoverItemStyle}" Height="28">
+              <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" Text="{StaticResource SwitchTiming}"
+                         VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+            </ContentControl>
+          </StackPanel>
+        </ContentControl>
+      </misc:EscPopup>
+      <ContentControl MouseLeftButtonUp="OnSwitchPomoClick" Name="SwitchPomo"
+                      Style="{DynamicResource ListHoverItemStyle}" Height="28"
+                      Visibility="{Binding ElementName=ModifyFocusItem, Path=Visibility, Converter={StaticResource InverseVisibleConverter}}">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="{DynamicResource SwitchToPomoDrawingImage}" Opacity="0.6" Margin="8,0,0,0" Width="14"
+                 Height="14" Stretch="Uniform" HorizontalAlignment="Left"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" Text="{StaticResource SwitchPomo}"
+                     VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+      <ContentControl MouseLeftButtonUp="OnSettingsClick" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="{DynamicResource SetDisplayDrawingImage}" Opacity="0.6" Margin="8,0,0,0" Width="14"
+                 Height="14" Stretch="Uniform" HorizontalAlignment="Left"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" Text="{StaticResource MiniStyle}"
+                     VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+      <Line Style="{DynamicResource SplitLineStyle}" Margin="0,4"/>
+      <ContentControl MouseLeftButtonUp="OnPinClick" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Image Name="PinImage" Opacity="0.6" Margin="8,0,0,0" Width="14" Height="14" Stretch="Uniform"
+                 HorizontalAlignment="Left"/>
+          <TextBlock Name="PinText" FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" VerticalAlignment="Center"
+                     Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+      <ContentControl MouseLeftButtonUp="OnSoundClick" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="{DynamicResource FocusSoundDrawingImage}" Opacity="0.6" Margin="8,0,0,0" Width="14"
+                 Height="14" Stretch="Uniform" HorizontalAlignment="Left"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" Text="{StaticResource WhiteNoise}"
+                     VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+      <ContentControl MouseLeftButtonUp="ImmerseClick" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="{DynamicResource FullScreenDrawingImage}" Opacity="0.6" Margin="8,0,0,0" Width="14"
+                 Height="14" Stretch="Uniform" HorizontalAlignment="Left"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" Text="{StaticResource ImmerseMode}"
+                     VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+      <Line Style="{DynamicResource SplitLineStyle}" Margin="0,4"/>
+      <ContentControl MouseLeftButtonUp="OnOpenMainWindowClick" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="{DynamicResource MiniWindowDrawingImage}" Opacity="0.6" Margin="9,0,0,0" Width="14"
+                 Height="14" Stretch="Uniform" HorizontalAlignment="Left"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="7,0,8,0" Text="{StaticResource OpenMainWindow}"
+                     VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+      <ContentControl MouseLeftButtonUp="OnCloseClick" Style="{DynamicResource ListHoverItemStyle}" Height="28">
+        <StackPanel Orientation="Horizontal">
+          <Path Fill="{DynamicResource BaseColorOpacity60}" Margin="8,0,0,0" Width="14" Height="14"
+                Stretch="Uniform" Data="{Binding Source={StaticResource IcExit}, Path=Data}"/>
+          <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="8,0,8,0" Text="{StaticResource Close}"
+                     VerticalAlignment="Center" Foreground="{DynamicResource BaseColorOpacity100}"/>
+        </StackPanel>
+      </ContentControl>
+    </StackPanel>
+  </ContentControl>
+</UserControl>

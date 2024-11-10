@@ -1,0 +1,69 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Tag.TagSelectAddWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:local="clr-namespace:ticktick_WPF.Views.Tag"
+                xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                Loaded="OnWindowLoaded" Deactivated="OnWindowDeactivated" WindowStartupLocation="Manual"
+                ShowInTaskbar="false" AllowsTransparency="true" WindowStyle="None" Width="170"
+                Background="Transparent" SizeToContent="WidthAndHeight" IsTabStop="false" Topmost="true">
+  <FrameworkElement.Resources>
+    <converter:ErrorWidthConverter x:Key="ErrorWidthConverter"/>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition MinHeight="22"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Border Name="ShadowBorder" CornerRadius="2" Margin="11,0,10,4"
+            Background="{DynamicResource PopupBackground}" Opacity="1" Height="18" HorizontalAlignment="Left"
+            Visibility="{Binding Visibility, ElementName=TagBorder}">
+      <TextBox Background="Transparent" VerticalAlignment="Center" FontSize="12"
+               CaretBrush="{DynamicResource BaseColorOpacity100_80}" Foreground="Transparent" BorderThickness="0"
+               Padding="2,0" Text="{Binding Text, ElementName=TitleText}"/>
+    </Border>
+    <Border Name="TagBorder" Grid.Row="0" CornerRadius="2" Margin="11,0,10,4" Opacity="1" Height="18"
+            HorizontalAlignment="Left">
+      <FrameworkElement.Style>
+        <Style>
+          <Setter Property="Border.Background">
+            <Setter.Value>
+              <SolidColorBrush Color="{DynamicResource ColorPrimary}" Opacity="{DynamicResource TagBorderOpacity}"/>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </FrameworkElement.Style>
+      <TextBox PreviewKeyUp="OnTitleKeyUp" TextChanged="OnTitleTextChanged" Name="TitleText"
+               Background="Transparent" VerticalAlignment="Center" FontSize="12"
+               Foreground="{DynamicResource PrimaryColor}" BorderThickness="0" Padding="4,0"
+               CaretBrush="{DynamicResource BaseColorOpacity100_80}" Text="#"/>
+    </Border>
+    <Grid Name="TagPanel" Row="1" Margin="20,-17,0,0">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <local:TagSelectionControl x:Name="TagItems" IsTabStop="false"/>
+      </ContentControl>
+    </Grid>
+    <Border Name="ErrorBorder" Grid.Row="0" CornerRadius="2" Height="18" Margin="10,0,0,4" BorderThickness="1"
+            BorderBrush="{StaticResource TextRedColor}" Visibility="Collapsed" HorizontalAlignment="Left"
+            Width="{Binding ActualWidth, ElementName=TagBorder, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE+1}"/>
+    <Popup Name="ErrorPopup" Grid.Row="0" StaysOpen="false" AllowsTransparency="true" Placement="Relative"
+           VerticalOffset="10"
+           HorizontalOffset="{Binding Path=ActualWidth, ElementName=ErrorBorder, Converter={StaticResource ErrorWidthConverter}}"
+           PlacementTarget="{Binding ElementName=TitleText}">
+      <ContentControl Style="{DynamicResource PopupContentStyle}">
+        <Grid Width="160">
+          <RichTextBox BorderThickness="0" HorizontalAlignment="Center" Background="Transparent">
+            <FlowDocument>
+              <Paragraph>
+                <Run Text="{StaticResource TagNotValid}" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                     FontSize="12"/>
+              </Paragraph>
+            </FlowDocument>
+          </RichTextBox>
+        </Grid>
+      </ContentControl>
+    </Popup>
+  </Grid>
+</views:MyWindow>

@@ -1,0 +1,36 @@
+<Grid x:Class="ticktick_WPF.Views.Misc.NumInputTextBox"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+      Name="Root" Width="65" Height="28">
+  <TextBox PreviewTextInput="OnNumPreviewInput" TextChanged="OnTextChanged" Name="InputText"
+           Style="{StaticResource EditTextStyle}" HorizontalContentAlignment="Left" Padding="6,0,0,0" Text="0"
+           FontSize="12" HorizontalAlignment="Stretch" KeyboardNavigation.IsTabStop="false"
+           VerticalAlignment="Stretch"/>
+  <Border MouseLeftButtonUp="OnUpClick" Name="UpBorder" Height="10" Width="12" CornerRadius="2,2,0,0"
+          HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" Margin="0,0,4,10.5"
+          Background="{DynamicResource BaseColorOpacity20}"
+          Style="{DynamicResource SmoothHoverBorderStyle40_60}">
+    <Path Height="8" Width="8" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity100}"
+          RenderTransformOrigin="0.5,0.5" Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="-180"/>
+      </UIElement.RenderTransform>
+    </Path>
+    <UIElement.Visibility>
+      <MultiBinding Converter="{StaticResource BoolOrVisibilityConverter}">
+        <Binding ElementName="InputText" Path="IsFocused"/>
+        <Binding ElementName="Root" Path="IsMouseOver"/>
+      </MultiBinding>
+    </UIElement.Visibility>
+  </Border>
+  <Border MouseLeftButtonUp="OnDownClick" Height="10" Width="12" CornerRadius="0,0,2,2" Cursor="Hand"
+          Margin="0,10.5,4,0" Background="{DynamicResource BaseColorOpacity20}" HorizontalAlignment="Right"
+          VerticalAlignment="Center" Style="{DynamicResource SmoothHoverBorderStyle40_60}"
+          Visibility="{Binding ElementName=UpBorder, Path=Visibility}">
+    <Path Height="8" Width="8" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity100}"
+          Data="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+  </Border>
+</Grid>

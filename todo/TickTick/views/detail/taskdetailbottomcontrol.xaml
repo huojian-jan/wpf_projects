@@ -1,0 +1,97 @@
+<Grid x:Class="ticktick_WPF.Views.Detail.TaskDetailBottomControl"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+      xmlns:pomo="clr-namespace:ticktick_WPF.Views.Pomo"
+      xmlns:views="clr-namespace:ticktick_WPF.Views"
+      xmlns:agenda="clr-namespace:ticktick_WPF.Views.Agenda"
+      xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+      xmlns:tag="clr-namespace:ticktick_WPF.Views.Tag"
+      xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+      xmlns:detail="clr-namespace:ticktick_WPF.Views.Detail">
+  <Grid.RowDefinitions>
+    <RowDefinition Height="auto"/>
+    <RowDefinition Height="auto"/>
+  </Grid.RowDefinitions>
+  <Grid MouseLeftButtonUp="ShowAttendeeDialog" Name="AttendeeItemsPanel" Row="0" Column="0" MinHeight="38"
+        VerticalAlignment="Bottom" Background="Transparent" Visibility="Collapsed"
+        Cursor="{Binding Enable, Converter={StaticResource BoolCursorConverter}}">
+    <agenda:AttendeeDisplayControl x:Name="AttendeePanel" VerticalAlignment="Bottom" Margin="16,0"/>
+  </Grid>
+  <Grid Name="TaskDetailUnit" Row="1" Column="0" Margin="20,0" Height="44">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="auto"/>
+    </Grid.ColumnDefinitions>
+    <Grid MouseLeftButtonUp="MoveProjectMouseUp" PreviewMouseLeftButtonDown="MoveProjectMouseDown"
+          Name="TaskDetailMoveGrid" Column="0" Margin="-4,0,0,0" HorizontalAlignment="Left" Height="24"
+          Background="Transparent" ToolTip="{StaticResource MoveTo}" Cursor="Hand">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <Image Source="{DynamicResource movetoDrawingImage}" Margin="4,0,2,0" Style="{DynamicResource Icon01}"
+             Visibility="{Binding Emoji, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+      <wpf:EmjTextBlock Margin="4,0,2,0" Height="16" VerticalAlignment="Center" FontSize="13" Grid.Column="0"
+                        Text="{Binding Emoji}"
+                        MaxWidth="{Binding ElementName=TaskDetailUnit, Path=ActualWidth, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-100}"
+                        Visibility="{Binding Emoji, Converter={StaticResource StringToVisibleConverter}}"/>
+      <wpf:EmjTextBlock Margin="4,0" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" ClipToBounds="true"
+                        Foreground="{DynamicResource BaseColorOpacity80_60}" FontSize="13" Style="{StaticResource Tag02}"
+                        Grid.Column="1" Text="{Binding ProjectName}"
+                        MaxWidth="{Binding ElementName=TaskDetailUnit, Path=ActualWidth, Converter={StaticResource MathConverter}, ConverterParameter=@VALUE-100}"/>
+      <Border Style="{DynamicResource SmoothHoverBorderStyle}" CornerRadius="4" Grid.Column="0"
+              Grid.ColumnSpan="2"/>
+    </Grid>
+    <misc:EscPopup x:Name="SetProjectPopup" Opened="PopupOpened" Closed="PopupClosed" Grid.Column="0" Placement="Top"
+                   HorizontalOffset="-5" VerticalOffset="10" StaysOpen="false"
+                   PlacementTarget="{Binding ElementName=TaskDetailMoveGrid}"/>
+    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
+                Visibility="{Binding IsNewAdd, Converter={StaticResource VisibleConverter}}">
+      <Grid MouseLeftButtonUp="OnEditorClick" Name="EditorIcon" ToolTip="{DynamicResource TextStyle}">
+        <Border Name="EditIconSelectedBorder" CornerRadius="4" Background="{DynamicResource BaseColorOpacity5}"
+                Height="26" Visibility="Collapsed"/>
+        <misc:HoverIconButton x:Name="EditButton" ImageSource="{DynamicResource MarkdownDrawingImage}" Height="26" Width="26"
+                              ImageWidth="16" Cursor="{Binding Enable, Converter={StaticResource BoolCursorConverter}}"/>
+      </Grid>
+      <misc:HoverIconButton x:Name="CommentGrid" PreviewMouseLeftButtonUp="OnCommentClick" Margin="3,0,0,0"
+                            ToolTip="{StaticResource Comment}" Height="26" Width="26" ImageWidth="16"
+                            ImageSource="{DynamicResource CommentDrawingLine}"/>
+      <misc:HoverIconButton x:Name="DeleteGrid" MouseLeftButtonUp="OnDeleteMouseUp" Margin="3,0,0,0"
+                            ToolTip="{StaticResource Delete}" Height="26" Width="26" ImageWidth="16"
+                            ImageSource="{DynamicResource DeleteDrawingLine}"/>
+      <misc:HoverIconButton x:Name="MoreGrid" MouseLeftButtonUp="MoreGridClick" PreviewMouseLeftButtonDown="MoreGridDown"
+                            Margin="3,0,0,0" ToolTip="{StaticResource More}" Height="26" Width="26" ImageWidth="16"
+                            ImageSource="{DynamicResource MoreDrawingImage}"/>
+      <misc:EscPopup x:Name="MorePopup" Opened="PopupOpened" Closed="PopupClosed" StaysOpen="false"
+                     AllowsTransparency="true" Placement="Center" PlacementTarget="{Binding ElementName=MoreGrid}"
+                     VerticalOffset="{Binding ElementName=MoreContentContainer, Path=ActualHeight, Converter={StaticResource MathConverter}, ConverterParameter=0-@VALUE/2-10}"
+                     HorizontalOffset="{Binding ElementName=MoreContentContainer, Path=ActualWidth, Converter={StaticResource MathConverter}, ConverterParameter=40-@VALUE/2}">
+        <ContentControl Name="MoreContentContainer" Style="{DynamicResource PopupContentStyle}"/>
+      </misc:EscPopup>
+    </StackPanel>
+  </Grid>
+  <Grid Name="TaskDetailTrashGrid" Row="1" Height="44" Margin="16,0,20,0" Visibility="Collapsed">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Grid MouseLeftButtonUp="RestoreProjectMouseUp" Name="TrashRestoreGrid" Column="0"
+          HorizontalAlignment="Left" ToolTip="{StaticResource Restore}" Cursor="Hand">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <Image Source="{DynamicResource RestoreDrawingImage}" Style="{DynamicResource Icon01}" Margin="4,0,0,0"/>
+      <TextBlock Foreground="{DynamicResource BaseColorOpacity60}" Margin="6,0,4,0" VerticalAlignment="Center"
+                 Grid.Column="1" FontSize="13" Text="{StaticResource Restore}"/>
+      <Border Style="{DynamicResource SmoothHoverBorderStyle}" VerticalAlignment="Center" Grid.Column="0"
+              Grid.ColumnSpan="2"/>
+    </Grid>
+    <misc:HoverIconButton x:Name="RemoveButton" MouseLeftButtonUp="DeleteFromTrashMouseUp"
+                          PreviewMouseLeftButtonDown="MoreGridDown" Column="1" ToolTip="{StaticResource DeleteForever}"
+                          Height="26" Width="26" ImageWidth="16" ImageSource="{DynamicResource DeleteForeverDrawingImage}"/>
+  </Grid>
+</Grid>

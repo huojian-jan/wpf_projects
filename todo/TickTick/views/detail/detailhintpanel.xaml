@@ -1,0 +1,24 @@
+<StackPanel x:Class="ticktick_WPF.Views.Detail.DetailHintPanel"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:local="clr-namespace:ticktick_WPF.Views.Detail"
+            VerticalAlignment="Center" Orientation="Vertical">
+  <Viewbox Height="160" Width="160">
+    <Grid Width="200" Height="200" Background="Transparent">
+      <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity5}"/>
+      <Image Name="EmptyImage" Width="200" Height="200" Stretch="None"/>
+      <Path Name="TaskEmptyPath" Width="200" Height="200" Fill="{DynamicResource EmptyPathColor}"
+            Visibility="Collapsed" Data="{Binding Source={StaticResource IcEmptyDetail}, Path=Data}"/>
+      <Polygon Name="HabitEmptyPath" Width="200" Height="200" Margin="22,28,0,0"
+               Fill="{DynamicResource EmptyPathColor}" Visibility="Collapsed">
+        <Polygon.Points>
+          <Binding Source="{StaticResource IcHabitDetailEmpty}" Path="Points"/>
+        </Polygon.Points>
+      </Polygon>
+    </Grid>
+  </Viewbox>
+  <TextBlock Name="EmptyText" Style="{DynamicResource Body02}" MaxWidth="280" TextTrimming="WordEllipsis"
+             TextAlignment="Center" HorizontalAlignment="Center"/>
+</StackPanel>

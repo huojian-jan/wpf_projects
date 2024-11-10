@@ -1,0 +1,90 @@
+<UserControl x:Class="ticktick_WPF.Views.Calendar.TimeLineBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             x:Name="Root">
+  <FrameworkElement.Resources>
+    <Style x:Key="TimeTextStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="TextBlock.FontSize" Value="10"/>
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+    </Style>
+    <converter:TimePointTextConverter x:Key="TimePointTextConverter"/>
+    <converter:TimePointTextMarginConverter x:Key="TimePointTextMarginConverter"/>
+    <converter:ToolTipTextConverter x:Key="ToolTipTextConverter"/>
+  </FrameworkElement.Resources>
+  <Grid MouseMove="OnBlockMouseMove" MouseLeftButtonUp="OnBlockMouseUp"
+        MouseLeftButtonDown="OnBlockMouseDown" Background="Transparent">
+    <Grid Background="{DynamicResource BaseColorOpacity5}" Cursor="Hand" Height="16"
+          Visibility="{Binding Folded, Converter={StaticResource BoolVisibleConverter}}">
+      <FrameworkElement.ToolTip>
+        <ToolTip Placement="Bottom" HorizontalOffset="60" VerticalOffset="-40"
+                 PlacementTarget="{Binding ElementName=TimeLineGrid}">
+          <Binding Path="Offset" Converter="{StaticResource ToolTipTextConverter}"/>
+        </ToolTip>
+      </FrameworkElement.ToolTip>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+        <TextBlock Text="-" Margin="-8,0,4,0" Style="{StaticResource TimeTextStyle}"
+                   Visibility="{Binding ShowDivider, Converter={StaticResource BoolVisibleConverter}}"/>
+        <TextBlock Style="{StaticResource TimeTextStyle}">
+          <TextBlock.Text>
+            <MultiBinding Converter="{StaticResource TimePointTextConverter}">
+              <Binding Path="Offset"/>
+              <Binding ElementName="Root" Path="CheckNow"/>
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+      </StackPanel>
+      <Border PreviewMouseLeftButtonUp="OnCollapsedClick" Background="Transparent"/>
+    </Grid>
+    <Border Name="CalendarGrid" Background="Transparent" IsHitTestVisible="false"
+            Visibility="{Binding Folded, Converter={StaticResource VisibleConverter}}"
+            Height="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=CalendarHourHeight}">
+      <TextBlock Style="{StaticResource TimeTextStyle}" HorizontalAlignment="Right" VerticalAlignment="Top"
+                 Visibility="{Binding IsFirst, Converter={StaticResource VisibleConverter}}">
+        <TextBlock.Text>
+          <MultiBinding Converter="{StaticResource TimePointTextConverter}">
+            <Binding Path="Offset"/>
+            <Binding ElementName="Root" Path="CheckNow"/>
+          </MultiBinding>
+        </TextBlock.Text>
+        <FrameworkElement.Margin>
+          <MultiBinding Converter="{StaticResource TimePointTextMarginConverter}">
+            <Binding Path="Offset"/>
+            <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="CollapsedStart"/>
+            <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="CollapsedEnd"/>
+          </MultiBinding>
+        </FrameworkElement.Margin>
+      </TextBlock>
+    </Border>
+    <Border Cursor="Hand" Visibility="{Binding Folded, Converter={StaticResource VisibleConverter}}">
+      <Border MouseEnter="OnHandleMouseEnter" MouseLeave="OnHandleMouseLeave" Background="Transparent"
+              Height="10" VerticalAlignment="Bottom"/>
+    </Border>
+    <Border PreviewMouseLeftButtonDown="OnBottomHandlePressed" VerticalAlignment="Bottom" Width="53" Height="9"
+            Background="Transparent" Cursor="SizeNS"
+            Visibility="{Binding ShowBottomHandle, Converter={StaticResource BoolVisibleConverter}}">
+      <Image Source="{DynamicResource TimeLineBottomDragDrawingImage}" Width="53" Height="9" Opacity="0.4"
+             Stretch="Uniform" RenderTransformOrigin="0.5,0.5">
+        <UIElement.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform ScaleY="-1"/>
+          </TransformGroup>
+        </UIElement.RenderTransform>
+      </Image>
+    </Border>
+    <Border PreviewMouseLeftButtonDown="OnStartHandlePressed" VerticalAlignment="Top" Width="53" Height="9"
+            Background="Transparent" Panel.ZIndex="110" Cursor="SizeNS"
+            Visibility="{Binding ShowTopHandle, Converter={StaticResource BoolVisibleConverter}}">
+      <Image Source="{DynamicResource TimeLineBottomDragDrawingImage}" Width="53" Height="9" Opacity="0.4"
+             Stretch="Uniform" RenderTransformOrigin="0.5,0.5">
+        <UIElement.RenderTransform>
+          <TranslateTransform Y="0"/>
+        </UIElement.RenderTransform>
+      </Image>
+    </Border>
+  </Grid>
+</UserControl>

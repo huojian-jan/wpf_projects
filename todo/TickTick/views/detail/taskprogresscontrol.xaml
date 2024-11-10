@@ -1,0 +1,78 @@
+<UserControl x:Class="ticktick_WPF.Views.Detail.TaskProgressControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:detail="clr-namespace:ticktick_WPF.Views.Detail"
+             SizeChanged="OnSizeChanged">
+  <Grid Name="Container">
+    <FrameworkElement.Resources>
+      <Style x:Key="RectangleStyle" TargetType="{x:Type Rectangle}">
+        <Setter Property="Shape.Stroke" Value="{DynamicResource PrimaryColor}"/>
+        <Setter Property="FrameworkElement.Width" Value="1"/>
+        <Setter Property="FrameworkElement.Height" Value="auto"/>
+        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+      </Style>
+      <converter:TaskProgressRectWidthConverter x:Key="TaskProgressRectWidthConverter"/>
+      <converter:TaskProgressPointerMarginConverter x:Key="TaskProgressPointerMarginConverter"/>
+      <converter:TaskProgressTextMarginConverter x:Key="TaskProgressTextMarginConverter"/>
+    </FrameworkElement.Resources>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="79*"/>
+    </Grid.ColumnDefinitions>
+    <Rectangle HorizontalAlignment="Left" Fill="{DynamicResource PrimaryColor}" Height="2"
+               VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+      <FrameworkElement.Width>
+        <MultiBinding Converter="{StaticResource TaskProgressRectWidthConverter}">
+          <Binding Path="Percent"/>
+          <Binding Path="Width"/>
+        </MultiBinding>
+      </FrameworkElement.Width>
+    </Rectangle>
+    <Border Background="#99191919" Grid.Column="0" IsHitTestVisible="false" VerticalAlignment="Bottom"
+            Grid.ColumnSpan="2" Width="36" Height="20" HorizontalAlignment="Left" CornerRadius="2"
+            Panel.ZIndex="1000"
+            Visibility="{Binding ShowPointer, Converter={StaticResource BoolVisibleConverter}}">
+      <UIElement.Effect>
+        <DropShadowEffect Color="#000000" Opacity="0.12" BlurRadius="11" ShadowDepth="2" Direction="280"/>
+      </UIElement.Effect>
+      <FrameworkElement.Margin>
+        <MultiBinding Converter="{StaticResource TaskProgressTextMarginConverter}">
+          <Binding Path="PreviewPercent"/>
+          <Binding Path="Width"/>
+        </MultiBinding>
+      </FrameworkElement.Margin>
+      <TextBlock Style="{DynamicResource Tag01}" Foreground="White" VerticalAlignment="Center"
+                 HorizontalAlignment="Center">
+        <Run Text="{Binding PreviewPercent}"/>
+        <Run Text="%"/>
+      </TextBlock>
+    </Border>
+    <Rectangle Style="{StaticResource RectangleStyle}" Height="2" Fill="{DynamicResource PrimaryColor}"
+               Opacity="0.36" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Bottom"
+               Visibility="{Binding ShowPointer, Converter={StaticResource BoolVisibleConverter}}">
+      <FrameworkElement.Width>
+        <MultiBinding Converter="{StaticResource TaskProgressPointerMarginConverter}">
+          <Binding Path="PreviewPercent"/>
+          <Binding Path="Width"/>
+        </MultiBinding>
+      </FrameworkElement.Width>
+    </Rectangle>
+    <Border PreviewMouseMove="ProgressPreviewMouseMove" MouseLeave="ProgressMouseLeave"
+            MouseLeftButtonDown="ProgressClick" Height="16" Background="Transparent" Margin="0,0,0,-6"
+            VerticalAlignment="Bottom" Grid.ColumnSpan="2" Grid.Column="0">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Border}">
+          <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ShowPointer}" Value="True">
+              <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Border>
+  </Grid>
+</UserControl>

@@ -1,0 +1,38 @@
+<UserControl x:Class="ticktick_WPF.Views.Calendar.OperationDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Calendar"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+             FontFamily="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=FontFamily}">
+  <Grid>
+    <ContentControl Style="{DynamicResource PopupContentStyle}">
+      <customControl:UpDownSelectListView x:Name="OptionItems" ItemSelected="OnItemSelect" LeftRightKeyDown="OnLeftRightKeyDown">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="local:OperationItemViewModel">
+            <Grid>
+              <misc:OptionItemWithImageIcon MouseMove="OnActionMouseMove" MouseEnter="OnActionMouseEnter" TextPadding="6,0,24,0"
+                                            ImageSource="{Binding Image}" ImageMargin="{Binding ImageMargin}" ImageWidth="{Binding ImageWidth}"
+                                            Content="{Binding Text}" IsEnabled="{Binding Enable}" HoverSelected="{Binding HoverSelected}">
+              </misc:OptionItemWithImageIcon>
+              <Polygon Width="12" Height="12" Margin="0,0,8,0" Grid.Column="2" RenderTransformOrigin="0.5,0.5"
+                       VerticalAlignment="Center" HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}"
+                       Visibility="{Binding SubActions, Converter={StaticResource NullToVisibilityConverter}}">
+                <Polygon.Points>
+                  <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+                </Polygon.Points>
+                <UIElement.RenderTransform>
+                  <RotateTransform Angle="270"/>
+                </UIElement.RenderTransform>
+              </Polygon>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </customControl:UpDownSelectListView>
+    </ContentControl>
+    <misc:EscPopup x:Name="SubPopup" Closed="SubpopupClosed" HorizontalOffset="-3" VerticalOffset="-12"/>
+  </Grid>
+</UserControl>

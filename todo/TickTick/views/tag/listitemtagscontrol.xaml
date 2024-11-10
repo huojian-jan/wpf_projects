@@ -1,0 +1,82 @@
+<UserControl x:Class="ticktick_WPF.Views.Tag.ListItemTagsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Tag"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             Name="Root" Tag="{DynamicResource IsDarkTheme}">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="TagTemplate">
+      <Grid Name="TagContainer" Visibility="{Binding IsHide, Converter={StaticResource VisibleConverter}}">
+        <Border Name="Bd" CornerRadius="9" Height="18" Margin="2,0,2,0" ToolTip="{Binding Extra}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Border}">
+              <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+              <Setter Property="Border.Background">
+                <Setter.Value>
+                  <SolidColorBrush Opacity="0.4" Color="{Binding Color}"/>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsMore}" Value="True">
+                  <Setter Property="Border.Background">
+                    <Setter.Value>
+                      <SolidColorBrush Opacity="0.2" Color="{Binding Color}"/>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Border.Background">
+                    <Setter.Value>
+                      <SolidColorBrush Opacity="{DynamicResource TagHoverOpacity}" Color="{Binding Color}"/>
+                    </Setter.Value>
+                  </Setter>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <wpf:EmjTextBlock x:Name="TagName" Background="Transparent" Margin="6,0" TextAlignment="Left" FontSize="12"
+                            VerticalAlignment="Center" Height="15" TextWrapping="Wrap" ClipToBounds="true" MaxWidth="90"
+                            TextTrimming="CharacterEllipsis" Cursor="Hand" Text="{Binding Tag}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type wpf:EmjTextBlock}">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource LightTextColorPrimary}"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=Tag}" Value="True">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource DarkTextColorPrimary}"/>
+                  </DataTrigger>
+                  <DataTrigger Binding="{Binding ElementName=Bd, Path=IsMouseOver}" Value="True">
+                    <Setter Property="TextBlock.Foreground" Value="White"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </wpf:EmjTextBlock>
+        </Border>
+        <Grid Name="DeleteGrid" Width="12" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right"
+              Background="Transparent" Visibility="{Binding IsMore, Converter={StaticResource VisibleConverter}}">
+          <Grid Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="Hand"
+                ToolTip="{StaticResource Remove}"
+                Visibility="{Binding Path=IsMouseOver, ElementName=TagContainer, Converter={StaticResource BoolVisibleConverter}}">
+            <Rectangle Width="10" Height="10" RadiusX="5" RadiusY="5" Fill="{DynamicResource BaseColorOpacity40}"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Path Width="8" Height="8" Fill="White" Stretch="Uniform" VerticalAlignment="Center"
+                  HorizontalAlignment="Center" Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+          </Grid>
+        </Grid>
+      </Grid>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Grid>
+    <ItemsControl Name="Items" ItemTemplate="{DynamicResource TagTemplate}" ItemsSource="{Binding DisplayTags}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal" Height="22"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
+  </Grid>
+</UserControl>

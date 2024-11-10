@@ -1,0 +1,93 @@
+<Grid x:Class="ticktick_WPF.Views.Kanban.Item.KanbanItemContent"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+      xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+      xmlns:taskList="clr-namespace:ticktick_WPF.Views.TaskList"
+      DataContextChanged="OnDataBind" Name="Root" Background="Transparent">
+  <Grid.RowDefinitions>
+    <RowDefinition Height="12"/>
+    <RowDefinition/>
+  </Grid.RowDefinitions>
+  <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="34"/>
+    <ColumnDefinition/>
+  </Grid.ColumnDefinitions>
+  <Border MouseLeftButtonUp="OnOpenPathClick" Name="FoldGrid" Grid.Column="0" Width="18"
+          Background="Transparent" Height="14" Grid.Row="1" HorizontalAlignment="Left"
+          VerticalAlignment="Top" Cursor="Hand">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Border}">
+        <Setter Property="FrameworkElement.Margin" Value="2,3,0,0"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding ElementName=TitleBox, Path=FontSize}" Value="16">
+            <Setter Property="FrameworkElement.Margin" Value="2,4,0,0"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding ElementName=TitleBox, Path=FontSize}" Value="18">
+            <Setter Property="FrameworkElement.Margin" Value="2,6,0,0"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <UIElement.Visibility>
+      <MultiBinding Converter="{StaticResource ShowFoldTaskPathConverter}">
+        <Binding Path="HasChildren"/>
+        <Binding Path="Level"/>
+      </MultiBinding>
+    </UIElement.Visibility>
+    <Path Width="12" Height="12" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" Stretch="Fill"
+          HorizontalAlignment="Center" Fill="{DynamicResource BaseColorOpacity40}"
+          Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="{Binding IsOpen, Converter={StaticResource SectionOpenConverter}, Mode=OneWay}"/>
+      </UIElement.RenderTransform>
+    </Path>
+  </Border>
+  <Canvas PreviewMouseLeftButtonUp="OnCheckBoxClick" PreviewMouseRightButtonUp="OnCheckBoxRightMouseUp"
+          Name="CheckBox" Grid.Column="0" HorizontalAlignment="Right" Width="14" Height="14"
+          VerticalAlignment="Top" Grid.Row="1" Background="Transparent"
+          Margin="{Binding ElementName=FoldGrid, Path=Margin}">
+    <Border Name="CheckIconBorder" CornerRadius="1" Width="14" Height="14" Canvas.Left="0" Canvas.Top="0"
+            Background="{Binding ElementName=CheckPath, Path=Fill}"
+            Visibility="{Binding ElementName=CheckBox, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Path Name="CheckPath" Width="14" Height="14" Stretch="Fill" Canvas.Left="0" Canvas.Top="0"
+          Data="{Binding Icon}">
+      <Shape.Fill>
+        <MultiBinding Converter="{StaticResource ItemIconColorConverter}">
+          <Binding Path="Type"/>
+          <Binding Path="Priority"/>
+          <Binding Path="Status"/>
+          <Binding ElementName="CheckBox" Path="IsMouseOver"/>
+          <Binding Path="." ElementName="Root"/>
+        </MultiBinding>
+      </Shape.Fill>
+    </Path>
+  </Canvas>
+  <taskList:TaskTitleBox x:Name="TitleBox" Grid.Column="1" VerticalAlignment="Top" Margin="8,0,0,7" IsHitTestVisible="false"
+                         FontSize="{DynamicResource Font14}" ReadOnly="true" Grid.Row="1" TextStatus="{Binding Status}"/>
+  <TextBlock Grid.Column="1" Text="{DynamicResource NoTitle}" IsHitTestVisible="false" Margin="8,1,0,0"
+             FontSize="{DynamicResource Font14}" Grid.Row="1" VerticalAlignment="Top">
+    <TextBlock.TextDecorations>
+      <MultiBinding Converter="{StaticResource TaskNoTitleDecorationsConverter}">
+        <Binding Path="Status"/>
+        <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ShowCompleteLine"/>
+      </MultiBinding>
+    </TextBlock.TextDecorations>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body01}">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Title}" Value="">
+            <Setter Property="UIElement.Visibility" Value="Visible"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding Title}" Value="{x:Null}">
+            <Setter Property="UIElement.Visibility" Value="Visible"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </TextBlock>
+</Grid>

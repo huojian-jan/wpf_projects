@@ -1,0 +1,27 @@
+<Application x:Class="ticktick_WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             ShutdownMode="OnLastWindowClose">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Resource\SVGResource.xaml"/>
+        <ResourceDictionary Source="Resource\Sidebar.xaml"/>
+        <ResourceDictionary Source="Resource\PomoIcons.xaml"/>
+        <ResourceDictionary Source="Resource\ColorResource.xaml"/>
+        <ResourceDictionary Source="Resource\Themes\Default.xaml"/>
+        <ResourceDictionary Source="Resource\Themes\White.xaml"/>
+        <ResourceDictionary Source="Resource\Themes\Light.xaml"/>
+        <ResourceDictionary Source="Resource\Themes\LightNecessaryColor.xaml"/>
+        <ResourceDictionary Source="Resource\StringResource\StringResource.en-US.xaml"/>
+        <ResourceDictionary Source="Resource\icons_light.xaml"/>
+        <ResourceDictionary Source="Resource\FontResource\Font_Normal.xaml"/>
+        <ResourceDictionary Source="Resource\FontResource\FontFamilyNormal.xaml"/>
+        <ResourceDictionary Source="Resource\Tasklist.xaml"/>
+        <ResourceDictionary Source="Styles\Styles.xaml"/>
+        <ResourceDictionary Source="Styles\MainListViewResources.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

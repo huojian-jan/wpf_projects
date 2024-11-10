@@ -1,0 +1,14 @@
+<ContentControl x:Class="ticktick_WPF.Views.Detail.TaskDetailPopup"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:detailView="clr-namespace:ticktick_WPF.Views.MainListView.DetailView"
+                Name="Control" Style="{DynamicResource PopupContentStyle}" VerticalAlignment="Stretch">
+  <Grid VerticalAlignment="Stretch" ClipToBounds="true">
+    <detailView:TaskDetailPopupView x:Name="Detail" Margin="-4,0,-4,0" InputMethod.IsInputMethodEnabled="true"
+                                    VerticalAlignment="Stretch" Background="Transparent"/>
+    <Grid Name="ToastGrid" Column="0" HorizontalAlignment="Center" Margin="0,0,0,40"
+          VerticalAlignment="Bottom"/>
+  </Grid>
+</ContentControl>

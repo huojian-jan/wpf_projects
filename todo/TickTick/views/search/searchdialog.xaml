@@ -1,0 +1,24 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Search.SearchDialog"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:markdown="clr-namespace:ticktick_WPF.Views.MarkDown"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                xmlns:local="clr-namespace:ticktick_WPF.Views.Search"
+                MouseLeftButtonDown="OnMouseDown" WindowStyle="None" AllowsTransparency="true"
+                Background="Transparent" WindowStartupLocation="CenterOwner" Height="500" Width="700">
+  <UIElement.InputBindings>
+    <KeyBinding Key="Escape" Command="{x:Static views:OkCancelWindowCommands.EscCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+    <KeyBinding Key="Enter" Command="{x:Static views:OkCancelWindowCommands.OkCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:IOkCancelWindow}}}"/>
+  </UIElement.InputBindings>
+  <Border Margin="20" HorizontalAlignment="Stretch" CornerRadius="5" VerticalAlignment="Stretch"
+          Background="{DynamicResource WindowBackgroundPrimary}">
+    <UIElement.Effect>
+      <DropShadowEffect BlurRadius="12" Opacity="0.2" ShadowDepth="5" Direction="290"/>
+    </UIElement.Effect>
+    <local:SearchInputControl x:Name="SearchInput"/>
+  </Border>
+</views:MyWindow>

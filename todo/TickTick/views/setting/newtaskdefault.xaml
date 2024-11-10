@@ -1,0 +1,166 @@
+<UserControl x:Class="ticktick_WPF.Views.Setting.NewTaskDefault"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:config="clr-namespace:ticktick_WPF.Views.Setting"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl">
+  <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Horizontal" Margin="38,32,46,0">
+      <TextBlock Text="{StaticResource TaskDefault}" Margin="0,0,8,0" Style="{DynamicResource SettingTitleStyle}"/>
+      <Border Background="Transparent">
+        <FrameworkElement.ToolTip>
+          <ToolTip Placement="Top" Content="{DynamicResource TaskDefaultTips}" HorizontalOffset="-120"
+                   VerticalOffset="-8"/>
+        </FrameworkElement.ToolTip>
+        <Path Height="15" Width="15" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity40}"
+              Data="{Binding Source={StaticResource IcHelp}, Path=Data}"/>
+      </Border>
+    </StackPanel>
+    <Border Margin="20,16,20,0" Background="{DynamicResource BaseColorOpacity2}" CornerRadius="8">
+      <StackPanel Margin="18,4,16,4">
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource DefaultDate}"/>
+          <customControl:CustomSimpleComboBox x:Name="DefaultDateCombobox" ItemSelected="OnDefaultDateSelect" HorizontalAlignment="Right"
+                                              Height="28"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" MaxWidth="230"
+                     Text="{StaticResource SetDefaultReminderInfo}"/>
+          <Border MouseLeftButtonUp="OnTimeReminderClick" Name="TimeReminderBorder" Height="28" CornerRadius="4"
+                  VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}" BasedOn="{StaticResource HoverBorderStyle}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=SelectReminderPopup, Path=IsOpen}" Value="True">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Name="SelectTimeText" FontSize="14" MaxWidth="170" VerticalAlignment="Center" Margin="8,0,4,0"
+                         TextTrimming="CharacterEllipsis" Foreground="{DynamicResource BaseSolidColorOpacity60}"/>
+              <Path Name="TimeReminderIcon" Fill="{DynamicResource BaseColorOpacity40}" Width="12" Height="12"
+                    VerticalAlignment="Center" HorizontalAlignment="Right" Stretch="Fill" Margin="0,0,4,0"
+                    Data="{Binding Source={StaticResource IcComboBoxArrow}, Path=Data}"/>
+            </StackPanel>
+          </Border>
+          <misc:EscPopup x:Name="SelectReminderPopup" Placement="Bottom" VerticalOffset="0" HorizontalOffset="-182"
+                         StaysOpen="false" PopupAnimation="Fade" Width="222"
+                         PlacementTarget="{Binding ElementName=TimeReminderIcon}"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource SetDefaultAllDayInfo}"
+                     MaxWidth="230"/>
+          <Border MouseLeftButtonUp="OnAllDayReminderClick" Name="AlldayReminderBorder" Height="28"
+                  HorizontalAlignment="Right" CornerRadius="4" Cursor="Hand" VerticalAlignment="Center">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}" BasedOn="{StaticResource HoverBorderStyle}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=SelectAllDayReminderPopup, Path=IsOpen}" Value="True">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Name="SelectAlldayText" FontSize="14" VerticalAlignment="Center" MaxWidth="170" Margin="8,0,4,0"
+                         TextTrimming="CharacterEllipsis" Foreground="{DynamicResource BaseSolidColorOpacity60}"/>
+              <Path Name="AllDayReminderIcon" Fill="{DynamicResource BaseColorOpacity40}" Width="12" Height="12"
+                    VerticalAlignment="Center" HorizontalAlignment="Right" Stretch="Fill" Margin="0,0,4,0"
+                    Data="{Binding Source={StaticResource IcComboBoxArrow}, Path=Data}"/>
+            </StackPanel>
+          </Border>
+          <misc:EscPopup x:Name="SelectAllDayReminderPopup" Placement="Bottom" VerticalOffset="0" HorizontalOffset="-182"
+                         StaysOpen="false" PopupAnimation="Fade" Width="222"
+                         PlacementTarget="{Binding ElementName=AllDayReminderIcon}"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource DefaultPriority}"/>
+          <customControl:CustomSimpleComboBox x:Name="DefaultPriorityComboBox" ItemSelected="OnDefaultPrioritySelect" HorizontalAlignment="Right"
+                                              VerticalAlignment="Center" Height="28"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource DefaultTags}"/>
+          <Grid HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Path Fill="{DynamicResource BaseColorOpacity40}" Width="12" Height="12" VerticalAlignment="Center"
+                  HorizontalAlignment="Right" Stretch="Fill" Margin="0,0,6,0"
+                  Data="{Binding Source={StaticResource IcComboBoxArrow}, Path=Data}"/>
+            <Border MouseLeftButtonUp="OnDefaultTagClick" Height="28" HorizontalAlignment="Left" Cursor="Hand">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}" BasedOn="{StaticResource HoverBorderStyle}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=DefaultAddTagPopup, Path=IsOpen}" Value="True">
+                      <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <wpf:EmjTextBlock Name="DefaultAddTagNameText" FontSize="14" VerticalAlignment="Center" MaxWidth="170"
+                                Margin="8,0,24,0" Width="Auto" TextTrimming="CharacterEllipsis"
+                                Foreground="{DynamicResource BaseSolidColorOpacity60}" TextWrapping="Wrap" ClipToBounds="true"/>
+            </Border>
+          </Grid>
+          <misc:EscPopup x:Name="DefaultAddTagPopup" StaysOpen="false" PopupAnimation="Fade" Placement="Bottom"
+                         VerticalOffset="-2" HorizontalOffset="-152"
+                         PlacementTarget="{Binding ElementName=DefaultAddTagNameText}"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource DefaultList}"/>
+          <Grid HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Path Name="ProjectArrow" Fill="{DynamicResource BaseColorOpacity40}" Width="12" Height="12"
+                  VerticalAlignment="Center" HorizontalAlignment="Right" Stretch="Fill" Margin="0,0,6,0"
+                  Data="{Binding Source={StaticResource IcComboBoxArrow}, Path=Data}"/>
+            <Border MouseLeftButtonUp="OnDefaultAddProjectClick" Height="28" HorizontalAlignment="Left" Cursor="Hand">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}" BasedOn="{StaticResource HoverBorderStyle}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=DefaultAddProjectPopup, Path=IsOpen}" Value="True">
+                      <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <wpf:EmjTextBlock Name="DefaultAddProjectNameText" FontSize="14" VerticalAlignment="Center" MaxWidth="170"
+                                Margin="8,0,24,0" Width="Auto" TextTrimming="CharacterEllipsis"
+                                Foreground="{DynamicResource BaseSolidColorOpacity60}" TextWrapping="Wrap" ClipToBounds="true"/>
+            </Border>
+          </Grid>
+          <misc:EscPopup x:Name="DefaultAddProjectPopup" StaysOpen="false" PopupAnimation="Fade" Placement="Bottom"
+                         VerticalOffset="0" HorizontalOffset="-172" PlacementTarget="{Binding ElementName=ProjectArrow}"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    <Border Margin="20,16,20,0" Background="{DynamicResource BaseColorOpacity2}" CornerRadius="8">
+      <StackPanel Margin="18,4,16,4">
+        <Grid Name="DateModePanel">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource DefaultDateMode}"/>
+          <customControl:CustomSimpleComboBox x:Name="DateModeComboBox" ItemSelected="OnDateModeChanged" HorizontalAlignment="Right" Grid.Row="0"
+                                              VerticalAlignment="Center" Height="28"/>
+          <customControl:CustomSimpleComboBox x:Name="DurationUnitComboBox" ItemSelected="OnDurationUnitChanged" HorizontalAlignment="Right"
+                                              Margin="0,6" Grid.Row="1" Height="28"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Style="{StaticResource SettingTextStyle}" Text="{StaticResource DefaultAddTo}" MaxWidth="220"/>
+          <customControl:CustomSimpleComboBox x:Name="AddToComboBox" ItemSelected="OnAddToSelected" HorizontalAlignment="Right" Height="28"
+                                              VerticalAlignment="Center" FontSize="14"/>
+        </Grid>
+        <Grid Height="40">
+          <TextBlock Text="{DynamicResource PosOfOverdue}" MaxWidth="220" Style="{StaticResource SettingTextStyle}"/>
+          <customControl:CustomSimpleComboBox x:Name="PosOfOverdueComboBox" ItemSelected="OnPosOfOverdueChanged" HorizontalAlignment="Right"
+                                              VerticalAlignment="Center" Height="28"/>
+        </Grid>
+      </StackPanel>
+    </Border>
+    <TextBlock MouseLeftButtonUp="ResetDefaultClick" Name="ResetDefault" Style="{StaticResource SettingTextStyle}"
+               Grid.Column="1" Text="{DynamicResource ResetTaskDefault}" Margin="38,12,0,0"
+               Background="Transparent" Foreground="{DynamicResource ThemeBlue}" Cursor="Hand"/>
+  </StackPanel>
+</UserControl>

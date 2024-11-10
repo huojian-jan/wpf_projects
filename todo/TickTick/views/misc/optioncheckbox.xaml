@@ -1,0 +1,98 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.OptionCheckBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             Name="Root" FontSize="{DynamicResource Font13}" Height="{DynamicResource Height36}"
+             Foreground="{DynamicResource BaseColorOpacity100_80}">
+  <Grid>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Setter Property="Panel.Background" Value="Transparent"/>
+        <Setter Property="UIElement.Opacity" Value="1"/>
+        <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+        <Style.Triggers>
+          <Trigger Property="UIElement.IsEnabled" Value="false">
+            <Setter Property="UIElement.Opacity" Value="0.6"/>
+            <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+            <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity10}"/>
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="8"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Border Grid.Column="0" Grid.ColumnSpan="4" Margin="4,0" CornerRadius="4">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Border}">
+          <Setter Property="Border.Background" Value="Transparent"/>
+          <Style.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="true">
+              <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity3}"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding ElementName=Root, Path=HoverSelected}" Value="True">
+              <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity3}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Border>
+    <Path Grid.Column="0" HorizontalAlignment="Left" Width="16" Height="16" VerticalAlignment="Center"
+          IsHitTestVisible="false" Margin="{Binding ElementName=Root, Path=IconMargin}"
+          Visibility="{Binding ElementName=Root, Path=Icon, Converter={StaticResource NullToVisibilityConverter}}"
+          Data="{Binding ElementName=Root, Path=Icon}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Path}" BasedOn="{StaticResource Path01}">
+          <Setter Property="Shape.Fill" Value="{Binding ElementName=Root, Path=IconFill}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=Root, Path=Selected}" Value="True">
+              <Setter Property="Shape.Fill" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Path>
+    <wpf:EmjTextBlock x:Name="TitleText" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left"
+                      IsHitTestVisible="false" VerticalAlignment="Center" Grid.Column="1"
+                      Text="{Binding ElementName=Root, Path=Text}" Padding="{Binding ElementName=Root, Path=TextPadding}"
+                      FontSize="{Binding ElementName=Root, Path=FontSize}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type wpf:EmjTextBlock}">
+          <Setter Property="TextBlock.Foreground" Value="{Binding ElementName=Root, Path=Foreground}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=Root, Path=Selected}" Value="True">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </wpf:EmjTextBlock>
+    <TextBlock Grid.Column="2" FontSize="{DynamicResource Font12}" Margin="0,0,8,0" HorizontalAlignment="Left"
+               VerticalAlignment="Center" Text="{Binding ElementName=Root, Path=Text2}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type TextBlock}">
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity40}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=Root, Path=Selected}" Value="True">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <Border Margin="0,0,16,0" Grid.Column="3" Style="{x:Null}"
+            Visibility="{Binding ElementName=Root, Path=ShowCheckIcon, Converter={StaticResource BoolVisibleConverter}}">
+      <Path IsHitTestVisible="false" HorizontalAlignment="Right" Width="12" Height="12"
+            Style="{DynamicResource Path01}" Fill="{DynamicResource PrimaryColor}"
+            Data="{Binding Source={StaticResource IcCheck}, Path=Data}"
+            Visibility="{Binding ElementName=Root, Path=Selected, Converter={StaticResource BoolVisibleConverter}}"/>
+    </Border>
+  </Grid>
+</UserControl>

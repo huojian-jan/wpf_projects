@@ -1,0 +1,17 @@
+<UserControl x:Class="ticktick_WPF.Views.Print.TimePointLine"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Print">
+  <Grid Height="120">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="48"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <TextBlock Name="TimeText" Foreground="#89191919" Width="48" HorizontalAlignment="Left" TextAlignment="Center"
+               FontSize="16" VerticalAlignment="Bottom" Margin="0,0,0,-8"/>
+    <Grid Height="0.5" Column="1" Background="#5C191919" VerticalAlignment="Center"/>
+    <Grid Name="BottomLine" Height="0.5" Column="1" Background="#89191919" VerticalAlignment="Bottom"/>
+  </Grid>
+</UserControl>

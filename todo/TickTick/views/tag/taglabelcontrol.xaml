@@ -1,0 +1,57 @@
+<UserControl x:Class="ticktick_WPF.Views.Tag.TagLabelControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:tag="clr-namespace:ticktick_WPF.Views.Tag"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             Name="Root" Tag="{DynamicResource IsDarkTheme}" VerticalAlignment="Top" Background="Transparent">
+  <Grid MouseLeave="TagMouseLeave" MouseEnter="TagMouseEnter" MouseLeftButtonUp="OnTagClick" Name="Tag"
+        Cursor="Hand">
+    <Border x:Name="Bd" CornerRadius="9" Height="18" Margin="2,4,2,4" ToolTip="{Binding Title}">
+      <FrameworkElement.Style>
+        <Style>
+          <Setter Property="Border.Background">
+            <Setter.Value>
+              <SolidColorBrush Opacity="{DynamicResource TagBorderOpacity}" Color="{Binding Color}"/>
+            </Setter.Value>
+          </Setter>
+          <Style.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="true">
+              <Setter Property="Border.Background">
+                <Setter.Value>
+                  <SolidColorBrush Opacity="{DynamicResource TagHoverOpacity}" Color="{Binding Color}"/>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <wpf:EmjTextBlock Background="Transparent" VerticalAlignment="Center" Margin="6,0" FontSize="12" Height="15"
+                        Text="{Binding Title}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type wpf:EmjTextBlock}">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource LightTextColorPrimary}"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=Tag}" Value="True">
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource DarkTextColorPrimary}"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding ElementName=Bd, Path=IsMouseOver}" Value="True">
+                <Setter Property="TextBlock.Foreground" Value="White"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </wpf:EmjTextBlock>
+    </Border>
+    <Grid MouseLeftButtonUp="OnDeleteClick" Name="DeleteGrid" Width="10" Height="10" VerticalAlignment="Top"
+          HorizontalAlignment="Right" Cursor="Hand" ToolTip="{StaticResource Remove}" Visibility="Collapsed">
+      <Rectangle Width="10" Height="10" RadiusX="5" RadiusY="5" Fill="{DynamicResource BaseColorOpacity40}"
+                 VerticalAlignment="Center" HorizontalAlignment="Center"/>
+      <Path Width="8" Height="8" Fill="White" Stretch="Uniform" VerticalAlignment="Center"
+            HorizontalAlignment="Center" Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+    </Grid>
+  </Grid>
+</UserControl>

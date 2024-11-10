@@ -1,0 +1,83 @@
+<UserControl x:Class="ticktick_WPF.Views.Coaches.CoachControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:coaches="clr-namespace:ticktick_WPF.Views.Coaches"
+             VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0">
+  <FrameworkElement.Resources>
+    <Style x:Key="LabelButtonStyle" TargetType="{x:Type Button}">
+      <Setter Property="Control.FontSize" Value="13"/>
+      <Setter Property="FrameworkElement.Height" Value="30"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Setter Property="Control.Foreground" Value="{DynamicResource BaseColorOpacity40}"/>
+      <Setter Property="Control.BorderThickness" Value="0"/>
+      <Setter Property="UIElement.Opacity" Value="1"/>
+      <Setter Property="Control.Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Grid>
+              <Border Height="{TemplateBinding FrameworkElement.Height}"
+                      BorderThickness="{TemplateBinding Control.BorderThickness}"
+                      BorderBrush="{TemplateBinding Control.BorderBrush}"/>
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0"/>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsEnabled" Value="false">
+          <Setter Property="UIElement.Opacity" Value="0.54"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Resources>
+  <UIElement.Effect>
+    <DropShadowEffect Color="Black" Opacity="0.2" BlurRadius="25" ShadowDepth="3"/>
+  </UIElement.Effect>
+  <Grid Margin="25">
+    <Border CornerRadius="12" Background="{DynamicResource PopupBackground}"/>
+    <Border MouseLeftButtonUp="OnCloseMouseUp" HorizontalAlignment="Right" VerticalAlignment="Top"
+            Cursor="Hand" Background="Transparent" Panel.ZIndex="100" Margin="12" Width="20" Height="20"
+            Style="{DynamicResource SmoothHoverBorderStyle40_100}">
+      <Grid Width="20" Height="20">
+        <Polygon Fill="{DynamicResource BaseColorOpacity100}" Margin="11,0,0,0">
+          <Polygon.Points>
+            <Binding Source="{StaticResource ic_svg_polygon_close}" Path="Points"/>
+          </Polygon.Points>
+        </Polygon>
+      </Grid>
+    </Border>
+    <Grid Margin="20,16">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 4"
+                 Foreground="{DynamicResource BaseColorOpacity100}" Text="{Binding Title}"/>
+      <TextBlock Grid.Row="1" FontSize="14" Foreground="{DynamicResource BaseColorOpacity80}" Text="{Binding Info}"/>
+      <Border Grid.Row="2" Margin="0 16" CornerRadius="6">
+        <Image Name="Image" Height="200" Width="360" Stretch="Uniform">
+          <UIElement.Clip>
+            <RectangleGeometry RadiusX="6" RadiusY="6" Rect="1,1,358,198"/>
+          </UIElement.Clip>
+        </Image>
+      </Border>
+      <TextBlock Name="IndexText" Grid.Row="3" FontSize="14" Foreground="{DynamicResource BaseColorOpacity40}"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"/>
+      <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button Click="OnPreClicked" Content="{StaticResource PreviousOne}" Width="100" Height="32"
+                Foreground="{DynamicResource BaseColorOpacity40}" Style="{StaticResource LabelButtonStyle}"
+                Visibility="{Binding Pre, Converter={StaticResource NullToVisibilityConverter}}"/>
+        <Button Click="OnNextClicked" Content="{StaticResource NextOne}" Width="100" Height="32"
+                Style="{StaticResource SaveButtonStyle}"
+                Visibility="{Binding Next, Converter={StaticResource NullToVisibilityConverter}}"/>
+        <Button Width="100" Height="32" Style="{StaticResource SaveButtonStyle}" Content="{Binding CommandTitle}"
+                Command="{Binding Command}"
+                Visibility="{Binding CommandTitle, Converter={StaticResource StringToVisibleConverter}}"/>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

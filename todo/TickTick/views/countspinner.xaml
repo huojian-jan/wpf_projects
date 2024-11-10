@@ -1,0 +1,66 @@
+<UserControl x:Class="ticktick_WPF.Views.CountSpinner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             Name="Root" Width="52" Height="24">
+  <Border BorderThickness="1" BorderBrush="{StaticResource BaseColorOpacity10_20}">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="14"/>
+      </Grid.ColumnDefinitions>
+      <Grid Width="1" Column="1" HorizontalAlignment="Left" Background="{StaticResource BaseColorOpacity10_20}"/>
+      <TextBox KeyUp="OnTextKeyUp" Name="CountTextBox" Grid.Column="0" FontSize="13"
+               Foreground="{DynamicResource BaseColorOpacity100_80}" VerticalAlignment="Center" Margin="8,0,0,0"
+               BorderThickness="0" Background="Transparent" Text="{Binding Path=Count, ElementName=Root}"/>
+      <Grid Column="1" Background="{DynamicResource BaseColorOpacity10_20}"/>
+      <Grid Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid MouseLeftButtonUp="OnUpClick" Row="0" Cursor="Hand">
+          <FrameworkElement.Style>
+            <Style>
+              <Setter Property="Panel.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Polygon Width="7" Height="4" Stretch="Fill" VerticalAlignment="Bottom" Margin="1,3,0,3"
+                   RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center"
+                   Fill="{DynamicResource BaseColorOpacity60}">
+            <Polygon.Points>
+              <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+            </Polygon.Points>
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="180"/>
+            </UIElement.RenderTransform>
+          </Polygon>
+        </Grid>
+        <Grid MouseLeftButtonUp="OnDownClick" Row="1" Cursor="Hand">
+          <FrameworkElement.Style>
+            <Style>
+              <Setter Property="Panel.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity10_20}"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Polygon Width="7" Height="4" Stretch="Fill" VerticalAlignment="Top" Margin="1,3,0,3"
+                   HorizontalAlignment="Center" Fill="{DynamicResource BaseColorOpacity40}">
+            <Polygon.Points>
+              <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+            </Polygon.Points>
+          </Polygon>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

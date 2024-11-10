@@ -1,0 +1,41 @@
+<Window x:Class="ticktick_WPF.Views.User.ChangeLogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.User"
+        Width="620" WindowStartupLocation="CenterScreen" Style="{StaticResource CustomWindowStyle}"
+        Title="{StaticResource ChangeLog}">
+  <Grid Margin="0,45,0,0">
+    <StackPanel Orientation="Vertical">
+      <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="76"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Height="56" Source="../../Assets/logo.png" Grid.Column="0" Margin="-10,0,0,0" Grid.Row="0"
+               VerticalAlignment="Top" Stretch="Uniform"/>
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+          <TextBlock FontSize="14" Foreground="{DynamicResource BaseColorOpacity100}" TextWrapping="Wrap"
+                     LineHeight="21" FontWeight="SemiBold" Margin="0,0,0,20">
+            <Run Text="{StaticResource NewVersionPre}"/>
+            <Run x:Name="VersionRun"/>
+            <Run Text=":"/>
+          </TextBlock>
+          <Border Height="220" BorderBrush="{DynamicResource BaseColorOpacity20}" BorderThickness="1"
+                  CornerRadius="8">
+            <ScrollViewer Style="{DynamicResource for_scrollviewer}">
+              <TextBlock Name="VersionContent" VerticalAlignment="Top" HorizontalAlignment="Left"
+                         Foreground="{DynamicResource BaseColorOpacity100}" Margin="10" TextWrapping="Wrap" FontSize="14"
+                         LineHeight="28"/>
+            </ScrollViewer>
+          </Border>
+        </StackPanel>
+      </Grid>
+      <Border Height="60" CornerRadius="0,0,12,12">
+        <Button Click="OnGotItClick" Margin="0,0,14,0" Style="{StaticResource CancelButtonStyle}"
+                Content="{StaticResource GotIt}" MinWidth="116" HorizontalAlignment="Right"/>
+      </Border>
+    </StackPanel>
+  </Grid>
+</Window>

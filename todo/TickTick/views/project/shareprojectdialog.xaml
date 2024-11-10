@@ -1,0 +1,300 @@
+<Window x:Class="ticktick_WPF.Views.Project.ShareProjectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+        xmlns:team="clr-namespace:ticktick_WPF.Views.Team"
+        xmlns:project="clr-namespace:ticktick_WPF.Views.Project"
+        xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+        xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+        xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl"
+        xmlns:tag="clr-namespace:ticktick_WPF.Views.Tag"
+        WindowStartupLocation="CenterOwner" Topmost="false" Title="{DynamicResource ShareProject}"
+        Style="{StaticResource CustomWindowStyle}" BorderThickness="0" Width="460" MinHeight="220">
+  <FrameworkElement.Resources>
+    <converter:PendingVisibilityConverter x:Key="PendingVisibilityConverter"/>
+    <Storyboard x:Key="HideAddUserProgressBarStoryboard" x:Name="HideAddUserProgressBarStoryboard">
+      <DoubleAnimation BeginTime="0:0:0" Duration="0:0:1" FillBehavior="HoldEnd"
+                       Storyboard.TargetName="addUserProgressBar" Storyboard.TargetProperty="Opacity" From="0.8" To="0"/>
+    </Storyboard>
+    <Storyboard x:Key="ShowAddUserProgressBarStoryboard" x:Name="ShowAddUserProgressBarStoryboard">
+      <DoubleAnimation BeginTime="0:0:0" Duration="0:0:1" FillBehavior="HoldEnd"
+                       Storyboard.TargetName="addUserProgressBar" Storyboard.TargetProperty="Opacity" From="0" To="0.8"/>
+    </Storyboard>
+    <Style x:Key="LineStyle" TargetType="{x:Type Line}">
+      <Setter Property="Shape.Stroke" Value="{DynamicResource BaseColorOpacity3}"/>
+      <Setter Property="Line.X1" Value="0"/>
+      <Setter Property="Line.X2" Value="10"/>
+      <Setter Property="Shape.StrokeThickness" Value="1"/>
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+    </Style>
+    <DataTemplate x:Key="userListDataTemplate">
+      <project:ShareUserItemControl/>
+    </DataTemplate>
+    <Style x:Key="userItemsControlStyle" TargetType="{x:Type ItemsControl}">
+      <Setter Property="Control.BorderThickness" Value="0"/>
+      <Setter Property="ItemsControl.ItemTemplate" Value="{DynamicResource userListDataTemplate}"/>
+      <Setter Property="ScrollViewer.PanningMode" Value="None"/>
+    </Style>
+    <Storyboard x:Key="ShowToast" Completed="OnToasted">
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0.15" To="1"/>
+      <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:1.5" Duration="0:0:0.15" To="0"/>
+    </Storyboard>
+    <DataTemplate x:Key="userContactsItemDataTemplate">
+      <Grid Height="56" Margin="9,0,0,0" Background="Transparent">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="36"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Rectangle x:Name="headimgRectangle" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"
+                   RadiusX="36" RadiusY="36" Width="36" Height="36">
+          <Shape.Fill>
+            <ImageBrush x:Name="headimgImageBrush" Stretch="Fill" ImageSource="{Binding avatarUrl}"/>
+          </Shape.Fill>
+        </Rectangle>
+        <TextBlock Margin="12,0" VerticalAlignment="Center" Grid.Column="1" FontSize="14"
+                   Foreground="{DynamicResource BaseColorOpacity100_80}" Text="{Binding email}"/>
+        <Line Grid.Column="1" Margin="12,0,0,0" Style="{StaticResource LineStyle}"/>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="UserComboboxItemTemplate">
+      <Grid>
+        <Border Margin="4,0,4,1" CornerRadius="4">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Border}">
+              <Setter Property="UIElement.Opacity" Value="1"/>
+              <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+              <Setter Property="Border.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding HoverSelected}" Value="True">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity3}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Border>
+        <Grid Margin="9,0,0,0" Background="Transparent" Height="54" IsHitTestVisible="false"
+              Visibility="{Binding IsNewAdd, Converter={StaticResource VisibleConverter}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="36"/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Rectangle x:Name="headimgRectangle" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center"
+                     RadiusX="36" RadiusY="36" Width="36" Height="36">
+            <Shape.Fill>
+              <ImageBrush x:Name="headimgImageBrush" Stretch="Fill" ImageSource="{Binding avatar}"/>
+            </Shape.Fill>
+          </Rectangle>
+          <Grid Margin="16,0" VerticalAlignment="Center" Column="1">
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+              <wpf:EmjTextBlock Style="{DynamicResource Body03}" TextTrimming="WordEllipsis" MaxWidth="270"
+                                Text="{Binding displayName}"/>
+              <Border Background="{DynamicResource PrimaryColor10}" CornerRadius="2" Margin="6,0,0,0"
+                      Visibility="{Binding isFeishu, Converter={StaticResource BoolVisibleConverter}}">
+                <TextBlock Text="{StaticResource Feishu}" Foreground="{DynamicResource PrimaryColor}" FontSize="11"
+                           HorizontalAlignment="Left" Padding="4,1"/>
+              </Border>
+            </StackPanel>
+            <TextBlock Margin="0,2,0,0" FontSize="13" Grid.Row="1" Foreground="{DynamicResource BaseColorOpacity60}"
+                       Text="{Binding displayEmail}"
+                       Visibility="{Binding displayEmail, Converter={StaticResource StringToVisibleConverter}}"/>
+          </Grid>
+          <Line Grid.Column="1" Margin="12,0,8,0" Style="{StaticResource LineStyle}"/>
+        </Grid>
+        <Border Height="40" IsHitTestVisible="false"
+                Visibility="{Binding IsNewAdd, Converter={StaticResource BoolVisibleConverter}}">
+          <TextBlock Margin="12,0,0,0" FontSize="14" VerticalAlignment="Center"
+                     Foreground="{DynamicResource BaseColorOpacity60}" Text="{Binding displayName}"/>
+        </Border>
+      </Grid>
+    </DataTemplate>
+    <project:SelectInviteUserTemplateSelector x:Key="SelectInviteUserTemplateSelector"/>
+    <DataTemplate x:Key="SelectedUserTemplate">
+      <Grid HorizontalAlignment="Left" Margin="8,8,0,0" Height="20">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Border CornerRadius="10" Background="{DynamicResource BaseColorOpacity10}" Grid.Column="0"
+                Grid.ColumnSpan="2"/>
+        <Border CornerRadius="10" Background="{DynamicResource PrimaryColor10}"
+                BorderBrush="{DynamicResource PrimaryColor}" BorderThickness="1" Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Visibility="{Binding PreDelete, Converter={StaticResource BoolVisibleConverter}}"/>
+        <TextBlock Padding="8,0,6,0" Grid.Column="0" FontSize="12" VerticalAlignment="Center" MaxWidth="240"
+                   Foreground="{DynamicResource BaseColorOpacity100}" TextTrimming="CharacterEllipsis"
+                   TextWrapping="Wrap" ClipToBounds="true" Height="{DynamicResource Height16}"
+                   Text="{Binding DisplayName}"/>
+        <Border Grid.Column="1" Margin="0,0,4,0" Height="12" Width="12" Background="Transparent" Cursor="Hand"
+                VerticalAlignment="Center" Style="{DynamicResource SmoothHoverBorderStyle40_100}">
+          <Path Width="14" Height="14" Fill="{DynamicResource BaseColorOpacity80}" Stretch="Uniform"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+        </Border>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="InputTemplate">
+      <TextBox MinWidth="5" MaxWidth="300" Height="20" Margin="8,8,0,0" Style="{DynamicResource HintTextStyle}"/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <Grid Margin="0,56,0,0" Height="360">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid Row="0" Margin="10,0,10,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <Grid Name="EmailInviteGrid" MinHeight="40" Margin="5,8">
+        <Grid>
+          <customControl:CustomComboBox x:Name="userContactsComboBox" ItemSelected="OnUserComboBoxItemSelect" VerticalAlignment="Bottom"
+                                        Height="30" Width="408" HorizontalAlignment="Left"/>
+          <Grid Background="{DynamicResource WindowBackgroundPrimary}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Border SizeChanged="OnInputBorderSizeChanged" Name="InputBorder" BorderThickness="1" Grid.ColumnSpan="3"
+                    BorderBrush="{DynamicResource BaseColorOpacity10}" CornerRadius="4"/>
+            <TextBox GotFocus="OnTextBoxFocus" LostFocus="OnTextBoxLostFocus" KeyUp="addUserTextBox_KeyUp"
+                     Name="addUserTextBox" Grid.Column="0" Height="36" Cursor="IBeam"
+                     Background="{DynamicResource BaseColorOpacity5}" Style="{DynamicResource HintTextStyle}"
+                     Padding="8,0,25,0" Tag="{StaticResource InviteContent}"/>
+            <Line Grid.Column="1" HorizontalAlignment="Right" Y1="0" Y2="1" Stretch="Uniform"
+                  Stroke="{DynamicResource BaseColorOpacity10}" StrokeThickness="1"/>
+            <Grid Width="28" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                  Background="Transparent" Cursor="Hand" Column="2">
+              <misc:HoverIconButton x:Name="InviteImage" PreviewMouseLeftButtonUp="ShowInvitePopup" Visibility="Collapsed"
+                                    ImageSource="{DynamicResource InviteDrawingImage}"/>
+              <misc:EscPopup x:Name="InvitePopup" StaysOpen="false" Placement="Bottom" VerticalOffset="-4"
+                             HorizontalOffset="196" PlacementTarget="{Binding ElementName=EmailInviteGrid}"/>
+            </Grid>
+            <project:ProjectPermissionSetControl x:Name="EmailJoinPermission" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                 Margin="0,0,4,0" Panel.ZIndex="100" Grid.Column="1" Height="28"
+                                                 Visibility="{Binding ElementName=SelectedUsersViewer, Path=Visibility}"/>
+            <ScrollViewer MouseLeftButtonUp="OnScrollMouseUp" Name="SelectedUsersViewer" Grid.Column="0"
+                          Style="{DynamicResource for_scrollviewer}" MaxHeight="94" Margin="0,0,4,0" Focusable="false"
+                          VerticalScrollBarVisibility="Hidden" Visibility="Collapsed">
+              <ItemsControl Name="SelectedUsers" IsTabStop="false" Margin="0,3"
+                            ItemTemplateSelector="{StaticResource SelectInviteUserTemplateSelector}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Grid>
+        <ProgressBar Name="addUserProgressBar" Visibility="Hidden" IsIndeterminate="true" VerticalAlignment="Bottom"
+                     Opacity="0.8" Foreground="{DynamicResource PrimaryColor}"
+                     Background="{DynamicResource PopupBackground}" BorderBrush="White"/>
+      </Grid>
+      <StackPanel Name="ApplyEditGrid" Grid.Row="0" Height="53" Orientation="Horizontal" Visibility="Collapsed"
+                  Margin="8,0,0,0">
+        <TextBlock Name="PermissionNotEditText" Text="{StaticResource PermissionIsNotEdit}"
+                   Style="{DynamicResource Body03}"/>
+        <Button Click="ApplyEdit" VerticalAlignment="Center" Cursor="Hand" BorderThickness="0"
+                Style="{DynamicResource TransparentButtonStyle}">
+          <TextBlock MouseEnter="ShowUnderLine" MouseLeave="HideUnderLine" Name="ApplyEditText"
+                     Text="{StaticResource ApplyEdit}" FontSize="13" Foreground="{DynamicResource PrimaryColor}"
+                     Background="Transparent"/>
+        </Button>
+      </StackPanel>
+      <Grid Name="BodyGrid" Row="1">
+        <TextBlock Text="{DynamicResource Member}" Style="{DynamicResource Body01}" VerticalAlignment="Top"
+                   Margin="8,6,0,0" FontWeight="Bold" Visibility="{Binding ElementName=MemberList, Path=Visibility}"/>
+        <TextBlock MouseLeftButtonUp="OnNotifyClick" Name="NotifyButton" Text="{DynamicResource NotifyMessage}"
+                   Style="{DynamicResource Body01}" VerticalAlignment="Top" Margin="0,6,8,0"
+                   HorizontalAlignment="Right" Visibility="Collapsed" Foreground="{DynamicResource PrimaryColor}"
+                   FontSize="13" Background="Transparent" Cursor="Hand"/>
+        <ScrollViewer Name="MemberList" Style="{StaticResource for_scrollviewer}" Margin="5,28,-5,5"
+                      Visibility="Collapsed" VerticalAlignment="Top">
+          <ItemsControl Name="shareUserListView" Style="{StaticResource userItemsControlStyle}" Margin="0,0,10,0"/>
+        </ScrollViewer>
+        <Grid Name="MemberEmpty" Height="188"/>
+        <misc:EscPopup x:Name="MessagePopup" StaysOpen="false" Placement="Bottom" HorizontalOffset="-340"
+                       PlacementTarget="{Binding ElementName=NotifyButton}">
+          <ContentControl Style="{DynamicResource PopupContentStyle}">
+            <Grid VerticalAlignment="Center" Margin="20,0" Width="348">
+              <team:TeamNotification x:Name="NotificationSetting" HorizontalAlignment="Left" Margin="0,12,0,20"
+                                     Tag="{DynamicResource NotificationSetText}"/>
+            </Grid>
+          </ContentControl>
+        </misc:EscPopup>
+        <Grid Name="PersonalPage" Margin="0,60,0,35" Visibility="Collapsed" VerticalAlignment="Top">
+          <Ellipse Width="108" Height="108" Fill="{DynamicResource BaseColorOpacity5}" VerticalAlignment="Top"
+                   Margin="0,-18,0,0"/>
+          <Image Source="{StaticResource InviteEmptyDrawingImage}" Width="136" Height="136" VerticalAlignment="Top"
+                 HorizontalAlignment="Center"/>
+          <Path Width="118" Height="114" Stretch="Uniform" Fill="{DynamicResource EmptyPathColor}"
+                VerticalAlignment="Top" Margin="12,-14,0,0"
+                Data="{Binding Source={StaticResource InviteEmptyPath}, Path=Data}"/>
+          <TextBlock Style="{DynamicResource Body02}" Margin="50,115,50,0" HorizontalAlignment="Center"
+                     VerticalAlignment="Top" Foreground="{DynamicResource BaseColorOpacity60}" FontSize="14"
+                     TextAlignment="Center" Text="{DynamicResource InviteEmptyText}" LineHeight="16"/>
+        </Grid>
+      </Grid>
+      <Grid Name="LinkShareGrid" Margin="6,4,6,6" Row="2">
+        <Grid.RowDefinitions>
+          <RowDefinition x:Name="LinkFirstRow" Height="40"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Line VerticalAlignment="Top" Style="{DynamicResource SplitLineStyle}" Margin="-16,0"/>
+        <CheckBox PreviewMouseLeftButtonDown="ShareLinkCheckBoxClick" Name="ShareLinkCheckBox"
+                  Style="{DynamicResource BlueSwitchCheckBoxStyle}" HorizontalAlignment="Left"
+                  VerticalAlignment="Center" Margin="0,4,0,0"/>
+        <TextBlock Name="EnableLinkText" Grid.Row="0" Text="{DynamicResource EnableLinkShare}" FontSize="14"
+                   Margin="42,4,0,0" Foreground="{DynamicResource BaseColorOpacity100_80}" VerticalAlignment="Center"
+                   Visibility="{Binding ElementName=ShareLinkCheckBox, Path=Visibility}"/>
+        <Grid Row="1" Margin="0,0,0,10" Height="36"
+              Visibility="{Binding ElementName=ShareLinkCheckBox, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Border Grid.ColumnSpan="2" Grid.RowSpan="2" CornerRadius="4"
+                  Background="{DynamicResource BaseColorOpacity3}"/>
+          <Line Y1="0" Y2="1" Stretch="Uniform" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right"
+                Grid.RowSpan="2" Stroke="{DynamicResource BaseColorOpacity10}" StrokeThickness="1" Margin="0,12"/>
+          <StackPanel Orientation="Horizontal" Margin="12,1,0,0" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+            <TextBlock Text="{StaticResource JoinedByLink}" Style="{DynamicResource Body10}"
+                       Foreground="{DynamicResource BaseSolidColorOpacity40}"/>
+            <project:ProjectPermissionSetControl x:Name="LinkJoinPermission" BorderThickness="0" Height="26" VerticalAlignment="Center"/>
+          </StackPanel>
+          <TextBlock PreviewMouseLeftButtonUp="CopyShareLink" Name="CopyLink" Padding="10,12" Grid.Column="1"
+                     Grid.Row="0" Grid.RowSpan="2" Text="{StaticResource CopyTaskLink}" Cursor="Hand" FontWeight="Bold"
+                     Background="Transparent" Style="{DynamicResource Body10}"
+                     Foreground="{DynamicResource TextAccentColor}"/>
+        </Grid>
+      </Grid>
+    </Grid>
+    <Border Name="ToastBorder" Grid.Row="0" Grid.RowSpan="2" Background="{StaticResource ToastBackground}"
+            CornerRadius="4" Height="50" Visibility="Collapsed" HorizontalAlignment="Center"
+            VerticalAlignment="Bottom" Margin="0,0,0,20" Panel.ZIndex="100">
+      <UIElement.Effect>
+        <DropShadowEffect BlurRadius="11" Direction="300" ShadowDepth="2" Color="#000000" Opacity="0.2"/>
+      </UIElement.Effect>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="15,0">
+        <TextBlock Name="ToastText" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Border>
+    <Grid Name="ButtonGrid" Row="1" VerticalAlignment="Bottom" Height="56"
+          Visibility="{Binding ElementName=SelectedUsersViewer, Path=Visibility}">
+      <Button Click="ReturnClick" Content="{DynamicResource Cancel}" HorizontalAlignment="Right"
+              Style="{StaticResource CancelButtonStyle}" Margin="0,0,14,0" Width="120"/>
+      <Button Click="OnInviteClick" Name="SaveButton" Content="{DynamicResource Invite}"
+              HorizontalAlignment="Right" Style="{StaticResource SaveButtonStyle}" Margin="0,0,148,0" Width="120"/>
+    </Grid>
+  </Grid>
+</Window>

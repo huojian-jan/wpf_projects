@@ -1,0 +1,80 @@
+<UserControl x:Class="ticktick_WPF.Views.Team.InviteGroupItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:team="clr-namespace:ticktick_WPF.Views.Team"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             Loaded="InviteGroupItem_OnLoaded" Height="Auto">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="InviteUserData">
+      <team:InviteNormalItem/>
+    </DataTemplate>
+    <converter:GroupIndicatorAngleConverter x:Key="GroupIndicatorAngleConverter"/>
+    <DoubleAnimation x:Key="ShowUsers" From="0" Duration="0:0:0.1">
+      <DoubleAnimation.EasingFunction>
+        <QuadraticEase EasingMode="EaseOut"/>
+      </DoubleAnimation.EasingFunction>
+    </DoubleAnimation>
+    <DoubleAnimation x:Key="HideUsers" To="0" Duration="0:0:0.1">
+      <DoubleAnimation.EasingFunction>
+        <QuadraticEase EasingMode="EaseOut"/>
+      </DoubleAnimation.EasingFunction>
+    </DoubleAnimation>
+    <DoubleAnimation x:Key="Close" From="90" To="0" Duration="0:0:0.15"/>
+    <DoubleAnimation x:Key="Open" From="0" To="90" Duration="0:0:0.15"/>
+    <Style x:Key="GridHoverStyle" TargetType="{x:Type Grid}">
+      <Setter Property="Panel.Background" Value="Transparent"/>
+      <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+      <Style.Triggers>
+        <Trigger Property="UIElement.IsMouseOver" Value="true">
+          <Setter Property="Panel.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Resources>
+  <StackPanel>
+    <Grid MouseLeftButtonUp="OnProjectClick" Height="32" Style="{DynamicResource GridHoverStyle}">
+      <Path Grid.Column="0" Margin="14,0,0,0" Width="16" Height="16"
+            Fill="{DynamicResource BaseColorOpacity40}" VerticalAlignment="Center" HorizontalAlignment="Left"
+            Stretch="Uniform" Data="{Binding Source={StaticResource IcSharedProject}, Path=Data}"/>
+      <wpf:EmjTextBlock Margin="35,0,30,0" TextTrimming="CharacterEllipsis" Style="{DynamicResource Body03}"
+                        HorizontalAlignment="Stretch" TextWrapping="Wrap" ClipToBounds="true"
+                        Text="{Binding Path=ProjectName}"/>
+      <Polygon Name="OpenIcon" Width="12" Height="12" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+               Margin="0,0,15,0" HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+        <Polygon.Points>
+          <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+        </Polygon.Points>
+        <UIElement.RenderTransform>
+          <RotateTransform Angle="{Binding Path=Opened, Converter={StaticResource GroupIndicatorAngleConverter}}"/>
+        </UIElement.RenderTransform>
+      </Polygon>
+    </Grid>
+    <StackPanel Name="Container" Height="0">
+      <Grid Name="AllGrid">
+        <Grid MouseLeftButtonUp="OnAllSelected" Height="32" Style="{DynamicResource GridHoverStyle}"
+              Visibility="{Binding Path=SelectAll, Converter={StaticResource VisibleConverter}}">
+          <Path Grid.Column="0" Margin="23,0,0,0" Width="16" Height="16"
+                Fill="{DynamicResource BaseColorOpacity40}" VerticalAlignment="Center" HorizontalAlignment="Left"
+                Stretch="Uniform" Data="{Binding Source={StaticResource IcAllMember}, Path=Data}"/>
+          <TextBlock Text="{DynamicResource AllMembers}" Margin="50,0,0,0" Style="{DynamicResource Body03}"
+                     Foreground="{DynamicResource BaseColorOpacity100_80}"/>
+        </Grid>
+        <Grid MouseLeftButtonUp="OnAllSelected" Height="32" Style="{DynamicResource GridHoverStyle}"
+              Visibility="{Binding Path=SelectAll, Converter={StaticResource BoolVisibleConverter}}">
+          <Path Grid.Column="0" Margin="23,0,0,0" Width="16" Height="16" Fill="{DynamicResource PrimaryColor}"
+                VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Uniform"
+                Data="{Binding Source={StaticResource IcAllMember}, Path=Data}"/>
+          <TextBlock Text="{DynamicResource AllMembers}" Margin="50,0,0,0" Style="{DynamicResource Body03}"
+                     Foreground="{DynamicResource PrimaryColor}"/>
+          <Path Width="12" Fill="{DynamicResource PrimaryColor}" HorizontalAlignment="Right" Margin="0,0,18,0"
+                Style="{StaticResource ListPathStyle}" Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+        </Grid>
+      </Grid>
+      <ItemsControl Name="ItemsControl" ItemTemplate="{DynamicResource InviteUserData}"
+                    ItemsSource="{Binding Path=Users}"/>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

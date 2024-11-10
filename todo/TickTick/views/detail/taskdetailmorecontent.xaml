@@ -1,0 +1,111 @@
+<StackPanel x:Class="ticktick_WPF.Views.Detail.TaskDetailMoreContent"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:local="clr-namespace:ticktick_WPF.Views.Detail"
+            xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+            xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+            xmlns:tag="clr-namespace:ticktick_WPF.Views.Tag"
+            xmlns:pomo="clr-namespace:ticktick_WPF.Views.Pomo"
+            MouseMove="TryShowPopup" Name="Root" Background="Transparent" MinWidth="196">
+  <FrameworkElement.Resources>
+    <Style TargetType="{x:Type Line}" BasedOn="{StaticResource SplitLineStyle}">
+      <Setter Property="FrameworkElement.Margin" Value="0,4"/>
+    </Style>
+    <converter:TabSelectedConverter x:Key="TabSelectedConverter"/>
+  </FrameworkElement.Resources>
+  <misc:OptionItemWithImageIcon x:Name="NewAddSubTaskItem" MouseLeftButtonUp="AddSubTaskClick"
+                                ImageSource="{DynamicResource AddSubTaskDrawingImage}" Content="{DynamicResource AddSubTask}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=0}"/>
+  <misc:OptionItemWithImageIcon x:Name="PinButton" MouseLeftButtonUp="OnStarClick" Visibility="Collapsed"
+                                ImageSource="{DynamicResource PinnedDrawingImage}" Content="{DynamicResource Pin}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=1}"/>
+  <Grid x:Name="AbandonedGrid" Visibility="Collapsed">
+    <misc:OptionItemWithImageIcon MouseLeftButtonUp="OnAbandonedOrReopenClick" ImageSource="{DynamicResource AbandonDrawingImage}"
+                                  Content="{DynamicResource TaskAbandon}"
+                                  Visibility="{Binding IsAbandoned, Converter={StaticResource VisibleConverter}}"
+                                  HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=2}"/>
+    <misc:OptionItemWithImageIcon MouseLeftButtonUp="OnAbandonedOrReopenClick" ImageSource="{DynamicResource ReopenDrawingImage}"
+                                  Content="{DynamicResource TaskReopen}"
+                                  Visibility="{Binding IsAbandoned, Converter={StaticResource BoolVisibleConverter}}"
+                                  HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=2}"/>
+  </Grid>
+  <Grid Name="NewTagItem">
+    <misc:OptionCheckBox x:Name="TagItem" Foreground="{DynamicResource BaseColorOpacity100_80}" CanMultiSelected="false"
+                         Text="{StaticResource Tags}" Group="SortType" ShowCheckIcon="false"
+                         IconFill="{DynamicResource BaseColorOpacity60}"
+                         HoverSelected="{Binding ElementName=SetTagPopup, Path=IsOpen}"
+                         Icon="{Binding Source={StaticResource IcTagLine}, Path=Data}"/>
+    <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+             HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+      <Polygon.Points>
+        <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+      </Polygon.Points>
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="270"/>
+      </UIElement.RenderTransform>
+    </Polygon>
+  </Grid>
+  <misc:EscPopup x:Name="SetTagPopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed" StaysOpen="true"
+                 PopupAnimation="Fade" Placement="Right" HorizontalOffset="-3" VerticalOffset="-12"
+                 PlacementTarget="{Binding ElementName=NewTagItem}">
+    <tag:BatchSetTagControl x:Name="BatchSetTagControl" Close="OnBatchSetTagClosed" TagsSelect="OnTagsSelected"/>
+  </misc:EscPopup>
+  <misc:OptionItemWithImageIcon x:Name="NewUploadItem" MouseLeftButtonUp="OnAttachmentClick" TextPadding="7,0,4,0"
+                                ImageSource="{DynamicResource attachmentsDrawingImage}"
+                                Content="{DynamicResource UploadAttachment}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=4}"/>
+  <misc:OptionItemWithImageIcon x:Name="NewInsetSummaryItem" MouseLeftButtonUp="OnInsertSummaryClick"
+                                ImageSource="{DynamicResource InsertSummaryDrawingImage}"
+                                Content="{DynamicResource insert_summary}" Visibility="Collapsed"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=5}"/>
+  <Grid Name="PomoItem">
+    <misc:OptionCheckBox x:Name="Pomo" Foreground="{DynamicResource BaseColorOpacity100_80}" CanMultiSelected="false"
+                         Text="{StaticResource BeginFocus}" Group="SortType" ShowCheckIcon="false"
+                         IconFill="{DynamicResource BaseColorOpacity60}"
+                         HoverSelected="{Binding ElementName=TaskPomoPopup, Path=IsOpen}"
+                         Icon="{Binding Source={StaticResource IcFocus}, Path=Data}"/>
+    <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+             HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+      <Polygon.Points>
+        <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+      </Polygon.Points>
+      <UIElement.RenderTransform>
+        <RotateTransform Angle="270"/>
+      </UIElement.RenderTransform>
+    </Polygon>
+  </Grid>
+  <misc:EscPopup x:Name="TaskPomoPopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed"
+                 HorizontalOffset="-3" VerticalOffset="-12" Placement="Right" PopupAnimation="Fade" StaysOpen="true"
+                 AllowsTransparency="true" PlacementTarget="{Binding ElementName=PomoItem}">
+    <pomo:TaskPomoSetDialog x:Name="TaskPomoSetDialog" Closed="ClosePomoPopup"/>
+  </misc:EscPopup>
+  <Line Name="OMTopLine"/>
+  <misc:OptionItemWithImageIcon x:Name="ActivityItem" MouseLeftButtonUp="OnActivityClick"
+                                ImageSource="{DynamicResource ActivitiesDrawingImage}" Content="{DynamicResource TaskActivities}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=7}"/>
+  <misc:OptionItemWithImageIcon x:Name="AddTemplate" MouseLeftButtonUp="OnAddTemplateClick"
+                                ImageSource="{DynamicResource SaveAsTemplateDrawingImage}"
+                                Content="{DynamicResource SaveAsTemplate}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=8}"/>
+  <misc:OptionItemWithImageIcon x:Name="CopyItem" MouseLeftButtonUp="OnCopyClick"
+                                ImageSource="{DynamicResource CopyTaskDrawingImage}" Content="{DynamicResource CopyTask}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=9}"/>
+  <misc:OptionItemWithImageIcon x:Name="CopyLinkItem" MouseLeftButtonUp="OnCopyLinkClick"
+                                ImageSource="{DynamicResource CopyTaskLinkDrawingImage}" Content="{DynamicResource CopyTaskLink}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=10}"/>
+  <misc:OptionItemWithImageIcon x:Name="StickyItem" MouseLeftButtonUp="OpenTaskSticky" TextPadding="7,0,4,0"
+                                ImageSource="{DynamicResource StickyDrawingImage}" Content="{DynamicResource SetAsSticky}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=11}"/>
+  <misc:OptionItemWithImageIcon x:Name="SwitchTaskNoteItem" MouseLeftButtonUp="SwitchTaskNoteClick"
+                                ImageSource="{DynamicResource SwitchNoteDrawingImage}" Content="{DynamicResource ConvertToNote}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=12}"/>
+  <Line Visibility="{Binding ElementName=DeletePanel, Path=Visibility}"/>
+  <misc:OptionItemWithImageIcon x:Name="Print" MouseLeftButtonUp="OnPrintClick" ImageSource="{DynamicResource PrintDrawingImage}"
+                                Content="{DynamicResource Print}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=13}"/>
+  <misc:OptionItemWithImageIcon x:Name="DeletePanel" MouseLeftButtonUp="OnDeleteClick"
+                                ImageSource="{DynamicResource DeleteDrawingLine}" Content="{DynamicResource Delete}"
+                                HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=14}"/>
+</StackPanel>

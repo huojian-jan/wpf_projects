@@ -1,0 +1,26 @@
+<UserControl x:Class="ticktick_WPF.Views.Time.SetRepeatDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl">
+  <FrameworkElement.Resources>
+    <DataTemplate x:Key="ItemDataTemplate">
+      <misc:OptionCheckBox FontSize="12" Height="{DynamicResource Height30}" Text="{Binding Title}" Text2="{Binding Desc}"
+                           HoverSelected="{Binding HoverSelected}" Selected="{Binding Selected}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="SplitTemplate">
+      <Line Style="{DynamicResource SplitLineStyle}" IsHitTestVisible="false" Margin="0,4"/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{StaticResource PopupContentStyle}">
+    <Grid Width="252">
+      <customControl:UpDownSelectListView x:Name="ListView" ItemSelected="OnItemSelected"/>
+      <Grid Name="CustomContainer" Visibility="Collapsed" Margin="0,12,0,8">
+        <views:CustomRepeatDialog x:Name="CustomRepeatDialog"/>
+      </Grid>
+    </Grid>
+  </ContentControl>
+</UserControl>

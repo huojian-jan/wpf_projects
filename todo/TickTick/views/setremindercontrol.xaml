@@ -1,0 +1,72 @@
+<UserControl x:Class="ticktick_WPF.Views.SetReminderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:customControl="clr-namespace:ticktick_WPF.Views.CustomControl">
+  <FrameworkElement.Resources>
+    <converter:SelectedOrDisabledTextColorConverter x:Key="TextColorConverter"/>
+    <DataTemplate x:Key="ItemDataTemplate">
+      <Grid Width="auto" Height="{DynamicResource Height34}" IsEnabled="{Binding IsEnable}"
+            IsHitTestVisible="{Binding IsEnable}">
+        <Border Cursor="Hand" CornerRadius="4" Margin="4,0">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Border}">
+              <Setter Property="Border.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding HoverSelected}" Value="True">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Border>
+        <TextBlock Margin="16,0,6,0" FontSize="{DynamicResource Font13}" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Text="{Binding DisplayText}">
+          <TextBlock.Foreground>
+            <MultiBinding Converter="{StaticResource TextColorConverter}">
+              <Binding Path="IsEnable"/>
+              <Binding Path="Selected"/>
+              <Binding Path="." RelativeSource="{RelativeSource Self}"/>
+            </MultiBinding>
+          </TextBlock.Foreground>
+        </TextBlock>
+        <Path Width="14" HorizontalAlignment="Right" Margin="0,0,16,0" Fill="{DynamicResource PrimaryColor}"
+              Style="{StaticResource ListPathStyle}"
+              Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}"
+              Data="{Binding Source={StaticResource IcCheck}, Path=Data}"/>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="SplitTemplate">
+      <Line Style="{DynamicResource SplitLineStyle}" IsHitTestVisible="false" Margin="0,4"/>
+    </DataTemplate>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}">
+    <Grid Margin="0,0,0,5">
+      <Grid Name="Container">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <customControl:UpDownSelectListView x:Name="ReminderlistView" ItemSelected="OnReminderClick" CanBatchSelected="true" MaxHeight="330"
+                                            Grid.Row="0"/>
+        <misc:EscPopup x:Name="CustomChooseRemindPopup" Grid.Row="0" StaysOpen="false" Placement="Center"
+                       HorizontalOffset="2" PlacementTarget="{Binding ElementName=ReminderlistView}"/>
+        <Grid Row="1" Margin="16,8,16,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Button Click="CancelClick" Name="CancelButton" Content="{DynamicResource Cancel}" Grid.Column="1"
+                  Width="Auto" Style="{StaticResource CancelButtonStyle}" Margin="5,0,0,0" Height="28"
+                  Focusable="false" HorizontalAlignment="Stretch"/>
+          <Button Click="SaveClick" Name="SaveButton" Content="{DynamicResource PublicSave}" Grid.Column="0"
+                  Margin="0,0,5,0" Width="Auto" Style="{StaticResource SaveButtonStyle}" Focusable="false"
+                  Height="28" BorderBrush="{DynamicResource TabBorderColor}" HorizontalAlignment="Stretch"/>
+        </Grid>
+      </Grid>
+    </Grid>
+  </ContentControl>
+</UserControl>

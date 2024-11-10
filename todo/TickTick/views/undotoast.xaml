@@ -1,0 +1,47 @@
+<UserControl x:Class="ticktick_WPF.Views.UndoToast"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             Height="40" Width="224">
+  <FrameworkElement.Resources>
+    <Geometry x:Key="repealGeometry">
+      F1 M24,24z M0,0z M3.36880198,4.18621041L11.0931052,4.18621041C14.9076779,4.18621041 18,7.27853254 18,11.0931052 18,14.9076779 14.9076779,18 11.0931052,18L4.18621041,18C3.64127146,18 3.19951115,17.5582397 3.19951115,17.0133007 3.19951115,16.4683618 3.64127146,16.0266015 4.18621041,16.0266015L11.0931052,16.0266015C13.8178,16.0266015 16.0266015,13.8178 16.0266015,11.0931052 16.0266015,8.36841045 13.8178,6.15960892 11.0931052,6.15960892L3.36880198,6.15960892 5.8706114,8.66141834C6.25594143,9.04674837 6.25594143,9.67149179 5.8706114,10.0568218 5.48528137,10.4421518 4.86053796,10.4421518 4.47520793,10.0568218L0.288997521,5.8706114C-0.0963325071,5.48528137,-0.0963325071,4.86053796,0.288997521,4.47520793L4.47520793,0.288997521C4.86053796,-0.0963325071 5.48528137,-0.0963325071 5.8706114,0.288997521 6.25594143,0.674327549 6.25594143,1.29907096 5.8706114,1.68440099L3.36880198,4.18621041z
+    </Geometry>
+    <DrawingGroup x:Key="repealDrawingGroup" ClipGeometry="M 0,0 L 0,24 24,24 24,0 0,0 Z">
+      <DrawingGroup Opacity="1">
+        <DrawingGroup Opacity="1">
+          <GeometryDrawing>
+            <GeometryDrawing.Brush>
+              <SolidColorBrush Color="#FFFFAC00" Opacity="0"/>
+            </GeometryDrawing.Brush>
+            <GeometryDrawing.Geometry>
+              <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,24,24"/>
+            </GeometryDrawing.Geometry>
+          </GeometryDrawing>
+          <DrawingGroup Opacity="1" Transform="1,0,0,1,3,3">
+            <GeometryDrawing Brush="#FFFFAC00" Geometry="{StaticResource repealGeometry}"/>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingGroup>
+    </DrawingGroup>
+    <DrawingImage x:Key="repealDrawingImage" Drawing="{StaticResource repealDrawingGroup}"/>
+  </FrameworkElement.Resources>
+  <Border Name="Container" Background="{DynamicResource ToastBackground}" Height="40" CornerRadius="4">
+    <UIElement.Effect>
+      <DropShadowEffect BlurRadius="11" Direction="300" ShadowDepth="2" Color="#000000" Opacity="0.2"/>
+    </UIElement.Effect>
+    <Border Background="{DynamicResource BaseColorOpacity0_10}" CornerRadius="4">
+      <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,40,0">
+          <TextBlock Name="TitleText" FontSize="13" Foreground="#D8FFFFFF" VerticalAlignment="Center" MaxWidth="100"
+                     TextTrimming="CharacterEllipsis" Margin="12,0,0,0" Opacity="1"/>
+          <TextBlock Name="DeletedOrCompleted" FontSize="13" Foreground="#D8FFFFFF" Text="{DynamicResource Deleted}"
+                     VerticalAlignment="Center" Margin="12,0,45,0" Opacity="0.56"/>
+        </StackPanel>
+        <Image MouseLeftButtonUp="OnUndoClick" Cursor="Hand" Source="{DynamicResource repealDrawingImage}"
+               Height="18" VerticalAlignment="Center" Margin="0,0,15,0" HorizontalAlignment="Right"/>
+      </Grid>
+    </Border>
+  </Border>
+</UserControl>

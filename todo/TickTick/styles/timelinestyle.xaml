@@ -1,0 +1,188 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+                    xmlns:timeline="clr-namespace:ticktick_WPF.Views.Timeline">
+  <timeline:TimelineAvatarVisibleConverter x:Key="TimelineAvatarVisibleConverter"/>
+  <timeline:TimelineIconFillConverter x:Key="TimelineIconFillConverter"/>
+  <timeline:TimelineTextColorConverter x:Key="TimelineTextColorConverter"/>
+  <timeline:TimelineInlineMarginConverter x:Key="TimelineInlineMarginConverter"/>
+  <timeline:TimelineTextConverter x:Key="TimelineTextConverter"/>
+  <Style x:Key="TimeLineInlineBorder" TargetType="{x:Type Border}">
+    <Setter Property="Border.Background" Value="{DynamicResource TimelineContainerBackground}"/>
+    <Setter Property="Border.CornerRadius" Value="3"/>
+    <Setter Property="FrameworkElement.Width" Value="{Binding Width}"/>
+    <Setter Property="Grid.Column" Value="1"/>
+    <Setter Property="Grid.ColumnSpan" Value="2"/>
+  </Style>
+  <Style x:Key="TimeLineItemRectStyle" TargetType="{x:Type Rectangle}">
+    <Setter Property="Rectangle.RadiusX" Value="3"/>
+    <Setter Property="Rectangle.RadiusY" Value="3"/>
+    <Setter Property="Shape.Fill" Value="{Binding BackgroundBrush}"/>
+    <Setter Property="Shape.Stroke" Value="{Binding BorderBrush}"/>
+    <Setter Property="Shape.StrokeThickness" Value="{Binding BorderThickness}"/>
+  </Style>
+  <Style x:Key="TimeLineItemStackPanelStyle" TargetType="{x:Type Grid}">
+    <Setter Property="Grid.Column" Value="1"/>
+    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Stretch"/>
+    <Setter Property="Panel.Background" Value="Transparent"/>
+    <Setter Property="UIElement.Opacity" Value="{Binding TitleOpacity}"/>
+    <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+    <Setter Property="UIElement.IsHitTestVisible" Value="false"/>
+    <Setter Property="FrameworkElement.Margin">
+      <Setter.Value>
+        <MultiBinding Converter="{StaticResource TimelineInlineMarginConverter}">
+          <Binding Path="Inline"/>
+          <Binding Path="Parent.XOffset"/>
+          <Binding Path="Left"/>
+          <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"/>
+          <Binding Path="Parent.GroupWidth"/>
+          <Binding Path="Parent.ShowGroup"/>
+        </MultiBinding>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <DataTrigger Binding="{Binding Inline}" Value="False">
+        <Setter Property="UIElement.IsHitTestVisible" Value="true"/>
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="TimeLineItemIconStyle" TargetType="{x:Type Path}">
+    <Setter Property="Grid.Column" Value="0"/>
+    <Setter Property="Shape.Stretch" Value="Uniform"/>
+    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="FrameworkElement.Width" Value="14"/>
+    <Setter Property="FrameworkElement.Height" Value="14"/>
+    <Setter Property="FrameworkElement.Margin" Value="0 0 4 0"/>
+    <Setter Property="Path.Data" Value="{Binding Icon}"/>
+    <Setter Property="Shape.Fill" Value="{Binding ForegroundBrush}"/>
+    <Setter Property="UIElement.Opacity" Value="0.4"/>
+  </Style>
+  <Style x:Key="TimeLineItemTextStyle" TargetType="{x:Type TextBlock}">
+    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="TextBlock.FontSize" Value="12"/>
+    <Setter Property="TextBlock.Text" Value="{Binding Title}"/>
+    <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
+    <Setter Property="TextBlock.TextTrimming" Value="None"/>
+    <Setter Property="FrameworkElement.MaxWidth"
+            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=ActualWidth}"/>
+    <Setter Property="TextBlock.Foreground" Value="{Binding ForegroundBrush}"/>
+  </Style>
+  <Style x:Key="TimeLineItemEmjTextStyle" TargetType="{x:Type wpf:EmjTextBlock}">
+    <Setter Property="Grid.Column" Value="1"/>
+    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="TextBlock.FontSize" Value="12"/>
+    <Setter Property="TextBlock.TextTrimming" Value="None"/>
+    <Setter Property="wpf:EmjTextBlock.Text">
+      <Setter.Value>
+        <MultiBinding Converter="{StaticResource TimelineTextConverter}">
+          <Binding Path="Title"/>
+          <Binding Path="MaxWidth"/>
+        </MultiBinding>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="TextBlock.Foreground">
+      <Setter.Value>
+        <MultiBinding Converter="{StaticResource TimelineTextColorConverter}">
+          <Binding Path="Inline"/>
+          <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"/>
+          <Binding Path="ForegroundBrush"/>
+        </MultiBinding>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="TimeLineItemAvatarStyle" TargetType="{x:Type Ellipse}">
+    <Setter Property="Grid.Column" Value="2"/>
+    <Setter Property="FrameworkElement.Width" Value="20"/>
+    <Setter Property="FrameworkElement.Height" Value="20"/>
+    <Setter Property="FrameworkElement.Margin" Value="-4 0 8 0"/>
+    <Setter Property="UIElement.Opacity" Value="{Binding TitleOpacity}"/>
+    <Setter Property="Shape.Stroke" Value="White"/>
+    <Setter Property="Shape.StrokeThickness" Value="1"/>
+    <Setter Property="Shape.Fill">
+      <Setter.Value>
+        <ImageBrush Stretch="Fill" ImageSource="{Binding Avatar}"/>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <DataTrigger Binding="{Binding Inline}" Value="False">
+        <Setter Property="FrameworkElement.Margin" Value="4 0 0 0"/>
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="TimelineGroupTopLineStyle" TargetType="{x:Type Border}">
+    <Setter Property="Border.BorderThickness" Value="0,1,0,0"/>
+    <Setter Property="Border.BorderBrush" Value="{DynamicResource BaseColorOpacity10}"/>
+    <Setter Property="UIElement.Visibility"
+            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type timeline:TimelineGroup}}, Path=PreviewData, Converter={StaticResource NullToVisibilityConverter}}"/>
+  </Style>
+  <Style x:Key="TimelineGroupFoldPathStyle" TargetType="{x:Type Path}">
+    <Setter Property="FrameworkElement.Width" Value="12"/>
+    <Setter Property="FrameworkElement.Height" Value="12"/>
+    <Setter Property="Shape.Stretch" Value="Uniform"/>
+    <Setter Property="UIElement.RenderTransformOrigin" Value="0.5,0.5"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+    <Setter Property="FrameworkElement.Margin" Value="0,0,3,0"/>
+    <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity100}"/>
+    <Setter Property="Path.Data" Value="{Binding Source={StaticResource ArrowLine}, Path=Data}"/>
+    <Setter Property="UIElement.RenderTransform">
+      <Setter.Value>
+        <RotateTransform Angle="{Binding Angle}"/>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="TimeLineGroupAvatarStyle" TargetType="{x:Type Ellipse}">
+    <Setter Property="Grid.Column" Value="1"/>
+    <Setter Property="FrameworkElement.Width" Value="24"/>
+    <Setter Property="FrameworkElement.Height" Value="24"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="FrameworkElement.Margin" Value="8 0 4 0"/>
+    <Setter Property="Shape.Stroke" Value="White"/>
+    <Setter Property="Shape.StrokeThickness" Value="1"/>
+    <Setter Property="UIElement.Visibility"
+            Value="{Binding Avatar, Converter={StaticResource NullToVisibilityConverter}}"/>
+    <Setter Property="Shape.Fill">
+      <Setter.Value>
+        <ImageBrush Stretch="Fill" ImageSource="{Binding Avatar}"/>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="TimeLineGroupTextStyle" TargetType="{x:Type wpf:EmjTextBlock}">
+    <Setter Property="Grid.Column" Value="2"/>
+    <Setter Property="UIElement.Visibility"
+            Value="{Binding Editing, Converter={StaticResource VisibleConverter}}"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="TextBlock.FontSize" Value="13"/>
+    <Setter Property="FrameworkElement.Margin" Value="2,0,0,0"/>
+    <Setter Property="wpf:EmjTextBlock.Text" Value="{Binding Title}"/>
+    <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
+    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+    <Setter Property="UIElement.ClipToBounds" Value="true"/>
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity100}"/>
+  </Style>
+  <Style x:Key="TimeLineGroupMoreImageStyle" TargetType="{x:Type Image}">
+    <Setter Property="Image.Source" Value="{DynamicResource MoreDrawingImage}"/>
+    <Setter Property="UIElement.Visibility">
+      <Setter.Value>
+        <MultiBinding Converter="{StaticResource BoolAndVisibilityConverter}" ConverterParameter="1">
+          <Binding Path="Editable"/>
+          <Binding Path="Editing"/>
+        </MultiBinding>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="FrameworkElement.Width" Value="20"/>
+    <Setter Property="FrameworkElement.Height" Value="20"/>
+    <Setter Property="FrameworkElement.Margin" Value="0,0,5,0"/>
+  </Style>
+  <Style x:Key="TimeLineGroupEditGridStyle" TargetType="{x:Type Grid}">
+    <Setter Property="FrameworkElement.HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    <Setter Property="UIElement.Visibility"
+            Value="{Binding Editing, Converter={StaticResource BoolVisibleConverter}}"/>
+    <Setter Property="Panel.Background" Value="Transparent"/>
+  </Style>
+</ResourceDictionary>

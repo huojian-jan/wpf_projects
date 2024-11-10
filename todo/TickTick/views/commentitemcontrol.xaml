@@ -1,0 +1,83 @@
+<UserControl x:Class="ticktick_WPF.Views.CommentItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:markdown="clr-namespace:ticktick_WPF.Views.MarkDown"
+             RequestBringIntoView="OnBringIntoView" DataContextChanged="OnDataBinded" Name="Root"
+             Focusable="false" MinHeight="62" Height="auto" Background="Transparent">
+  <FrameworkElement.Resources>
+    <converter:CommentDateConverter x:Key="CommentDateConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Margin="0,12" Height="auto"
+        Visibility="{Binding Deleted, Converter={StaticResource VisibleConverter}}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Rectangle Margin="0,0,8,0" VerticalAlignment="Top" RadiusX="36" RadiusY="36" Width="36" Height="36">
+      <Shape.Fill>
+        <ImageBrush Stretch="Uniform" ImageSource="{Binding Avatar}"/>
+      </Shape.Fill>
+    </Rectangle>
+    <Grid Column="1" Margin="0,0,0,0" HorizontalAlignment="Stretch">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Foreground="{DynamicResource BaseColorOpacity60}" HorizontalAlignment="Left" TextWrapping="NoWrap"
+                   TextTrimming="CharacterEllipsis" VerticalAlignment="Top" FontSize="{DynamicResource Font12}"
+                   MaxWidth="90" Background="Transparent" Text="{Binding Path=UserName}"/>
+        <TextBlock Foreground="{DynamicResource BaseColorOpacity60}" FontSize="{DynamicResource Font12}"
+                   Margin="8,0,0,0" VerticalAlignment="Top"
+                   Text="{Binding Path=CreateDate, Converter={StaticResource CommentDateConverter}}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="0" Margin="0,-2,0,0" HorizontalAlignment="Right" Orientation="Horizontal"
+                  VerticalAlignment="Top" Background="Transparent" Height="24" Cursor="Hand">
+        <Image x:Name="ReplyGrid" Source="{DynamicResource CommentDrawingLine}" Style="{DynamicResource Icon01}"
+               Visibility="Collapsed" ToolTip="{StaticResource reply}" Height="20"/>
+        <Image x:Name="EditGrid" Margin="0,0,4,0" Source="{DynamicResource EditDrawingImage}"
+               Style="{DynamicResource Icon01}" Visibility="Collapsed" ToolTip="{StaticResource Edit}" Height="20"/>
+        <Image x:Name="Delete" Source="{DynamicResource DeleteDrawingLine}" Style="{DynamicResource Icon01}"
+               Visibility="Collapsed" ToolTip="{StaticResource Delete}" Height="20"/>
+      </StackPanel>
+      <Grid Name="ContentGrid" Row="1" Margin="0,0,6,0">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="FrameworkElement.MaxHeight" Value="{DynamicResource Height66}"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=Root, Path=Fold}" Value="False">
+                <Setter Property="FrameworkElement.MaxHeight" Value="3000"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Path=Editing}" Value="True">
+                <Setter Property="FrameworkElement.MaxHeight" Value="160"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <markdown:EmojiEditor x:Name="ContentTxt" SizeChanged="OnTextSizeChanged" TextChanged="OnCommentContentChanged"
+                              FontSize="{DynamicResource Font14}" Foreground="{DynamicResource BaseColorOpacity100_80}"
+                              BorderThickness="0" WordWrap="true" AcceptReturn="true" ReadOnly="true" Background="Transparent"
+                              VerticalAlignment="Top"/>
+      </Grid>
+      <StackPanel MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" Name="ExpandPanel" Grid.Row="2"
+                  Orientation="Horizontal" Visibility="Collapsed" HorizontalAlignment="Left" Cursor="Hand"
+                  Background="Transparent">
+        <TextBlock Name="ExpandOrCollapseBtn" Margin="2,0,0,0" FontSize="{DynamicResource Font12}"
+                   Background="Transparent" Foreground="{DynamicResource PrimaryColor}" Text="{StaticResource expand}"/>
+        <Path Name="ExpandPath" Margin="2,0,0,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+              Fill="{DynamicResource BaseColorOpacity40}" Stretch="Uniform" Height="12" Width="12"
+              Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="0" x:Name="ExpandPathRotate"/>
+          </UIElement.RenderTransform>
+        </Path>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

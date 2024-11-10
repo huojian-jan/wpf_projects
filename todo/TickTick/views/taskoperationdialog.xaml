@@ -1,0 +1,395 @@
+<UserControl x:Class="ticktick_WPF.Views.TaskOperationDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pomo="clr-namespace:ticktick_WPF.Views.Pomo"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             Initialized="OnInitialized" Name="Root" FontWeight="Normal"
+             FontFamily="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=FontFamily}">
+  <FrameworkElement.Resources>
+    <converter:TabSelectColorConverter x:Key="TabSelectColorConverter"/>
+    <converter:TabSelectedConverter x:Key="TabSelectedConverter"/>
+  </FrameworkElement.Resources>
+  <ContentControl Style="{DynamicResource PopupContentStyle}">
+    <StackPanel MouseMove="ShowPopup" Name="Container" Orientation="Vertical" Background="Transparent">
+      <FrameworkElement.Resources>
+        <Style x:Key="GridStyle" TargetType="{x:Type Border}">
+          <Setter Property="FrameworkElement.Cursor" Value="Hand"/>
+          <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+          <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+          <Setter Property="FrameworkElement.Width" Value="30"/>
+          <Setter Property="FrameworkElement.Height" Value="30"/>
+          <Setter Property="Border.BorderThickness" Value="1"/>
+          <Setter Property="Border.BorderBrush" Value="Transparent"/>
+          <Setter Property="Border.CornerRadius" Value="4"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+          <Setter Property="TextBlock.FontSize" Value="12"/>
+          <Setter Property="FrameworkElement.Margin" Value="12,6,10,0"/>
+          <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+        </Style>
+        <Style TargetType="{x:Type Path}">
+          <Setter Property="FrameworkElement.Width" Value="20"/>
+          <Setter Property="FrameworkElement.Height" Value="20"/>
+          <Setter Property="Shape.Stretch" Value="Uniform"/>
+          <Setter Property="Shape.Fill" Value="{DynamicResource BaseColorOpacity40}"/>
+        </Style>
+        <Style TargetType="{x:Type Line}" BasedOn="{StaticResource SplitLineStyle}">
+          <Setter Property="FrameworkElement.Margin" Value="0,4,0,4"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+          <Setter Property="Control.Background" Value="Transparent"/>
+          <Setter Property="FrameworkElement.Height" Value="32"/>
+          <Setter Property="Control.Foreground" Value="{DynamicResource BaseColorOpacity100_80}"/>
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type Button}">
+                <Border Background="{TemplateBinding Control.Background}">
+                  <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="38,0,25,0" TextBlock.FontSize="13"/>
+                </Border>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+          <Style.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="true">
+              <Setter Property="Control.Background" Value="{StaticResource BaseColorOpacity5}"/>
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Resources>
+      <StackPanel Name="DateStack" Orientation="Vertical">
+        <TextBlock Text="{StaticResource date}"/>
+        <Grid Name="DatePanel" Margin="8,8,8,6" Height="30" Width="180">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition x:Name="FourthColumn" Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition x:Name="SixthColumn" Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Border MouseLeftButtonUp="SetTimeClick" Name="TodayGrid" Grid.Column="0" ToolTip="{StaticResource Today}"
+                  Tag="today"
+                  BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=0}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedDate}" Value="today">
+                    <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Source="{DynamicResource SelectTodayDrawingImage}" Height="20" Width="24"
+                   Style="{DynamicResource Icon01}"/>
+          </Border>
+          <Border MouseLeftButtonUp="SetTimeClick" Name="TomorrowGrid" Grid.Column="1"
+                  ToolTip="{StaticResource Tomorrow}" Tag="tomorrow"
+                  BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=1}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedDate}" Value="tomorrow">
+                    <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Source="{DynamicResource selecttomorrowDrawingImage}" Height="20" Width="24"
+                   Style="{DynamicResource Icon01}"/>
+          </Border>
+          <Border MouseLeftButtonUp="SetTimeClick" Name="NextWeekGrid" Grid.Column="2"
+                  ToolTip="{StaticResource NextWeek}" Tag="nextweek"
+                  BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=2}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                  <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedDate}" Value="nextweek">
+                    <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Source="{DynamicResource SelectNext7daysDrawingImage}" Height="20" Width="24"
+                   Style="{DynamicResource Icon01}"/>
+          </Border>
+          <Border MouseLeftButtonUp="SkipRecurrenceClick" Name="SkipGrid" Grid.Column="3"
+                  ToolTip="{StaticResource SkipTheRecurrence}"
+                  BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=3}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Source="{DynamicResource skipDrawingImage}" Width="24" Height="20" Style="{DynamicResource Icon01}"/>
+          </Border>
+          <Border MouseLeftButtonUp="SetTimeClick" Name="SetDateBorder" Grid.Column="4"
+                  ToolTip="{StaticResource PickDate}" Tag="custom"
+                  BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=4}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Source="{DynamicResource CalendarDrawingImage}" Width="24" Height="20"
+                   Style="{DynamicResource Icon01}"/>
+          </Border>
+          <Border MouseLeftButtonUp="SetTimeClick" Name="ClearDateBorder" Grid.Column="5"
+                  ToolTip="{StaticResource ClearDate}" Tag="clear"
+                  BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=4}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+                <Setter Property="Border.Background" Value="Transparent"/>
+                <Style.Triggers>
+                  <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Source="{DynamicResource ClearDateDrawingImage}" Width="24" Height="24"
+                   Style="{DynamicResource Icon01}"/>
+          </Border>
+        </Grid>
+      </StackPanel>
+      <TextBlock Text="{StaticResource priority}" Visibility="{Binding ElementName=PriorityGrid, Path=Visibility}"/>
+      <Grid Name="PriorityGrid" Margin="8,8,8,4" Height="30">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border MouseLeftButtonUp="PriorityGridClick" Name="PriorityHighGrid" Grid.Column="0" Tag="5"
+                BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=5}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+              <Setter Property="Border.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedPriority}" Value="5">
+                  <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Image Source="{DynamicResource HighPriorityDrawingImage}" Style="{DynamicResource Icon01}" Opacity="1"/>
+        </Border>
+        <Border MouseLeftButtonUp="PriorityGridClick" Name="PriorityMediumGrid" Grid.Column="1" Tag="3"
+                BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=6}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+              <Setter Property="Border.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedPriority}" Value="3">
+                  <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Image Source="{DynamicResource MidPriorityDrawingImage}" Style="{DynamicResource Icon01}" Opacity="1"/>
+        </Border>
+        <Border MouseLeftButtonUp="PriorityGridClick" Name="PriorityLowGrid" Grid.Column="2" Tag="1"
+                BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=7}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+              <Setter Property="Border.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedPriority}" Value="1">
+                  <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Image Source="{DynamicResource LowPriorityDrawingImage}" Style="{DynamicResource Icon01}" Opacity="1"/>
+        </Border>
+        <Border MouseLeftButtonUp="PriorityGridClick" Name="PriorityNoGrid" Grid.Column="3" Tag="0"
+                BorderBrush="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectColorConverter}, ConverterParameter=8}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource GridStyle}" TargetType="{x:Type Border}">
+              <Setter Property="Border.Background" Value="Transparent"/>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=SelectedPriority}" Value="0">
+                  <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Image Source="{DynamicResource NonePriorityDrawingImage}" Style="{DynamicResource Icon01}" Opacity="1"/>
+        </Border>
+      </Grid>
+      <Line/>
+      <misc:OptionItemWithImageIcon x:Name="CreateSubTaskButton" MouseLeftButtonUp="OnCreateSubTaskClick"
+                                    ImageSource="{DynamicResource AddSubTaskDrawingImage}" Content="{StaticResource AddSubTask}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=9}"/>
+      <misc:OptionItemWithImageIcon x:Name="PinButton" MouseLeftButtonUp="OnPinClick" Visibility="Collapsed"
+                                    ImageSource="{DynamicResource PinnedDrawingImage}" Content="{StaticResource Pin}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=10}"/>
+      <misc:OptionItemWithImageIcon x:Name="AbandonedButton" MouseLeftButtonUp="OnAbandonOrReopenClick" Visibility="Collapsed"
+                                    ImageSource="{DynamicResource AbandonDrawingImage}" Content="{StaticResource TaskAbandon}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=11}"/>
+      <misc:OptionItemWithImageIcon x:Name="ReopenButton" MouseLeftButtonUp="OnAbandonOrReopenClick" Visibility="Collapsed"
+                                    ImageSource="{DynamicResource ReopenDrawingImage}" Content="{StaticResource TaskReopen}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=12}"/>
+      <Grid Name="MoveButton">
+        <misc:OptionCheckBox x:Name="ProjectItem" Foreground="{DynamicResource BaseColorOpacity100_80}" CanMultiSelected="false"
+                             Text="{StaticResource MoveTo}" Group="SortType" ShowCheckIcon="false"
+                             IconFill="{DynamicResource BaseColorOpacity60}"
+                             Icon="{Binding Source={StaticResource IcMovetoLine}, Path=Data}"/>
+        <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+                 HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+          <Polygon.Points>
+            <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+          </Polygon.Points>
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="270"/>
+          </UIElement.RenderTransform>
+        </Polygon>
+      </Grid>
+      <misc:EscPopup x:Name="SetProjectPopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed" StaysOpen="true"
+                     PopupAnimation="Fade" Placement="Relative" VerticalOffset="-22"
+                     PlacementTarget="{Binding ElementName=MoveButton}"
+                     HorizontalOffset="{Binding ElementName=Container, Path=ActualWidth, ConverterParameter=@VALUE-3, Converter={StaticResource MathConverter}}"/>
+      <Grid Name="AssignBtn" Visibility="Collapsed">
+        <misc:OptionCheckBox x:Name="AssignItem" Foreground="{DynamicResource BaseColorOpacity100_80}" CanMultiSelected="false"
+                             Text="{StaticResource AssignTo}" Group="SortType" ShowCheckIcon="false"
+                             IconFill="{DynamicResource BaseColorOpacity60}"
+                             HoverSelected="{Binding ElementName=SetAssigneePopup, Path=IsOpen}"
+                             Icon="{Binding Source={StaticResource IcAssignToOther}, Path=Data}"/>
+        <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+                 HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+          <Polygon.Points>
+            <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+          </Polygon.Points>
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="270"/>
+          </UIElement.RenderTransform>
+        </Polygon>
+      </Grid>
+      <misc:EscPopup x:Name="SetAssigneePopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed" StaysOpen="true"
+                     PopupAnimation="Fade" Placement="Right" HorizontalOffset="-3" VerticalOffset="-12"
+                     PlacementTarget="{Binding ElementName=AssignBtn}"/>
+      <Grid Name="TagGrid">
+        <misc:OptionCheckBox x:Name="TagItem" Foreground="{DynamicResource BaseColorOpacity100_80}" CanMultiSelected="false"
+                             Text="{StaticResource Tags}" Group="SortType" ShowCheckIcon="false"
+                             IconFill="{DynamicResource BaseColorOpacity60}"
+                             HoverSelected="{Binding ElementName=SetTagPopup, Path=IsOpen}"
+                             Icon="{Binding Source={StaticResource IcTagLine}, Path=Data}"/>
+        <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+                 HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+          <Polygon.Points>
+            <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+          </Polygon.Points>
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="270"/>
+          </UIElement.RenderTransform>
+        </Polygon>
+      </Grid>
+      <misc:EscPopup x:Name="SetTagPopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed" StaysOpen="true"
+                     PopupAnimation="Fade" Placement="Relative" VerticalOffset="-12"
+                     PlacementTarget="{Binding ElementName=TagGrid}"
+                     HorizontalOffset="{Binding ElementName=Container, Path=ActualWidth, ConverterParameter=@VALUE-3, Converter={StaticResource MathConverter}}"/>
+      <Line/>
+      <StackPanel Name="PomoPanel" Orientation="Vertical" Background="Transparent">
+        <Grid Name="PomoGrid">
+          <misc:OptionCheckBox x:Name="PomoItem" Foreground="{DynamicResource BaseColorOpacity100_80}" CanMultiSelected="false"
+                               Text="{StaticResource BeginFocus}" Group="SortType" ShowCheckIcon="false"
+                               IconFill="{DynamicResource BaseColorOpacity60}"
+                               HoverSelected="{Binding ElementName=TaskPomoPopup, Path=IsOpen}"
+                               Icon="{Binding Source={StaticResource IcFocus}, Path=Data}"/>
+          <Polygon Width="12" Height="12" Margin="0,0,8,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+            <Polygon.Points>
+              <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+            </Polygon.Points>
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="270"/>
+            </UIElement.RenderTransform>
+          </Polygon>
+        </Grid>
+        <misc:EscPopup x:Name="TaskPomoPopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed"
+                       HorizontalOffset="-3" VerticalOffset="-12" PopupAnimation="Fade" Placement="Right" StaysOpen="true"
+                       PlacementTarget="{Binding ElementName=PomoGrid}">
+          <pomo:TaskPomoSetDialog x:Name="TaskPomoSetDialog"/>
+        </misc:EscPopup>
+        <Line/>
+      </StackPanel>
+      <misc:OptionItemWithImageIcon x:Name="CopyButton" MouseLeftButtonUp="OnCopyClick"
+                                    ImageSource="{DynamicResource CopyTaskDrawingImage}" Content="{StaticResource CopyTask}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=17}"/>
+      <misc:OptionItemWithImageIcon x:Name="CopyLinkGrid" MouseLeftButtonUp="OnCopyLinkClick"
+                                    ImageSource="{DynamicResource CopyTaskLinkDrawingImage}" Content="{StaticResource CopyTaskLink}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=18}"/>
+      <misc:OptionItemWithImageIcon x:Name="CopyTextGrid" MouseLeftButtonUp="OnCopyTextClick" Visibility="Collapsed"
+                                    ImageSource="{DynamicResource CopyTextDrawingImage}" Content="{StaticResource CopyText}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=19}"/>
+      <misc:OptionItemWithImageIcon x:Name="MergeBtn" MouseLeftButtonUp="OnMergeClick"
+                                    ImageSource="{DynamicResource MergeDrawingImage}" Content="{StaticResource Merge}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=20}"/>
+      <Grid Name="ChangeCompleteDate" Visibility="Collapsed">
+        <misc:OptionItemWithImageIcon x:Name="CompleteItem" ImageSource="{DynamicResource ModifyCompleteDrawingImage}"
+                                      ImageMargin="12,0,0,0" Content="{StaticResource ChangedCompleteDate}"
+                                      HoverSelected="{Binding ElementName=ChangeDatePopup, Path=IsOpen}"/>
+        <Polygon Width="12" Height="12" Margin="0,0,6,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center"
+                 HorizontalAlignment="Right" Fill="{DynamicResource BaseColorOpacity40}">
+          <Polygon.Points>
+            <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+          </Polygon.Points>
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="270"/>
+          </UIElement.RenderTransform>
+        </Polygon>
+        <misc:EscPopup x:Name="ChangeDatePopup" Opened="OnChildPopupOpened" Closed="OnChildPopupClosed"
+                       VerticalOffset="-12" PopupAnimation="Fade" Placement="Relative" StaysOpen="true"
+                       PlacementTarget="{Binding ElementName=ChangeCompleteDate}"
+                       HorizontalOffset="{Binding ElementName=Container, Path=ActualWidth, ConverterParameter=@VALUE-3, Converter={StaticResource MathConverter}}"/>
+      </Grid>
+      <Line Name="DivideLine"/>
+      <misc:OptionItemWithImageIcon MouseLeftButtonUp="OnStickyClick" ImageSource="{DynamicResource StickyDrawingImage}"
+                                    Content="{StaticResource SetAsSticky}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=22}"/>
+      <misc:OptionItemWithImageIcon x:Name="SwitchButton" MouseLeftButtonUp="OnSwitchClick"
+                                    ImageSource="{DynamicResource SwitchNoteDrawingImage}" Content="{StaticResource ConvertToNote}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=23}"/>
+      <misc:OptionItemWithImageIcon MouseLeftButtonUp="OnDeleteClick" ImageSource="{DynamicResource DeleteDrawingLine}"
+                                    Content="{StaticResource Delete}"
+                                    HoverSelected="{Binding ElementName=Root, Path=SelectedIndex, Converter={StaticResource TabSelectedConverter}, ConverterParameter=24}"/>
+    </StackPanel>
+  </ContentControl>
+</UserControl>

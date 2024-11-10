@@ -1,0 +1,25 @@
+<UserControl x:Class="ticktick_WPF.Views.Filter.FilterPreviewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Filter">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Grid Width="30" Height="30" Background="Transparent" Cursor="Hand" HorizontalAlignment="Left"
+          VerticalAlignment="Bottom" Column="0">
+      <Image Source="{DynamicResource CloseDrawingImage}" Style="{DynamicResource Icon01}" Height="24"
+             Width="24"/>
+      <Border Style="{DynamicResource SmoothHoverBorderStyle}" CornerRadius="4"/>
+    </Grid>
+    <TextBlock Style="{DynamicResource Title01}" Text="{StaticResource Preview}" VerticalAlignment="Bottom"
+               FontSize="20px" FontWeight="Bold" Margin="8,0,0,4"
+               Foreground="{DynamicResource BaseColorOpacity100}" Grid.Column="1"/>
+    <Button Content="{StaticResource PublicSave}" Style="{DynamicResource SaveButtonStyle}" Grid.Column="2"
+            VerticalAlignment="Bottom" Height="30" Width="80" Margin="0,0,20,0"/>
+  </Grid>
+</UserControl>

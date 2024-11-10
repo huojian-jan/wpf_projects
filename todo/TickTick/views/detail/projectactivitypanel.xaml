@@ -1,0 +1,23 @@
+<Grid x:Class="ticktick_WPF.Views.Detail.ProjectActivityPanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ticktick_WPF.Views.Detail"
+      xmlns:activity="clr-namespace:ticktick_WPF.Views.Activity"
+      Background="Transparent" VerticalAlignment="Stretch">
+  <StackPanel Orientation="Horizontal" Background="Transparent" VerticalAlignment="Top" Margin="0,4,0,0">
+    <Grid Name="ProjectBackPathGrid" Visibility="Collapsed" Margin="16,0,0,0" Cursor="Hand"
+          HorizontalAlignment="Left" Width="14" Background="Transparent" ToolTip="{DynamicResource Close}">
+      <Path Width="12" Height="12" Style="{DynamicResource Path01}" Fill="{DynamicResource BaseColorOpacity40}"
+            Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
+    </Grid>
+    <Grid Height="60" Background="Transparent">
+      <TextBlock Text="{StaticResource ListActivitiesPro}" FontWeight="Bold" VerticalAlignment="Center"
+                 Foreground="{DynamicResource BaseColorOpacity100}" FontSize="16" Margin="12,0"/>
+    </Grid>
+  </StackPanel>
+  <Grid Height="1" Background="{DynamicResource BaseColorOpacity5}" Margin="0,59,0,0"
+        VerticalAlignment="Top"/>
+  <activity:ProjectActivityControl x:Name="ProjectActivityControl" VerticalAlignment="Top" Margin="0,64,0,0"/>
+</Grid>

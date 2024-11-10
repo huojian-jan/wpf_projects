@@ -1,0 +1,73 @@
+<UserControl x:Class="ticktick_WPF.Views.QuickAdd.QuickAddText"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:avalonedit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+             xmlns:quickAdd="clr-namespace:ticktick_WPF.Views.QuickAdd"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             ContextMenuOpening="EditorMenuOnContextMenuOpening" Name="Root" MinHeight="36">
+  <Grid Name="Grid">
+    <avalonedit:TextEditor PreviewKeyDown="OnEditTextKeyDown" PreviewKeyUp="OnEditTextKeyUp" x:Name="EditBox"
+                           HorizontalScrollBarVisibility="Hidden" Background="Transparent"
+                           VerticalScrollBarVisibility="Disabled" WordWrap="false" ScrollViewer.PanningMode="HorizontalFirst"
+                           VerticalAlignment="Center" Margin="0,4,0,0" VerticalContentAlignment="Center"
+                           Foreground="{DynamicResource BaseColorOpacity100}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type avalonedit:TextEditor}">
+          <Setter Property="Control.FontSize" Value="{DynamicResource Font14}"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=Root, Path=FontSize}" Value="16">
+              <Setter Property="Control.FontSize" Value="{DynamicResource Font16}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=Root, Path=FontSize}" Value="20">
+              <Setter Property="Control.FontSize" Value="{DynamicResource Font20}"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <UIElement.InputBindings>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.ClearDateCommand}" Gesture="CTRL+0"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetTodayCommand}" Gesture="CTRL+1"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetTomorrowCommand}" Gesture="CTRL+2"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetNextWeekCommand}" Gesture="CTRL+3"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SelectDateCommand}" Gesture="CTRL+D"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetPriorityNoneCommand}" Gesture="ALT+0"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetPriorityLowCommand}" Gesture="ALT+1"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetPriorityMediumCommand}" Gesture="ALT+2"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+        <KeyBinding Command="{x:Static quickAdd:QuickAddViewCommands.SetPriorityHighCommand}" Gesture="ALT+3"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type quickAdd:QuickAddText}}}"/>
+      </UIElement.InputBindings>
+      <FrameworkElement.Resources>
+        <Style TargetType="{x:Type TextArea}">
+          <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+          <Setter Property="TextArea.SelectionForeground" Value="{x:Null}"/>
+          <Setter Property="TextArea.SelectionCornerRadius" Value="0.0"/>
+          <Setter Property="TextArea.SelectionBrush">
+            <Setter.Value>
+              <SolidColorBrush Color="{DynamicResource {x:Static JetSystemColors.HighlightColorKey}}" Opacity="0.3"/>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="TextArea.SelectionBorder">
+            <Setter.Value>
+              <Pen Brush="{DynamicResource {x:Static JetSystemColors.HighlightBrushKey}}" Thickness="0"/>
+            </Setter.Value>
+          </Setter>
+        </Style>
+        <Style TargetType="{x:Type TextView}">
+          <Setter Property="TextView.LineSpacing" Value="2"/>
+        </Style>
+      </FrameworkElement.Resources>
+    </avalonedit:TextEditor>
+    <Popup Name="SelectionPopup" StaysOpen="false" AllowsTransparency="true" Placement="Bottom"
+           PopupAnimation="Fade" PlacementTarget="{Binding ElementName=Grid}"/>
+  </Grid>
+</UserControl>

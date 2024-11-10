@@ -1,0 +1,161 @@
+<Grid x:Class="ticktick_WPF.Views.Detail.TaskDetailHead"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ticktick_WPF.Views.Detail"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+      xmlns:viewModels="clr-namespace:ticktick_WPF.ViewModels"
+      xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+      VerticalAlignment="Top">
+  <Grid Margin="20,0">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition Width="auto"/>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="auto"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <Border MouseLeftButtonUp="OnBackClick" Name="BackBtn" Margin="0,0,8,0" Cursor="Hand"
+            Visibility="Collapsed" HorizontalAlignment="Left" Background="Transparent"
+            ToolTip="{StaticResource LoginReturn}">
+      <Image Source="{DynamicResource NavigateBackDrawingImage}" Width="18" Style="{DynamicResource EditorIcon}"/>
+    </Border>
+    <Grid Row="0" Column="1"
+          Visibility="{Binding ShowCheckIcon, Converter={StaticResource BoolVisibleConverter}}">
+      <Grid MouseLeftButtonUp="OnCheckBoxClick" MouseRightButtonUp="OnCheckBoxMouseRightUp" Name="CheckIcon"
+            Background="Transparent" Margin="3,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Left"
+            Cursor="{Binding Enable, Converter={StaticResource BoolCursorConverter}}">
+        <Interaction.Triggers>
+          <EventTrigger EventName="MouseEnter">
+            <CallMethodAction MethodName="CheckBoxMouseEnterCommand" TargetObject="{Binding}"/>
+          </EventTrigger>
+          <EventTrigger EventName="MouseLeave">
+            <CallMethodAction MethodName="CheckBoxMouseLeaveCommand" TargetObject="{Binding}"/>
+          </EventTrigger>
+        </Interaction.Triggers>
+        <Border CornerRadius="1" Margin="1" Opacity="{Binding CheckIconBackOpacity}"
+                Visibility="{Binding CheckIconBackOpacity}" Background="{Binding ElementName=CheckPath, Path=Fill}"/>
+        <Path Name="CheckPath" HorizontalAlignment="Left" Width="14" Height="14" Stretch="Uniform"
+              Fill="{Binding CheckIconColor}" Opacity="{Binding CheckIconOpacity}" Data="{Binding Icon}"/>
+      </Grid>
+      <Border Width="1" BorderBrush="{DynamicResource BaseColorOpacity20}" Height="12" BorderThickness="0,0,1,0"
+              HorizontalAlignment="Right" Margin="28,0,10,0"/>
+    </Grid>
+    <Grid Name="DateGrid" Row="0" Column="2" Height="40" Margin="-4,0,0,0" Background="Transparent">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <Border MouseLeftButtonUp="SelectDateClick" MouseLeftButtonDown="OnSelectTimeMouseDown" Margin="0,8"
+              Style="{DynamicResource SmoothHoverBorderStyle}" Cursor="Hand" Grid.ColumnSpan="3"/>
+      <Grid Name="ChooseTimeGrid" Column="0" HorizontalAlignment="Left" Margin="4,0,0,0" Width="22"
+            IsHitTestVisible="false" Cursor="{Binding Enable, Converter={StaticResource BoolCursorConverter}}"
+            IsEnabled="{Binding Enable}">
+        <Path Width="22" Height="22" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity40}"
+              Visibility="{Binding ShowSetTime, Converter={StaticResource BoolVisibleConverter}}"
+              Data="{Binding Source={StaticResource IcCalendar}, Path=Data}"/>
+        <Grid Height="22" Width="22">
+          <Path Name="DatePath" Height="22" Width="22" Stretch="Uniform"
+                Visibility="{Binding ShowSetTime, Converter={StaticResource VisibleConverter}}"
+                Data="{Binding Source={StaticResource IcCalEmpty}, Path=Data}" Fill="{Binding DateIconColor}"/>
+          <TextBlock FontSize="9" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center"
+                     Margin="0,1,0,0" Foreground="White" FontFamily="Arial,Microsoft YaHei UI" Text="{Binding DayText}"/>
+        </Grid>
+      </Grid>
+      <TextBlock Margin="4,0" Background="Transparent" TextTrimming="CharacterEllipsis"
+                 FontWeight="{DynamicResource NormalToBold}" Grid.Column="1" Style="{StaticResource Body01}"
+                 IsHitTestVisible="false" Foreground="{Binding ElementName=DatePath, Path=Fill}"
+                 Cursor="{Binding ElementName=ChooseTimeGrid, Path=Cursor}" Text="{Binding DateText}">
+        <FrameworkElement.MaxWidth>
+          <MultiBinding Converter="{StaticResource TaskDetailDateMaxWidthConverter}">
+            <Binding ElementName="DateGrid" Path="ActualWidth"/>
+            <Binding Path="ShowRepeatIcon"/>
+          </MultiBinding>
+        </FrameworkElement.MaxWidth>
+      </TextBlock>
+      <Border Margin="0,4,4,4" Grid.Column="2" Visibility="{Binding ShowRepeatIcon}"
+              Cursor="{Binding ElementName=ChooseTimeGrid, Path=Cursor}">
+        <Image Source="{DynamicResource RepeatDrawingImage}" Style="{DynamicResource Icon01}" Width="14"
+               Height="14" ToolTip="{Binding RepeatText}"/>
+      </Border>
+    </Grid>
+    <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal"
+                Cursor="{Binding ElementName=ChooseTimeGrid, Path=Cursor}">
+      <Grid MouseLeftButtonUp="OnSetAssigneeMouseUp" Name="AssignGrid">
+        <Border Name="AvatarImageRectangle" Width="20" Height="20" CornerRadius="9" Margin="0,-1,4,0"
+                HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
+          <FrameworkElement.ToolTip>
+            <MultiBinding Converter="{StaticResource AvatarNameConverter}">
+              <Binding Path="Assignee"/>
+              <Binding Path="ProjectId"/>
+            </MultiBinding>
+          </FrameworkElement.ToolTip>
+          <Rectangle HorizontalAlignment="Center" VerticalAlignment="Center" RadiusX="18" RadiusY="18" Width="18"
+                     Height="18">
+            <Shape.Fill>
+              <ImageBrush x:Name="AvatarImage" Stretch="Fill"/>
+            </Shape.Fill>
+          </Rectangle>
+        </Border>
+        <misc:HoverIconButton x:Name="AssignOtherGrid" VerticalAlignment="Center"
+                              ImageSource="{DynamicResource AssigntoDrawingImage}" Visibility="Collapsed"/>
+      </Grid>
+      <misc:EscPopup x:Name="SetAssignPopup" StaysOpen="false" HorizontalOffset="-75" VerticalOffset="-25"
+                     Placement="Bottom" PlacementTarget="{Binding ElementName=AssignGrid}"/>
+      <misc:HoverIconButton x:Name="SetPriorityGrid" PreviewMouseLeftButtonUp="SetPriorityMouseUp"
+                            ToolTip="{StaticResource priority}" ImageOpacity="1" Margin="2,0,-2,0"
+                            Visibility="{Binding IsNote, Converter={StaticResource VisibleConverter}}"/>
+      <misc:EscPopup x:Name="SetPriorityPopup" HorizontalOffset="-75" VerticalOffset="-25" Placement="Bottom"/>
+      <Border PreviewMouseLeftButtonUp="NoteMessageClick" Name="NoteMessageGrid" Width="20" Cursor="Hand"
+              Style="{DynamicResource SmoothHoverBorderStyle40_60}"
+              Visibility="{Binding IsNote, Converter={StaticResource BoolVisibleConverter}}">
+        <Path Width="16" VerticalAlignment="Center" Stretch="Uniform"
+              Fill="{DynamicResource BaseColorOpacity100}"
+              Data="{Binding Source={StaticResource IcNoteMessage}, Path=Data}"/>
+      </Border>
+      <Popup Name="NoteMessagePopup" StaysOpen="false" PopupAnimation="Fade" AllowsTransparency="true"
+             Placement="Left" HorizontalOffset="30" VerticalOffset="35">
+        <ContentControl Style="{DynamicResource PopupContentStyle}">
+          <StackPanel>
+            <TextBlock Text="{StaticResource Words}" Style="{DynamicResource Tag05}" LineHeight="16" Margin="16,4,16,0"/>
+            <TextBlock Name="TextCount" Style="{DynamicResource Tag01}" LineHeight="16" FontSize="11" Margin="16,2,16,8"/>
+            <TextBlock Text="{StaticResource CreatedAt}" Style="{DynamicResource Tag05}" LineHeight="16" Margin="16,0"/>
+            <TextBlock Name="CreatedAt" Style="{DynamicResource Tag01}" LineHeight="16" FontSize="11" Margin="16,2,16,8"/>
+            <TextBlock Text="{StaticResource ModifiedAt}" Style="{DynamicResource Tag05}" LineHeight="16" Margin="16,0"/>
+            <TextBlock Name="ModifiedAt" Style="{DynamicResource Tag01}" LineHeight="16" FontSize="11" Margin="16,2"/>
+          </StackPanel>
+        </ContentControl>
+      </Popup>
+    </StackPanel>
+    <StackPanel MouseLeftButtonUp="SelectDateClick" Margin="23,-8,5,0" Grid.Column="2" Grid.Row="1"
+                HorizontalAlignment="Left">
+      <TextBlock FontSize="11" Foreground="{DynamicResource BaseColorOpacity40}" HorizontalAlignment="Left"
+                 TextTrimming="CharacterEllipsis" Margin="0,0,0,2" Background="Transparent"
+                 Text="{Binding RemindTime, Converter={StaticResource SnoozeTextConverter}}"/>
+      <TextBlock FontSize="11" Foreground="{DynamicResource BaseColorOpacity40}" Margin="0,0,0,5"
+                 Background="Transparent" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left"
+                 Text="{Binding TimeZoneText}"/>
+    </StackPanel>
+  </Grid>
+  <local:TaskProgressControl x:Name="TaskProgressGrid" IsEnabled="{Binding Enable}"
+                             Visibility="{Binding ElementName=ProgressPreviewGrid, Path=Visibility}"/>
+  <Grid PreviewMouseMove="ProgressPreviewMouseMove" MouseLeave="ProgressMouseLeave"
+        MouseLeftButtonDown="ProgressClick" Name="ProgressPreviewGrid" Row="0" Height="4"
+        VerticalAlignment="Bottom" ZIndex="1000" Background="Transparent"
+        Cursor="{Binding ElementName=ChooseTimeGrid, Path=Cursor}" IsEnabled="{Binding Enable}">
+    <UIElement.Visibility>
+      <MultiBinding Converter="{StaticResource TaskProgressVisibleConverter}">
+        <Binding Path="Status"/>
+        <Binding Path="IsNewAdd"/>
+        <Binding Path="IsOwner"/>
+        <Binding Path="Kind"/>
+      </MultiBinding>
+    </UIElement.Visibility>
+  </Grid>
+</Grid>

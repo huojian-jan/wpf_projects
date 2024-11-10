@@ -1,0 +1,12 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.Tag.BatchAddTagWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:local="clr-namespace:ticktick_WPF.Views.Tag"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                Deactivated="OnWindowDeactivated" SizeChanged="OnWindowSizeChanged" Width="275"
+                SizeToContent="Height" AllowsTransparency="true" WindowStyle="None" Background="Transparent"
+                ShowInTaskbar="false" WindowStartupLocation="Manual" Topmost="true">
+  <local:BatchSetTagControl x:Name="SetTagControl"/>
+</views:MyWindow>

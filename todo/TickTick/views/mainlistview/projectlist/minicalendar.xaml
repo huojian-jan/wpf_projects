@@ -1,0 +1,44 @@
+<UserControl x:Class="ticktick_WPF.Views.MainListView.ProjectList.MiniCalendar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.MainListView.ProjectList"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             Visibility="{Binding Source={x:Static resource:LocalSettings.Settings}, Path=MiniCalendarEnabled, Converter={StaticResource BoolVisibleConverter}}">
+  <Grid Name="Root" Background="Transparent">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="12"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Line Style="{StaticResource SplitLineStyle}" VerticalAlignment="Top"/>
+    <Border MouseLeftButtonUp="OnCollapsedClick" Grid.Row="0" HorizontalAlignment="Center"
+            VerticalAlignment="Center" Width="32" Height="12"
+            Background="{DynamicResource ProjectMenuColorOpacity40}" Cursor="Hand" Grid.Column="0"
+            CornerRadius="0,0,4,4" Style="{DynamicResource SmoothHoverBorderStyle60_100}"
+            Visibility="{Binding ElementName=Root, Path=IsMouseOver, Converter={StaticResource BoolVisibleConverter}}">
+      <Grid>
+        <Path Width="8" Height="8" Fill="{DynamicResource TextInverseColor}" Stretch="Uniform"
+              RenderTransformOrigin="0.5,0.5" Data="{Binding Source={StaticResource IcLeftArraw}, Path=Data}"
+              Visibility="{Binding MiniMode, Converter={StaticResource BoolVisibleConverter}}">
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="90"/>
+          </UIElement.RenderTransform>
+        </Path>
+        <Path Width="8" Height="8" Fill="{DynamicResource ProjectMenuIconColor}" Stretch="Uniform"
+              RenderTransformOrigin="0.5,0.5" Data="{Binding Source={StaticResource IcLeftArraw}, Path=Data}"
+              Visibility="{Binding MiniMode, Converter={StaticResource VisibleConverter}}">
+          <UIElement.RenderTransform>
+            <RotateTransform Angle="270"/>
+          </UIElement.RenderTransform>
+        </Path>
+      </Grid>
+    </Border>
+    <Grid Name="DayPickerGrid" Row="1">
+      <time:TickDatePicker x:Name="DayPicker" SelectedDateChanged="OnDaySelected" AllowSelectMonth="false"
+                           ShowIndicator="true" Margin="10,0,10,12" ShowInCal="true" MiniMode="true" UseInSlideMenu="true"
+                           HorizontalAlignment="Stretch"/>
+    </Grid>
+  </Grid>
+</UserControl>

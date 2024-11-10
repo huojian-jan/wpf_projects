@@ -1,0 +1,31 @@
+<UserControl x:Class="ticktick_WPF.Views.Setting.MoreSettingsConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Setting"
+             xmlns:config="clr-namespace:ticktick_WPF.Views.Config">
+  <ScrollViewer Name="ScrollViewer" Style="{DynamicResource for_scrollviewer}" Margin="0,40,0,0">
+    <Border Name="ContainerBorder">
+      <StackPanel>
+        <local:GeneralSettings/>
+        <local:SmartRecognitionConfig/>
+        <local:NewTaskDefault x:Name="NewTaskDefault"/>
+        <local:MiniCalendarConfig/>
+        <local:LockSettings x:Name="LockSettings"/>
+        <TextBlock Text="{StaticResource Network}" Style="{DynamicResource SettingTitleStyle}" Margin="38,32,0,0"/>
+        <Border Margin="20,16,20,0" Background="{DynamicResource BaseColorOpacity2}" CornerRadius="8">
+          <Grid Margin="18,4" Height="40">
+            <TextBlock Text="{StaticResource Proxy}" Style="{StaticResource SettingTextStyle}" Margin="0"
+                       VerticalAlignment="Center"/>
+            <TextBlock MouseLeftButtonUp="ProxyManageClick" Name="SetPasswordButton"
+                       Style="{StaticResource SettingTextStyle}" HorizontalAlignment="Right"
+                       Text="{StaticResource Manage}" Background="Transparent" Foreground="{DynamicResource ThemeBlue}"
+                       Cursor="Hand"/>
+          </Grid>
+        </Border>
+        <config:TemplateControl x:Name="TemplateControl"/>
+      </StackPanel>
+    </Border>
+  </ScrollViewer>
+</UserControl>

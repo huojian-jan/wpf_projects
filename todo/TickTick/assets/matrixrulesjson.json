@@ -1,0 +1,20 @@
+{
+    "Simple": {
+        "Quadrant1": "{\"and\":[{\"or\":[5],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant2": "{\"and\":[{\"or\":[3],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant3": "{\"and\":[{\"or\":[1],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant4": "{\"and\":[{\"or\":[0],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}"
+    },
+    "Complex" : {
+        "Quadrant1": "{\"and\":[{\"or\":[\"overdue\",\"today\",\"tomorrow\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[5,3],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant2": "{\"and\":[{\"or\":[\"nodue\",\"2dayslater\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[5,3],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant3": "{\"and\":[{\"or\":[\"overdue\",\"today\",\"tomorrow\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[1,0],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant4": "{\"and\":[{\"or\":[\"nodue\",\"2dayslater\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[1,0],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}"
+    },
+    "Version0" : {
+        "Quadrant1": "{\"and\":[{\"or\":[\"today\",\"tomorrow\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[5,3],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant2": "{\"and\":[{\"or\":[\"nodue\",\"2dayslater\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[5,3],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant3": "{\"and\":[{\"or\":[\"today\",\"tomorrow\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[1,0],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}",
+        "Quadrant4": "{\"and\":[{\"or\":[\"nodue\",\"2dayslater\"],\"conditionName\":\"dueDate\",\"conditionType\":1},{\"or\":[1,0],\"conditionName\":\"priority\",\"conditionType\":1}],\"type\":0,\"version\":1}"
+    }
+}

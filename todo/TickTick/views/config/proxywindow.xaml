@@ -1,0 +1,10 @@
+<Window x:Class="ticktick_WPF.Views.Config.ProxyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:config="clr-namespace:ticktick_WPF.Views.Config"
+        WindowStartupLocation="CenterOwner" Background="{DynamicResource DialogBackground}"
+        Style="{DynamicResource CustomWindowStyle2}" Title="{StaticResource Proxy}">
+  <config:ProxySettings Cancel="OnCancel" Save="OnSave" WindowMode="true"/>
+</Window>

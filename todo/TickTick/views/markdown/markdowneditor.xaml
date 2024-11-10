@@ -1,0 +1,89 @@
+<UserControl x:Class="ticktick_WPF.Views.MarkDown.MarkDownEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:avalonedit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.MarkDown"
+             Name="Root" FontSize="{DynamicResource Font14}">
+  <UIElement.InputBindings>
+    <KeyBinding Gesture="Ctrl+B" Command="{x:Static local:EditorCommands.ToggleBoldCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+K" Command="{x:Static local:EditorCommands.InsertLinkCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+U" Command="{x:Static local:EditorCommands.ToggleUnderLineCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Key="I" Modifiers="Control" Command="{x:Static local:EditorCommands.ToggleItalicCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Shift+X" Command="{x:Static local:EditorCommands.ToggleStrokeCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+1" Command="{x:Static local:EditorCommands.InsertHead1Command}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+2" Command="{x:Static local:EditorCommands.InsertHead2Command}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+3" Command="{x:Static local:EditorCommands.InsertHead3Command}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+4" Command="{x:Static local:EditorCommands.InsertHead4Command}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+5" Command="{x:Static local:EditorCommands.InsertHead5Command}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+6" Command="{x:Static local:EditorCommands.InsertHead6Command}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Shift+8" Command="{x:Static local:EditorCommands.InsertUnOrderList}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Shift+7" Command="{x:Static local:EditorCommands.InsertNumberedList}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Shift+Y" Command="{x:Static local:EditorCommands.ToggleHighLightCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Modifiers="Control" Key="Oem6" Command="{x:Static local:EditorCommands.IndentCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Key="Tab" Command="{x:Static local:EditorCommands.IndentCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Modifiers="Control" Key="Oem4" Command="{x:Static local:EditorCommands.OutIndentCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Modifiers="Shift" Key="Tab" Command="{x:Static local:EditorCommands.OutIndentCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Shift+S" Command="{x:Static local:EditorCommands.InsertItemCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+Oem3" Command="{x:Static local:EditorCommands.ToggleCodeCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Shift+U" Command="{x:Static local:EditorCommands.QuoteCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Key="Escape" Command="{x:Static local:EditorCommands.ExitCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+D" Command="{x:Static local:EditorCommands.ToggleCheckItemCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Enter" Command="{x:Static local:EditorCommands.SaveContentCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+D" Command="{x:Static local:EditorCommands.ToggleCheckItemCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+    <KeyBinding Gesture="Ctrl+Alt+0" Command="{x:Static local:EditorCommands.EnterImmersiveCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MarkDownEditor}}}"/>
+  </UIElement.InputBindings>
+  <Grid>
+    <avalonedit:TextEditor x:Name="EditBox" HorizontalScrollBarVisibility="Disabled" Background="Transparent"
+                           VerticalScrollBarVisibility="Disabled" ScrollViewer.PanningMode="None"
+                           Foreground="{DynamicResource BaseColorOpacity100_80}">
+      <FrameworkElement.Resources>
+        <Style TargetType="{x:Type TextArea}">
+          <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+          <Setter Property="TextArea.SelectionForeground" Value="{x:Null}"/>
+          <Setter Property="TextArea.SelectionCornerRadius" Value="0.0"/>
+          <Setter Property="TextArea.SelectionBrush">
+            <Setter.Value>
+              <SolidColorBrush Color="{DynamicResource {x:Static JetSystemColors.HighlightColorKey}}" Opacity="0.3"/>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="TextArea.SelectionBorder">
+            <Setter.Value>
+              <Pen Brush="{DynamicResource {x:Static JetSystemColors.HighlightBrushKey}}" Thickness="0"/>
+            </Setter.Value>
+          </Setter>
+        </Style>
+        <Style TargetType="{x:Type TextView}">
+          <Setter Property="TextView.LineSpacing" Value="{Binding ElementName=Root, Path=LineSpacing}"/>
+        </Style>
+      </FrameworkElement.Resources>
+    </avalonedit:TextEditor>
+  </Grid>
+</UserControl>

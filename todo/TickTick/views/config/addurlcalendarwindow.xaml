@@ -1,0 +1,43 @@
+<Window x:Class="ticktick_WPF.Views.Config.AddUrlCalendarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:ticktick_WPF.Properties"
+        Loaded="OnAddWindowLoaded" WindowStartupLocation="CenterOwner"
+        Style="{DynamicResource OkCancelWindowsStyle}" Title="{StaticResource AddUrl}" Width="488">
+  <Grid Margin="14,45,14,14">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="1" Text="{StaticResource InputUrlHint}" Style="{StaticResource SettingTextStyle}"
+               Margin="0,8,0,20"/>
+    <TextBox TextChanged="OnInputTextChanged" Name="UrlEditText" Height="36" Grid.Row="2" Padding="8,0,28,0"
+             Style="{DynamicResource EditTextStyle}"/>
+    <TextBlock Name="InvalidHintText" Grid.Row="3" Style="{StaticResource SettingTextStyle}"
+               Foreground="{StaticResource TextRedColor}" Margin="0,8" Visibility="Collapsed"/>
+    <Border MouseLeftButtonUp="ClearUrlText" Height="15" Width="15" VerticalAlignment="Center" Grid.Row="2"
+            HorizontalAlignment="Right" Style="{DynamicResource SmoothHoverBorderStyle40_60}" Margin="0,1,8,0"
+            Visibility="{Binding ElementName=UrlEditText, Path=Text, Converter={StaticResource StringToVisibleConverter}}">
+      <Path Width="14" Height="14" Fill="{DynamicResource BaseColorOpacity100}" Stretch="Uniform"
+            VerticalAlignment="Center" HorizontalAlignment="Center"
+            Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+    </Border>
+    <Grid Row="4" VerticalAlignment="Bottom" Margin="0,28,0,0">
+      <Grid HorizontalAlignment="Right" Height="32">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Button Click="OnSaveClick" Name="SaveButton" Content="{DynamicResource Subscribe}"
+                Style="{StaticResource SaveButtonStyle}" Margin="20,0,0,0" Width="120" Grid.Column="0"/>
+        <Button Click="OnCancelClick" Name="CancelButton" Content="{DynamicResource Cancel}"
+                Style="{StaticResource CancelButtonStyle}" Margin="14,0,10,0" Width="120" Grid.Column="1"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

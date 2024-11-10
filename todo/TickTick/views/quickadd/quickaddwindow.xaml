@@ -1,0 +1,340 @@
+<views:MyWindow x:Class="ticktick_WPF.Views.QuickAdd.QuickAddWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:tag="clr-namespace:ticktick_WPF.Views.Tag"
+                xmlns:views="clr-namespace:ticktick_WPF.Views"
+                xmlns:local="clr-namespace:ticktick_WPF.Views.QuickAdd"
+                xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+                xmlns:checkList="clr-namespace:ticktick_WPF.Views.CheckList"
+                xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+                xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+                x:Name="Root" WindowStyle="None" UseLayoutRounding="true" AllowsTransparency="true" Topmost="true"
+                ShowInTaskbar="false" Background="Transparent" WindowStartupLocation="CenterScreen" MinHeight="360"
+                Width="760" Height="{Binding ElementName=WindowBorder, Path=ActualHeight}">
+  <FrameworkElement.Resources>
+    <Storyboard x:Key="ShowDetailStory">
+      <DoubleAnimation Storyboard.TargetName="WindowBorder" Storyboard.TargetProperty="MaxHeight" From="122" To="500"
+                       Duration="0:0:0.2"/>
+      <DoubleAnimation Storyboard.TargetName="Container" Storyboard.TargetProperty="Opacity" From="0.1" To="1"
+                       Duration="0:0:0.12"/>
+    </Storyboard>
+    <Style x:Key="IconStyle" TargetType="{x:Type Path}">
+      <Setter Property="Shape.Stretch" Value="Uniform"/>
+      <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+    </Style>
+    <converter:IconOverDueColorConverter x:Key="IconOverDueColorConverter"/>
+    <converter:SharedProjectAssignVisibleConverter x:Key="SharedProjectAssignVisibleConverter"/>
+    <converter:TaskDetailPriorityIconConverter x:Key="TaskDetailPriorityIconConverter"/>
+    <converter:TextEmptyVisibleConverter x:Key="TextEmptyVisibleConverter"/>
+    <converter:TextEmptyInVisibleConverter x:Key="TextEmptyInVisibleConverter"/>
+    <converter:ModeTooltipConverter x:Key="ModeTooltipConverter"/>
+    <converter:TaskModeConverter x:Key="TaskModeConverter"/>
+  </FrameworkElement.Resources>
+  <UIElement.InputBindings>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.ClearDateCommand}" Gesture="CTRL+0"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetTodayCommand}" Gesture="CTRL+1"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetTomorrowCommand}" Gesture="CTRL+2"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetNextWeekCommand}" Gesture="CTRL+3"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SelectDateCommand}" Gesture="CTRL+D"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetPriorityNoneCommand}" Gesture="ALT+0"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetPriorityLowCommand}" Gesture="ALT+1"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetPriorityMediumCommand}" Gesture="ALT+2"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+    <KeyBinding Command="{x:Static local:QuickAddWindowCommands.SetPriorityHighCommand}" Gesture="ALT+3"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:QuickAddWindow}}}"/>
+  </UIElement.InputBindings>
+  <Border Name="WindowBorder" Style="{DynamicResource QuickAddWindowBorderStyle}" MaxHeight="500"
+          VerticalAlignment="Top" CornerRadius="4">
+    <Border Margin="32,8,32,46" Background="{DynamicResource PopupBackground}" CornerRadius="4" MinHeight="60"
+            RenderTransformOrigin="0.5,0.5">
+      <Border Background="{DynamicResource QuickAddBackground}" BorderBrush="{DynamicResource QuickAddBorder}"
+              BorderThickness="1" CornerRadius="4">
+        <Grid VerticalAlignment="Center">
+          <Grid MouseMove="TryDragWindow" Name="Container" Margin="4" Background="Transparent">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image Name="TickLogo" Height="32" Margin="15,10,0,0" Source="../../Assets/logo.png"
+                   VerticalAlignment="Top"/>
+            <Grid Name="TaskTitleGrid" Column="1" MinHeight="48" Margin="10,0,10,0" VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch"/>
+            <Grid Name="DetailGrid" Column="0" ColumnSpan="2" Margin="0,40,0,0" Visibility="Collapsed">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <Grid Column="0" ColumnSpan="2" Height="1" VerticalAlignment="Top"
+                    Background="{DynamicResource BaseColorOpacity10}" Margin="18,3,18,0"/>
+              <Grid Name="FocusTitleHighlightLine" Column="0" ColumnSpan="2" Height="1" VerticalAlignment="Top"
+                    Background="{DynamicResource PrimaryColor}" Margin="18,3,18,0" Visibility="Collapsed"/>
+              <ScrollViewer Drop="OnFileDrop" PreviewKeyDown="OnDetailKeyDown" MouseLeftButtonUp="OnContentHintClick"
+                            PreviewMouseWheel="OnMouseScroll" Name="ContentScrollViewer" Grid.Column="0" Grid.ColumnSpan="2"
+                            MinHeight="76" MaxHeight="150" Grid.Row="0" Background="Transparent" Margin="4,12,20,10"
+                            Style="{DynamicResource for_scrollviewer}">
+                <Grid Margin="16,2,0,0">
+                  <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <Grid Name="TextContentGrid" Background="Transparent" ScrollViewer.PanningMode="None"
+                        VerticalAlignment="Stretch" Margin="0,0,0,0" Cursor="IBeam" AllowDrop="true">
+                    <TextBlock MouseLeftButtonUp="OnContentHintClick" Name="ContentHint" FontSize="{DynamicResource Font14}"
+                               Style="{DynamicResource Body01}" Foreground="{DynamicResource BaseColorOpacity40}"
+                               VerticalAlignment="Top" Padding="2,0,0,0" AllowDrop="true"
+                               Text="{StaticResource QuickAddWindowDescHint}"/>
+                    <markDown:MarkDownEditor x:Name="ContentText" GotFocus="OnInputGotFocus" RequestBringIntoView="EditorOnRequestBringIntoView"
+                                             SelectDate="OnSelectDate" Margin="-20,0,0,0" MaxLength="160000"/>
+                  </Grid>
+                  <Grid Name="CheckItemsGrid" Row="0" ScrollViewer.PanningMode="None" AllowDrop="true"
+                        Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="auto"/>
+                      <RowDefinition Height="auto"/>
+                      <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Name="DescHint" Grid.Row="0" Style="{DynamicResource Body01}"
+                               Foreground="{DynamicResource BaseColorOpacity40}" VerticalAlignment="Top" Padding="4,0,0,0"
+                               AllowDrop="true" FontSize="{DynamicResource Font14}" Text="{StaticResource QuickAddWindowDescHint}"/>
+                    <markDown:MarkDownEditor x:Name="DescriptionLinkTextBox" GotFocus="OnInputGotFocus" TextChanged="OnDescriptionChanged"
+                                             RequestBringIntoView="OnBringIntoView" MoveDown="OnDescMoveDown" MoveUp="OnDescMoveUp"
+                                             SelectDate="OnSelectDate" QuickItemSelected="OnQuickItemSelected" Grid.Row="0" Margin="-20,0,0,10"
+                                             MaxLength="2048" Foreground="{DynamicResource BaseColorOpacity80}"
+                                             FontSize="{DynamicResource Font14}"/>
+                    <Grid Row="1">
+                      <checkList:ChecklistControl x:Name="Checklist" GotFocus="OnInputGotFocus" CaretMoveUp="OnListCaretMoveUp"
+                                                  InQuickAddWindow="true"/>
+                    </Grid>
+                  </Grid>
+                  <Grid Name="TagsContainer" Row="1" Margin="0,8,0,8">
+                    <tag:TagDisplayControl x:Name="TagDisplayControl" CanClickTag="false"/>
+                  </Grid>
+                </Grid>
+              </ScrollViewer>
+              <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="16,-4,0,-4" VerticalAlignment="Bottom">
+                <ScrollViewer PreviewMouseWheel="OnFileScrollerMouseWheel" Name="FileScroller"
+                              Style="{DynamicResource for_scrollviewer}" HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Left" Width="400">
+                  <ItemsControl ItemsSource="{Binding Files}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid>
+                          <Border Height="48" Width="48" CornerRadius="4" Margin="4"
+                                  BorderBrush="{DynamicResource BaseColorOpacity5}" BorderThickness="1">
+                            <Border.Background>
+                              <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Image}"/>
+                            </Border.Background>
+                          </Border>
+                          <Grid Width="12" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="Hand"
+                                ToolTip="{StaticResource Remove}">
+                            <Rectangle Width="12" Height="12" RadiusX="6" RadiusY="6" Fill="{DynamicResource BaseColorOpacity80}"
+                                       StrokeThickness="1" Stroke="{DynamicResource PopupBackground}" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            <Path Width="8" Height="8" Fill="{DynamicResource PopupBackground}" Stretch="Uniform"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  Data="{Binding Source={StaticResource IcX}, Path=Data}"/>
+                          </Grid>
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </ScrollViewer>
+              </Border>
+              <StackPanel Name="OperationPanel" Orientation="Horizontal" Grid.Column="1" Grid.Row="1"
+                          Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,0"
+                          Visibility="{Binding Path=IsFocused, ElementName=TitleTextBox, Converter={StaticResource BoolVisibleConverter}}">
+                <Grid MouseLeftButtonUp="OnTextOrChecklistClick" Cursor="Hand" Tag="1" Background="Transparent"
+                      VerticalAlignment="Center"
+                      ToolTip="{Binding Kind, Converter={StaticResource ModeTooltipConverter}}">
+                  <Image Style="{DynamicResource Icon01}"
+                         Source="{Binding Kind, Converter={StaticResource TaskModeConverter}}"/>
+                  <Border CornerRadius="2" Height="22" Width="22" BorderBrush="{DynamicResource TabBorderColor}"
+                          BorderThickness="1">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Setter Property="UIElement.Opacity" Value="0"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="3">
+                            <Setter Property="UIElement.Opacity" Value="1"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Border>
+                </Grid>
+                <Grid Name="AssignGrid" Cursor="Hand" Margin="8,0,0,0" Background="Transparent"
+                      ToolTip="{Binding Kind, Converter={StaticResource ModeTooltipConverter}}"
+                      Visibility="{Binding Path=ProjectId, Converter={StaticResource SharedProjectAssignVisibleConverter}}">
+                  <Border Name="AvatarImageRectangle" Width="18" Height="18" CornerRadius="18"
+                          BorderBrush="{DynamicResource BaseColorOpacity5}" Margin="0,3,0,3" BorderThickness="1"
+                          HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border.Background>
+                      <ImageBrush x:Name="AvatarImage" Stretch="Fill"/>
+                    </Border.Background>
+                  </Border>
+                  <Image x:Name="AssignOtherGrid" Source="{DynamicResource AssigntoDrawingImage}"
+                         Style="{StaticResource Icon01}" Visibility="Collapsed" ToolTip="{StaticResource AssignTo}"/>
+                  <Border MouseLeftButtonUp="OnSetAssigneeClick" CornerRadius="2" Height="22" Width="22"
+                          Background="{DynamicResource BaseColorOpacity5}" BorderBrush="{DynamicResource TabBorderColor}"
+                          BorderThickness="1">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Setter Property="UIElement.Opacity" Value="0"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="4">
+                            <Setter Property="UIElement.Opacity" Value="1"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Border>
+                  <Popup Opened="PopupOpened" Closed="PopupClosed" x:Name="AssignPopup" StaysOpen="false"
+                         AllowsTransparency="true" Placement="Bottom" VerticalOffset="-10" HorizontalOffset="-30"
+                         PlacementTarget="{Binding ElementName=AssignGrid}"/>
+                </Grid>
+                <Grid MouseLeftButtonUp="SetDateClick" Name="SetDateGrid" Margin="8,0,0,0" Background="Transparent"
+                      Cursor="Hand" ToolTip="{StaticResource ReminderInputHint}">
+                  <StackPanel Orientation="Horizontal" Margin="2,0">
+                    <Path Name="SetDatePath" Stretch="Fill" Height="16" Width="16" VerticalAlignment="Center"
+                          HorizontalAlignment="Center" Data="{Binding Source={StaticResource IcCalendar}, Path=Data}">
+                      <Shape.Fill>
+                        <MultiBinding Converter="{StaticResource IconOverDueColorConverter}">
+                          <Binding Path="StartDate"/>
+                          <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                        </MultiBinding>
+                      </Shape.Fill>
+                    </Path>
+                    <TextBlock FontSize="12" Height="16" VerticalAlignment="Center" Margin="4,0,2,0"
+                               Visibility="{Binding DetailDayText, Converter={StaticResource TextEmptyVisibleConverter}}"
+                               Text="{Binding DetailDayText}" Foreground="{Binding ElementName=SetDatePath, Path=Fill}"/>
+                    <Path Stretch="Fill" Height="12" Width="12" VerticalAlignment="Center" HorizontalAlignment="Center"
+                          Data="{Binding Source={StaticResource RepeatPath}, Path=Data}"
+                          Visibility="{Binding ShowRepeat, Converter={StaticResource BoolVisibleConverter}}"
+                          Fill="{Binding ElementName=SetDatePath, Path=Fill}"/>
+                  </StackPanel>
+                  <Border CornerRadius="2" Height="22" BorderBrush="{DynamicResource TabBorderColor}" BorderThickness="1"
+                          Background="{DynamicResource BaseColorOpacity5}">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Setter Property="UIElement.Opacity" Value="0"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="5">
+                            <Setter Property="UIElement.Opacity" Value="1"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Border>
+                </Grid>
+                <Grid Name="SetTagGrid" Cursor="Hand" Visibility="Visible" ToolTip="{StaticResource TagInputHint}"
+                      Margin="8,0,0,0" Background="Transparent">
+                  <Path Height="16" Width="16" Stretch="Uniform" Fill="{DynamicResource BaseColorOpacity60}"
+                        Data="{Binding Source={StaticResource IcTagLine}, Path=Data}"/>
+                  <Border MouseLeftButtonUp="SetTagClick" CornerRadius="2" Height="22" Width="22"
+                          Background="{DynamicResource BaseColorOpacity5}" BorderBrush="{DynamicResource TabBorderColor}"
+                          BorderThickness="1">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Setter Property="UIElement.Opacity" Value="0"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="6">
+                            <Setter Property="UIElement.Opacity" Value="1"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Border>
+                </Grid>
+                <Popup Opened="PopupOpened" Closed="PopupClosed" x:Name="SetTagPopup" StaysOpen="false" Placement="Right"
+                       HorizontalOffset="-32" VerticalOffset="18" AllowsTransparency="true"
+                       PlacementTarget="{Binding ElementName=SetTagGrid}"/>
+                <Grid Name="SetPriorityGrid" Cursor="Hand" Margin="8,0,10,0" ToolTip="{StaticResource PriorityInputHint}"
+                      Background="Transparent">
+                  <Image Style="{DynamicResource Icon01}" Opacity="1">
+                    <Image.Source>
+                      <MultiBinding Converter="{StaticResource TaskDetailPriorityIconConverter}">
+                        <Binding Path="Priority"/>
+                        <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+                      </MultiBinding>
+                    </Image.Source>
+                  </Image>
+                  <Border MouseLeftButtonUp="SetPriorityClick" CornerRadius="2" Height="22" Width="22"
+                          Background="{DynamicResource BaseColorOpacity5}" BorderBrush="{DynamicResource TabBorderColor}"
+                          BorderThickness="1">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type Border}">
+                        <Setter Property="UIElement.Opacity" Value="0"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="7">
+                            <Setter Property="UIElement.Opacity" Value="1"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Border>
+                </Grid>
+                <Popup Opened="PopupOpened" Closed="PopupClosed" Name="SetPriorityPopup" StaysOpen="false"
+                       Placement="Bottom" AllowsTransparency="true" HorizontalOffset="25" VerticalOffset="-5"/>
+              </StackPanel>
+              <StackPanel PreviewMouseLeftButtonDown="OnProjectMouseDown" MouseLeftButtonUp="SetProjectClick"
+                          Name="ProjectPanel" Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Visibility="Visible"
+                          HorizontalAlignment="Left" Background="Transparent" Cursor="Hand" Margin="16,0,10,0" Height="24"
+                          ToolTip="{StaticResource ProjectInputHint}">
+                <Border CornerRadius="2" Height="24" BorderThickness="1">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type Border}">
+                      <Setter Property="Border.BorderBrush" Value="Transparent"/>
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Root, Path=TabSelectedIndex}" Value="8">
+                          <Setter Property="Border.BorderBrush" Value="{DynamicResource TabBorderColor}"/>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                  <Grid Margin="2,0,0,0">
+                    <Image Source="{DynamicResource movetoDrawingImage}" HorizontalAlignment="Left"
+                           Style="{DynamicResource Icon01}" Width="16" Height="16"/>
+                    <TextBlock Name="ProjectName" Margin="24,0,6,0" Style="{DynamicResource Body02}" Height="18" FontSize="13"
+                               Foreground="{DynamicResource BaseColorOpacity60}" MaxWidth="240" TextTrimming="CharacterEllipsis"
+                               Text="{Binding ProjectName}"/>
+                  </Grid>
+                </Border>
+              </StackPanel>
+              <Popup Opened="PopupOpened" Closed="PopupClosed" x:Name="SetProjectPopup" StaysOpen="false"
+                     PopupAnimation="Fade" Placement="Bottom" Grid.Row="3" Grid.Column="0" HorizontalOffset="-20"
+                     VerticalOffset="-5" AllowsTransparency="true" PlacementTarget="{Binding ElementName=ProjectPanel}"/>
+              <Grid Name="OkCancelGrid" Row="3" Column="0" ColumnSpan="2" HorizontalAlignment="Right" Height="57">
+                <Button Click="OnSaveClick" Name="SaveButton" Content="{DynamicResource OK}" HorizontalAlignment="Right"
+                        Style="{StaticResource SaveButtonStyle}" Margin="0,0,130,0" Width="104" FontSize="14"/>
+                <Button Click="OnCancelClick" Name="CancelButton" Content="{DynamicResource Cancel}"
+                        HorizontalAlignment="Right" Style="{StaticResource CancelButtonStyle}" Margin="0,0,18,0"
+                        Width="104" FontSize="14"/>
+                <Border VerticalAlignment="Bottom" BorderBrush="{DynamicResource BaseColorOpacity5}"
+                        BorderThickness="0,1,0,0"/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Border>
+    </Border>
+  </Border>
+</views:MyWindow>

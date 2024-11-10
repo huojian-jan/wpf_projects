@@ -1,0 +1,313 @@
+<UserControl x:Class="ticktick_WPF.Views.Calendar.CalendarDetailControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:calendar="clr-namespace:ticktick_WPF.Views.Calendar"
+             xmlns:models="clr-namespace:ticktick_WPF.Models"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:detail="clr-namespace:ticktick_WPF.Views.Detail"
+             xmlns:markDown="clr-namespace:ticktick_WPF.Views.MarkDown"
+             DataContextChanged="OnDataBind" Name="Root">
+  <FrameworkElement.Resources>
+    <converter:CalendarDetailDateConverter x:Key="CalendarDetailDateConverter"/>
+    <converter:CalendarReminderTextConverter x:Key="CalendarReminderTextConverter"/>
+    <converter:ExpandOrCollapseConverter x:Key="ExpandOrCloseConverter"/>
+    <converter:CalendarInfoVisibleConverter x:Key="CalendarInfoVisibleConverter"/>
+    <converter:EditableCursorConverter x:Key="EditableCursorConverter"/>
+    <converter:ClickableCursorConverter x:Key="ClickableCursorConverter"/>
+    <calendar:CalendarConferenceTypeImageConverter x:Key="CalendarConferenceTypeImageConverter"/>
+    <DrawingImage x:Key="DrawConferenceOther">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,48 48,48 48,0 0,0 Z">
+          <DrawingGroup Opacity="1">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,-1951,-155">
+              <DrawingGroup Opacity="1" Transform="1,0,0,1,1379,139">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,564,8">
+                  <DrawingGroup Opacity="1" Transform="1,0,0,1,8,8">
+                    <GeometryDrawing Brush="#FF4772FA"
+                                     Geometry="M 48,48 0,0 17.5,24.5 C 22.0576502,24.5 24.9161149,25.6332175 26.8490404,26.9065254 L 27.2955682,27.2143005 27.7242005,27.5363364 28.1337785,27.8692986 28.5107246,28.1974766 28.6878884,28.3585806 C 29.7751611,29.3593548 30.5,30.9056774 30.5,32.5043871 L 30.5,36.6935484 C 30.5,37.6907097 29.7940606,38.5 28.9242424,38.5 L 6.07575758,38.5 C 5.20593939,38.5 4.5,37.6907097 4.5,36.6935484 L 4.5,32.5043871 C 4.5,30.9056774 5.06725349,29.3593548 6.15452622,28.3585806 L 6.33214206,28.1974766 6.71253156,27.8692986 7.12855369,27.5363364 7.56581012,27.2143005 C 9.5406726,25.8217849 12.5777378,24.5 17.5,24.5 M 17.5,10.5 C 20.8784706,10.5 23.6176471,13.286 23.6176471,16.7222222 23.6176471,20.1584444 20.8784706,22.9444444 17.5,22.9444444 14.1215294,22.9444444 11.3823529,20.1584444 11.3823529,16.7222222 11.3823529,13.286 14.1215294,10.5 17.5,10.5 Z"/>
+                    <GeometryDrawing Brush="#FF4772FA"
+                                     Geometry="M 48,48 0,0 33.5817284,21.1 C 37.3394309,21.1 39.6961849,22.0227628 41.2898479,23.0595993 L 41.6580023,23.3102162 42.0114021,23.5724454 42.3490919,23.8435717 42.6598774,24.1108023 42.8059458,24.2419871 C 43.7023831,25.0569032 44.3,26.3160516 44.3,27.6178581 L 44.3,31.0290323 C 44.3,31.8410065 43.7179654,32.5 43.0008156,32.5 L 33.5801633,32.5 33.5810655,31.496129 C 33.5810655,29.8839848 33.0130789,28.3215604 32.1443829,27.2493757 L 31.9780437,27.0541935 31.8213219,26.881582 31.4878695,26.5299628 31.1255506,26.1732176 30.7463758,25.8281792 30.3513704,25.4984201 C 29.1825372,24.565854 27.63113,23.7034233 25.4785511,23.2510013 L 25.3911633,23.3102162 C 27.0194027,22.1763106 29.5234097,21.1 33.5817284,21.1 M 33.5817284,9.7 C 36.367218,9.7 38.6256209,11.9686 38.6256209,14.7666667 38.6256209,17.5647333 36.367218,19.8333333 33.5817284,19.8333333 30.7962387,19.8333333 28.5378358,17.5647333 28.5378358,14.7666667 28.5378358,11.9686 30.7962387,9.7 33.5817284,9.7 Z"/>
+                  </DrawingGroup>
+                </DrawingGroup>
+              </DrawingGroup>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="DrawConferencePhone">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,48 48,48 48,0 0,0 Z">
+          <DrawingGroup Opacity="1">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,-1951,-155">
+              <DrawingGroup Opacity="1" Transform="1,0,0,1,1379,139">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,564,8">
+                  <DrawingGroup Opacity="1" Transform="1,0,0,1,8,8">
+                    <GeometryDrawing Brush="#FF4772FA"
+                                     Geometry="F1 M 48,48 0,0 27.8422594,31.1114867 C 27.9510008,31.1114867 28.603204,30.5666033 28.8205816,30.4576266 29.2554421,30.2396732 29.5815612,30.0217199 29.9076452,29.9127432 32.190514,28.9319883 34.1471584,29.5858132 36.756111,32.7461368 38.3867065,34.7076818 38.8214969,36.342332 38.2780002,37.8680054 37.8431747,38.9577722 36.8648174,39.8295504 35.3429634,40.7013638 35.234222,40.8103757 34.3646061,41.3552239 34.038487,41.4642006 30.3425057,43.7527108 21.7547381,38.5218655 15.5585455,29.367895 9.36228283,20.3228661 7.73172245,10.6240122 11.5364101,8.22656049 L 12.0799419,7.89963045 12.6234738,7.57270045 C 14.5801883,6.373957 15.7759232,5.82907363 17.1891059,6.04702696 18.6022886,6.26498033 19.906765,7.35474708 20.8851223,9.31632727 23.0592496,13.4573706 22.624389,15.4189508 19.7980586,17.2715543 19.5806459,17.380531 18.8197014,17.8164377 18.8197014,17.9254143 18.1674632,18.361321 19.2545268,21.3036561 22.0808923,25.2267813 24.7985163,29.367895 27.0813149,31.65637 27.8422594,31.1114867 L 27.8422594,31.1114867 Z"/>
+                  </DrawingGroup>
+                </DrawingGroup>
+              </DrawingGroup>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="DrawConferenceVideo">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,48 48,48 48,0 0,0 Z">
+          <DrawingGroup Opacity="1">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,-1951,-155">
+              <DrawingGroup Opacity="1" Transform="1,0,0,1,1380,139">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,563,8">
+                  <DrawingGroup Opacity="1" Transform="1,0,0,1,8,8">
+                    <GeometryDrawing Brush="#FF4772FA"
+                                     Geometry="M 48,48 0,0 28.1052632,13 C 29.1516974,13 30,13.8208113 30,14.8333333 L 30,33.1666667 C 30,34.1791887 29.1516974,35 28.1052632,35 L 7.89473684,35 C 6.84830258,35 6,34.1791887 6,33.1666667 L 6,14.8333333 C 6,13.8208113 6.84830258,13 7.89473684,13 L 28.1052632,13 M 41.9486833,15.0711981 C 41.9826721,15.1731646 42,15.2799438 42,15.3874259 L 42,32.6125741 C 42,33.1648589 41.5522847,33.6125741 41,33.6125741 40.8925179,33.6125741 40.7857387,33.5952462 40.6837722,33.5612574 L 33.6837722,31.2279241 C 33.2754301,31.09181 33,30.7096712 33,30.2792408 L 33,17.7207592 C 33,17.2903288 33.2754301,16.90819 33.6837722,16.7720759 L 40.6837722,14.4387426 C 41.2077156,14.2640948 41.7740355,14.5472548 41.9486833,15.0711981 Z"/>
+                  </DrawingGroup>
+                </DrawingGroup>
+              </DrawingGroup>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+  </FrameworkElement.Resources>
+  <Grid Margin="0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <ScrollViewer Name="ScrollViewer" Style="{StaticResource for_scrollviewer}" Grid.Row="0" Focusable="false">
+      <Grid>
+        <StackPanel Orientation="Vertical" Background="Transparent">
+          <Grid Margin="20 0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid MouseLeftButtonUp="OnBackClick" Name="BackGrid" Margin="0,12,10,0" Column="0"
+                  Visibility="Collapsed" HorizontalAlignment="Left" Width="14" VerticalAlignment="Top"
+                  Background="Transparent" ToolTip="{StaticResource Close}"
+                  Cursor="{Binding Path=Editable, Converter={StaticResource ClickableCursorConverter}}">
+              <Path Width="11" Height="11" Style="{DynamicResource Path01}" Fill="{DynamicResource BaseColorOpacity40}"
+                    Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
+            </Grid>
+            <detail:DetailTextBox x:Name="TitleText" LostFocus="OnTextLostFocus" Grid.Column="1" FontSize="{DynamicResource Font16}"
+                                  FontWeight="Medium" MinHeight="24" WordWrap="true" Margin="0,7,0,0" AutoGetUrlTitle="false"
+                                  Foreground="{DynamicResource BaseColorOpacity100_80}"
+                                  Cursor="{Binding Editable, Converter={StaticResource EditableCursorConverter}}"
+                                  ReadOnly="{Binding Editable, Converter={StaticResource BoolInverseConverter}}"/>
+            <TextBlock Name="TitleTextHint" Grid.Column="1" Text="{StaticResource AddTitle}" Margin="2 9 0 0"
+                       FontSize="16" Foreground="{DynamicResource BaseColorOpacity40}" IsHitTestVisible="false"/>
+          </Grid>
+          <Grid Height="1" Background="{DynamicResource BaseColorOpacity10}" Margin="0,6,0,0"/>
+          <Grid Margin="22,10,20,0"
+                Visibility="{Binding IsShowConference, Converter={StaticResource BoolVisibleConverter}}">
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Style="{StaticResource Body01}" Margin="0,6" Text="{Binding ConferenceName}"/>
+            <Border HorizontalAlignment="Right" CornerRadius="16" Width="32" Height="32"
+                    Background="{DynamicResource PrimaryColor10}">
+              <Image MouseLeftButtonUp="OnConferenceClick" Stretch="Uniform" Cursor="Hand" Width="24"
+                     VerticalAlignment="Center">
+                <Image.Source>
+                  <MultiBinding Converter="{StaticResource CalendarConferenceTypeImageConverter}">
+                    <Binding Path="ConferenceType"/>
+                    <Binding ElementName="Root" Path="Resources"/>
+                  </MultiBinding>
+                </Image.Source>
+              </Image>
+            </Border>
+            <Grid Height="1" Row="1" ColumnSpan="2" Background="{DynamicResource BaseColorOpacity10}"
+                  Margin="0,10,0,0"/>
+          </Grid>
+          <Grid MouseLeftButtonUp="OnDateClick" Name="DateGrid" Margin="22,0,20,0" Background="Transparent"
+                Cursor="{Binding Path=Editable, Converter={StaticResource ClickableCursorConverter}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="auto" MinHeight="50"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Path Width="18" Height="18" Stretch="Uniform" Grid.RowSpan="4" Grid.ColumnSpan="2"
+                  VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right"
+                  Fill="{DynamicResource BaseColorOpacity40}"
+                  Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
+              <UIElement.RenderTransform>
+                <RotateTransform Angle="-90"/>
+              </UIElement.RenderTransform>
+            </Path>
+            <Grid Row="0" Column="1" Background="Transparent" Margin="0 10 0 0"
+                  Cursor="{Binding Path=Editable, Converter={StaticResource ClickableCursorConverter}}">
+              <TextBlock Style="{DynamicResource Title05}" VerticalAlignment="Center" FontSize="{DynamicResource Font14}">
+                <TextBlock.Text>
+                  <MultiBinding Converter="{StaticResource CalendarDetailDateConverter}">
+                    <Binding Path="StartDate"/>
+                    <Binding Path="DueDate"/>
+                    <Binding Path="IsAllDay"/>
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+            </Grid>
+            <Grid Column="0" ColumnSpan="2" Row="1" HorizontalAlignment="Left" Margin="2,4,20,0"
+                  Visibility="{Binding RepeatText, Converter={StaticResource StringToVisibleConverter}}">
+              <Image Source="{DynamicResource RepeatDrawingImage}" Style="{StaticResource Icon01}"
+                     HorizontalAlignment="Left" ToolTip="{StaticResource Repeat}" Opacity="0.4" Width="14" Height="14"
+                     Margin="0,1,6,0"/>
+              <TextBlock Style="{DynamicResource Body06}" FontSize="{DynamicResource Font12}" HorizontalAlignment="Left"
+                         TextWrapping="Wrap" Margin="20,0,0,0" VerticalAlignment="Center" Text="{Binding RepeatText}"/>
+            </Grid>
+            <StackPanel Name="ReminderText" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal"
+                        Margin="2,4,20,0">
+              <Image Source="{DynamicResource reminderDrawingImage}" Style="{StaticResource Icon01}" Opacity="0.4"
+                     ToolTip="{StaticResource reminder}" VerticalAlignment="Top" Margin="0,2,6,0" Width="14" Height="14"/>
+              <TextBlock FontSize="{DynamicResource Font12}" Style="{DynamicResource Body06}" TextWrapping="Wrap">
+                <Run x:Name="ReminderRun"/>
+                <Run x:Name="SnoozeRun"/>
+              </TextBlock>
+            </StackPanel>
+            <Grid Height="1" Row="3" ColumnSpan="2" Background="{DynamicResource BaseColorOpacity10}"
+                  Margin="0,10,0,0"/>
+          </Grid>
+          <Grid Margin="22,10,20,0"
+                Visibility="{Binding ShowAttend, Converter={StaticResource BoolVisibleConverter}}">
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" FontSize="14" Style="{DynamicResource Body01}"
+                       Margin="0 0 0 6">
+              <Run Text="{Binding Attendees.Count, Mode=OneWay}"/>
+              <Run Text="{StaticResource AgendaGuests}"/>
+            </TextBlock>
+            <Grid Row="1">
+              <StackPanel Orientation="Vertical">
+                <ItemsControl BorderThickness="0" ScrollViewer.CanContentScroll="false" ScrollViewer.PanningMode="None"
+                              ItemsSource="{Binding DisplayAttendees}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:CalendarAttendeeModel">
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="16"/>
+                          <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Path Grid.Column="0" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
+                              HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5"
+                              Fill="{DynamicResource BaseColorOpacity40}"
+                              Visibility="{Binding Organizer, Converter={StaticResource BoolVisibleConverter}}"
+                              Data="{Binding Source={StaticResource IcOrganizer}, Path=Data}"/>
+                        <Path Grid.Column="0" Width="14" Height="14" Stretch="Uniform" VerticalAlignment="Center"
+                              HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5"
+                              Fill="{DynamicResource BaseColorOpacity40}"
+                              Data="{Binding Source={StaticResource IcGuest}, Path=Data}"
+                              Visibility="{Binding FirstGuest, Converter={StaticResource BoolVisibleConverter}}"/>
+                        <StackPanel Grid.Column="1" MinHeight="24" Orientation="Horizontal" Background="Transparent" Margin="2 0 0 0">
+                          <TextBlock Style="{DynamicResource Body06}" FontSize="12" Text="{Binding Email}"/>
+                          <TextBlock Style="{DynamicResource Body06}"
+                                     Visibility="{Binding Organizer, Converter={StaticResource BoolVisibleConverter}}">
+                            <Run Text=" ("/>
+                            <Run Text="{DynamicResource Organizer}"/>
+                            <Run Text=")"/>
+                          </TextBlock>
+                        </StackPanel>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid MouseLeftButtonUp="OnExpandClick" Cursor="Hand" Background="Transparent"
+                      Visibility="{Binding ShowAttendeeExpand, Converter={StaticResource BoolVisibleConverter}}">
+                  <TextBlock Style="{DynamicResource Body03}" Margin="0,4"
+                             Text="{Binding AttendeeExpand, Converter={StaticResource ExpandOrCloseConverter}}"/>
+                </Grid>
+              </StackPanel>
+            </Grid>
+            <Grid Height="1" Row="2" Background="{DynamicResource BaseColorOpacity10}" Margin="0,10,0,0"/>
+          </Grid>
+          <Grid Margin="20,10,20,0">
+            <UIElement.Visibility>
+              <MultiBinding Converter="{StaticResource CalendarInfoVisibleConverter}">
+                <Binding Path="Editable"/>
+                <Binding Path="Location"/>
+              </MultiBinding>
+            </UIElement.Visibility>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{StaticResource Location}" Style="{StaticResource Body01}" Margin="2 0 0 6"
+                       FontSize="{DynamicResource Font14}"/>
+            <detail:DetailTextBox x:Name="LocationText" LostFocus="OnTextLostFocus" LinkTextChange="OnLocationChanged" Grid.Row="1"
+                                  FontSize="{DynamicResource Font12}" WordWrap="true" AcceptReturn="true" AutoGetUrlTitle="false"
+                                  TextStatus="0" Cursor="{Binding Editable, Converter={StaticResource EditableCursorConverter}}"
+                                  ReadOnly="{Binding Editable, Converter={StaticResource BoolInverseConverter}}"/>
+            <TextBlock Name="LocationTextHint" Grid.Row="1" Text="{StaticResource AddLocation}" VerticalAlignment="Top"
+                       Margin="2 2 0 0" FontSize="{DynamicResource Font12}"
+                       Foreground="{DynamicResource BaseColorOpacity40}" IsHitTestVisible="false"/>
+            <Grid Height="1" Row="2" Background="{DynamicResource BaseColorOpacity10}" Margin="0,10,0,0"/>
+          </Grid>
+          <Grid Name="DescriptionGrid" Margin="20,10,20,0">
+            <UIElement.Visibility>
+              <MultiBinding Converter="{StaticResource CalendarInfoVisibleConverter}">
+                <Binding Path="Editable"/>
+                <Binding Path="Content"/>
+              </MultiBinding>
+            </UIElement.Visibility>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{StaticResource SubscribeDescription}" FontSize="{DynamicResource Font14}"
+                       Style="{StaticResource Body01}" Margin="2 0 2 6"/>
+            <detail:DetailTextBox x:Name="NewContentText" LostFocus="OnTextLostFocus" LinkTextChange="OnCalendarContentChanged"
+                                  Grid.Row="1" FontSize="{DynamicResource Font12}" WordWrap="true" AcceptReturn="true"
+                                  AutoGetUrlTitle="false" TextStatus="0"
+                                  Cursor="{Binding Editable, Converter={StaticResource EditableCursorConverter}}"
+                                  ReadOnly="{Binding Editable, Converter={StaticResource BoolInverseConverter}}"/>
+            <TextBlock Name="NewContentTextHint" Grid.Row="1" Text="{StaticResource AddNote}" Margin="2 2 0 0"
+                       FontSize="{DynamicResource Font12}" Foreground="{DynamicResource BaseColorOpacity40}"
+                       IsHitTestVisible="false"/>
+            <Grid Height="1" Row="2" Background="{DynamicResource BaseColorOpacity10}" Margin="0,10,0,0"/>
+          </Grid>
+        </StackPanel>
+      </Grid>
+    </ScrollViewer>
+    <Grid Height="44" Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="50"/>
+      </Grid.ColumnDefinitions>
+      <Border Height="10" Grid.ColumnSpan="2" VerticalAlignment="Top" BorderThickness="0,1,0,0"
+              BorderBrush="{DynamicResource BaseColorOpacity10}"/>
+      <StackPanel MouseLeftButtonUp="OnSelectCalendarClick" Name="CalendarMovePanel" Orientation="Horizontal"
+                  Margin="20 0" Grid.Column="0" HorizontalAlignment="Left" Background="Transparent"
+                  Cursor="{Binding Path=Editable, Converter={StaticResource ClickableCursorConverter}}">
+        <Image Source="{DynamicResource movetoDrawingImage}" Style="{DynamicResource Icon01}"
+               ToolTip="{StaticResource BelongCalendar}"/>
+        <TextBlock Style="{DynamicResource Tag02}" FontSize="13" VerticalAlignment="Center" Margin="8,0"
+                   Text="{Binding CalendarName}"/>
+      </StackPanel>
+      <misc:EscPopup x:Name="SetProjectPopup" Opened="OnPopupOpened" Closed="OnPopupClosed" Grid.Column="0"
+                     StaysOpen="false" Placement="Top" HorizontalOffset="-5" VerticalOffset="15"
+                     PlacementTarget="{Binding ElementName=CalendarMovePanel}"/>
+      <Grid MouseLeftButtonUp="OnMoreClick" Name="MoreGrid" Column="1" Cursor="Hand" Margin="18 0"
+            Background="Transparent">
+        <Image Source="{DynamicResource MoreDrawingImage}" Style="{DynamicResource Icon01}"/>
+      </Grid>
+      <misc:EscPopup x:Name="MorePopup" Opened="OnPopupOpened" Closed="OnPopupClosed" Grid.Column="0" StaysOpen="false"
+                     Placement="Top" HorizontalOffset="-115" VerticalOffset="5"
+                     PlacementTarget="{Binding ElementName=MoreGrid}"/>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,36 @@
+<UserControl x:Class="ticktick_WPF.Views.MoveToastControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
+             Cursor="Hand">
+  <Border MouseLeftButtonUp="OnMouseUp" Background="{DynamicResource ToastBackground}" Height="40"
+          CornerRadius="4">
+    <UIElement.Effect>
+      <DropShadowEffect BlurRadius="11" Direction="300" ShadowDepth="2" Color="#000000" Opacity="0.2"/>
+    </UIElement.Effect>
+    <Grid>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <wpf:EmjTextBlock Name="TitleText" FontSize="13" Foreground="#D8FFFFFF" VerticalAlignment="Center" MaxWidth="150"
+                          Height="18" TextTrimming="CharacterEllipsis" Margin="12,0,0,0" TextWrapping="Wrap"
+                          ClipToBounds="true"/>
+        <StackPanel Orientation="Horizontal">
+          <wpf:EmjTextBlock Name="ProjectTitle" FontSize="13" Foreground="#D8FFFFFF" VerticalAlignment="Center"
+                            Margin="12,0,10,0" MaxWidth="250" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Height="18"
+                            ClipToBounds="true"/>
+          <Polygon Margin="0,0,15,0" HorizontalAlignment="Right" Fill="#89FFFFFF" Width="12" Height="8"
+                   RenderTransformOrigin="0.5,0.5">
+            <Polygon.Points>
+              <Binding Source="{StaticResource ArrowPolygon}" Path="Points"/>
+            </Polygon.Points>
+            <UIElement.RenderTransform>
+              <RotateTransform Angle="270"/>
+            </UIElement.RenderTransform>
+          </Polygon>
+        </StackPanel>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

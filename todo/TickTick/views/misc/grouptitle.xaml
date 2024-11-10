@@ -1,0 +1,61 @@
+<UserControl x:Class="ticktick_WPF.Views.Misc.GroupTitle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Misc"
+             x:Name="Root" FontSize="12">
+  <FrameworkElement.Resources>
+    <local:HeightCornerRadiusConverter x:Key="HeightCornerRadiusConverter"/>
+  </FrameworkElement.Resources>
+  <Grid MinHeight="30" Background="Transparent">
+    <ItemsControl Name="TitlesListView" BorderThickness="0" Background="Transparent" FocusVisualStyle="{x:Null}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid Margin="4,0" Cursor="Hand">
+            <Border Name="HoverBorder" BorderBrush="{DynamicResource TabBorderColor}"
+                    CornerRadius="{Binding ElementName=Root, Path=BorderHeight, Converter={StaticResource HeightCornerRadiusConverter}}"
+                    Height="{Binding ElementName=Root, Path=BorderHeight}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Setter Property="Border.Background" Value="{DynamicResource BaseColorOpacity5}"/>
+                  <Setter Property="Border.BorderThickness" Value="0"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                      <Setter Property="Border.Background" Value="{DynamicResource PrimaryColor10}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=IsTabSelected}" Value="True">
+                      <Setter Property="Border.BorderThickness" Value="1"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Border>
+            <TextBlock Padding="12,0" VerticalAlignment="Center" IsHitTestVisible="false" Background="Transparent"
+                       TextTrimming="CharacterEllipsis" TextAlignment="Center" Text="{Binding Content}"
+                       MaxWidth="{Binding MaxWidth}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                  <Setter Property="TextBlock.Foreground" Value="{DynamicResource BaseColorOpacity60}"/>
+                  <Style.Triggers>
+                    <Trigger Property="UIElement.IsMouseOver" Value="true">
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                    </Trigger>
+                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                      <Setter Property="TextBlock.Foreground" Value="{DynamicResource PrimaryColor}"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </TextBlock>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
+</UserControl>

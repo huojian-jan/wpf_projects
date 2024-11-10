@@ -1,0 +1,52 @@
+<UserControl x:Class="ticktick_WPF.Views.Habit.SetHabitReminderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ticktick_WPF.Views.Habit"
+             xmlns:time="clr-namespace:ticktick_WPF.Views.Time"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc">
+  <Grid>
+    <ItemsControl Name="ReminderItems">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="local:HabitReminderViewModel">
+          <Grid Height="36">
+            <Grid x:Name="TimeGrid" Margin="0,0,6,0"
+                  Visibility="{Binding IsAdd, Converter={StaticResource VisibleConverter}}">
+              <time:TimeInputControl SelectedTimeChanged="OnReminderChanged" FontSize="13" Width="74" Height="30" Margin="0,0,2,0"
+                                     Foreground="{DynamicResource BaseColorOpacity100_80}" DataContext="{Binding Time}"/>
+              <Border x:Name="DeleteBorder" Height="12" Width="12" CornerRadius="12" HorizontalAlignment="Right"
+                      VerticalAlignment="Top" Background="{DynamicResource BaseColorOpacity40}" Visibility="Collapsed"
+                      Cursor="Hand">
+                <TextBlock Text="×" Foreground="{DynamicResource TextInverseColor}" FontSize="10" TextAlignment="Center"
+                           Margin="0,-1,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+            </Grid>
+            <Button Width="56" Height="30" Style="{DynamicResource CancelButtonStyle}" Tag="4"
+                    Visibility="{Binding IsAdd, Converter={StaticResource BoolVisibleConverter}}">
+              <ContentControl.Content>
+                <Path Stretch="Uniform" Width="18" Height="18" Fill="{DynamicResource BaseColorOpacity40}"
+                      Data="{Binding Source={StaticResource IcAdd}, Path=Data}"/>
+              </ContentControl.Content>
+            </Button>
+          </Grid>
+          <DataTemplate.Triggers>
+            <Trigger SourceName="TimeGrid" Property="UIElement.IsMouseOver" Value="true">
+              <Setter TargetName="DeleteBorder" Property="UIElement.Visibility" Value="Visible"/>
+            </Trigger>
+          </DataTemplate.Triggers>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <misc:EscPopup x:Name="TimePopup" Closed="OnPopupClosed" StaysOpen="false" Focusable="false" PopupAnimation="Fade"
+                   VerticalOffset="-10" HorizontalOffset="-5" Placement="Bottom">
+      <views:SelectTimeDropDialog Select="AddReminder"/>
+    </misc:EscPopup>
+  </Grid>
+</UserControl>

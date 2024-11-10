@@ -1,0 +1,56 @@
+<UserControl x:Class="ticktick_WPF.Views.Timeline.TimelineNavBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:misc="clr-namespace:ticktick_WPF.Views.Misc"
+             xmlns:resource="clr-namespace:ticktick_WPF.Resource"
+             xmlns:timeline="clr-namespace:ticktick_WPF.Views.Timeline"
+             xmlns:converter="clr-namespace:ticktick_WPF.Converter"
+             xmlns:views="clr-namespace:ticktick_WPF.Views"
+             xmlns:config="clr-namespace:ticktick_WPF.Views.Config"
+             xmlns:wpf="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf">
+  <FrameworkElement.Resources>
+    <timeline:SortOrderImageConverter x:Key="SortOrderImageConverter"/>
+    <converter:TimeLineShareImageConverter x:Key="TimeLineShareImageConverter"/>
+  </FrameworkElement.Resources>
+  <Grid Name="Container">
+    <Border MouseEnter="OnFoldGridMouseEnter" MouseLeftButtonUp="MenuFoldGridMouseUp" Name="FoldGrid"
+            Style="{DynamicResource SmoothHoverBorderStyle60_100}" Cursor="Hand" Background="Transparent"
+            Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 12 0 0">
+      <Image Name="FoldImage" Width="18" Height="18" Source="{DynamicResource HideMenuDrawingImage}"
+             Style="{DynamicResource Icon01}" Opacity="1"/>
+    </Border>
+    <Grid Name="TitleGrid" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="38,3,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <misc:EmojiTitleEditor x:Name="Title" TextChanged="OnTitleTextChanged" Grid.Column="0" HorizontalAlignment="Left"/>
+      <misc:HoverIconButton x:Name="ShareGrid" MouseLeftButtonUp="ShareGridClick" ImageWidth="18" Column="1"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding ShowShareGrid, Converter={StaticResource BoolVisibleConverter}}">
+        <misc:HoverIconButton.ImageSource>
+          <MultiBinding Converter="{StaticResource TimeLineShareImageConverter}">
+            <Binding Path="TimelinePermission"/>
+            <Binding Source="{x:Static resource:LocalSettings.Settings}" Path="ThemeId"/>
+          </MultiBinding>
+        </misc:HoverIconButton.ImageSource>
+      </misc:HoverIconButton>
+    </Grid>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 20 0" HorizontalAlignment="Right">
+      <misc:HoverIconButton x:Name="SelectOrderBtn" MouseLeftButtonUp="SelectOrderBtnMouseUp"
+                            ImageSource="{DynamicResource SortDrawingImage}">
+        <FrameworkElement.ToolTip>
+          <ToolTip Content="{StaticResource Sort}"/>
+        </FrameworkElement.ToolTip>
+      </misc:HoverIconButton>
+      <misc:HoverIconButton x:Name="MoreOptBtn" MouseLeftButtonUp="MoreOptBtnMouseUp" Margin="10,0,0,0"
+                            ImageSource="{DynamicResource MoreDrawingImage}"/>
+    </StackPanel>
+    <misc:EscPopup x:Name="ChooseSortTypePopup" StaysOpen="false" Placement="Bottom" HorizontalOffset="-116"
+                   VerticalOffset="-10" PlacementTarget="{Binding ElementName=SelectOrderBtn}"/>
+    <misc:EscPopup x:Name="MoreOptPopup" StaysOpen="false" Placement="Bottom" HorizontalOffset="-120"
+                   VerticalOffset="-10" PlacementTarget="{Binding ElementName=MoreOptBtn}"/>
+  </Grid>
+</UserControl>

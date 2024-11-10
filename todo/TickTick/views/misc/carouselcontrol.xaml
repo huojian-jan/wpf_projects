@@ -1,0 +1,87 @@
+<Grid x:Class="ticktick_WPF.Views.Misc.CarouselControl"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ticktick_WPF.Views.Misc">
+  <FrameworkElement.Resources>
+    <Storyboard x:Key="MoveToNextStory">
+      <DoubleAnimation Storyboard.TargetName="FirstColumn" Storyboard.TargetProperty="MaxWidth" From="340" To="0"
+                       Duration="0:0:0.4">
+        <DoubleAnimation.EasingFunction>
+          <QuadraticEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="FrontImage" Storyboard.TargetProperty="Opacity" From="1" To="0"
+                       Duration="0:0:0.3"/>
+      <DoubleAnimation Storyboard.TargetName="NextImage" Storyboard.TargetProperty="Opacity" From="0" To="1"
+                       Duration="0:0:0.3"/>
+      <DoubleAnimation Storyboard.TargetName="SlideButton"
+                       Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.X)" Duration="0:0:0.3"/>
+    </Storyboard>
+    <Storyboard x:Key="MoveToFrontStory">
+      <DoubleAnimation Storyboard.TargetName="FirstColumn" Storyboard.TargetProperty="MaxWidth" From="0" To="340"
+                       Duration="0:0:0.4">
+        <DoubleAnimation.EasingFunction>
+          <QuadraticEase EasingMode="EaseOut"/>
+        </DoubleAnimation.EasingFunction>
+      </DoubleAnimation>
+      <DoubleAnimation Storyboard.TargetName="FrontImage" Storyboard.TargetProperty="Opacity" From="0" To="1"
+                       Duration="0:0:0.3"/>
+      <DoubleAnimation Storyboard.TargetName="NextImage" Storyboard.TargetProperty="Opacity" From="1" To="0"
+                       Duration="0:0:0.3"/>
+      <DoubleAnimation Storyboard.TargetName="SlideButton"
+                       Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.X)" Duration="0:0:0.3"/>
+    </Storyboard>
+  </FrameworkElement.Resources>
+  <Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <StackPanel>
+    <TextBlock Name="Title" Style="{DynamicResource Title05}" Text="Title" HorizontalAlignment="Center"
+               Foreground="#191919"/>
+    <TextBlock Name="SubTitle" Style="{DynamicResource Body01}" Text="SubTitle" HorizontalAlignment="Center"
+               Margin="0,8,0,0" Foreground="#99191919"/>
+  </StackPanel>
+  <Grid Height="271" Row="1" Width="340" Margin="0,21">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition x:Name="FirstColumn" Width="340"/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Image Name="FrontImage" Source="/TickTick;component/Assets/LoginImage/LoginDate.png" Width="340"
+           HorizontalAlignment="Right"/>
+    <Image Name="NextImage" Source="/TickTick;component/Assets/LoginImage/LoginDate.png" Width="340"
+           Grid.Column="1"/>
+  </Grid>
+  <Grid Row="2" HorizontalAlignment="Center">
+    <ItemsControl Name="SelectableItems">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid Background="Transparent" Cursor="Hand">
+            <Border Height="6" CornerRadius="3" Margin="2,0">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Setter Property="FrameworkElement.Width" Value="6"/>
+                  <Setter Property="Border.Background" Value="#99FFFFFF"/>
+                </Style>
+              </FrameworkElement.Style>
+            </Border>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Border Name="SlideButton" Background="{DynamicResource PrimaryColor}" Margin="2,0,0,0"
+            HorizontalAlignment="Left" Width="16" Height="6" CornerRadius="3">
+      <UIElement.RenderTransform>
+        <TranslateTransform X="0"/>
+      </UIElement.RenderTransform>
+    </Border>
+  </Grid>
+</Grid>

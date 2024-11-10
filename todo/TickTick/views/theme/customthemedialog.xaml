@@ -1,0 +1,84 @@
+<Window x:Class="ticktick_WPF.Views.Theme.CustomThemeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views.Theme"
+        Style="{DynamicResource CustomWindowStyle2}" SizeToContent="WidthAndHeight"
+        Title="CustomThemeDialog" WindowStartupLocation="CenterOwner">
+  <StackPanel Name="CustomThemeGrid">
+    <TextBlock Text="{DynamicResource CustomTheme}" Style="{DynamicResource SettingTitleStyle}" Margin="24,20,0,0"/>
+    <Grid Height="373" Margin="20">
+      <local:ImageClipper x:Name="ImageClipper" VerticalAlignment="Center" Width="584" MaxImageWidth="584"
+                          MaxImageHeight="365"/>
+    </Grid>
+    <Grid Margin="20,0,20,10">
+      <TextBlock MouseLeftButtonUp="OnThemeSetClick" Background="Transparent" Cursor="Hand"
+                 Style="{DynamicResource Body01}" Foreground="{DynamicResource PrimaryColor}"
+                 Text="{StaticResource ThemeSetting}" VerticalAlignment="Center"/>
+      <Popup Name="CustomThemeSetPopup" StaysOpen="false" AllowsTransparency="true" Placement="Top"
+             VerticalOffset="17" HorizontalOffset="-5">
+        <ContentControl Style="{DynamicResource PopupContentStyle}">
+          <StackPanel Width="310" Margin="16,0">
+            <TextBlock Text="{StaticResource ThemeColor}" Style="{DynamicResource Body01}" Margin="0,4"/>
+            <ItemsControl Name="CustomThemes" Margin="-7,0">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid Margin="7" Cursor="Hand">
+                    <Grid Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                      <Border CornerRadius="4" Background="{Binding Color}"/>
+                      <Border CornerRadius="4">
+                        <FrameworkElement.Style>
+                          <Style>
+                            <Setter Property="Border.Background" Value="Transparent"/>
+                            <Style.Triggers>
+                              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                                <Setter Property="Panel.Background" Value="{StaticResource BaseColorOpacity10}"/>
+                              </Trigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </Border>
+                      <Grid Width="18" Height="18" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-4,-4,0"
+                            Visibility="{Binding Selected, Converter={StaticResource BoolVisibleConverter}}">
+                        <Ellipse Width="18" Height="18" StrokeThickness="1.5" Stroke="White" Fill="{DynamicResource PrimaryColor}"/>
+                        <Path Width="12" Height="7" Fill="White" Stretch="Uniform"
+                              Data="{Binding Source={StaticResource IcThemeCheck}, Path=Data}"/>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{StaticResource ImageBrightness}" Style="{DynamicResource Body01}" Margin="0,12,0,6"/>
+            <Slider ValueChanged="OnImageOpacityChanged" Name="ImageOpacitySlider"
+                    Style="{DynamicResource Horizontal_Slider}" Foreground="{DynamicResource PrimaryColor}"/>
+            <TextBlock Text="{StaticResource ImageBlur}" Style="{DynamicResource Body01}" Margin="0,15,0,6"/>
+            <Slider ValueChanged="OnImageBlurChanged" Name="ImageBlurSlider"
+                    Style="{DynamicResource Horizontal_Slider}" Foreground="{DynamicResource PrimaryColor}"/>
+            <TextBlock Text="{StaticResource Opacity}" Style="{DynamicResource Body01}" Margin="0,15,0,6"/>
+            <Slider ValueChanged="OnShowAreaOpacityChanged" Name="ShowAreaOpacitySlider"
+                    Style="{DynamicResource Horizontal_Slider}" Margin="0,0,0,4"
+                    Foreground="{DynamicResource PrimaryColor}"/>
+          </StackPanel>
+        </ContentControl>
+      </Popup>
+      <Grid HorizontalAlignment="Right" Height="32" VerticalAlignment="Center" Margin="0,12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Button Click="OnResetCustomImageClick" Content="{DynamicResource ReselectImage}"
+                Style="{StaticResource CancelButtonStyle}" Width="Auto" MinWidth="120"/>
+        <Button Click="OnCustomSaveClick" Content="{DynamicResource PublicSave}"
+                Style="{StaticResource SaveButtonStyle}" Foreground="White" Width="120" Grid.Column="1"
+                Margin="12,0,3,0"/>
+      </Grid>
+    </Grid>
+  </StackPanel>
+</Window>

@@ -1,0 +1,67 @@
+<Window x:Class="ticktick_WPF.Views.NavigateWebBrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ticktick_WPF.Views"
+        Loaded="OnWindowLoaded" WindowStartupLocation="CenterOwner" Topmost="false"
+        Title="{DynamicResource PublicFeedback}" Width="450" Height="560">
+  <FrameworkElement.Resources>
+    <DrawingImage x:Key="NoNetworkImage">
+      <DrawingImage.Drawing>
+        <DrawingGroup ClipGeometry="M 0,0 L 0,200 200,200 200,0 0,0 Z">
+          <DrawingGroup.Transform>
+            <TranslateTransform X="1.1718959170312158E-14" Y="3.1333715952956568E-15"/>
+          </DrawingGroup.Transform>
+          <DrawingGroup Opacity="1">
+            <DrawingGroup Opacity="1" Transform="1,0,0,1,27,27">
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="#FF000000" Opacity="0"/>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <EllipseGeometry RadiusX="200" RadiusY="200" Center="0,0"/>
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <DrawingGroup Opacity="1" Transform="1,0,0,1,2,12">
+                <DrawingGroup Opacity="1">
+                  <GeometryDrawing Brush="#FFDBDBDB"
+                                   Geometry="M 200,200 0,0 6.409713,-1.1471385E-15 L 51.590287,-3.13337167E-15 C 53.8190838,4.16343516E-16 54.6272994,0.232064028 55.4421143,0.667831759 56.2569291,1.10359949 56.8964005,1.74307093 57.3321682,2.55788574 57.767936,3.37270056 58,4.18091615 58,6.409713 L 58,51.590287 C 58,53.8190838 57.767936,54.6272994 57.3321682,55.4421143 56.8964005,56.2569291 56.2569291,56.8964005 55.4421143,57.3321682 54.6272994,57.767936 53.8190838,58 51.590287,58 L 6.409713,58 C 4.18091615,58 3.37270056,57.767936 2.55788574,57.3321682 1.74307093,56.8964005 1.10359949,56.2569291 0.667831759,55.4421143 0.232064028,54.6272994 -1.14460106E-14,53.8190838 -1.17189595E-14,51.590287 L -1.13736794E-14,6.409713 C -1.16466283E-14,4.18091615 0.232064028,3.37270056 0.667831759,2.55788574 1.10359949,1.74307093 1.74307093,1.10359949 2.55788574,0.667831759 3.37270056,0.232064028 4.18091615,-7.37715157E-16 6.409713,-1.1471385E-15 Z"/>
+                  <GeometryDrawing Brush="#FFFFFFFF"
+                                   Geometry="M 200,200 0,0 6.409713,3 L 51.590287,3 C 53.8190838,3 54.6272994,3.23206403 55.4421143,3.66783176 56.2569291,4.10359949 56.8964005,4.74307093 57.3321682,5.55788574 57.767936,6.37270056 58,7.18091615 58,9.409713 L 58,54.590287 C 58,56.8190838 57.767936,57.6272994 57.3321682,58.4421143 56.8964005,59.2569291 56.2569291,59.8964005 55.4421143,60.3321682 54.6272994,60.767936 53.8190838,61 51.590287,61 L 6.409713,61 C 4.18091615,61 3.37270056,60.767936 2.55788574,60.3321682 1.74307093,59.8964005 1.10359949,59.2569291 0.667831759,58.4421143 0.232064028,57.6272994 -5.91387962E-15,56.8190838 -9.15618241E-15,54.590287 L -6.93278731E-15,9.409713 C -7.2057362E-15,7.18091615 0.232064028,6.37270056 0.667831759,5.55788574 1.10359949,4.74307093 1.74307093,4.10359949 2.55788574,3.66783176 3.37270056,3.23206403 4.18091615,3 6.409713,3 Z"/>
+                  <DrawingGroup Opacity="1">
+                    <GeometryDrawing Brush="#FF000000">
+                      <GeometryDrawing.Geometry>
+                        <EllipseGeometry RadiusX="21" RadiusY="21" Center="29,32"/>
+                      </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                  </DrawingGroup>
+                  <GeometryDrawing Brush="#FF000000"
+                                   Geometry="M 200,200 0,0 21,25 C 22.1045695,25 23,25.8954305 23,27 L 23,37 C 23,38.1045695 22.1045695,39 21,39 19.8954305,39 19,38.1045695 19,37 L 19,27 C 19,25.8954305 19.8954305,25 21,25 M 37,25 C 38.1045695,25 39,25.8954305 39,27 L 39,37 C 39,38.1045695 38.1045695,39 37,39 35.8954305,39 35,38.1045695 35,37 L 35,27 C 35,25.8954305 35.8954305,25 37,25 Z"/>
+                </DrawingGroup>
+              </DrawingGroup>
+            </DrawingGroup>
+            <DrawingGroup Transform="6.12303176911189E-17,-1,1,6.12303176911189E-17,-76,200">
+              <GeometryDrawing Brush="#FF000000"
+                               Geometry="M 200,200 0,0 54,131 C 55.1045695,131 56,131.895431 56,133 L 56,143 C 56,144.104569 55.1045695,145 54,145 52.8954305,145 52,144.104569 52,143 L 52,133 C 52,131.895431 52.8954305,131 54,131 M 70,131 C 71.1045695,131 72,131.895431 72,133 L 72,143 C 72,144.104569 71.1045695,145 70,145 68.8954305,145 68,144.104569 68,143 L 68,133 C 68,131.895431 68.8954305,131 70,131 Z"/>
+            </DrawingGroup>
+          </DrawingGroup>
+        </DrawingGroup>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+  </FrameworkElement.Resources>
+  <Grid Name="Container">
+    <ScrollViewer VerticalAlignment="Top" Style="{DynamicResource for_scrollviewer}"
+                  Height="{Binding ElementName=Container, Path=ActualHeight}">
+      <Grid>
+        <WebBrowser Navigating="OnNavigating" Name="FeedBackBrowser"/>
+        <Grid Name="NoNetworkImage" Visibility="Collapsed">
+          <Ellipse Width="145" Height="145" Fill="{DynamicResource BaseColorOpacity5}"/>
+          <Image Width="200" Height="200" Source="{StaticResource NoNetworkImage}"/>
+          <Path Width="200" Height="200" Fill="#FF7086DA"
+                Data="{Binding Path=Data, Source={StaticResource NoNetworkSvg}}"/>
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+  </Grid>
+</Window>
