@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-namespace Todo.ViewModels
+namespace Todo.ViewModels.LogIn
 {
     public class LogInViewModel:Screen
     {

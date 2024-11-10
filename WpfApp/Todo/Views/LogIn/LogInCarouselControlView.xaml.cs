@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Todo.Views
 {
     /// <summary>
-    /// Interaction logic for LogIn.xaml
+    /// Interaction logic for LogInCarouselControlView.xaml
     /// </summary>
-    public partial class LogInView : Window
+    public partial class LogInCarouselControlView : UserControl
     {
-        public LogInView()
+        public LogInCarouselControlView()
         {
             InitializeComponent();
         }

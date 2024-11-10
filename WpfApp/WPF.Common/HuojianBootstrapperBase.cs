@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using System.Windows;
 
 namespace WPF.Common
 {
@@ -23,6 +24,17 @@ namespace WPF.Common
 
             _scope = builder.Build();
             _parentScopeStack.Push(_scope);
+        }
+
+        protected virtual void InitUIResource(string[] resources)
+        {
+            foreach (var resource in resources)
+            {
+                Application.Resources.MergedDictionaries.Add(new ResourceDictionary
+                {
+                    Source = new Uri(resource, UriKind.Absolute)
+                });
+            }
         }
 
         protected virtual void BuildContainer(ContainerBuilder builder)
