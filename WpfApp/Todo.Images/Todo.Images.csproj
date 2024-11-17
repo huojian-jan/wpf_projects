@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -19,6 +19,10 @@
     <None Remove="resource\icons_dark.xaml" />
     <None Remove="resource\icons_light.xaml" />
     <None Remove="resource\icons_pink.xaml" />
+    <None Remove="Png\loginimage\logindate.png" />
+    <None Remove="Png\loginimage\loginhabit.png" />
+    <None Remove="Png\loginimage\loginpomo.png" />
+    <None Remove="Png\loginimage\logintask.png" />
     <None Remove="resource\pomoicons.xaml" />
     <None Remove="resource\sidebar.xaml" />
     <None Remove="resource\stringresource\string.d.en-us.xaml" />
@@ -86,6 +90,10 @@
     <Resource Include="resource\icons_dark.xaml" />
     <Resource Include="resource\icons_light.xaml" />
     <Resource Include="resource\icons_pink.xaml" />
+    <Resource Include="Png\loginimage\logindate.png" />
+    <Resource Include="Png\loginimage\loginhabit.png" />
+    <Resource Include="Png\loginimage\loginpomo.png" />
+    <Resource Include="Png\loginimage\logintask.png" />
     <Resource Include="resource\pomoicons.xaml" />
     <Resource Include="resource\sidebar.xaml" />
     <Resource Include="resource\stringresource\string.d.en-us.xaml" />
@@ -138,6 +146,10 @@
     <Resource Include="resource\themes\winter.xaml" />
     <Resource Include="resource\themes\yellow.xaml" />
     <Resource Include="resource\widgetstyle.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="resource\Jpg\" />
   </ItemGroup>
 
 </Project>

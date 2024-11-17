@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Program Files\ShadowBot\shadowbot-5.22.49\ShadowBot.Shell.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7A74E46-693A-42FF-86F6-E6F87250C5E6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>ShadowBot.Shell</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro.Platform">
+      <HintPath>lib\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>lib\CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ShadowBot.Common">
+      <HintPath>lib\ShadowBot.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ShadowBot.Components.Protocol">
+      <HintPath>lib\ShadowBot.Components.Protocol.dll</HintPath>
+    </Reference>
+    <Reference Include="ShadowBot.Runtime">
+      <HintPath>lib\ShadowBot.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="ShadowBot.Shell.ShadowBotToolkit">
+      <HintPath>lib\ShadowBot.Shell.ShadowBotToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Collections.NonGeneric" />
+    <Reference Include="System.Collections.Specialized" />
+    <Reference Include="System.Configuration.ConfigurationManager" />
+    <Reference Include="System.Console" />
+    <Reference Include="System.Diagnostics.FileVersionInfo" />
+    <Reference Include="System.Diagnostics.Process" />
+    <Reference Include="System.Diagnostics.StackTrace" />
+    <Reference Include="System.IO.FileSystem" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Net.Primitives" />
+    <Reference Include="System.Net.Security" />
+    <Reference Include="System.Net.ServicePoint" />
+    <Reference Include="System.Net.WebClient" />
+    <Reference Include="System.ObjectModel" />
+    <Reference Include="System.Reflection.Emit.ILGeneration" />
+    <Reference Include="System.Reflection.Emit.Lightweight" />
+    <Reference Include="System.Reflection.Primitives" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.InteropServices" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <Reference Include="System.Security.Cryptography.Algorithms" />
+    <Reference Include="System.Security.Cryptography.Csp" />
+    <Reference Include="System.Security.Cryptography.Primitives" />
+    <Reference Include="System.Security.Cryptography.X509Certificates" />
+    <Reference Include="System.Text.RegularExpressions" />
+    <Reference Include="System.Threading" />
+    <Reference Include="log4net">
+      <HintPath>lib\log4net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationMode.cs" />
+    <Compile Include="CommandLineOptions.cs" />
+    <Compile Include="LicenseCommandLineOptions.cs" />
+    <Compile Include="ReleaseCommandLineOptions.cs" />
+    <Compile Include="ShrFileCommandLineOptions.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Settings.Designer.cs" />
+    <Compile Include="LocalizationResources\Strings.Designer.cs" />
+    <Compile Include="Command\CommandHandler.cs" />
+    <Compile Include="Command\DownloadPatchHandler.cs" />
+    <Compile Include="Command\DownloadPatchCommandLineOptions.cs" />
+    <Compile Include="Command\LicneseExpiresHandler.cs" />
+    <Compile Include="Command\MachineCodeHandler.cs" />
+    <Compile Include="Command\OptionsHelper.cs" />
+    <Compile Include="Command\ReleaseHandler.cs" />
+    <Compile Include="Command\ShellHandler.cs" />
+    <Compile Include="Command\ShrFileHandler.cs" />
+    <Compile Include="Command\ValidLicenseHandler.cs" />
+    <Compile Include="Command\VersionHandler.cs" />
+    <Compile Include="_003CModule_003E.cs" />
+    <Compile Include="_003CModule_003E{DFC9F06C-AAC8-4A46-8E08-A5684B33A.cs" />
+    <Compile Include="ObfuscationAttribute.cs" />
+    <Compile Include="pRX2r9p7wQ0K4WPhEW\vIRtpD5vF7kQ7qvOEa.cs" />
+    <Compile Include="ITN16nXv3teC2rDQNl\TAa8kcebhRAo7rrFV7.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="9Rk7Yej5qiaEYU1Ed8.900EGn83wkZaZMjNqs" />
+    <EmbeddedResource Include="i1tUQBpY5eSc6P5q26.gioS8R1SDWj8NwcEpG" />
+    <EmbeddedResource Include="ShadowBot\Shell\LocalizationResources\Strings.resx" />
+    <EmbeddedResource Include="ShadowBot\Shell\Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

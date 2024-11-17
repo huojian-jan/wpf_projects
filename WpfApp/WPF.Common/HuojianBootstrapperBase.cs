@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Caliburn.Micro;
 using System.Windows;
+using ControlToolKits.Controls;
 
 namespace WPF.Common
 {
@@ -28,11 +29,12 @@ namespace WPF.Common
 
         protected virtual void InitUIResource(string[] resources)
         {
+            CarouselControl control;
             foreach (var resource in resources)
             {
                 Application.Resources.MergedDictionaries.Add(new ResourceDictionary
                 {
-                    Source = new Uri(resource, UriKind.Absolute)
+                    Source = new Uri(resource, UriKind.RelativeOrAbsolute)
                 });
             }
         }

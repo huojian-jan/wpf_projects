@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Todo.Images;
 
-namespace Todo.Views
+namespace Todo.Views.LogIn
 {
     /// <summary>
     /// Interaction logic for LogInCarouselControlView.xaml
@@ -23,6 +24,21 @@ namespace Todo.Views
         public LogInCarouselControlView()
         {
             InitializeComponent();
+            this.Loaded += LogInCarouselControlView_Loaded;
+        }
+
+        private void LogInCarouselControlView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Image1_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var image = sender as Image;
+            var resources = typeof(ImageConveter).Assembly;
+
+            var a = 100;
+
         }
     }
 }

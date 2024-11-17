@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using System.Windows;
 using System.Windows.Navigation;
+using ControlToolKits.Controls;
 using Todo.ViewModels.LogIn;
 using WPF.Common;
 using WPF.Common.Extentions;
@@ -28,6 +29,7 @@ namespace Todo
 
         protected async override void OnStartup(object sender, StartupEventArgs e)
         {
+            CarouselControl control;
             var resources = GetAllResources();
             InitUIResource(resources.ToArray());
 
@@ -46,6 +48,7 @@ namespace Todo
             //res.Add("pack://application:,,,/Todo;component/resource/pomoicons.xaml");
             //res.Add("pack://application:,,,/Todo;component/resource/sidebar.xaml");
             res.Add("pack://application:,,,/Todo;component/resource/svgresource.xaml");
+            res.Add("pack://application:,,,/ControlToolKits;component/themes/Generic.xaml");
             //res.Add("pack://application:,,,/Todo;component/resource/tasklist.xaml");
             //res.Add("pack://application:,,,/Todo;component/resource/widgetstyle.xaml");
 

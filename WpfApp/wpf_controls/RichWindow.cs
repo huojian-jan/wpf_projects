@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace wpf_controls
+namespace ControlToolKits
 {
     public class RichWindow:Window
     {
