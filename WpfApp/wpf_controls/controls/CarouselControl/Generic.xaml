@@ -6,7 +6,7 @@
                     xmlns:cal="http://www.caliburnproject.org"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <Color x:Key="PrimaryPointsColor">#A8AFBF</Color>
-    <Color x:Key="SecondaryPointsColor">#E3E5ED</Color>
+    <Color x:Key="SecondaryPointsColor">#f1f5ff</Color>
     <SolidColorBrush x:Key="BasePointsBrush"
                      Color="{StaticResource SecondaryPointsColor}"/>
     <Style TargetType="{x:Type ListBoxItem}"

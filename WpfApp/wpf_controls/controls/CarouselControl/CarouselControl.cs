@@ -44,7 +44,7 @@ namespace ControlToolKits.Controls
 
         private void CarouselControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _dispatcherTimer.Interval = TimeSpan.FromSeconds(100);
+            _dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
             _dispatcherTimer.Tick += (s, re) =>
             {
                 _preIndex = SelectedIndex;

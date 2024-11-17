@@ -3,10 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:local="clr-namespace:Todo.Views"
+             xmlns:resx="clr-namespace:Todo.LocalizationResources"
              xmlns:control="clr-namespace:ControlToolKits.Controls;assembly=ControlToolKits"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="titleStyle">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="#FF191919"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="contenStyle">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#99191919"/>
+        </Style>
+    </UserControl.Resources>
     <Grid  HorizontalAlignment="Center" VerticalAlignment="Center">
         <control:CarouselControl Width="Auto" Height="Auto" Padding="0,40,0,0">
             <control:CarouselControl.Resources>
@@ -29,27 +39,45 @@
             </control:CarouselControl.Resources>
             <control:CarouselControl.ContentItems>
                 <StackPanel>
-                    <TextBlock Text="1"/>
-                    <Image Loaded="Image1_OnLoaded" x:Name="image1" Source="pack://application:,,,/Todo.Images;component/Png/loginimage/logindate.png"/>
-                    <TextBlock Text="A"></TextBlock>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Task_Title}" 
+                               Style="{StaticResource titleStyle}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Task_Content}" 
+                               Style="{StaticResource contenStyle}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                    <Image Source="pack://application:,,,/Todo.Asset;component/Png/loginimage/logintask.png"/>
                 </StackPanel>
 
                 <StackPanel>
-                    <TextBlock Text="2"/>
-                    <Image diag:PresentationTraceSources.TraceLevel="High" Source="pack://application:,,,/Todo.Images;component/Png/loginimage/loginhabit.png"/>
-                    <TextBlock Text="B"></TextBlock>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Date_Title}" 
+                               Style="{StaticResource titleStyle}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Date_Content}" 
+                               Style="{StaticResource contenStyle}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                    <Image Source="pack://application:,,,/Todo.Asset;component/Png/loginimage/logindate.png"/>
                 </StackPanel>
-
                 <StackPanel>
-                    <TextBlock Text="3"/>
-                    <Image Source="pack://application:,,,/Todo.Images;component/Png/loginimage/loginpomo.png"/>
-                    <TextBlock Text="C"></TextBlock>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Focus_Title}" 
+                               Style="{StaticResource titleStyle}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Focus_Content}" 
+                               Style="{StaticResource contenStyle}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                    <Image Source="pack://application:,,,/Todo.Asset;component/Png/loginimage/loginpomo.png"/>
                 </StackPanel>
-
                 <StackPanel>
-                    <TextBlock Text="4"/>
-                    <Image Source="pack://application:,,,/Todo.Images;component/Png/loginimage/logintask.png"/>
-                    <TextBlock Text="D"></TextBlock>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Habit_Title}" 
+                               Style="{StaticResource titleStyle}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{x:Static resx:Strings.LogInCarouselControlViewModel_Habit_Content}" 
+                               Style="{StaticResource contenStyle}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                    <Image Source="pack://application:,,,/Todo.Asset;component/Png/loginimage/loginhabit.png"/>
                 </StackPanel>
             </control:CarouselControl.ContentItems>
         </control:CarouselControl>

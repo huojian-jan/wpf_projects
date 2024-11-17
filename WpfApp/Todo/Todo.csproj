@@ -80,7 +80,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Todo.Images\Todo.Images.csproj" />
+    <ProjectReference Include="..\Todo.Asset\Todo.Asset.csproj" />
     <ProjectReference Include="..\Todo.Protocol\Todo.Protocol.csproj" />
     <ProjectReference Include="..\WPF.Common\WPF.Common.csproj" />
     <ProjectReference Include="..\wpf_controls\ControlToolKits.csproj" />
@@ -283,6 +283,24 @@
     <Resource Include="resource\widgetstyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="LocalizationResources\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LocalizationResources\Strings.en-US.resx">
+      <Generator>public </Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LocalizationResources\Strings.resx">
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <Generator>publicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

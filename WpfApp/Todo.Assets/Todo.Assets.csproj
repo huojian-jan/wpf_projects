@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Png\loginimage\logindate.png" />
+    <None Remove="Png\loginimage\loginhabit.png" />
+    <None Remove="Png\loginimage\loginpomo.png" />
+    <None Remove="Png\loginimage\logintask.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Png\loginimage\logindate.png" />
+    <EmbeddedResource Include="Png\loginimage\loginhabit.png" />
+    <EmbeddedResource Include="Png\loginimage\loginpomo.png" />
+    <EmbeddedResource Include="Png\loginimage\logintask.png" />
+  </ItemGroup>
+
+</Project>

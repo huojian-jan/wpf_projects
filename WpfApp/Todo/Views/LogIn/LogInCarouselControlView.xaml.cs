@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Todo.Images;
 
 namespace Todo.Views.LogIn
 {
@@ -32,13 +31,28 @@ namespace Todo.Views.LogIn
 
         }
 
-        private void Image1_OnLoaded(object sender, RoutedEventArgs e)
+        private void Image_OnImageFailed(object? sender, ExceptionRoutedEventArgs e)
         {
-            var image = sender as Image;
-            var resources = typeof(ImageConveter).Assembly;
+            var image=sender as Image;
+            var path = image.Source;
+        }
 
-            var a = 100;
+        private void Image_OnInitialized(object? sender, EventArgs e)
+        {
+            var image=sender as Image;
+            var path = image.Source;
+        }
 
+        private void Image_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var image=sender as Image;
+            var path = image.Source;
+        }
+
+        private void Image_OnSourceUpdated(object? sender, DataTransferEventArgs e)
+        {
+            var image=sender as Image;
+            var path = image.Source;
         }
     }
 }
