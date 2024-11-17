@@ -150,4 +150,16 @@
   <data name="LogInCarouselControlViewModel_MoreLogInMethods" xml:space="preserve">
     <value>更多登录方式</value>
   </data>
+  <data name="LogInCarouselControlViewModel_CreateAccount_NicName" xml:space="preserve">
+    <value>昵称（选填）</value>
+  </data>
+  <data name="LogInCarouselControlViewModel_CreateAccount_Email" xml:space="preserve">
+    <value>邮箱</value>
+  </data>
+  <data name="LogInCarouselControlViewModel_CreateAccount_Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="LogInCarouselControlViewModel_CreateAccount_Create" xml:space="preserve">
+    <value>创建账户</value>
+  </data>
 </root>

@@ -70,6 +70,42 @@ namespace Todo.LocalizationResources {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_CreateAccount_Create {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_CreateAccount_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱 的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_CreateAccount_Email {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_CreateAccount_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 昵称（选填） 的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_CreateAccount_NicName {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_CreateAccount_NicName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码 的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_CreateAccount_Password {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_CreateAccount_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 日程代办，一览无余 的本地化字符串。
         /// </summary>
         public static string LogInCarouselControlViewModel_Date_Content {
@@ -124,7 +160,7 @@ namespace Todo.LocalizationResources {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 更多登录方式 的本地化字符串。
         /// </summary>
         public static string LogInCarouselControlViewModel_MoreLogInMethods {
             get {
