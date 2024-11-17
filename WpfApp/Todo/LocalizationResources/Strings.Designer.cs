@@ -61,7 +61,16 @@ namespace Todo.LocalizationResources {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 手机号/邮箱 的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_AccountLogIn {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_AccountLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 日程代办，一览无余 的本地化字符串。
         /// </summary>
         public static string LogInCarouselControlViewModel_Date_Content {
             get {
@@ -115,6 +124,15 @@ namespace Todo.LocalizationResources {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_MoreLogInMethods {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_MoreLogInMethods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 解放大脑，备忘提醒 的本地化字符串。
         /// </summary>
         public static string LogInCarouselControlViewModel_Task_Content {
@@ -129,6 +147,15 @@ namespace Todo.LocalizationResources {
         public static string LogInCarouselControlViewModel_Task_Title {
             get {
                 return ResourceManager.GetString("LogInCarouselControlViewModel_Task_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 微信登录 的本地化字符串。
+        /// </summary>
+        public static string LogInCarouselControlViewModel_WechatLogIn {
+            get {
+                return ResourceManager.GetString("LogInCarouselControlViewModel_WechatLogIn", resourceCulture);
             }
         }
     }

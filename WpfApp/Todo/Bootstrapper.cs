@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using System.Windows;
 using System.Windows.Navigation;
 using ControlToolKits.Controls;

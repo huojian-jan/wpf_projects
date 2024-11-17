@@ -141,4 +141,13 @@
   <data name="LogInCarouselControlViewModel_Habit_Content" xml:space="preserve">
     <value>规律生活，日益精进</value>
   </data>
+  <data name="LogInCarouselControlViewModel_WechatLogIn" xml:space="preserve">
+    <value>微信登录</value>
+  </data>
+  <data name="LogInCarouselControlViewModel_AccountLogIn" xml:space="preserve">
+    <value>手机号/邮箱</value>
+  </data>
+  <data name="LogInCarouselControlViewModel_MoreLogInMethods" xml:space="preserve">
+    <value>更多登录方式</value>
+  </data>
 </root>
