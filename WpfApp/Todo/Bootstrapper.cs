@@ -3,6 +3,7 @@ using Autofac;
 using System.Windows;
 using System.Windows.Navigation;
 using ControlToolKits.Controls;
+using Todo.ViewModels;
 using Todo.ViewModels.LogIn;
 using WPF.Common;
 using WPF.Common.Extentions;
@@ -34,7 +35,7 @@ namespace Todo
             var resources = GetAllResources();
             InitUIResource(resources.ToArray());
 
-            await DisplayRootViewForAsync<LogInViewModel>();
+            await DisplayRootViewForAsync<MainViewModel>();
         }
 
         private List<string> GetAllResources()

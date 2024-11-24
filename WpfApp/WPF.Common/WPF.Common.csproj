@@ -17,4 +17,8 @@
     <ProjectReference Include="..\wpf_controls\ControlToolKits.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+
 </Project>

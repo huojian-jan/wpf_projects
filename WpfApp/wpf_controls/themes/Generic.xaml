@@ -4,6 +4,7 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/ControlToolKits;component/Controls/CarouselControl/Generic.xaml" /> 
+        <ResourceDictionary Source="pack://application:,,,/ControlToolKits;component/Controls/RichButton/Generic.xaml" /> 
         <ResourceDictionary Source="pack://application:,,,/ControlToolKits;component/themes/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

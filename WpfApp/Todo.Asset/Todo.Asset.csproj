@@ -9,10 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Jpg\avatar.jpg" />
     <None Remove="Png\loginimage\logindate.png" />
     <None Remove="Png\loginimage\loginhabit.png" />
     <None Remove="Png\loginimage\loginpomo.png" />
     <None Remove="Png\loginimage\logintask.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Jpg\avatar.jpg" />
   </ItemGroup>
 
   <ItemGroup>

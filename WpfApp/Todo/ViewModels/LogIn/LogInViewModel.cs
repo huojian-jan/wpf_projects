@@ -56,6 +56,10 @@ namespace Todo.ViewModels.LogIn
             ShowLogInView();
         }
 
+        public void LogIn()
+        {
+        }
+
         private void ShowLogInView()
         {
             IsLogInView = true;

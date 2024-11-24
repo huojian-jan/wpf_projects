@@ -1756,6 +1756,7 @@
 									VerticalAlignment="Center"
                                     BorderBrush="Blue"
                                     Tag="手机号码/邮箱"
+                                    Text="{Binding UserName,UpdateSourceTrigger=PropertyChanged}"
                                     VerticalContentAlignment="Center"
 									Cursor="IBeam">
                                     <FrameworkElement.Style>
@@ -1837,7 +1838,6 @@
 																VerticalAlignment="Center"
 																HorizontalAlignment="Left" />
                                                             <TextBlock
-																Name="hintText"
 																Text="{TemplateBinding Tag}"
 																Visibility="Collapsed"
 																Style="{DynamicResource Body05}"
@@ -1899,6 +1899,7 @@
                                 <Button
 									Height="36"
                                     Content="登录"
+                                    cal:Message.Attach="LoIn"
 									Style="{StaticResource SaveButtonStyle}"
 									Background="#4B6FDE"/>
                             </Grid>
