@@ -1,54 +1,20 @@
-﻿using System.Diagnostics;
-using System.Numerics;
-using System.Text;
+﻿using System;
+using System.Diagnostics;
 
-namespace ConsoleApp2
+class Program
 {
-    internal class Program
+    static void Main()
     {
-        //static List<int> jobs = new List<int>() { 1, 8, 3, 7 };
-        static void Main(string[] args)
+        var pageFaultsCounter = new PerformanceCounter("Memory", "Page Faults/sec");
+
+        while (true)
         {
-            var watch = new Stopwatch();
-            watch.Start();
-
-            ParallelDo();
-
-            watch.Stop();
-
-            Console.WriteLine("=======================================================");
-            Console.WriteLine(watch.Elapsed.Seconds);
-
-            Console.ReadKey();
+            float pageFaults = pageFaultsCounter.NextValue();
+            var path = @"D:\Desktop\temp\page.txt";
+            var msg = $"{DateTime.Now.ToShortDateString()}\t当前缺页速率: {pageFaults} 次/秒";
+            Console.WriteLine(msg);
+            File.AppendAllText(path,msg+"\n");
+            System.Threading.Thread.Sleep(1000);
         }
-
-
-        static void ParallelDo()
-        {
-            var jobs = new List<int>() { 1, 9, 3, 7, 8, 2 };
-            var opt = new ParallelOptions();
-            opt.MaxDegreeOfParallelism = 3;
-            Parallel.ForEach(jobs, opt, x =>
-            {
-                Console.WriteLine($"job:{x}\tthreadId:{Thread.CurrentThread.ManagedThreadId}");
-                DoWork(1000 * x);
-            });
-        }
-
-        static void DoWork(int job)
-        {
-            Thread.Sleep(job);
-        }
-
-        static void Do()
-        {
-            var jobs = new List<int>() { 1, 2, 3, 7, 8, 9 };
-            foreach (var job in jobs)
-            {
-                DoWork(job * 1000);
-                Console.WriteLine(job);
-            }
-        }
-
     }
 }

@@ -1435,8 +1435,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="334"/>
             </Grid.ColumnDefinitions>
-        <Grid Column="0">
-            <Border Opacity="0.2" CornerRadius="12,0,0,12">
+            <Grid Column="0">
+                <Border Opacity="0.2" CornerRadius="12,0,0,12">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
                             <GradientStop Color="#7DABFD" Offset="0"/>
@@ -1458,10 +1458,11 @@
                       HorizontalAlignment="Left" 
                       Height="24" 
                       Width="24" 
+                      cal:Message.Attach="[MouseLeftButtonDown]=[BackToPrevieousView]"
                       Margin="10" 
                       Background="Transparent"
                       Cursor="Hand" 
-                      Visibility="{Binding IsAccoutLogIn}">
+                      Visibility="{Binding IsPreviousShow,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Path Fill="#CC191919" Stretch="Uniform" Height="24" Width="24" RenderTransformOrigin="0.5,0.5"
                           Data="{Binding Source={StaticResource ArrowLine}, Path=Data}">
                         <UIElement.RenderTransform>
@@ -1469,8 +1470,15 @@
                         </UIElement.RenderTransform>
                     </Path>
                 </Grid>
-                <Grid Row="0" VerticalAlignment="Top" HorizontalAlignment="Right"
-                      Height="24" Width="24" Margin="10" Background="Transparent" Cursor="Hand">
+                <Grid Row="0" 
+                      VerticalAlignment="Top" 
+                      HorizontalAlignment="Right"
+                      Height="24" 
+                      Width="24" 
+                      Margin="10" 
+                      cal:Message.Attach="[MouseLeftButtonUp]=[CloseView]"
+                      Background="Transparent" 
+                      Cursor="Hand">
                     <Path Fill="#CC191919" Stretch="Uniform" Height="16" Width="16"
                           Data="{Binding Source={StaticResource IcClose}, Path=Data}"/>
                 </Grid>
@@ -1493,76 +1501,72 @@
                         </Border>
                     </Border>
                 </Grid>
-                <StackPanel  Grid.Row="1" 
-                             Opacity="1"
-                             Visibility="Collapsed"
+                <Grid Grid.Row="1"
+                      IsHitTestVisible="True">
+                    <!--登录主页 -->
+                    <StackPanel  
+                             Visibility="{Binding IsLogInView,Converter={StaticResource BooleanToVisibilityConverter}}"
                              Margin="0,70,0,0">
-                    <Button  Style="{DynamicResource SaveButtonStyle}" 
+                        <Button  Style="{DynamicResource SaveButtonStyle}" 
                              Background="#07C160" 
                              Height="40"
                              Width="270" 
                              Tag="8" 
                              cal:Message.Attach="WeChatLogIn">
-                        <ContentControl.Content>
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Path Fill="White" 
+                            <ContentControl.Content>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Path Fill="White" 
                                       Width="24" 
                                       Height="24" 
                                       Stretch="Uniform" 
                                       Margin="-4,0,0,0"
                                       Data="F1 M24,24 M0,0 M16.6575875,13.3304506 C16.2897677,13.3304506 15.9902064,13.0288681 15.9902064,12.6545222 C15.9902064,12.2822869 16.2897677,11.9807044 16.6575875,11.9807044 C17.0254417,11.9807044 17.3249497,12.2822869 17.3249497,12.6545222 C17.3249497,13.0288681 17.0254589,13.3304506 16.6575875,13.3304506 M13.2248445,13.3304506 C12.8569714,13.3304506 12.5574634,13.0288681 12.5574634,12.6545222 C12.5574634,12.2822869 12.8569714,11.9807044 13.2248445,11.9807044 C13.5926299,11.9807044 13.892119,12.2822869 13.892119,12.6545222 C13.892119,13.0288681 13.5926471,13.3304506 13.2248445,13.3304506 M19.7225177,14.290585 C19.7225177,12.1069106 17.7784201,10.3189445 15.3143828,10.1648068 C15.1990929,10.1585102 15.083539,10.1541484 14.9680732,10.1541484 C12.3414936,10.1541484 10.2133521,12.0063787 10.2133521,14.2905829 C10.2133521,14.6350466 10.2626163,14.968622 10.3544965,15.2873009 C10.8656069,17.0905296 12.7370649,18.4272718 14.9680566,18.4272718 C15.7272293,18.4272718 16.4436619,18.2731473 17.0788215,17.9972245 L18.1461029,18.7266027 C18.1461029,18.7266027 18.4306784,18.9254881 18.4029068,18.5425966 L18.1013243,17.4005306 C19.0959128,16.6433447 19.7225177,15.5310956 19.7225177,14.2905863 M7.68746089,9.63868091 C7.3194125,9.63868091 7.02009871,9.33727368 7.02009871,8.96503841 C7.02009871,8.59078188 7.3194125,8.28919762 7.68746089,8.28919762 C8.05735695,8.28919762 8.35475261,8.59078016 8.35475261,8.96503841 C8.35473502,9.33725478 8.05735523,9.63868091 7.68746089,9.63868091 M11.8901017,8.28918215 C12.2581501,8.28918215 12.5574639,8.59076469 12.5574639,8.96502294 C12.5574639,9.33725822 12.2581501,9.63866544 11.8901017,9.63866544 C11.5202057,9.63866544 11.2227206,9.33725822 11.2227206,8.96502294 C11.2227206,8.59076641 11.5202057,8.28918215 11.8901017,8.28918215 M14.96806,9.80968986 C15.0705985,9.80968986 15.1710446,9.81413964 15.2717532,9.81850149 C14.8802954,7.50628161 12.5917204,5.73089673 9.82626557,5.73089673 C6.78699641,5.73089673 4.32294198,7.87639767 4.32294198,10.5198554 C4.32294198,11.9936148 5.08865803,13.3110571 6.29074114,14.1901472 L5.88426317,15.723671 C5.88426317,15.723671 5.74538749,16.232688 6.27151862,16.0040252 L7.78791164,14.9686319 C8.41885003,15.1889759 9.10543645,15.3109849 9.82626557,15.3109849 C9.88826353,15.3109849 9.94802798,15.3066231 10.0079325,15.3066231 C9.92023816,14.9792902 9.87324284,14.6392609 9.87324284,14.2906825 C9.87324283,11.8203718 12.1595611,9.80968979 14.9680535,9.80968979" />
-                                <TextBlock 
+                                    <TextBlock 
                                       Text="{x:Static resx:Strings.LogInCarouselControlViewModel_WechatLogIn}" 
                                       VerticalAlignment="Center" 
                                       Margin="8,0,0,0"/>
-                            </StackPanel>
-                        </ContentControl.Content>
-                    </Button>
-                    <Button  Style="{DynamicResource SaveButtonStyle}" Background="#4772FA"
+                                </StackPanel>
+                            </ContentControl.Content>
+                        </Button>
+                        <Button  Style="{DynamicResource SaveButtonStyle}" Background="#4772FA"
                              Height="40" 
                              Width="270" 
                              Tag="8" 
                              cal:Message.Attach="AccoutLogIn"
                              Margin="0,14,0,0">
-                        <ContentControl.Content>
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Path Fill="White" 
+                            <ContentControl.Content>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Path Fill="White" 
                                       Width="24" 
                                       Height="24" 
                                       Stretch="Uniform" 
                                       Margin="-4,0,-1,0"
                                       Data="F1 M25,24 M0,0 M11.8615326,12.2217264 C13.8826979,12.2217264 15.5259467,10.6029581 15.5259467,8.61086319 C15.5259467,6.62029836 13.8826979,5 11.8615326,5 C9.84036721,5 8.19711845,6.62029836 8.19711845,8.61086319 C8.19711845,10.601428 9.84189723,12.2217264 11.8615326,12.2217264 M13.371669,12.5690425 L10.626801,12.5690425 C8.07471631,12.5690425 6,14.6131582 6,17.1254622 L6,17.3962769 C6,18.7090399 8.04258575,18.7090399 10.626801,18.7090399 L13.373199,18.7090399 C15.8564325,18.7090399 18,18.7090399 18,17.3962769 L18,17.1254622 C17.99847,14.6131582 15.9237537,12.5690425 13.371669,12.5690425" />
-                                <TextBlock 
+                                    <TextBlock 
                                     Text="{x:Static resx:Strings.LogInCarouselControlViewModel_AccountLogIn}" 
                                     VerticalAlignment="Center" 
                                     Margin="8,0,0,0"/>
-                            </StackPanel>
-                        </ContentControl.Content>
-                    </Button>
-                    <Border  
+                                </StackPanel>
+                            </ContentControl.Content>
+                        </Button>
+                        <Border  
                         Margin="0,20,0,0" 
                         Background="Transparent" 
                         Cursor="Hand"
                         HorizontalAlignment="Center">
-                        <TextBlock 
+                            <TextBlock 
                             Text="{x:Static resx:Strings.LogInCarouselControlViewModel_MoreLogInMethods}" 
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Center"
                             FontSize="13" 
                             Foreground="#66191919" 
                             Margin="10,4"/>
-                    </Border>
-                </StackPanel>
+                        </Border>
+                    </StackPanel>
 
-                <Grid
-					Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="37" />
-                    </Grid.RowDefinitions>
                     <!-- 创建账户 -->
-                    <Grid Grid.Row="0"
-                          Visibility="Visible">
+                    <Grid 
+                          Visibility="{Binding IsCreateAccountView,UpdateSourceTrigger=PropertyChanged,Converter= {StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel
                             Width="240"
                             VerticalAlignment="Top"
@@ -1734,23 +1738,15 @@
                         </StackPanel>
 
                     </Grid>
+
                     <!--账号登录-->
-                    <Grid Grid.Row="0">
-
-                    </Grid>
-
-                    <Grid Grid.Row="0" Visibility="Collapsed">
+                    <Grid 
+                      Visibility="{Binding IsAccountLogInView,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel
 							Width="240"
 							VerticalAlignment="Top"
+                            Orientation="Vertical"
 							Margin="0,40,0,20">
-                            <TextBox
-								MaxLength="40"
-								Height="36"
-                                BorderBrush="Red"
-								Style="{StaticResource TextBoxStyle}"
-								Cursor="IBeam"
-								Tag="{DynamicResource 昵称(选填)}"/>
                             <Grid
 								Margin="0,12,0,0"
 								Height="40">
@@ -1759,6 +1755,8 @@
 									Padding="8,0,20,0"
 									VerticalAlignment="Center"
                                     BorderBrush="Blue"
+                                    Tag="手机号码/邮箱"
+                                    VerticalContentAlignment="Center"
 									Cursor="IBeam">
                                     <FrameworkElement.Style>
                                         <Style
@@ -1807,23 +1805,13 @@
                                         Data="M 16,16 0,0 7.99999674613953,8.94280674613953 L 12.8619667461395,13.8047667461395 Q 12.9083667461395,13.8511667461395 12.9629667461395,13.8876667461395 13.0175667461395,13.9241667461395 13.0781667461395,13.9492667461395 13.1388667461395,13.9743667461395 13.2032667461395,13.9871667461395 13.2676667461395,13.9999667461395 13.3333667461395,13.9999667461395 13.3989667461395,13.9999667461395 13.4633667461395,13.9871667461395 13.5277667461395,13.9743667461395 13.5884667461395,13.9492667461395 13.6491667461395,13.9241667461395 13.7036667461395,13.8876667461395 13.7582667461395,13.8511667461395 13.8047667461395,13.8047667461395 13.8511667461395,13.7582667461395 13.8876667461395,13.7036667461395 13.9241667461395,13.6490667461395 13.9492667461395,13.5884667461395 13.9743667461395,13.5277667461395 13.9871667461395,13.4633667461395 13.9999667461395,13.3989667461395 13.9999667461395,13.3333667461395 13.9999667461395,13.2676667461395 13.9871667461395,13.2032667461395 13.9743667461395,13.1388667461395 13.9492667461395,13.0781667461395 13.9241667461395,13.0175667461395 13.8876667461395,12.9629667461395 13.8511667461395,12.9083667461395 13.8047667461395,12.8619667461395 L 8.94280674613953,7.99999674613953 13.8047667461395,3.13807174613953 Q 13.8511667461395,3.09164174613953 13.8876667461395,3.03704674613953 13.9241667461395,2.98245174613953 13.9492667461395,2.92178874613953 13.9743667461395,2.86112574613953 13.9871667461395,2.79672674613953 13.9999667461395,2.73232764613953 13.9999667461395,2.66666674613953 13.9999667461395,2.60100584613953 13.9871667461395,2.53660674613953 13.9743667461395,2.47220774613953 13.9492667461395,2.41154474613953 13.9241667461395,2.35088174613953 13.8876667461395,2.29628674613953 13.8511667461395,2.24169174613953 13.8047667461395,2.19526174613953 13.7109667461395,2.10149374613953 13.5884667461395,2.05074674613953 13.4659667461395,1.99999974613953 13.3333667461395,1.99999974613953 13.2007667461395,1.99999974613953 13.0781667461395,2.05074674613953 12.9556667461395,2.10149374613953 12.8619667461395,2.19526174613953 L 7.99999674613953,7.05718674613953 3.13807174613953,2.19526174613953 Q 3.09164174613953,2.14883274613953 3.03704674613953,2.11235374613953 2.98245174613953,2.07587474613953 2.92178874613953,2.05074674613953 2.86112574613953,2.02561974613953 2.79672674613953,2.01280974613953 2.73232764613953,1.99999974613953 2.66666674613953,1.99999974613953 2.60100584613953,1.99999974613953 2.53660674613953,2.01280974613953 2.47220774613953,2.02561974613953 2.41154474613953,2.05074674613953 2.35088174613953,2.07587474613953 2.29628674613953,2.11235374613953 2.24169174613953,2.14883274613953 2.19526174613953,2.19526174613953 2.14883274613953,2.24169174613953 2.11235374613953,2.29628674613953 2.07587474613953,2.35088174613953 2.05074674613953,2.41154474613953 2.02561974613953,2.47220774613953 2.01280974613953,2.53660674613953 1.99999974613953,2.60100584613953 1.99999974613953,2.66666674613953 1.99999974613953,2.73232764613953 2.01280974613953,2.79672674613953 2.02561974613953,2.86112574613953 2.05074674613953,2.92178874613953 2.07587474613953,2.98245174613953 2.11235374613953,3.03704674613953 2.14883274613953,3.09164174613953 2.19526174613953,3.13807174613953 L 7.05718674613953,7.99999674613953 2.19526174613953,12.8619667461395 Q 2.10149374613953,12.9556667461395 2.05074674613953,13.0781667461395 1.99999974613953,13.2007667461395 1.99999974613953,13.3333667461395 1.99999974613953,13.4659667461395 2.05074674613953,13.5884667461395 2.10149374613953,13.7109667461395 2.19526174613953,13.8047667461395 2.24169174613953,13.8511667461395 2.29628674613953,13.8876667461395 2.35088174613953,13.9241667461395 2.41154474613953,13.9492667461395 2.47220774613953,13.9743667461395 2.53660674613953,13.9871667461395 2.60100584613953,13.9999667461395 2.66666674613953,13.9999667461395 2.73232764613953,13.9999667461395 2.79672674613953,13.9871667461395 2.86112574613953,13.9743667461395 2.92178874613953,13.9492667461395 2.98245174613953,13.9241667461395 3.03704674613953,13.8876667461395 3.09164174613953,13.8511667461395 3.13807174613953,13.8047667461395 L 7.99999674613953,8.94280674613953 Z"/>
                                 </Border>
                             </Grid>
-                            <TextBlock
-								Name="AccountRemainderTimesText"
-								VerticalAlignment="Top"
-                                Visibility="Collapsed"
-								TextWrapping="Wrap"
-								Foreground="#FFFF0000"
-								FontSize="12"
-								Margin="10,2,0,0"/>
                             <PasswordBox
-								Name="passwordPasswordBox"
-                                BorderBrush="Green"
 								Height="36"
 								FontSize="14"
 								Margin="0,12,0,0"
 								BorderThickness="1"
 								Padding="8,0"
-								Tag="{DynamicResource Password}"
+                                Tag="密码"
 								Cursor="IBeam">
                                 <FrameworkElement.Style>
                                     <Style
@@ -1906,88 +1894,32 @@
                                     </Style>
                                 </FrameworkElement.Style>
                             </PasswordBox>
-                            <TextBlock
-								Name="PasswordRemainderTimesText"
-                                Visibility="Collapsed"
-								VerticalAlignment="Top"
-								TextWrapping="Wrap"
-								Foreground="#FFFF0000"
-								FontSize="12"
-								Margin="10,4,0,0"/>
                             <Grid
-								Name="signInButton"
 								Margin="0,14,0,0">
                                 <Button
-									IsEnabled="True"
 									Height="36"
+                                    Content="登录"
 									Style="{StaticResource SaveButtonStyle}"
 									Background="#4B6FDE"/>
-                                <StackPanel
-									Orientation="Horizontal"
-									HorizontalAlignment="Center">
-                                    <!--<local:LoadingIndicator
-										Name="SignInIndicator"
-										SpeedRatio="2"
-										IsActive="True"
-										Foreground="#FFFFFFFF"
-										Style="{StaticResource LoadingIndicatorRingStyle}"
-										IsHitTestVisible="False"
-										Visibility="Collapsed"
-										Margin="0,0,8,0" />-->
-                                    <TextBlock
-										Text="创建账户"
-										Foreground="#FFFFFFFF"
-										VerticalAlignment="Center"
-										FontSize="13"
-										IsHitTestVisible="False" />
-                                </StackPanel>
                             </Grid>
                             <Grid
-								Name="signUpButton"
-								Margin="0,14,0,0"
-								Visibility="Collapsed">
-                                <Button
-									IsEnabled="True"
-									Height="36"
-									Style="{StaticResource SaveButtonStyle}"
-									Background="#4B6FDE"/>
-                                <StackPanel
-									Orientation="Horizontal"
-									HorizontalAlignment="Center">
-                                    <!--<local:LoadingIndicator
-										Name="SignUpIndicator"
-										SpeedRatio="2"
-										IsActive="True"
-										Foreground="#FFFFFFFF"
-										Style="{StaticResource LoadingIndicatorRingStyle}"
-										Visibility="Collapsed"
-										Margin="0,0,8,0" />-->
-                                    <TextBlock
-										Text="xxx"
-										Foreground="#FFFFFFFF"
-										VerticalAlignment="Center"
-										FontSize="13"
-										IsHitTestVisible="False" />
-                                </StackPanel>
-                            </Grid>
-                            <Grid
-								Name="ForgetAndSignupGrid"
-                                Visibility="Collapsed"
-								Margin="0,8,0,0">
+                                    Margin="0,8,0,0">
                                 <TextBlock
-									Text="yyy"
-									FontSize="12"
-									Foreground="#66191919"
-									HorizontalAlignment="Left"
-									Cursor="Hand"
-									Background="#00FFFFFF"/>
+                                        Text="忘记密码"
+                                        cal:Message.Attach="[MouseLeftButtonUp]=[ForgetPassword]"
+                                        FontSize="12"
+                                        Foreground="#66191919"
+                                        HorizontalAlignment="Left"
+                                        Cursor="Hand"
+                                        Background="#00FFFFFF"/>
                                 <TextBlock
-									Text="zzz"
-									FontSize="12"
-									HorizontalAlignment="Right"
-									Foreground="#5B191919"
-									Cursor="Hand"
-									Background="#00FFFFFF"/>
+                                        Text="注册"
+                                        FontSize="12"
+                                        cal:Message.Attach="[MouseLeftButtonUp]=[CreateAccount]"
+                                        HorizontalAlignment="Right"
+                                        Foreground="#5B191919"
+                                        Cursor="Hand"
+                                        Background="#00FFFFFF"/>
                             </Grid>
                         </StackPanel>
                     </Grid>
