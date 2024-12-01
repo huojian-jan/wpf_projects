@@ -150,7 +150,7 @@ namespace Todo.ViewModels
                 Sync(context);
             }else if (context.Name == Constants.LeftTabFunctionBtn_NoticeName)
             {
-                ShowNoticeView();
+                ShowNoticeView(args);
             }
             else if(context.Name== Constants.LeftTabFunctionBtn_MoreName)
             {
@@ -169,16 +169,27 @@ namespace Todo.ViewModels
             var viewSettings = new Dictionary<string, object>()
             {
                 {"Width",143},
-                {"Height",249},
+                {"Height",250},
                 {"Left",curView.ActualWidth+7},
-                {"Top",clickedPosition.Y-300-10}
+                {"Top",clickedPosition.Y-250+20}
             };
             _windowManager.ShowStatelessWindow(MoreView, viewSettings);
         }
 
-        private void ShowNoticeView()
+        private void ShowNoticeView(MouseButtonEventArgs args)
         {
-
+            //340,450
+            var curView = GetView() as UserControl;
+            var clickedPosition = args.GetPosition(curView);
+            var vm = _viewModelFactory.Create<LeftButtonNoticeViewModel>();
+            var viewSettings = new Dictionary<string, object>()
+            {
+                {"Width",340},
+                {"Height",450},
+                {"Left",curView.ActualWidth+7},
+                {"Top",clickedPosition.Y-450+20}
+            };
+            _windowManager.ShowStatelessWindow(vm, viewSettings);
         }
 
         private void Sync(LeftTabBarButton context)
