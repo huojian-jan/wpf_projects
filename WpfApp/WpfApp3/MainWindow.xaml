@@ -6,7 +6,49 @@
         xmlns:local="clr-namespace:WpfApp3"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
 
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+        <Path Visibility="Collapsed" x:Name="Ellipse" 
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M 241,200 
+              A 20,20 0 0 0 200,240
+              C 210,250 240,270 240,270
+              C 240,270 260,260 280,240
+              A 20,20 0 0 0 239,200
+              "
+                 Fill="#B22222">
+            <Path.Triggers>
+                <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard >
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0.5" Duration="0:0:01" AutoReverse="True" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Path.Triggers>
+        </Path>
+
+        <Rectangle Width="10"
+                   Height="20"
+                   Fill="Red">
+            <Rectangle.RenderTransform>
+                <RotateTransform x:Name="RotateTransform"
+                                 CenterX="5"
+                                 CenterY="10"/>
+            </Rectangle.RenderTransform>
+            <Rectangle.Triggers>
+                <EventTrigger RoutedEvent="Rectangle.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="RotateTransform" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:0.5" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Rectangle.Triggers>
+
+        </Rectangle>
     </Grid>
 </Window>

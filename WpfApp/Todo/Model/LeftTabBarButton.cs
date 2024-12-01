@@ -21,5 +21,9 @@ namespace Todo.Model
         public string Icon { get; set; }
 
         public string Name { get; set; }
+
+        public bool IsUpdated { get; set; }
+
+        public bool IsRotate { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace Todo.ViewModels
     public class LeftTabBarViewModel : Screen
     {
         public BindableCollection<LeftTabBarButton> LeftBarButtons { get; set; } = new();
+        public BindableCollection<LeftTabBarButton> FunctionButtons { get; set; } = new();
 
         public LeftTabBarViewModel()
         {
@@ -14,6 +15,12 @@ namespace Todo.ViewModels
         }
 
         private void Init()
+        {
+            InitUpButtons();
+            InitFunctionButtons();
+        }
+
+        private void InitUpButtons()
         {
             var task = new LeftTabBarButton()
             {
@@ -71,12 +78,87 @@ namespace Todo.ViewModels
             LeftBarButtons.Add(quadrants);
         }
 
+        private void InitFunctionButtons()
+        {
+            var sync = new LeftTabBarButton()
+            {
+                Name = Constants.LeftTabFunctionBtn_SyncName,
+                Icon = Constants.LeftTabFunctionBtn_SyncIcon,
+                IsActive = false,
+                ToolTips = Constants.LeftTabFunctionBtn_SyncName
+            };
+
+            var notice = new LeftTabBarButton()
+            {
+                Name = Constants.LeftTabFunctionBtn_NoticeName,
+                Icon = Constants.LeftTabFunctionBtn_NoticeIcon,
+                IsActive = false,
+                ToolTips = Constants.LeftTabFunctionBtn_NoticeName
+            };
+            
+            var more = new LeftTabBarButton()
+            {
+                Name = Constants.LeftTabFunctionBtn_MoreName,
+                Icon = Constants.LeftTabFunctionBtn_MoreIcon,
+                IsActive = false,
+                ToolTips = Constants.LeftTabFunctionBtn_MoreName
+            };
+
+            FunctionButtons.Add(sync);
+            FunctionButtons.Add(notice);
+            FunctionButtons.Add(more);
+        }
+
         public void ActiveItemChanged(LeftTabBarButton context)
         {
             LeftBarButtons.ToList().ForEach(x => x.IsActive = false);
             context.IsActive = true;
+
+            if (context.Name == Constants.LeftTabFunctionBtn_SyncName ||
+                context.Name == Constants.LeftTabFunctionBtn_NoticeName ||
+                context.Name == Constants.LeftTabFunctionBtn_MoreName)
+            {
+                HandleFunctionButtons(context);
+                return;
+            }
             LeftTabClickChanged?.Invoke(new LeftTabClickChangedEventArgs(context.Name));
         }
+
+        private void HandleFunctionButtons(LeftTabBarButton context)
+        {
+            if (context.Name == Constants.LeftTabFunctionBtn_SyncName)
+            {
+                Sync(context);
+            }else if (context.Name == Constants.LeftTabFunctionBtn_NoticeName)
+            {
+                ShowNoticeView();
+            }
+            else if(context.Name== Constants.LeftTabFunctionBtn_MoreName)
+            {
+                ShowMoreView();
+            }
+            else
+            {
+                throw new InvalidOperationException("位置的功能按钮");
+            }
+        }
+
+        private void ShowMoreView()
+        {
+        }
+
+        private void ShowNoticeView()
+        {
+
+        }
+
+        private void Sync(LeftTabBarButton context)
+        {
+            //FunctionButtons.ToList().ForEach(x => x.IsRotate = false);
+            context.IsRotate = true;
+            //FunctionButtons.FirstOrDefault(x=>x.Name==context.Name).IsRotate=true;
+        }
+
         public event Action<LeftTabClickChangedEventArgs> LeftTabClickChanged;
     }
 
