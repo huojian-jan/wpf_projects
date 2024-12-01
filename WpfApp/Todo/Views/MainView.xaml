@@ -11,6 +11,8 @@
         MinWidth="400"
         UseLayoutRounding="True"
         ShowInTaskbar="True"
+        WindowState="Maximized"
+        cal:Message.Attach="[MouseLeftButtonDown]=[PreviewMouseDown]"
         KeyboardNavigation.IsTabStop="False"
         ResizeMode="CanResize"
         InputMethod.IsInputMethodEnabled="False"
@@ -37,7 +39,6 @@
                 </Style.Triggers>
             </Style>
         </FrameworkElement.Style>
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>

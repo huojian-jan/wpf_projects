@@ -52,7 +52,7 @@
                     BorderThickness="0"
                     BorderBrush="Transparent"
                     ToolTip="{Binding ToolTips}"
-                    cal:Message.Attach="[MouseLeftButtonDown]=[ActiveItemChanged($dataContext)]">
+                    cal:Message.Attach="[MouseLeftButtonDown]=[ActiveItemChanged($dataContext,$eventArgs)]">
                 <Path    x:Name="ButtonPath"                              
                          VerticalAlignment="Center"
                          HorizontalAlignment="Center"

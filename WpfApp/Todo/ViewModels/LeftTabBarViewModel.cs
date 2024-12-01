@@ -1,17 +1,33 @@
-﻿using Caliburn.Micro;
+﻿using System.Printing;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Caliburn.Micro;
 using Todo.Common;
+using Todo.Message;
 using Todo.Model;
+using Todo.Views;
+using WPF.Common;
+using WPF.Common.Extentions;
 
 namespace Todo.ViewModels
 {
-    public class LeftTabBarViewModel : Screen
+    public class LeftTabBarViewModel : Screen,IHandle<MainWindowMouseDownMessage>
     {
+        private readonly IWindowManager _windowManager;
+        private readonly IViewModelFactory _viewModelFactory;
+        private readonly IEventAggregator _eventAggregator;
+
         public BindableCollection<LeftTabBarButton> LeftBarButtons { get; set; } = new();
         public BindableCollection<LeftTabBarButton> FunctionButtons { get; set; } = new();
 
-        public LeftTabBarViewModel()
+        public LeftTabBarViewModel(IWindowManager windowManager,IViewModelFactory viewModelFactory, IEventAggregator eventAggregator)
         {
             Init();
+            _windowManager = windowManager;
+            _viewModelFactory = viewModelFactory;
+            MoreView = _viewModelFactory.Create<LeftTabBarMoreViewModel>();
+            _eventAggregator = eventAggregator;
+            _eventAggregator.SubscribeOnUIThread(this);
         }
 
         private void Init()
@@ -109,8 +125,9 @@ namespace Todo.ViewModels
             FunctionButtons.Add(more);
         }
 
-        public void ActiveItemChanged(LeftTabBarButton context)
+        public void ActiveItemChanged(LeftTabBarButton context,MouseButtonEventArgs args)
         {
+            args.Handled=true;
             LeftBarButtons.ToList().ForEach(x => x.IsActive = false);
             context.IsActive = true;
 
@@ -118,13 +135,15 @@ namespace Todo.ViewModels
                 context.Name == Constants.LeftTabFunctionBtn_NoticeName ||
                 context.Name == Constants.LeftTabFunctionBtn_MoreName)
             {
-                HandleFunctionButtons(context);
+                HandleFunctionButtons(context,args);
                 return;
             }
             LeftTabClickChanged?.Invoke(new LeftTabClickChangedEventArgs(context.Name));
         }
 
-        private void HandleFunctionButtons(LeftTabBarButton context)
+        public LeftTabBarMoreViewModel MoreView { get; set; }
+
+        private void HandleFunctionButtons(LeftTabBarButton context, MouseButtonEventArgs args)
         {
             if (context.Name == Constants.LeftTabFunctionBtn_SyncName)
             {
@@ -135,7 +154,7 @@ namespace Todo.ViewModels
             }
             else if(context.Name== Constants.LeftTabFunctionBtn_MoreName)
             {
-                ShowMoreView();
+                ShowMoreView(args);
             }
             else
             {
@@ -143,8 +162,18 @@ namespace Todo.ViewModels
             }
         }
 
-        private void ShowMoreView()
+        private void ShowMoreView(MouseButtonEventArgs args)
         {
+            var curView = GetView() as UserControl;
+            var clickedPosition = args.GetPosition(curView);
+            var viewSettings = new Dictionary<string, object>()
+            {
+                {"Width",143},
+                {"Height",249},
+                {"Left",curView.ActualWidth+7},
+                {"Top",clickedPosition.Y-300-10}
+            };
+            _windowManager.ShowStatelessWindow(MoreView, viewSettings);
         }
 
         private void ShowNoticeView()
@@ -160,6 +189,11 @@ namespace Todo.ViewModels
         }
 
         public event Action<LeftTabClickChangedEventArgs> LeftTabClickChanged;
+        public Task HandleAsync(MainWindowMouseDownMessage message, CancellationToken cancellationToken)
+        {
+            _windowManager.CloseStatelessWindow();
+            return Task.CompletedTask;
+        }
     }
 
     public class LeftTabClickChangedEventArgs : EventArgs
