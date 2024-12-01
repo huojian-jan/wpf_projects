@@ -154,9 +154,9 @@ namespace Todo.ViewModels
 
         private void Sync(LeftTabBarButton context)
         {
-            //FunctionButtons.ToList().ForEach(x => x.IsRotate = false);
+            FunctionButtons.ToList().ForEach(x => x.IsRotate = false);
             context.IsRotate = true;
-            //FunctionButtons.FirstOrDefault(x=>x.Name==context.Name).IsRotate=true;
+            FunctionButtons.FirstOrDefault(x=>x.Name==context.Name).IsRotate=true;
         }
 
         public event Action<LeftTabClickChangedEventArgs> LeftTabClickChanged;

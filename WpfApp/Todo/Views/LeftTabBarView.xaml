@@ -53,31 +53,31 @@
                     BorderBrush="Transparent"
                     ToolTip="{Binding ToolTips}"
                     cal:Message.Attach="[MouseLeftButtonDown]=[ActiveItemChanged($dataContext)]">
-                <Path    x:Name="Path"                              
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Tag="{Binding IsRotate,UpdateSourceTrigger=PropertyChanged}"
-                    Fill="#FF191919"
-                    Data="{Binding Icon}">
+                <Path    x:Name="ButtonPath"                              
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         RenderTransformOrigin="0.5,0.5"
+                         UseLayoutRounding="False"
+                         Tag="{Binding IsRotate,UpdateSourceTrigger=PropertyChanged}"
+                         Fill="#FF191919"
+                         Data="{Binding Icon}">
                     <Path.RenderTransform>
-                        <RotateTransform x:Name="RotateTransform"
-                                         CenterX="24"
-                                         CenterY="25"/>
+                        <RotateTransform x:Name="RotateTransform"/>
                     </Path.RenderTransform>
-                    <Path.Resources>
-                        <Storyboard x:Key="Rotate">
-                            <DoubleAnimation From="0" Storyboard.TargetName="Path.RotateTransform" Duration="0:0:01" AutoReverse="False" To="360" Storyboard.TargetProperty="Angle"/>
-                        </Storyboard>
-                    </Path.Resources>
                     <Path.Style>
                         <Style>
-                        <Style.Triggers>
+                            <Style.Resources>
+                                <Storyboard x:Key="RotateStoryboard">
+                                    <DoubleAnimation  From="0" Duration="0:0:01" AutoReverse="False" To="540" Storyboard.TargetProperty="(UIElement.RenderTransform).Angle"/>
+                                </Storyboard>
+                            </Style.Resources>
+                            <Style.Triggers> 
                                 <DataTrigger Binding="{Binding Path=Tag,Mode=TwoWay,RelativeSource={RelativeSource Self}}" Value="True">
                                     <DataTrigger.EnterActions >
-                                        <BeginStoryboard Storyboard="{StaticResource Rotate}"/>
+                                        <BeginStoryboard Storyboard="{StaticResource RotateStoryboard}"/>
                                     </DataTrigger.EnterActions>
                                 </DataTrigger>
-                        </Style.Triggers>
+                            </Style.Triggers>
                         </Style>
                     </Path.Style>
                 </Path>

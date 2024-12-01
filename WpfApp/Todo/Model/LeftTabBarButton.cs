@@ -24,6 +24,16 @@ namespace Todo.Model
 
         public bool IsUpdated { get; set; }
 
-        public bool IsRotate { get; set; }
+        private bool _isRotate = false;
+
+        public bool IsRotate
+        {
+            get => _isRotate;
+            set
+            {
+                _isRotate = value;
+                NotifyOfPropertyChange(nameof(IsRotate));
+            }
+        }
     }
 }

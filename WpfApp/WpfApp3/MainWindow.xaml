@@ -32,6 +32,7 @@
         </Path>
 
         <Rectangle Width="10"
+                   Visibility="Collapsed"
                    Height="20"
                    Fill="Red">
             <Rectangle.RenderTransform>
@@ -48,7 +49,18 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </Rectangle.Triggers>
-
         </Rectangle>
+
+        <Button Width="200" Height="100" Content="Trigger">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger local:TriggerTracing.TriggerName="BoldWhenMouseIsOver" local:TriggerTracing.TraceEnabled="True" Property="IsMouseOver" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>
